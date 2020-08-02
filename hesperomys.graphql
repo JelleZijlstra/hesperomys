@@ -1,0 +1,1118 @@
+schema {
+  query: Query
+}
+
+type Age implements TypeTag {
+  _Ignored: ID!
+  age: SpecimenAge
+}
+
+enum AgeClass {
+  extant
+  holocene
+  fossil
+  ichno
+  removed
+  track
+  egg
+  coprolite
+  burrow
+  bite_trace
+}
+
+type Altitude implements TypeTag {
+  _Ignored: ID!
+  altitude: String
+  unit: AltitudeUnit
+}
+
+enum AltitudeUnit {
+  m
+  ft
+}
+
+type Article implements Node {
+  id: ID!
+  addmonth: String!
+  addday: String!
+  addyear: String!
+  name: String!
+  authors: String!
+  year: String!
+  title: String!
+  Journal: String!
+  series: String!
+  volume: String!
+  issue: String!
+  startPage: String!
+  endPage: String!
+  url: String!
+  doi: String!
+  type: ArticleType!
+  publisher: String!
+  Location: String!
+  pages: String!
+  miscData: String!
+  path: String!
+  ids: String!
+  bools: String!
+  kind: ArticleKind!
+  parent: Article
+  tags: [ArticleTag]!
+  citationGroup: CitationGroup
+  articleSet(before: String, after: String, first: Int, last: Int): ArticleConnection
+  comments(before: String, after: String, first: Int, last: Int): ArticleConnection
+  locations(before: String, after: String, first: Int, last: Int): ArticleConnection
+  newNames(before: String, after: String, first: Int, last: Int): ArticleConnection
+  typeSourceNames(before: String, after: String, first: Int, last: Int): ArticleConnection
+  nameComments(before: String, after: String, first: Int, last: Int): ArticleConnection
+  occurrences(before: String, after: String, first: Int, last: Int): ArticleConnection
+  oid: Int!
+}
+
+type ArticleComment implements Node {
+  id: ID!
+  article: Article!
+  kind: ArticleCommentKind!
+  date: Int!
+  text: String!
+  oid: Int!
+}
+
+enum ArticleCommentKind {
+  dating
+  contents
+  authorship
+  location
+  other
+}
+
+type ArticleConnection {
+  pageInfo: PageInfo!
+  edges: [ArticleEdge]!
+}
+
+type ArticleEdge {
+  node: Article
+  cursor: String!
+}
+
+enum ArticleKind {
+  electronic
+  physical
+  no_copy
+  part
+  redirect
+  removed
+  reference
+}
+
+interface ArticleTag {
+  _Ignored: ID!
+}
+
+enum ArticleType {
+  ERROR
+  CHAPTER
+  BOOK
+  THESIS
+  WEB
+  MISCELLANEOUS
+  SUPPLEMENT
+  JOURNAL
+  REDIRECT
+}
+
+type CitationDetail implements TypeTag {
+  _Ignored: ID!
+  text: String
+  source: Article
+}
+
+type CitationGroup implements Node {
+  id: ID!
+  name: String!
+  region: Region
+  deleted: Boolean!
+  type: ArticleType!
+  target: CitationGroup
+  tags: [CitationGroupTag]!
+  archive: String
+  redirects(before: String, after: String, first: Int, last: Int): CitationGroupConnection
+  patterns(before: String, after: String, first: Int, last: Int): CitationGroupConnection
+  articleSet(before: String, after: String, first: Int, last: Int): CitationGroupConnection
+  names(before: String, after: String, first: Int, last: Int): CitationGroupConnection
+  oid: Int!
+}
+
+type CitationGroupConnection {
+  pageInfo: PageInfo!
+  edges: [CitationGroupEdge]!
+}
+
+type CitationGroupEdge {
+  node: CitationGroup
+  cursor: String!
+}
+
+type CitationGroupPattern implements Node {
+  id: ID!
+  pattern: String!
+  citationGroup: CitationGroup!
+  oid: Int!
+}
+
+interface CitationGroupTag {
+  _Ignored: ID!
+}
+
+type Collection implements Node {
+  id: ID!
+  label: String!
+  name: String!
+  location: Region!
+  comment: String
+  city: String
+  removed: Boolean!
+  typeSpecimens(before: String, after: String, first: Int, last: Int): CollectionConnection
+  oid: Int!
+}
+
+type CollectionConnection {
+  pageInfo: PageInfo!
+  edges: [CollectionEdge]!
+}
+
+type CollectionDetail implements TypeTag {
+  _Ignored: ID!
+  text: String
+  source: Article
+}
+
+type CollectionEdge {
+  node: Collection
+  cursor: String!
+}
+
+type Collector implements TypeTag {
+  _Ignored: ID!
+  name: String
+}
+
+enum CommentKind {
+  taxonomy
+  nomenclature
+  type_locality
+  type_specimen
+  availability
+  distribution
+  etymology
+  other
+  structured_quote
+  type_species
+  homonymy
+  spelling
+  authorship
+  automatic_change
+  removal
+  contents
+  definition
+  removed
+}
+
+type CommissionTypeDesignation implements TypeTag {
+  _Ignored: ID!
+  opinion: Article
+  type: Name
+}
+
+type Conserved implements NameTag {
+  _Ignored: ID!
+  opinion: Article
+  comment: String
+}
+
+type Coordinates implements TypeTag {
+  _Ignored: ID!
+  latitude: String
+  longitude: String
+}
+
+type Date implements TypeTag {
+  _Ignored: ID!
+  date: String
+}
+
+type DefinitionDetail implements TypeTag {
+  _Ignored: ID!
+  text: String
+  source: Article
+}
+
+type ETMNA implements LocationTag {
+  _Ignored: ID!
+  id: String
+}
+
+type Edition implements ArticleTag {
+  _Ignored: ID!
+  text: String
+}
+
+enum EmendationJustification {
+  inadvertent_error
+  removal_of_mark
+  incorrect_family_group_name
+  prevailing_usage
+  conserved_by_the_commission
+}
+
+type EtymologyDetail implements TypeTag {
+  _Ignored: ID!
+  text: String
+  source: Article
+}
+
+type Eurobats implements ArticleTag {
+  _Ignored: ID!
+  text: String
+}
+
+type FullIssue implements ArticleTag {
+  _Ignored: ID!
+  comment: String
+}
+
+type FullySuppressedBy implements NameTag {
+  _Ignored: ID!
+  opinion: Article
+  comment: String
+}
+
+type Gender implements TypeTag {
+  _Ignored: ID!
+  gender: SpecimenGender
+}
+
+enum GenderArticle {
+  art30_1_1
+  art30_1_2
+  art30_1_3
+  art30_1_4_2
+  art30_1_4_3
+  art30_1_4_4
+  art30_1_4_5
+  art30_2_1
+  art30_2_2
+  art30_2_3
+  art30_2_4
+  bad_transliteration
+  unknown_obvious_stem
+  stem_expressly_set
+}
+
+type General implements LocationTag {
+  _Ignored: ID!
+}
+
+type GenusCoelebs implements TypeTag {
+  _Ignored: ID!
+  comments: String
+}
+
+enum GrammaticalGender {
+  masculine
+  feminine
+  neuter
+}
+
+enum Group {
+  species
+  genus
+  family
+  high
+}
+
+type HDL implements ArticleTag {
+  _Ignored: ID!
+  text: String
+}
+
+type Habitat implements TypeTag {
+  _Ignored: ID!
+  text: String
+}
+
+type Host implements TypeTag {
+  _Ignored: ID!
+  name: String
+}
+
+type ISBN implements ArticleTag {
+  _Ignored: ID!
+  text: String
+}
+
+type ISSN implements ArticleTag {
+  _Ignored: ID!
+  text: String
+}
+
+type IgnorePotentialCitations implements CitationGroupTag {
+  _Ignored: ID!
+}
+
+type IncludedSpecies implements TypeTag {
+  _Ignored: ID!
+  name: Name
+  comment: String
+}
+
+type IncorrectOriginalSpellingOf implements NameTag {
+  _Ignored: ID!
+  name: Name
+  comment: String
+}
+
+type IncorrectSubsequentSpellingOf implements NameTag {
+  _Ignored: ID!
+  name: Name
+  comment: String
+}
+
+type JSTOR implements ArticleTag {
+  _Ignored: ID!
+  text: String
+}
+
+type JustifiedEmendationOf implements NameTag {
+  _Ignored: ID!
+  name: Name
+  justification: EmendationJustification
+  comment: String
+}
+
+type LectotypeDesignation implements TypeTag {
+  _Ignored: ID!
+  source: Article
+  lectotype: String
+  valid: Boolean
+  comment: String
+}
+
+type Location implements Node {
+  id: ID!
+  name: String!
+  minPeriod: Period
+  maxPeriod: Period
+  minAge: Int
+  maxAge: Int
+  stratigraphicUnit: Period
+  region: Region!
+  comment: String!
+  latitude: String!
+  longitude: String!
+  locationDetail: String!
+  ageDetail: String!
+  source: Article
+  deleted: Boolean!
+  tags: [LocationTag]!
+  typeLocalities(before: String, after: String, first: Int, last: Int): LocationConnection
+  taxa(before: String, after: String, first: Int, last: Int): LocationConnection
+  oid: Int!
+}
+
+type LocationConnection {
+  pageInfo: PageInfo!
+  edges: [LocationEdge]!
+}
+
+type LocationDetail implements TypeTag {
+  _Ignored: ID!
+  text: String
+  source: Article
+}
+
+type LocationEdge {
+  node: Location
+  cursor: String!
+}
+
+interface LocationTag {
+  _Ignored: ID!
+}
+
+type MandatoryChangeOf implements NameTag {
+  _Ignored: ID!
+  name: Name
+  comment: String
+}
+
+type MustHave implements CitationGroupTag {
+  _Ignored: ID!
+}
+
+type MustHaveAfter implements CitationGroupTag {
+  _Ignored: ID!
+  year: String
+}
+
+type MustHaveSeries implements CitationGroupTag {
+  _Ignored: ID!
+  comment: String
+}
+
+type NOW implements LocationTag {
+  _Ignored: ID!
+  id: String
+}
+
+type Name implements Node {
+  id: ID!
+  group: Group!
+  rootName: String!
+  status: Status!
+  taxon: Taxon!
+  originalName: String
+  correctedOriginalName: String
+  nomenclatureStatus: NomenclatureStatus!
+  authority: String
+  originalCitation: Article
+  pageDescribed: String
+  verbatimCitation: String
+  citationGroup: CitationGroup
+  year: String
+  stem: String
+  gender: GrammaticalGender
+  nameComplex: NameComplex
+  speciesNameComplex: SpeciesNameComplex
+  type: Name
+  verbatimType: String
+  typeLocality: Location
+  typeSpecimen: String
+  collection: Collection
+  typeSpecimenSource: Article
+  genusTypeKind: TypeSpeciesDesignation
+  speciesTypeKind: SpeciesGroupType
+  typeTags: [TypeTag]!
+  data: String
+  Definition: String
+  tags: [NameTag]!
+  typifiedNames(before: String, after: String, first: Int, last: Int): NameConnection
+  comments(before: String, after: String, first: Int, last: Int): NameConnection
+  oid: Int!
+}
+
+type NameComment implements Node {
+  id: ID!
+  name: Name!
+  kind: CommentKind!
+  date: Int!
+  text: String!
+  source: Article
+  page: String!
+  oid: Int!
+}
+
+type NameComplex implements Node {
+  id: ID!
+  label: String!
+  stem: String!
+  sourceLanguage: SourceLanguage!
+  codeArticle: GenderArticle!
+  gender: GrammaticalGender!
+  comment: String!
+  stemRemove: String!
+  stemAdd: String!
+  endings(before: String, after: String, first: Int, last: Int): NameComplexConnection
+  names(before: String, after: String, first: Int, last: Int): NameComplexConnection
+  oid: Int!
+}
+
+type NameComplexConnection {
+  pageInfo: PageInfo!
+  edges: [NameComplexEdge]!
+}
+
+type NameComplexEdge {
+  node: NameComplex
+  cursor: String!
+}
+
+type NameConnection {
+  pageInfo: PageInfo!
+  edges: [NameEdge]!
+}
+
+type NameEdge {
+  node: Name
+  cursor: String!
+}
+
+type NameEnding implements Node {
+  id: ID!
+  nameComplex: NameComplex!
+  ending: String!
+  comment: String!
+  oid: Int!
+}
+
+interface NameTag {
+  _Ignored: ID!
+}
+
+type NeotypeDesignation implements TypeTag {
+  _Ignored: ID!
+  source: Article
+  neotype: String
+  valid: Boolean
+  comment: String
+}
+
+interface Node {
+  id: ID!
+}
+
+type NomenNovumFor implements NameTag {
+  _Ignored: ID!
+  name: Name
+  comment: String
+}
+
+type NomenOblitum implements NameTag {
+  _Ignored: ID!
+  name: Name
+  comment: String
+}
+
+enum NomenclatureStatus {
+  available
+  nomen_nudum
+  fully_suppressed
+  not_based_on_a_generic_name
+  infrasubspecific
+  unpublished
+  incorrect_subsequent_spelling
+  unjustified_emendation
+  before_1758
+  hypothetical_concept
+  teratological
+  hybrid_as_such
+  informal
+  work_of_extant
+  zoological_formula
+  unlisted
+  not_latin_alphabet
+  inconsistently_binominal
+  not_used_as_valid
+  not_used_as_genus_plural
+  based_on_a_suppressed_name
+  not_published_with_a_generic_name
+  multiple_words
+  no_type_specified
+  anonymous_authorship
+  conditional
+  variety_or_form
+  not_explicitly_new
+  mandatory_change
+  ites_name
+  hybrid_name
+  art_13_nomen_oblitum
+  variant
+  justified_emendation
+  preoccupied
+  based_on_homonym
+  partially_suppressed
+  nomen_novum
+  incorrect_original_spelling
+  type_not_treated_as_valid
+  reranking
+  subsequent_usage
+  not_intended_as_a_scientific_name
+  collective_group
+  not_nominative_singular
+  as_emended
+}
+
+type NonOriginal implements ArticleTag {
+  _Ignored: ID!
+  comment: String
+}
+
+type Occurrence implements Node {
+  id: ID!
+  taxon: Taxon!
+  location: Location!
+  comment: String!
+  status: OccurrenceStatus!
+  source: Article
+  oid: Int!
+}
+
+enum OccurrenceStatus {
+  valid
+  rejected
+  occurrence_dubious
+  introduced
+  extirpated
+  vagrant
+  classification_dubious
+}
+
+type OnlineRepository implements CitationGroupTag {
+  _Ignored: ID!
+  url: String
+  comment: String
+}
+
+type Organ implements TypeTag {
+  _Ignored: ID!
+  organ: SpecimenOrgan
+  detail: String
+  condition: String
+}
+
+type PBDB implements LocationTag {
+  _Ignored: ID!
+  id: String
+}
+
+type PMC implements ArticleTag {
+  _Ignored: ID!
+  text: String
+}
+
+type PMID implements ArticleTag {
+  _Ignored: ID!
+  text: String
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type PartiallySuppressedBy implements NameTag {
+  _Ignored: ID!
+  opinion: Article
+  comment: String
+}
+
+type Period implements Node {
+  id: ID!
+  name: String!
+  parent: Period
+  prev: Period
+  next: Period
+  minAge: Int
+  maxAge: Int
+  minPeriod: Period
+  maxPeriod: Period
+  system: PeriodSystem!
+  rank: PeriodRank!
+  comment: String!
+  region: Region
+  deleted: Boolean!
+  children(before: String, after: String, first: Int, last: Int): PeriodConnection
+  nextForeign(before: String, after: String, first: Int, last: Int): PeriodConnection
+  prevForeign(before: String, after: String, first: Int, last: Int): PeriodConnection
+  childrenMin(before: String, after: String, first: Int, last: Int): PeriodConnection
+  childrenMax(before: String, after: String, first: Int, last: Int): PeriodConnection
+  locationsMin(before: String, after: String, first: Int, last: Int): PeriodConnection
+  locationsMax(before: String, after: String, first: Int, last: Int): PeriodConnection
+  locationsStratigraphy(before: String, after: String, first: Int, last: Int): PeriodConnection
+  oid: Int!
+}
+
+type PeriodConnection {
+  pageInfo: PageInfo!
+  edges: [PeriodEdge]!
+}
+
+type PeriodEdge {
+  node: Period
+  cursor: String!
+}
+
+enum PeriodRank {
+  age
+  epoch
+  period
+  era
+  eon
+  bed
+  member
+  formation
+  group
+  supergroup
+  other_lithostratigraphy
+  other_chronostratigraphy
+  subage
+  biozone
+  subgroup
+  zonation
+}
+
+enum PeriodSystem {
+  gts
+  nalma
+  elma
+  alma
+  salma
+  lithostratigraphy
+  aulma
+  local_biostratigraphy
+}
+
+type PreoccupiedBy implements NameTag {
+  _Ignored: ID!
+  name: Name
+  comment: String
+}
+
+type ProbableRepository implements TypeTag {
+  _Ignored: ID!
+  repository: Collection
+  reasoning: String
+}
+
+type Query {
+  node(id: ID!): Node
+  regionByLabel(label: String): [Region]
+  region(oid: Int): Region
+  citationGroupByLabel(label: String): [CitationGroup]
+  citationGroup(oid: Int): CitationGroup
+  citationGroupPatternByLabel(label: String): [CitationGroupPattern]
+  citationGroupPattern(oid: Int): CitationGroupPattern
+  articleByLabel(label: String): [Article]
+  article(oid: Int): Article
+  articleComment(oid: Int): ArticleComment
+  collectionByLabel(label: String): [Collection]
+  collection(oid: Int): Collection
+  periodByLabel(label: String): [Period]
+  period(oid: Int): Period
+  locationByLabel(label: String): [Location]
+  location(oid: Int): Location
+  taxonByLabel(label: String): [Taxon]
+  taxon(oid: Int): Taxon
+  speciesNameComplexByLabel(label: String): [SpeciesNameComplex]
+  speciesNameComplex(oid: Int): SpeciesNameComplex
+  nameComplexByLabel(label: String): [NameComplex]
+  nameComplex(oid: Int): NameComplex
+  nameEndingByLabel(label: String): [NameEnding]
+  nameEnding(oid: Int): NameEnding
+  speciesNameEndingByLabel(label: String): [SpeciesNameEnding]
+  speciesNameEnding(oid: Int): SpeciesNameEnding
+  nameByLabel(label: String): [Name]
+  name(oid: Int): Name
+  nameComment(oid: Int): NameComment
+  occurrence(oid: Int): Occurrence
+}
+
+enum Rank {
+  subspecies
+  species
+  species_group
+  subgenus
+  genus
+  division
+  infratribe
+  subtribe
+  tribe
+  subfamily
+  family
+  superfamily
+  hyperfamily
+  parvorder
+  infraorder
+  suborder
+  order
+  superorder
+  subcohort
+  cohort
+  supercohort
+  infraclass
+  subclass
+  class_
+  superclass
+  infraphylum
+  subphylum
+  phylum
+  superphylum
+  infrakingdom
+  subkingdom
+  kingdom
+  superkingdom
+  domain
+  root
+  unranked
+  informal
+}
+
+type Region implements Node {
+  id: ID!
+  name: String!
+  comment: String
+  parent: Region
+  kind: RegionKind!
+  children(before: String, after: String, first: Int, last: Int): RegionConnection
+  citationGroups(before: String, after: String, first: Int, last: Int): RegionConnection
+  collections(before: String, after: String, first: Int, last: Int): RegionConnection
+  periods(before: String, after: String, first: Int, last: Int): RegionConnection
+  locations(before: String, after: String, first: Int, last: Int): RegionConnection
+  oid: Int!
+}
+
+type RegionConnection {
+  pageInfo: PageInfo!
+  edges: [RegionEdge]!
+}
+
+type RegionEdge {
+  node: Region
+  cursor: String!
+}
+
+enum RegionKind {
+  continent
+  country
+  subnational
+  planet
+  other
+  county
+}
+
+type Rejected implements NameTag {
+  _Ignored: ID!
+  opinion: Article
+  comment: String
+}
+
+type Repository implements TypeTag {
+  _Ignored: ID!
+  repository: Collection
+}
+
+type ReversalOfPriority implements NameTag {
+  _Ignored: ID!
+  over: Name
+  opinion: Article
+  comment: String
+}
+
+type SelectionOfPriority implements NameTag {
+  _Ignored: ID!
+  over: Name
+  source: Article
+  comment: String
+}
+
+type SelectionOfSpelling implements NameTag {
+  _Ignored: ID!
+  source: Article
+  comment: String
+}
+
+enum SourceLanguage {
+  latin
+  greek
+  other
+  english
+  french
+  german
+  spanish
+  portuguese
+  russian
+  arabic
+  chinese
+  mongolian
+}
+
+enum SpeciesGroupType {
+  holotype
+  lectotype
+  neotype
+  syntypes
+  nonexistent
+}
+
+type SpeciesNameComplex implements Node {
+  id: ID!
+  label: String!
+  stem: String!
+  kind: SpeciesNameKind!
+  masculineEnding: String!
+  feminineEnding: String!
+  neuterEnding: String!
+  comment: String!
+  endings(before: String, after: String, first: Int, last: Int): SpeciesNameComplexConnection
+  names(before: String, after: String, first: Int, last: Int): SpeciesNameComplexConnection
+  oid: Int!
+}
+
+type SpeciesNameComplexConnection {
+  pageInfo: PageInfo!
+  edges: [SpeciesNameComplexEdge]!
+}
+
+type SpeciesNameComplexEdge {
+  node: SpeciesNameComplex
+  cursor: String!
+}
+
+type SpeciesNameEnding implements Node {
+  id: ID!
+  nameComplex: SpeciesNameComplex!
+  ending: String!
+  comment: String!
+  fullNameOnly: Boolean!
+  oid: Int!
+}
+
+enum SpeciesNameKind {
+  adjective
+  noun_in_apposition
+  genitive
+  genitive_adjective
+  non_latin
+  ambiguous_noun
+  patronym_masculine
+  patronym_feminine
+  patronym_masculine_plural
+  patronym_feminine_plural
+  patronym_latin
+  unknown
+}
+
+enum SpecimenAge {
+  embryo
+  juvenile
+  subadult
+  adult
+  larva
+}
+
+type SpecimenDetail implements TypeTag {
+  _Ignored: ID!
+  text: String
+  source: Article
+}
+
+enum SpecimenGender {
+  male
+  female
+  hermaphrodite
+  unknown
+}
+
+enum SpecimenOrgan {
+  skin
+  skull
+  postcranial_skeleton
+  mandible
+  tooth
+  in_alcohol
+  other
+  maxilla
+}
+
+enum Status {
+  valid
+  synonym
+  dubious
+  nomen_dubium
+  species_inquirenda
+  spurious
+  removed
+}
+
+type StratigraphyDetail implements TypeTag {
+  _Ignored: ID!
+  text: String
+}
+
+type SubsequentUsageOf implements NameTag {
+  _Ignored: ID!
+  name: Name
+  comment: String
+}
+
+type TakesPriorityOf implements NameTag {
+  _Ignored: ID!
+  name: Name
+  comment: String
+}
+
+type Taxon implements Node {
+  id: ID!
+  rank: Rank!
+  validName: String!
+  age: AgeClass!
+  parent: Taxon
+  data: String
+  isPageRoot: Boolean!
+  BaseNameId: Int
+  children(before: String, after: String, first: Int, last: Int): TaxonConnection
+  names(before: String, after: String, first: Int, last: Int): TaxonConnection
+  occurrences(before: String, after: String, first: Int, last: Int): TaxonConnection
+  oid: Int!
+}
+
+type TaxonConnection {
+  pageInfo: PageInfo!
+  edges: [TaxonEdge]!
+}
+
+type TaxonEdge {
+  node: Taxon
+  cursor: String!
+}
+
+type TypeDesignation implements TypeTag {
+  _Ignored: ID!
+  source: Article
+  type: Name
+  comment: String
+}
+
+type TypeLocality implements TypeTag {
+  _Ignored: ID!
+  text: String
+}
+
+enum TypeSpeciesDesignation {
+  original_designation
+  monotypy
+  absolute_tautonymy
+  linnaean_tautonymy
+  subsequent_monotypy
+  subsequent_designation
+  implicit
+  misidentification
+  designated_by_the_commission
+  undesignated
+}
+
+type TypeSpeciesDetail implements TypeTag {
+  _Ignored: ID!
+  text: String
+  source: Article
+}
+
+interface TypeTag {
+  _Ignored: ID!
+}
+
+type UnjustifiedEmendationOf implements NameTag {
+  _Ignored: ID!
+  name: Name
+  comment: String
+}
+
+type VariantOf implements NameTag {
+  _Ignored: ID!
+  name: Name
+  comment: String
+}
