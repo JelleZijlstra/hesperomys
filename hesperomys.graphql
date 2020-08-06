@@ -31,8 +31,10 @@ enum AltitudeUnit {
   ft
 }
 
-type Article implements Node {
+type Article implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   addmonth: String!
   addday: String!
   addyear: String!
@@ -67,16 +69,16 @@ type Article implements Node {
   typeSourceNames(before: String, after: String, first: Int, last: Int): ArticleConnection
   nameComments(before: String, after: String, first: Int, last: Int): ArticleConnection
   occurrences(before: String, after: String, first: Int, last: Int): ArticleConnection
-  oid: Int!
 }
 
-type ArticleComment implements Node {
+type ArticleComment implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   article: Article!
   kind: ArticleCommentKind!
   date: Int!
   text: String!
-  oid: Int!
 }
 
 enum ArticleCommentKind {
@@ -129,8 +131,10 @@ type CitationDetail implements TypeTag {
   source: Article
 }
 
-type CitationGroup implements Node {
+type CitationGroup implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   name: String!
   region: Region
   deleted: Boolean!
@@ -142,7 +146,6 @@ type CitationGroup implements Node {
   patterns(before: String, after: String, first: Int, last: Int): CitationGroupConnection
   articleSet(before: String, after: String, first: Int, last: Int): CitationGroupConnection
   names(before: String, after: String, first: Int, last: Int): CitationGroupConnection
-  oid: Int!
 }
 
 type CitationGroupConnection {
@@ -155,19 +158,22 @@ type CitationGroupEdge {
   cursor: String!
 }
 
-type CitationGroupPattern implements Node {
+type CitationGroupPattern implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   pattern: String!
   citationGroup: CitationGroup!
-  oid: Int!
 }
 
 interface CitationGroupTag {
   _Ignored: ID!
 }
 
-type Collection implements Node {
+type Collection implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   label: String!
   name: String!
   location: Region!
@@ -175,7 +181,6 @@ type Collection implements Node {
   city: String
   removed: Boolean!
   typeSpecimens(before: String, after: String, first: Int, last: Int): CollectionConnection
-  oid: Int!
 }
 
 type CollectionConnection {
@@ -400,8 +405,10 @@ type LectotypeDesignation implements TypeTag {
   comment: String
 }
 
-type Location implements Node {
+type Location implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   name: String!
   minPeriod: Period
   maxPeriod: Period
@@ -419,7 +426,6 @@ type Location implements Node {
   tags: [LocationTag]!
   typeLocalities(before: String, after: String, first: Int, last: Int): LocationConnection
   taxa(before: String, after: String, first: Int, last: Int): LocationConnection
-  oid: Int!
 }
 
 type LocationConnection {
@@ -448,6 +454,11 @@ type MandatoryChangeOf implements NameTag {
   comment: String
 }
 
+interface Model {
+  oid: Int!
+  callSign: String!
+}
+
 type MustHave implements CitationGroupTag {
   _Ignored: ID!
 }
@@ -467,8 +478,10 @@ type NOW implements LocationTag {
   id: String
 }
 
-type Name implements Node {
+type Name implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   group: Group!
   rootName: String!
   status: Status!
@@ -500,22 +513,24 @@ type Name implements Node {
   tags: [NameTag]!
   typifiedNames(before: String, after: String, first: Int, last: Int): NameConnection
   comments(before: String, after: String, first: Int, last: Int): NameConnection
-  oid: Int!
 }
 
-type NameComment implements Node {
+type NameComment implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   name: Name!
   kind: CommentKind!
   date: Int!
   text: String!
   source: Article
   page: String!
-  oid: Int!
 }
 
-type NameComplex implements Node {
+type NameComplex implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   label: String!
   stem: String!
   sourceLanguage: SourceLanguage!
@@ -526,7 +541,6 @@ type NameComplex implements Node {
   stemAdd: String!
   endings(before: String, after: String, first: Int, last: Int): NameComplexConnection
   names(before: String, after: String, first: Int, last: Int): NameComplexConnection
-  oid: Int!
 }
 
 type NameComplexConnection {
@@ -549,12 +563,13 @@ type NameEdge {
   cursor: String!
 }
 
-type NameEnding implements Node {
+type NameEnding implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   nameComplex: NameComplex!
   ending: String!
   comment: String!
-  oid: Int!
 }
 
 interface NameTag {
@@ -639,14 +654,15 @@ type NonOriginal implements ArticleTag {
   comment: String
 }
 
-type Occurrence implements Node {
+type Occurrence implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   taxon: Taxon!
   location: Location!
   comment: String!
   status: OccurrenceStatus!
   source: Article
-  oid: Int!
 }
 
 enum OccurrenceStatus {
@@ -700,8 +716,10 @@ type PartiallySuppressedBy implements NameTag {
   comment: String
 }
 
-type Period implements Node {
+type Period implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   name: String!
   parent: Period
   prev: Period
@@ -723,7 +741,6 @@ type Period implements Node {
   locationsMin(before: String, after: String, first: Int, last: Int): PeriodConnection
   locationsMax(before: String, after: String, first: Int, last: Int): PeriodConnection
   locationsStratigraphy(before: String, after: String, first: Int, last: Int): PeriodConnection
-  oid: Int!
 }
 
 type PeriodConnection {
@@ -780,6 +797,7 @@ type ProbableRepository implements TypeTag {
 
 type Query {
   node(id: ID!): Node
+  byCallSign(callSign: String!, oid: String!): [Model]
   regionByLabel(label: String): [Region]
   region(oid: Int): Region
   citationGroupByLabel(label: String): [CitationGroup]
@@ -851,8 +869,10 @@ enum Rank {
   informal
 }
 
-type Region implements Node {
+type Region implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   name: String!
   comment: String
   parent: Region
@@ -862,7 +882,6 @@ type Region implements Node {
   collections(before: String, after: String, first: Int, last: Int): RegionConnection
   periods(before: String, after: String, first: Int, last: Int): RegionConnection
   locations(before: String, after: String, first: Int, last: Int): RegionConnection
-  oid: Int!
 }
 
 type RegionConnection {
@@ -938,8 +957,10 @@ enum SpeciesGroupType {
   nonexistent
 }
 
-type SpeciesNameComplex implements Node {
+type SpeciesNameComplex implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   label: String!
   stem: String!
   kind: SpeciesNameKind!
@@ -949,7 +970,6 @@ type SpeciesNameComplex implements Node {
   comment: String!
   endings(before: String, after: String, first: Int, last: Int): SpeciesNameComplexConnection
   names(before: String, after: String, first: Int, last: Int): SpeciesNameComplexConnection
-  oid: Int!
 }
 
 type SpeciesNameComplexConnection {
@@ -962,13 +982,14 @@ type SpeciesNameComplexEdge {
   cursor: String!
 }
 
-type SpeciesNameEnding implements Node {
+type SpeciesNameEnding implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   nameComplex: SpeciesNameComplex!
   ending: String!
   comment: String!
   fullNameOnly: Boolean!
-  oid: Int!
 }
 
 enum SpeciesNameKind {
@@ -1045,8 +1066,10 @@ type TakesPriorityOf implements NameTag {
   comment: String
 }
 
-type Taxon implements Node {
+type Taxon implements Node & Model {
   id: ID!
+  oid: Int!
+  callSign: String!
   rank: Rank!
   validName: String!
   age: AgeClass!
@@ -1057,7 +1080,6 @@ type Taxon implements Node {
   children(before: String, after: String, first: Int, last: Int): TaxonConnection
   names(before: String, after: String, first: Int, last: Int): TaxonConnection
   occurrences(before: String, after: String, first: Int, last: Int): TaxonConnection
-  oid: Int!
 }
 
 type TaxonConnection {
