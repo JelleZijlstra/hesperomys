@@ -4,17 +4,13 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-class LocationTitle extends React.Component<{ location: LocationTitle_location }> {
+class LocationTitle extends React.Component<{
+  location: LocationTitle_location;
+}> {
   render() {
-    const {
-      name
-    } = this.props.location;
+    const { name } = this.props.location;
 
-    return (
-      <>
-        {name}
-      </>
-    );
+    return <>{name}</>;
   }
 }
 

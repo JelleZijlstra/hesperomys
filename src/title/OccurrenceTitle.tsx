@@ -7,11 +7,11 @@ import graphql from "babel-plugin-relay/macro";
 import TaxonTitle from "./TaxonTitle";
 import LocationTitle from "./LocationTitle";
 
-class OccurrenceTitle extends React.Component<{ occurrence: OccurrenceTitle_occurrence }> {
+class OccurrenceTitle extends React.Component<{
+  occurrence: OccurrenceTitle_occurrence;
+}> {
   render() {
-    const {
-      location, taxon
-    } = this.props.occurrence;
+    const { location, taxon } = this.props.occurrence;
 
     return (
       <>

@@ -1,15 +1,15 @@
 import React from "react";
 
 export default function MaybeItalicize({
-	group,
-	name,
+  group,
+  name,
 }: {
-	group: string;
-	name: string;
+  group: string;
+  name: string;
 }) {
-	if (group === "species" || group === "genus") {
-		return <i>{name}</i>;
-	} else {
-		return <>{name}</>;
-	}
+  if (group === "species" || group === "genus") {
+    return <i>{name}</i>;
+  } else {
+    return <>{name}</>;
+  }
 }

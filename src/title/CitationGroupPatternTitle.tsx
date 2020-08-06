@@ -4,17 +4,13 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-class CitationGroupPatternTitle extends React.Component<{ citationGroupPattern: CitationGroupPatternTitle_citationGroupPattern }> {
+class CitationGroupPatternTitle extends React.Component<{
+  citationGroupPattern: CitationGroupPatternTitle_citationGroupPattern;
+}> {
   render() {
-    const {
-      pattern
-    } = this.props.citationGroupPattern;
+    const { pattern } = this.props.citationGroupPattern;
 
-    return (
-      <>
-        "{pattern}"
-      </>
-    );
+    return <>"{pattern}"</>;
   }
 }
 

@@ -8,11 +8,7 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
   render() {
     const { name } = this.props;
 
-    return (
-      <>
-        {JSON.stringify(name)}
-      </>
-    );
+    return <>{JSON.stringify(name)}</>;
   }
 }
 

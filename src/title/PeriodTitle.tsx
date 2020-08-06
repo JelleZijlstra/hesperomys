@@ -6,15 +6,9 @@ import graphql from "babel-plugin-relay/macro";
 
 class PeriodTitle extends React.Component<{ period: PeriodTitle_period }> {
   render() {
-    const {
-      name,
-    } = this.props.period;
+    const { name } = this.props.period;
 
-    return (
-      <>
-        {name}
-      </>
-    );
+    return <>{name}</>;
   }
 }
 

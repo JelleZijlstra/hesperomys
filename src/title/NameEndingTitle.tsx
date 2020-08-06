@@ -4,17 +4,13 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-class NameEndingTitle extends React.Component<{ nameEnding: NameEndingTitle_nameEnding }> {
+class NameEndingTitle extends React.Component<{
+  nameEnding: NameEndingTitle_nameEnding;
+}> {
   render() {
-    const {
-      ending
-    } = this.props.nameEnding;
+    const { ending } = this.props.nameEnding;
 
-    return (
-      <>
-        -{ending}
-      </>
-    );
+    return <>-{ending}</>;
   }
 }
 

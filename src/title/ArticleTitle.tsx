@@ -6,9 +6,7 @@ import graphql from "babel-plugin-relay/macro";
 
 class ArticleTitle extends React.Component<{ article: ArticleTitle_article }> {
   render() {
-    const {
-      authors, year
-    } = this.props.article;
+    const { authors, year } = this.props.article;
 
     return (
       <>

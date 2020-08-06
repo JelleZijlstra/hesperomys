@@ -4,17 +4,13 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-class NameComplexTitle extends React.Component<{ nameComplex: NameComplexTitle_nameComplex }> {
+class NameComplexTitle extends React.Component<{
+  nameComplex: NameComplexTitle_nameComplex;
+}> {
   render() {
-    const {
-      label
-    } = this.props.nameComplex;
+    const { label } = this.props.nameComplex;
 
-    return (
-      <>
-        {label}
-      </>
-    );
+    return <>{label}</>;
   }
 }
 

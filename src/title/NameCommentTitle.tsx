@@ -6,11 +6,11 @@ import graphql from "babel-plugin-relay/macro";
 
 import NameTitle from "./NameTitle";
 
-class NameCommentTitle extends React.Component<{ nameComment: NameCommentTitle_nameComment }> {
+class NameCommentTitle extends React.Component<{
+  nameComment: NameCommentTitle_nameComment;
+}> {
   render() {
-    const {
-      name
-    } = this.props.nameComment;
+    const { name } = this.props.nameComment;
 
     return (
       <>

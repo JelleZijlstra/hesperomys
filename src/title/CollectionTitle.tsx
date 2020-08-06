@@ -4,11 +4,11 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-class CollectionTitle extends React.Component<{ collection: CollectionTitle_collection }> {
+class CollectionTitle extends React.Component<{
+  collection: CollectionTitle_collection;
+}> {
   render() {
-    const {
-      name, label
-    } = this.props.collection;
+    const { name, label } = this.props.collection;
 
     return (
       <>

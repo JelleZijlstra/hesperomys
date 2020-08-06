@@ -8,13 +8,9 @@ import MaybeItalics from "../components/MaybeItalics";
 
 class TaxonTitle extends React.Component<{ taxon: TaxonTitle_taxon }> {
   render() {
-    const {
-      baseName, validName
-    } = this.props.taxon;
+    const { baseName, validName } = this.props.taxon;
 
-    return (
-        <MaybeItalics group={baseName.group} name={validName} />
-    );
+    return <MaybeItalics group={baseName.group} name={validName} />;
   }
 }
 
