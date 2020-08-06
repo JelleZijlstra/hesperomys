@@ -5,7 +5,7 @@ import {
   Route
 } from "react-router-dom";
 
-import Name from "./components/Name";
+import ModelMain from "./components/ModelMain";
 
 import './App.css';
 
@@ -13,8 +13,8 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/n/:id">
-          <Name />
+        <Route path="/:callSign/:oid">
+          <ModelMain />
         </Route>
       </Switch>
     </Router>
