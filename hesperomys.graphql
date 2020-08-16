@@ -40,7 +40,7 @@ type Article implements Node & Model {
   addyear: String!
   name: String!
   authors: String!
-  year: String!
+  year: String
   title: String!
   Journal: String!
   series: String!

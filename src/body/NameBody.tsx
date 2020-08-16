@@ -4,11 +4,33 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import Table from "../components/Table";
+
+function NameSection({ name }: { name: NameBody_name }) {
+  return (
+    <>
+      <h2>Name</h2>
+      <Table
+        data={[
+          ["Root name", name.rootName],
+          ["Original name", name.originalName],
+          ["Corrected original name", name.correctedOriginalName],
+          ["Author", name.authority],
+        ]}
+      />
+    </>
+  );
+}
+
 class NameBody extends React.Component<{ name: NameBody_name }> {
   render() {
     const { name } = this.props;
 
-    return <>{JSON.stringify(name)}</>;
+    return (
+      <>
+        <NameSection name={name} />
+      </>
+    );
   }
 }
 

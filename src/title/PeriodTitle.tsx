@@ -6,16 +6,16 @@ import graphql from "babel-plugin-relay/macro";
 
 class PeriodTitle extends React.Component<{ period: PeriodTitle_period }> {
   render() {
-    const { name } = this.props.period;
+    const { periodName } = this.props.period;
 
-    return <>{name}</>;
+    return <>{periodName}</>;
   }
 }
 
 export default createFragmentContainer(PeriodTitle, {
   period: graphql`
     fragment PeriodTitle_period on Period {
-      name
+      periodName: name
     }
   `,
 });

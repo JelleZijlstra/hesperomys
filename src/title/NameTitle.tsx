@@ -16,7 +16,14 @@ class NameTitle extends React.Component<{ name: NameTitle_name }> {
       year,
       pageDescribed,
     } = this.props.name;
-    const name = originalName ? originalName : rootName;
+    let name;
+    if (originalName) {
+      name = originalName;
+    } else if (group === "family") {
+      name = rootName + "-";
+    } else {
+      name = rootName;
+    }
 
     return (
       <>

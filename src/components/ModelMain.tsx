@@ -7,6 +7,7 @@ import graphql from "babel-plugin-relay/macro";
 import { ModelMainQuery } from "./__generated__/ModelMainQuery.graphql";
 
 import Title from "../title/Title";
+import Subtitle from "../subtitle/Subtitle";
 import SiteHeader from "./SiteHeader";
 import Body from "../body/Body";
 
@@ -19,6 +20,7 @@ export default function ModelMain() {
         query ModelMainQuery($callSign: String!, $oid: String!) {
           models: byCallSign(callSign: $callSign, oid: $oid) {
             ...Title_model
+            ...Subtitle_model
             ...Body_model
           }
         }
@@ -44,7 +46,7 @@ export default function ModelMain() {
         }
         return (
           <>
-            <SiteHeader>
+            <SiteHeader subtitle={<Subtitle model={model} />}>
               <Title model={model} />
             </SiteHeader>
             <Body model={model} />

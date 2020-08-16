@@ -6,16 +6,16 @@ import graphql from "babel-plugin-relay/macro";
 
 class RegionTitle extends React.Component<{ region: RegionTitle_region }> {
   render() {
-    const { name } = this.props.region;
+    const { regionName } = this.props.region;
 
-    return <>{name}</>;
+    return <>{regionName}</>;
   }
 }
 
 export default createFragmentContainer(RegionTitle, {
   region: graphql`
     fragment RegionTitle_region on Region {
-      name
+      regionName: name
     }
   `,
 });

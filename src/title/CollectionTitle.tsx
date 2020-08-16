@@ -8,11 +8,11 @@ class CollectionTitle extends React.Component<{
   collection: CollectionTitle_collection;
 }> {
   render() {
-    const { name, label } = this.props.collection;
+    const { collectionName, label } = this.props.collection;
 
     return (
       <>
-        {name} ({label})
+        {collectionName} ({label})
       </>
     );
   }
@@ -22,7 +22,7 @@ export default createFragmentContainer(CollectionTitle, {
   collection: graphql`
     fragment CollectionTitle_collection on Collection {
       label
-      name
+      collectionName: name
     }
   `,
 });

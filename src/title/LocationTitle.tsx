@@ -8,16 +8,16 @@ class LocationTitle extends React.Component<{
   location: LocationTitle_location;
 }> {
   render() {
-    const { name } = this.props.location;
+    const { locationName } = this.props.location;
 
-    return <>{name}</>;
+    return <>{locationName}</>;
   }
 }
 
 export default createFragmentContainer(LocationTitle, {
   location: graphql`
     fragment LocationTitle_location on Location {
-      name
+      locationName: name
     }
   `,
 });

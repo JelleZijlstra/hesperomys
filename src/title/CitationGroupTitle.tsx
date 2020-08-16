@@ -8,16 +8,16 @@ class CitationGroupTitle extends React.Component<{
   citationGroup: CitationGroupTitle_citationGroup;
 }> {
   render() {
-    const { name } = this.props.citationGroup;
+    const { cgName } = this.props.citationGroup;
 
-    return <>{name}</>;
+    return <>{cgName}</>;
   }
 }
 
 export default createFragmentContainer(CitationGroupTitle, {
   citationGroup: graphql`
     fragment CitationGroupTitle_citationGroup on CitationGroup {
-      name
+      cgName: name
     }
   `,
 });
