@@ -1,4 +1,3 @@
-
 import { NameComplexBody_nameComplex } from "./__generated__/NameComplexBody_nameComplex.graphql";
 
 import React from "react";
@@ -10,11 +9,7 @@ class NameComplexBody extends React.Component<{
 }> {
   render() {
     const { oid } = this.props.nameComplex;
-    return (
-      <>
-        {oid}
-      </>
-    );
+    return <>{oid}</>;
   }
 }
 

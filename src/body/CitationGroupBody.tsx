@@ -1,4 +1,3 @@
-
 import { CitationGroupBody_citationGroup } from "./__generated__/CitationGroupBody_citationGroup.graphql";
 
 import React from "react";
@@ -10,11 +9,7 @@ class CitationGroupBody extends React.Component<{
 }> {
   render() {
     const { oid } = this.props.citationGroup;
-    return (
-      <>
-        {oid}
-      </>
-    );
+    return <>{oid}</>;
   }
 }
 

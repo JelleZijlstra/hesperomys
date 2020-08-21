@@ -1,18 +1,27 @@
-
 import { RegionBody_region } from "./__generated__/RegionBody_region.graphql";
 
 import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import RegionChildren from "../lists/RegionChildren";
+import RegionCitationGroups from "../lists/RegionCitationGroups";
+import RegionCollections from "../lists/RegionCollections";
+import RegionPeriods from "../lists/RegionPeriods";
+import RegionLocations from "../lists/RegionLocations";
+
 class RegionBody extends React.Component<{
   region: RegionBody_region;
 }> {
   render() {
-    const { oid } = this.props.region;
+    const { region } = this.props;
     return (
       <>
-        {oid}
+        <RegionChildren region={region} title="Child regions" />
+        <RegionLocations region={region} />
+        <RegionPeriods region={region} title="Stratigraphic units" />
+        <RegionCollections region={region} />
+        <RegionCitationGroups region={region} />
       </>
     );
   }
@@ -21,7 +30,11 @@ class RegionBody extends React.Component<{
 export default createFragmentContainer(RegionBody, {
   region: graphql`
     fragment RegionBody_region on Region {
-      oid
+      ...RegionChildren_region
+      ...RegionCitationGroups_region
+      ...RegionCollections_region
+      ...RegionPeriods_region
+      ...RegionLocations_region
     }
   `,
 });

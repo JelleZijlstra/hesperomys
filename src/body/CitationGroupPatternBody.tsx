@@ -1,4 +1,3 @@
-
 import { CitationGroupPatternBody_citationGroupPattern } from "./__generated__/CitationGroupPatternBody_citationGroupPattern.graphql";
 
 import React from "react";
@@ -10,11 +9,7 @@ class CitationGroupPatternBody extends React.Component<{
 }> {
   render() {
     const { oid } = this.props.citationGroupPattern;
-    return (
-      <>
-        {oid}
-      </>
-    );
+    return <>{oid}</>;
   }
 }
 

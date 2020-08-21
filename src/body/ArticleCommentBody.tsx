@@ -1,4 +1,3 @@
-
 import { ArticleCommentBody_articleComment } from "./__generated__/ArticleCommentBody_articleComment.graphql";
 
 import React from "react";
@@ -10,11 +9,7 @@ class ArticleCommentBody extends React.Component<{
 }> {
   render() {
     const { oid } = this.props.articleComment;
-    return (
-      <>
-        {oid}
-      </>
-    );
+    return <>{oid}</>;
   }
 }
 

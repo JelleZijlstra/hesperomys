@@ -1,4 +1,3 @@
-
 import { ArticleBody_article } from "./__generated__/ArticleBody_article.graphql";
 
 import React from "react";
@@ -10,11 +9,7 @@ class ArticleBody extends React.Component<{
 }> {
   render() {
     const { oid } = this.props.article;
-    return (
-      <>
-        {oid}
-      </>
-    );
+    return <>{oid}</>;
   }
 }
 

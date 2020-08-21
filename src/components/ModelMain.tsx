@@ -19,6 +19,8 @@ export default function ModelMain() {
       query={graphql`
         query ModelMainQuery($callSign: String!, $oid: String!) {
           models: byCallSign(callSign: $callSign, oid: $oid) {
+            callSign
+            oid
             ...Title_model
             ...Subtitle_model
             ...Body_model
@@ -47,7 +49,9 @@ export default function ModelMain() {
         return (
           <>
             <SiteHeader subtitle={<Subtitle model={model} />}>
-              <Title model={model} />
+              <>
+                <Title model={model} /> ({model.callSign}#{model.oid})
+              </>
             </SiteHeader>
             <Body model={model} />
           </>

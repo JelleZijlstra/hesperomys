@@ -1,4 +1,3 @@
-
 import { OccurrenceBody_occurrence } from "./__generated__/OccurrenceBody_occurrence.graphql";
 
 import React from "react";
@@ -10,11 +9,7 @@ class OccurrenceBody extends React.Component<{
 }> {
   render() {
     const { oid } = this.props.occurrence;
-    return (
-      <>
-        {oid}
-      </>
-    );
+    return <>{oid}</>;
   }
 }
 

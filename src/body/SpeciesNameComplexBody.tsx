@@ -1,4 +1,3 @@
-
 import { SpeciesNameComplexBody_speciesNameComplex } from "./__generated__/SpeciesNameComplexBody_speciesNameComplex.graphql";
 
 import React from "react";
@@ -10,11 +9,7 @@ class SpeciesNameComplexBody extends React.Component<{
 }> {
   render() {
     const { oid } = this.props.speciesNameComplex;
-    return (
-      <>
-        {oid}
-      </>
-    );
+    return <>{oid}</>;
   }
 }
 

@@ -1,4 +1,3 @@
-
 import { SpeciesNameEndingBody_speciesNameEnding } from "./__generated__/SpeciesNameEndingBody_speciesNameEnding.graphql";
 
 import React from "react";
@@ -10,11 +9,7 @@ class SpeciesNameEndingBody extends React.Component<{
 }> {
   render() {
     const { oid } = this.props.speciesNameEnding;
-    return (
-      <>
-        {oid}
-      </>
-    );
+    return <>{oid}</>;
   }
 }
 

@@ -4,6 +4,8 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import RegionSubtitle from "./RegionSubtitle";
+import CollectionSubtitle from "./CollectionSubtitle";
 import NameSubtitle from "./NameSubtitle";
 import PeriodSubtitle from "./PeriodSubtitle";
 
@@ -15,6 +17,10 @@ class Subtitle extends React.Component<{ model: Subtitle_model }> {
         return <NameSubtitle name={model} />;
       case "Period":
         return <PeriodSubtitle period={model} />;
+      case "Region":
+        return <RegionSubtitle region={model} />;
+      case "Collection":
+        return <CollectionSubtitle collection={model} />;
       default:
         return null;
     }
@@ -26,6 +32,8 @@ export default createFragmentContainer(Subtitle, {
     fragment Subtitle_model on Model {
       __typename
       ...NameSubtitle_name
+      ...CollectionSubtitle_collection
+      ...RegionSubtitle_region
       ...PeriodSubtitle_period
     }
   `,

@@ -1,4 +1,3 @@
-
 import { NameEndingBody_nameEnding } from "./__generated__/NameEndingBody_nameEnding.graphql";
 
 import React from "react";
@@ -10,11 +9,7 @@ class NameEndingBody extends React.Component<{
 }> {
   render() {
     const { oid } = this.props.nameEnding;
-    return (
-      <>
-        {oid}
-      </>
-    );
+    return <>{oid}</>;
   }
 }
 

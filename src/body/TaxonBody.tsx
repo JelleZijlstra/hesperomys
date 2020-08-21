@@ -1,4 +1,3 @@
-
 import { TaxonBody_taxon } from "./__generated__/TaxonBody_taxon.graphql";
 
 import React from "react";
@@ -10,11 +9,7 @@ class TaxonBody extends React.Component<{
 }> {
   render() {
     const { oid } = this.props.taxon;
-    return (
-      <>
-        {oid}
-      </>
-    );
+    return <>{oid}</>;
   }
 }
 
