@@ -34,7 +34,7 @@ class PeriodSubtitle extends React.Component<{
     }
     return (
       <>
-        {rankText} {SYSTEM_TO_TEXT.get(system)}
+        {rankText} ({SYSTEM_TO_TEXT.get(system)})
       </>
     );
   }
