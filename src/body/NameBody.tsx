@@ -4,15 +4,17 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import MaybeItalics from "../components/MaybeItalics";
 import Table from "../components/Table";
 
 function NameSection({ name }: { name: NameBody_name }) {
+  const { group } = name;
   return (
     <>
       <h2>Name</h2>
       <Table
         data={[
-          ["Root name", name.rootName],
+          ["Root name", <MaybeItalics name={name.rootName} group={group} />],
           ["Original name", name.originalName],
           ["Corrected original name", name.correctedOriginalName],
           ["Author", name.authority],

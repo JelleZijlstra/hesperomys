@@ -5,6 +5,7 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
 import NameSubtitle from "./NameSubtitle";
+import PeriodSubtitle from "./PeriodSubtitle";
 
 class Subtitle extends React.Component<{ model: Subtitle_model }> {
   render() {
@@ -12,6 +13,8 @@ class Subtitle extends React.Component<{ model: Subtitle_model }> {
     switch (model.__typename) {
       case "Name":
         return <NameSubtitle name={model} />;
+      case "Period":
+        return <PeriodSubtitle period={model} />;
       default:
         return null;
     }
@@ -23,6 +26,7 @@ export default createFragmentContainer(Subtitle, {
     fragment Subtitle_model on Model {
       __typename
       ...NameSubtitle_name
+      ...PeriodSubtitle_period
     }
   `,
 });

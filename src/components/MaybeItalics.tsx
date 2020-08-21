@@ -5,9 +5,11 @@ export default function MaybeItalicize({
   name,
 }: {
   group: string;
-  name: string;
+  name: string | null;
 }) {
-  if (group === "species" || group === "genus") {
+  if (name === null) {
+    return null;
+  } else if (group === "species" || group === "genus") {
     return <i>{name}</i>;
   } else {
     return <>{name}</>;
