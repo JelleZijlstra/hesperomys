@@ -5,7 +5,7 @@ import { TaxonNames_taxon } from "./__generated__/TaxonNames_taxon.graphql";
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-import ModelLink from "../components/ModelLink";
+import NameList from "../components/NameList";
 
 class TaxonNames extends React.Component<{
   taxon: TaxonNames_taxon;
@@ -20,17 +20,7 @@ class TaxonNames extends React.Component<{
     return (
       <>
         <h3>{title || "Names"}</h3>
-        <ul>
-          {taxon.names.edges.map(
-            (edge) =>
-              edge &&
-              edge.node && (
-                <li key={edge.node.oid}>
-                  <ModelLink model={edge.node} />
-                </li>
-              )
-          )}
-        </ul>
+        <NameList connection={taxon.names} />
         {relay.hasMore() && (
           <button onClick={() => this._loadMore()}>Load More</button>
         )}
@@ -65,9 +55,9 @@ export default createPaginationContainer(
           edges {
             node {
               oid
-              ...ModelLink_model
             }
           }
+          ...NameList_connection
         }
       }
     `,

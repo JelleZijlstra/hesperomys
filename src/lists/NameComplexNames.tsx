@@ -5,7 +5,7 @@ import { NameComplexNames_nameComplex } from "./__generated__/NameComplexNames_n
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-import ModelLink from "../components/ModelLink";
+import NameList from "../components/NameList";
 
 class NameComplexNames extends React.Component<{
   nameComplex: NameComplexNames_nameComplex;
@@ -20,17 +20,7 @@ class NameComplexNames extends React.Component<{
     return (
       <>
         <h3>{title || "Names"}</h3>
-        <ul>
-          {nameComplex.names.edges.map(
-            (edge) =>
-              edge &&
-              edge.node && (
-                <li key={edge.node.oid}>
-                  <ModelLink model={edge.node} />
-                </li>
-              )
-          )}
-        </ul>
+        <NameList connection={nameComplex.names} />
         {relay.hasMore() && (
           <button onClick={() => this._loadMore()}>Load More</button>
         )}
@@ -65,9 +55,9 @@ export default createPaginationContainer(
           edges {
             node {
               oid
-              ...ModelLink_model
             }
           }
+          ...NameList_connection
         }
       }
     `,

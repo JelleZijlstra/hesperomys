@@ -5,7 +5,7 @@ import { ArticleNewNames_article } from "./__generated__/ArticleNewNames_article
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-import ModelLink from "../components/ModelLink";
+import NameList from "../components/NameList";
 
 class ArticleNewNames extends React.Component<{
   article: ArticleNewNames_article;
@@ -20,17 +20,7 @@ class ArticleNewNames extends React.Component<{
     return (
       <>
         <h3>{title || "NewNames"}</h3>
-        <ul>
-          {article.newNames.edges.map(
-            (edge) =>
-              edge &&
-              edge.node && (
-                <li key={edge.node.oid}>
-                  <ModelLink model={edge.node} />
-                </li>
-              )
-          )}
-        </ul>
+        <NameList connection={article.newNames} />
         {relay.hasMore() && (
           <button onClick={() => this._loadMore()}>Load More</button>
         )}
@@ -65,9 +55,9 @@ export default createPaginationContainer(
           edges {
             node {
               oid
-              ...ModelLink_model
             }
           }
+          ...NameList_connection
         }
       }
     `,

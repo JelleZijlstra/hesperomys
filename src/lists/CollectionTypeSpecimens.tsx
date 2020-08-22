@@ -5,7 +5,7 @@ import { CollectionTypeSpecimens_collection } from "./__generated__/CollectionTy
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-import ModelLink from "../components/ModelLink";
+import NameList from "../components/NameList";
 
 class CollectionTypeSpecimens extends React.Component<{
   collection: CollectionTypeSpecimens_collection;
@@ -23,17 +23,7 @@ class CollectionTypeSpecimens extends React.Component<{
     return (
       <>
         <h3>{title || "TypeSpecimens"}</h3>
-        <ul>
-          {collection.typeSpecimens.edges.map(
-            (edge) =>
-              edge &&
-              edge.node && (
-                <li key={edge.node.oid}>
-                  <ModelLink model={edge.node} />
-                </li>
-              )
-          )}
-        </ul>
+        <NameList connection={collection.typeSpecimens} />
         {relay.hasMore() && (
           <button onClick={() => this._loadMore()}>Load More</button>
         )}
@@ -68,9 +58,9 @@ export default createPaginationContainer(
           edges {
             node {
               oid
-              ...ModelLink_model
             }
           }
+          ...NameList_connection
         }
       }
     `,
