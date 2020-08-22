@@ -31,14 +31,14 @@ const STATUS_TO_SORT_KEY = new Map([
 ]);
 
 const sortKey = (name: Name | null) => {
-  if (!name) {
+  if (!name || !name.taxon) {
     return [];
   }
-  const cls = name.taxon && name.taxon.class_ && name.taxon.class_.validName;
-  const order = name.taxon && name.taxon.order && name.taxon.order.validName;
-  const family = name.taxon && name.taxon.family && name.taxon.family.validName;
+  const cls = name.taxon.class_ && name.taxon.class_.validName;
+  const order = name.taxon.order && name.taxon.order.validName;
+  const family = name.taxon.family && name.taxon.family.validName;
   const status = STATUS_TO_SORT_KEY.get(name.status);
-  return [cls, order, family, status, name.rootName];
+  return [cls, order, family, name.taxon.validName, status, name.rootName];
 };
 
 class NameList extends React.Component<{ connection: NameList_connection }> {

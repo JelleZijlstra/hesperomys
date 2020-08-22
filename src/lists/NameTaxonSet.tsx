@@ -7,11 +7,21 @@ import graphql from "babel-plugin-relay/macro";
 
 import ModelLink from "../components/ModelLink";
 
-class NameTaxonSet extends React.Component<{
+interface NameTaxonSetProps {
   name: NameTaxonSet_name;
   title?: string;
   relay: RelayPaginationProp;
-}> {
+}
+
+class NameTaxonSet extends React.Component<
+  NameTaxonSetProps,
+  { numToLoad: number }
+> {
+  constructor(props: NameTaxonSetProps) {
+    super(props);
+    this.state = { numToLoad: 10 };
+  }
+
   render() {
     const { name, relay, title } = this.props;
     if (!name.taxonSet || name.taxonSet.edges.length === 0) {
@@ -32,7 +42,20 @@ class NameTaxonSet extends React.Component<{
           )}
         </ul>
         {relay.hasMore() && (
-          <button onClick={() => this._loadMore()}>Load More</button>
+          <div>
+            <button onClick={() => this._loadMore()}>Load</button>{" "}
+            <input
+              type="text"
+              value={this.state.numToLoad}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                if (!isNaN(value)) {
+                  this.setState({ numToLoad: parseInt(e.target.value) });
+                }
+              }}
+            />
+            {" More"}
+          </div>
         )}
       </>
     );
@@ -44,8 +67,10 @@ class NameTaxonSet extends React.Component<{
       return;
     }
 
-    relay.loadMore(10, (error) => {
-      console.log(error);
+    relay.loadMore(this.state.numToLoad, (error) => {
+      if (error) {
+        console.log(error);
+      }
     });
   }
 }

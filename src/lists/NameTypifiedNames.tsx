@@ -7,11 +7,21 @@ import graphql from "babel-plugin-relay/macro";
 
 import NameList from "../components/NameList";
 
-class NameTypifiedNames extends React.Component<{
+interface NameTypifiedNamesProps {
   name: NameTypifiedNames_name;
   title?: string;
   relay: RelayPaginationProp;
-}> {
+}
+
+class NameTypifiedNames extends React.Component<
+  NameTypifiedNamesProps,
+  { numToLoad: number | null }
+> {
+  constructor(props: NameTypifiedNamesProps) {
+    super(props);
+    this.state = { numToLoad: 10 };
+  }
+
   render() {
     const { name, relay, title } = this.props;
     if (!name.typifiedNames || name.typifiedNames.edges.length === 0) {
@@ -22,7 +32,24 @@ class NameTypifiedNames extends React.Component<{
         <h3>{title || "TypifiedNames"}</h3>
         <NameList connection={name.typifiedNames} />
         {relay.hasMore() && (
-          <button onClick={() => this._loadMore()}>Load More</button>
+          <div>
+            <button onClick={() => this._loadMore()}>Load</button>{" "}
+            <input
+              type="text"
+              value={this.state.numToLoad || ""}
+              onChange={(e) => {
+                if (!e.target.value) {
+                  this.setState({ numToLoad: null });
+                  return;
+                }
+                const value = parseInt(e.target.value);
+                if (!isNaN(value)) {
+                  this.setState({ numToLoad: parseInt(e.target.value) });
+                }
+              }}
+            />
+            {" More"}
+          </div>
         )}
       </>
     );
@@ -34,8 +61,10 @@ class NameTypifiedNames extends React.Component<{
       return;
     }
 
-    relay.loadMore(10, (error) => {
-      console.log(error);
+    relay.loadMore(this.state.numToLoad || 10, (error) => {
+      if (error) {
+        console.log(error);
+      }
     });
   }
 }

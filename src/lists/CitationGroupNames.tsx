@@ -7,11 +7,21 @@ import graphql from "babel-plugin-relay/macro";
 
 import NameList from "../components/NameList";
 
-class CitationGroupNames extends React.Component<{
+interface CitationGroupNamesProps {
   citationGroup: CitationGroupNames_citationGroup;
   title?: string;
   relay: RelayPaginationProp;
-}> {
+}
+
+class CitationGroupNames extends React.Component<
+  CitationGroupNamesProps,
+  { numToLoad: number | null }
+> {
+  constructor(props: CitationGroupNamesProps) {
+    super(props);
+    this.state = { numToLoad: 10 };
+  }
+
   render() {
     const { citationGroup, relay, title } = this.props;
     if (!citationGroup.names || citationGroup.names.edges.length === 0) {
@@ -22,7 +32,24 @@ class CitationGroupNames extends React.Component<{
         <h3>{title || "Names"}</h3>
         <NameList connection={citationGroup.names} />
         {relay.hasMore() && (
-          <button onClick={() => this._loadMore()}>Load More</button>
+          <div>
+            <button onClick={() => this._loadMore()}>Load</button>{" "}
+            <input
+              type="text"
+              value={this.state.numToLoad || ""}
+              onChange={(e) => {
+                if (!e.target.value) {
+                  this.setState({ numToLoad: null });
+                  return;
+                }
+                const value = parseInt(e.target.value);
+                if (!isNaN(value)) {
+                  this.setState({ numToLoad: parseInt(e.target.value) });
+                }
+              }}
+            />
+            {" More"}
+          </div>
         )}
       </>
     );
@@ -34,8 +61,10 @@ class CitationGroupNames extends React.Component<{
       return;
     }
 
-    relay.loadMore(10, (error) => {
-      console.log(error);
+    relay.loadMore(this.state.numToLoad || 10, (error) => {
+      if (error) {
+        console.log(error);
+      }
     });
   }
 }

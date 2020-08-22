@@ -7,11 +7,21 @@ import graphql from "babel-plugin-relay/macro";
 
 import ModelLink from "../components/ModelLink";
 
-class RegionPeriods extends React.Component<{
+interface RegionPeriodsProps {
   region: RegionPeriods_region;
   title?: string;
   relay: RelayPaginationProp;
-}> {
+}
+
+class RegionPeriods extends React.Component<
+  RegionPeriodsProps,
+  { numToLoad: number }
+> {
+  constructor(props: RegionPeriodsProps) {
+    super(props);
+    this.state = { numToLoad: 10 };
+  }
+
   render() {
     const { region, relay, title } = this.props;
     if (!region.periods || region.periods.edges.length === 0) {
@@ -32,7 +42,20 @@ class RegionPeriods extends React.Component<{
           )}
         </ul>
         {relay.hasMore() && (
-          <button onClick={() => this._loadMore()}>Load More</button>
+          <div>
+            <button onClick={() => this._loadMore()}>Load</button>{" "}
+            <input
+              type="text"
+              value={this.state.numToLoad}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                if (!isNaN(value)) {
+                  this.setState({ numToLoad: parseInt(e.target.value) });
+                }
+              }}
+            />
+            {" More"}
+          </div>
         )}
       </>
     );
@@ -44,8 +67,10 @@ class RegionPeriods extends React.Component<{
       return;
     }
 
-    relay.loadMore(10, (error) => {
-      console.log(error);
+    relay.loadMore(this.state.numToLoad, (error) => {
+      if (error) {
+        console.log(error);
+      }
     });
   }
 }
