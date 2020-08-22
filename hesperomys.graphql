@@ -1121,6 +1121,9 @@ type Taxon implements Node & Model {
   children(before: String, after: String, first: Int, last: Int): TaxonConnection
   names(before: String, after: String, first: Int, last: Int): NameConnection
   occurrences(before: String, after: String, first: Int, last: Int): OccurrenceConnection
+  class_: Taxon
+  order: Taxon
+  family: Taxon
 }
 
 type TaxonConnection {
