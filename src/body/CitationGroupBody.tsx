@@ -4,19 +4,37 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import CitationGroupNames from "../lists/CitationGroupNames";
+import CitationGroupArticleSet from "../lists/CitationGroupArticleSet";
+import CitationGroupRedirects from "../lists/CitationGroupRedirects";
+
 class CitationGroupBody extends React.Component<{
   citationGroup: CitationGroupBody_citationGroup;
 }> {
   render() {
-    const { oid } = this.props.citationGroup;
-    return <>{oid}</>;
+    const { citationGroup } = this.props;
+    return (
+      <>
+        <CitationGroupArticleSet
+          citationGroup={citationGroup}
+          title="Publications"
+        />
+        <CitationGroupNames
+          citationGroup={citationGroup}
+          title="Names published here"
+        />
+        <CitationGroupRedirects citationGroup={citationGroup} title="Aliases" />
+      </>
+    );
   }
 }
 
 export default createFragmentContainer(CitationGroupBody, {
   citationGroup: graphql`
     fragment CitationGroupBody_citationGroup on CitationGroup {
-      oid
+      ...CitationGroupRedirects_citationGroup
+      ...CitationGroupArticleSet_citationGroup
+      ...CitationGroupNames_citationGroup
     }
   `,
 });
