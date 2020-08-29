@@ -10,16 +10,16 @@ class CitationGroupSubtitle extends React.Component<{
   citationGroup: CitationGroupSubtitle_citationGroup;
 }> {
   render() {
-    const { type, region } = this.props.citationGroup;
-    switch (type) {
+    const { cgType, region } = this.props.citationGroup;
+    switch (cgType) {
       case "BOOK":
         return (
           <>
             City
             {region && (
               <>
-                {" "}
-                in <ModelLink model={region} />
+                {" in "}
+                <ModelLink model={region} />
               </>
             )}
           </>
@@ -30,8 +30,8 @@ class CitationGroupSubtitle extends React.Component<{
             Journal
             {region && (
               <>
-                {" "}
-                published in <ModelLink model={region} />
+                {" published in "}
+                <ModelLink model={region} />
               </>
             )}
           </>
@@ -42,14 +42,14 @@ class CitationGroupSubtitle extends React.Component<{
             University
             {region && (
               <>
-                {" "}
-                in <ModelLink model={region} />
+                {" in "}
+                <ModelLink model={region} />
               </>
             )}
           </>
         );
       default:
-        return <>{type.toLowerCase()}</>;
+        return <>{cgType.toLowerCase()}</>;
     }
   }
 }
@@ -57,7 +57,7 @@ class CitationGroupSubtitle extends React.Component<{
 export default createFragmentContainer(CitationGroupSubtitle, {
   citationGroup: graphql`
     fragment CitationGroupSubtitle_citationGroup on CitationGroup {
-      type
+      cgType: type
       region {
         ...ModelLink_model
       }
