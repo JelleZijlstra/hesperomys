@@ -7,6 +7,8 @@ import graphql from "babel-plugin-relay/macro";
 import MaybeItalics from "../components/MaybeItalics";
 import ModelLink from "../components/ModelLink";
 import Table from "../components/Table";
+import NameTags from "../components/NameTags";
+import NameTypeTags from "../components/NameTypeTags";
 
 function NameSection({ name }: { name: NameBody_name }) {
   const {
@@ -48,6 +50,10 @@ function NameSection({ name }: { name: NameBody_name }) {
           ],
         ]}
       />
+      <NameTypeTags
+        name={name}
+        tagsToInclude={["CitationDetail", "DefinitionDetail"]}
+      />
     </>
   );
 }
@@ -72,6 +78,8 @@ function NomenclatureSection({ name }: { name: NameBody_name }) {
           ],
         ]}
       />
+      <NameTags name={name} />
+      <NameTypeTags name={name} tagsToInclude={["EtymologyDetail"]} />
     </>
   );
 }
@@ -106,6 +114,27 @@ function TypeSection({ name }: { name: NameBody_name }) {
           ["Kind of type", genusTypeKind],
         ]}
       />
+      <NameTypeTags
+        name={name}
+        tagsToInclude={[
+          "Age",
+          "Collector",
+          "Date",
+          "Gender",
+          "GenusCoelebs",
+          "Host",
+          "IncludedSpecies",
+          "Repository",
+          "CollectionDetail",
+          "CommmissionTypeDesignation",
+          "ProbableRepository",
+          "SpecimenDetail",
+          "Organ",
+          "LectotypeDesignation",
+          "NeotypeDesignation",
+          "TypeDesignation",
+        ]}
+      />
     </>
   );
 }
@@ -124,6 +153,16 @@ function LocationSection({ name }: { name: NameBody_name }) {
             "Type locality",
             typeLocality ? <ModelLink model={typeLocality} /> : null,
           ],
+        ]}
+      />
+      <NameTypeTags
+        name={name}
+        tagsToInclude={[
+          "Altitude",
+          "Coordinates",
+          "LocationDetail",
+          "Habitat",
+          "StratigraphyDetail",
         ]}
       />
     </>
@@ -148,7 +187,8 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
 export default createFragmentContainer(NameBody, {
   name: graphql`
     fragment NameBody_name on Name {
-      id
+      ...NameTypeTags_name
+
       originalName
       correctedOriginalName
       group
@@ -170,6 +210,7 @@ export default createFragmentContainer(NameBody, {
       speciesNameComplex {
         ...ModelLink_model
       }
+      ...NameTags_name
 
       typeSpecimen
       collection {

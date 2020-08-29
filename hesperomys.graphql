@@ -138,7 +138,7 @@ enum ArticleType {
 type CitationDetail implements TypeTag {
   _Ignored: ID!
   text: String
-  source: Article
+  source: Article!
 }
 
 type CitationGroup implements Node & Model {
@@ -211,7 +211,7 @@ type CollectionConnection {
 type CollectionDetail implements TypeTag {
   _Ignored: ID!
   text: String
-  source: Article
+  source: Article!
 }
 
 type CollectionEdge {
@@ -247,13 +247,13 @@ enum CommentKind {
 
 type CommissionTypeDesignation implements TypeTag {
   _Ignored: ID!
-  opinion: Article
-  type: Name
+  opinion: Article!
+  type: Name!
 }
 
 type Conserved implements NameTag {
   _Ignored: ID!
-  opinion: Article
+  opinion: Article!
   comment: String
 }
 
@@ -271,7 +271,7 @@ type Date implements TypeTag {
 type DefinitionDetail implements TypeTag {
   _Ignored: ID!
   text: String
-  source: Article
+  source: Article!
 }
 
 type ETMNA implements LocationTag {
@@ -295,7 +295,7 @@ enum EmendationJustification {
 type EtymologyDetail implements TypeTag {
   _Ignored: ID!
   text: String
-  source: Article
+  source: Article!
 }
 
 type Eurobats implements ArticleTag {
@@ -310,7 +310,7 @@ type FullIssue implements ArticleTag {
 
 type FullySuppressedBy implements NameTag {
   _Ignored: ID!
-  opinion: Article
+  opinion: Article!
   comment: String
 }
 
@@ -389,19 +389,19 @@ type IgnorePotentialCitations implements CitationGroupTag {
 
 type IncludedSpecies implements TypeTag {
   _Ignored: ID!
-  name: Name
+  name: Name!
   comment: String
 }
 
 type IncorrectOriginalSpellingOf implements NameTag {
   _Ignored: ID!
-  name: Name
+  name: Name!
   comment: String
 }
 
 type IncorrectSubsequentSpellingOf implements NameTag {
   _Ignored: ID!
-  name: Name
+  name: Name!
   comment: String
 }
 
@@ -412,14 +412,14 @@ type JSTOR implements ArticleTag {
 
 type JustifiedEmendationOf implements NameTag {
   _Ignored: ID!
-  name: Name
+  name: Name!
   justification: EmendationJustification
   comment: String
 }
 
 type LectotypeDesignation implements TypeTag {
   _Ignored: ID!
-  source: Article
+  source: Article!
   lectotype: String
   valid: Boolean
   comment: String
@@ -456,7 +456,7 @@ type LocationConnection {
 type LocationDetail implements TypeTag {
   _Ignored: ID!
   text: String
-  source: Article
+  source: Article!
 }
 
 type LocationEdge {
@@ -470,7 +470,7 @@ interface LocationTag {
 
 type MandatoryChangeOf implements NameTag {
   _Ignored: ID!
-  name: Name
+  name: Name!
   comment: String
 }
 
@@ -609,7 +609,7 @@ interface NameTag {
 
 type NeotypeDesignation implements TypeTag {
   _Ignored: ID!
-  source: Article
+  source: Article!
   neotype: String
   valid: Boolean
   comment: String
@@ -621,13 +621,13 @@ interface Node {
 
 type NomenNovumFor implements NameTag {
   _Ignored: ID!
-  name: Name
+  name: Name!
   comment: String
 }
 
 type NomenOblitum implements NameTag {
   _Ignored: ID!
-  name: Name
+  name: Name!
   comment: String
 }
 
@@ -753,7 +753,7 @@ type PageInfo {
 
 type PartiallySuppressedBy implements NameTag {
   _Ignored: ID!
-  opinion: Article
+  opinion: Article!
   comment: String
 }
 
@@ -826,13 +826,13 @@ enum PeriodSystem {
 
 type PreoccupiedBy implements NameTag {
   _Ignored: ID!
-  name: Name
+  name: Name!
   comment: String
 }
 
 type ProbableRepository implements TypeTag {
   _Ignored: ID!
-  repository: Collection
+  repository: Collection!
   reasoning: String
 }
 
@@ -946,32 +946,32 @@ enum RegionKind {
 
 type Rejected implements NameTag {
   _Ignored: ID!
-  opinion: Article
+  opinion: Article!
   comment: String
 }
 
 type Repository implements TypeTag {
   _Ignored: ID!
-  repository: Collection
+  repository: Collection!
 }
 
 type ReversalOfPriority implements NameTag {
   _Ignored: ID!
-  over: Name
-  opinion: Article
+  over: Name!
+  opinion: Article!
   comment: String
 }
 
 type SelectionOfPriority implements NameTag {
   _Ignored: ID!
-  over: Name
-  source: Article
+  over: Name!
+  source: Article!
   comment: String
 }
 
 type SelectionOfSpelling implements NameTag {
   _Ignored: ID!
-  source: Article
+  source: Article!
   comment: String
 }
 
@@ -1059,7 +1059,7 @@ enum SpecimenAge {
 type SpecimenDetail implements TypeTag {
   _Ignored: ID!
   text: String
-  source: Article
+  source: Article!
 }
 
 enum SpecimenGender {
@@ -1097,13 +1097,13 @@ type StratigraphyDetail implements TypeTag {
 
 type SubsequentUsageOf implements NameTag {
   _Ignored: ID!
-  name: Name
+  name: Name!
   comment: String
 }
 
 type TakesPriorityOf implements NameTag {
   _Ignored: ID!
-  name: Name
+  name: Name!
   comment: String
 }
 
@@ -1138,8 +1138,8 @@ type TaxonEdge {
 
 type TypeDesignation implements TypeTag {
   _Ignored: ID!
-  source: Article
-  type: Name
+  source: Article!
+  type: Name!
   comment: String
 }
 
@@ -1164,7 +1164,7 @@ enum TypeSpeciesDesignation {
 type TypeSpeciesDetail implements TypeTag {
   _Ignored: ID!
   text: String
-  source: Article
+  source: Article!
 }
 
 interface TypeTag {
@@ -1173,12 +1173,12 @@ interface TypeTag {
 
 type UnjustifiedEmendationOf implements NameTag {
   _Ignored: ID!
-  name: Name
+  name: Name!
   comment: String
 }
 
 type VariantOf implements NameTag {
   _Ignored: ID!
-  name: Name
+  name: Name!
   comment: String
 }
