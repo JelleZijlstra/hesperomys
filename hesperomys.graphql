@@ -567,7 +567,7 @@ type NameComplex implements Node & Model {
   sourceLanguage: SourceLanguage!
   codeArticle: GenderArticle!
   gender: GrammaticalGender!
-  comment: String!
+  comment: String
   stemRemove: String!
   stemAdd: String!
   endings(before: String, after: String, first: Int, last: Int): NameEndingConnection
@@ -1008,7 +1008,7 @@ type SpeciesNameComplex implements Node & Model {
   masculineEnding: String!
   feminineEnding: String!
   neuterEnding: String!
-  comment: String!
+  comment: String
   endings(before: String, after: String, first: Int, last: Int): SpeciesNameEndingConnection
   names(before: String, after: String, first: Int, last: Int): NameConnection
 }

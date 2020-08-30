@@ -10,6 +10,7 @@ import Title from "../title/Title";
 import Subtitle from "../subtitle/Subtitle";
 import SiteHeader from "./SiteHeader";
 import Body from "../body/Body";
+import ModelLink from "./ModelLink";
 
 export default function ModelMain() {
   const { callSign, oid } = useParams();
@@ -24,6 +25,7 @@ export default function ModelMain() {
             ...Title_model
             ...Subtitle_model
             ...Body_model
+            ...ModelLink_model
           }
         }
       `}
@@ -40,7 +42,25 @@ export default function ModelMain() {
         }
         if (props.models.length > 1) {
           // TODO link them all
-          return <div>Multiple found</div>;
+          return (
+            <>
+              <SiteHeader>
+                <>
+                  /{callSign}/{oid}
+                </>
+              </SiteHeader>
+              <ul>
+                {props.models.map(
+                  (model) =>
+                    model && (
+                      <li key={model.oid}>
+                        <ModelLink model={model} />
+                      </li>
+                    )
+                )}
+              </ul>
+            </>
+          );
         }
         const [model] = props.models;
         if (model === null) {
