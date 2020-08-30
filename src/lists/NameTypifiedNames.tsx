@@ -5,67 +5,30 @@ import { NameTypifiedNames_name } from "./__generated__/NameTypifiedNames_name.g
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
 
 interface NameTypifiedNamesProps {
   name: NameTypifiedNames_name;
   title?: string;
+  hideTitle?: boolean;
+  numToLoad?: number;
   relay: RelayPaginationProp;
 }
 
-class NameTypifiedNames extends React.Component<
-  NameTypifiedNamesProps,
-  { numToLoad: number | null }
-> {
-  constructor(props: NameTypifiedNamesProps) {
-    super(props);
-    this.state = { numToLoad: 10 };
-  }
-
+class NameTypifiedNames extends React.Component<NameTypifiedNamesProps> {
   render() {
-    const { name, relay, title } = this.props;
+    const { name, relay, numToLoad, hideTitle, title } = this.props;
     if (!name.typifiedNames || name.typifiedNames.edges.length === 0) {
       return null;
     }
     return (
       <>
-        <h3>{title || "TypifiedNames"}</h3>
+        {!hideTitle && <h3>{title || "TypifiedNames"}</h3>}
         <NameList connection={name.typifiedNames} />
-        {relay.hasMore() && (
-          <div>
-            <button onClick={() => this._loadMore()}>Load</button>{" "}
-            <input
-              type="text"
-              value={this.state.numToLoad || ""}
-              onChange={(e) => {
-                if (!e.target.value) {
-                  this.setState({ numToLoad: null });
-                  return;
-                }
-                const value = parseInt(e.target.value);
-                if (!isNaN(value)) {
-                  this.setState({ numToLoad: parseInt(e.target.value) });
-                }
-              }}
-            />
-            {" More"}
-          </div>
-        )}
+        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
       </>
     );
-  }
-
-  _loadMore() {
-    const { relay } = this.props;
-    if (!relay.hasMore() || relay.isLoading()) {
-      return;
-    }
-
-    relay.loadMore(this.state.numToLoad || 10, (error) => {
-      if (error) {
-        console.log(error);
-      }
-    });
   }
 }
 

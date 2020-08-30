@@ -563,7 +563,7 @@ type NameComplex implements Node & Model {
   oid: Int!
   callSign: String!
   label: String!
-  stem: String!
+  stem: String
   sourceLanguage: SourceLanguage!
   codeArticle: GenderArticle!
   gender: GrammaticalGender!
@@ -1003,7 +1003,7 @@ type SpeciesNameComplex implements Node & Model {
   oid: Int!
   callSign: String!
   label: String!
-  stem: String!
+  stem: String
   kind: SpeciesNameKind!
   masculineEnding: String!
   feminineEnding: String!

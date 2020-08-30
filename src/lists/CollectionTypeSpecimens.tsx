@@ -5,25 +5,22 @@ import { CollectionTypeSpecimens_collection } from "./__generated__/CollectionTy
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
 
 interface CollectionTypeSpecimensProps {
   collection: CollectionTypeSpecimens_collection;
   title?: string;
+  hideTitle?: boolean;
+  numToLoad?: number;
   relay: RelayPaginationProp;
 }
 
 class CollectionTypeSpecimens extends React.Component<
-  CollectionTypeSpecimensProps,
-  { numToLoad: number | null }
+  CollectionTypeSpecimensProps
 > {
-  constructor(props: CollectionTypeSpecimensProps) {
-    super(props);
-    this.state = { numToLoad: 10 };
-  }
-
   render() {
-    const { collection, relay, title } = this.props;
+    const { collection, relay, numToLoad, hideTitle, title } = this.props;
     if (
       !collection.typeSpecimens ||
       collection.typeSpecimens.edges.length === 0
@@ -32,43 +29,11 @@ class CollectionTypeSpecimens extends React.Component<
     }
     return (
       <>
-        <h3>{title || "TypeSpecimens"}</h3>
+        {!hideTitle && <h3>{title || "TypeSpecimens"}</h3>}
         <NameList connection={collection.typeSpecimens} />
-        {relay.hasMore() && (
-          <div>
-            <button onClick={() => this._loadMore()}>Load</button>{" "}
-            <input
-              type="text"
-              value={this.state.numToLoad || ""}
-              onChange={(e) => {
-                if (!e.target.value) {
-                  this.setState({ numToLoad: null });
-                  return;
-                }
-                const value = parseInt(e.target.value);
-                if (!isNaN(value)) {
-                  this.setState({ numToLoad: parseInt(e.target.value) });
-                }
-              }}
-            />
-            {" More"}
-          </div>
-        )}
+        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
       </>
     );
-  }
-
-  _loadMore() {
-    const { relay } = this.props;
-    if (!relay.hasMore() || relay.isLoading()) {
-      return;
-    }
-
-    relay.loadMore(this.state.numToLoad || 10, (error) => {
-      if (error) {
-        console.log(error);
-      }
-    });
   }
 }
 

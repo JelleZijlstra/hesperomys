@@ -5,73 +5,38 @@ import { ArticleOccurrences_article } from "./__generated__/ArticleOccurrences_a
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-import ModelLink from "../components/ModelLink";
+import LoadMoreButton from "../components/LoadMoreButton";
+import ModelListEntry from "../components/ModelListEntry";
 
 interface ArticleOccurrencesProps {
   article: ArticleOccurrences_article;
   title?: string;
+  hideTitle?: boolean;
+  numToLoad?: number;
   relay: RelayPaginationProp;
 }
 
-class ArticleOccurrences extends React.Component<
-  ArticleOccurrencesProps,
-  { numToLoad: number }
-> {
-  constructor(props: ArticleOccurrencesProps) {
-    super(props);
-    this.state = { numToLoad: 10 };
-  }
-
+class ArticleOccurrences extends React.Component<ArticleOccurrencesProps> {
   render() {
-    const { article, relay, title } = this.props;
+    const { article, relay, numToLoad, hideTitle, title } = this.props;
     if (!article.occurrences || article.occurrences.edges.length === 0) {
       return null;
     }
     return (
       <>
-        <h3>{title || "Occurrences"}</h3>
+        {!hideTitle && <h3>{title || "Occurrences"}</h3>}
         <ul>
           {article.occurrences.edges.map(
             (edge) =>
               edge &&
               edge.node && (
-                <li key={edge.node.oid}>
-                  <ModelLink model={edge.node} />
-                </li>
+                <ModelListEntry key={edge.node.oid} model={edge.node} />
               )
           )}
         </ul>
-        {relay.hasMore() && (
-          <div>
-            <button onClick={() => this._loadMore()}>Load</button>{" "}
-            <input
-              type="text"
-              value={this.state.numToLoad}
-              onChange={(e) => {
-                const value = parseInt(e.target.value);
-                if (!isNaN(value)) {
-                  this.setState({ numToLoad: parseInt(e.target.value) });
-                }
-              }}
-            />
-            {" More"}
-          </div>
-        )}
+        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
       </>
     );
-  }
-
-  _loadMore() {
-    const { relay } = this.props;
-    if (!relay.hasMore() || relay.isLoading()) {
-      return;
-    }
-
-    relay.loadMore(this.state.numToLoad, (error) => {
-      if (error) {
-        console.log(error);
-      }
-    });
   }
 }
 
@@ -90,7 +55,7 @@ export default createPaginationContainer(
           edges {
             node {
               oid
-              ...ModelLink_model
+              ...ModelListEntry_model
             }
           }
         }

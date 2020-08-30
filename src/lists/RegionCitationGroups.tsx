@@ -5,73 +5,38 @@ import { RegionCitationGroups_region } from "./__generated__/RegionCitationGroup
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-import ModelLink from "../components/ModelLink";
+import LoadMoreButton from "../components/LoadMoreButton";
+import ModelListEntry from "../components/ModelListEntry";
 
 interface RegionCitationGroupsProps {
   region: RegionCitationGroups_region;
   title?: string;
+  hideTitle?: boolean;
+  numToLoad?: number;
   relay: RelayPaginationProp;
 }
 
-class RegionCitationGroups extends React.Component<
-  RegionCitationGroupsProps,
-  { numToLoad: number }
-> {
-  constructor(props: RegionCitationGroupsProps) {
-    super(props);
-    this.state = { numToLoad: 10 };
-  }
-
+class RegionCitationGroups extends React.Component<RegionCitationGroupsProps> {
   render() {
-    const { region, relay, title } = this.props;
+    const { region, relay, numToLoad, hideTitle, title } = this.props;
     if (!region.citationGroups || region.citationGroups.edges.length === 0) {
       return null;
     }
     return (
       <>
-        <h3>{title || "CitationGroups"}</h3>
+        {!hideTitle && <h3>{title || "CitationGroups"}</h3>}
         <ul>
           {region.citationGroups.edges.map(
             (edge) =>
               edge &&
               edge.node && (
-                <li key={edge.node.oid}>
-                  <ModelLink model={edge.node} />
-                </li>
+                <ModelListEntry key={edge.node.oid} model={edge.node} />
               )
           )}
         </ul>
-        {relay.hasMore() && (
-          <div>
-            <button onClick={() => this._loadMore()}>Load</button>{" "}
-            <input
-              type="text"
-              value={this.state.numToLoad}
-              onChange={(e) => {
-                const value = parseInt(e.target.value);
-                if (!isNaN(value)) {
-                  this.setState({ numToLoad: parseInt(e.target.value) });
-                }
-              }}
-            />
-            {" More"}
-          </div>
-        )}
+        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
       </>
     );
-  }
-
-  _loadMore() {
-    const { relay } = this.props;
-    if (!relay.hasMore() || relay.isLoading()) {
-      return;
-    }
-
-    relay.loadMore(this.state.numToLoad, (error) => {
-      if (error) {
-        console.log(error);
-      }
-    });
   }
 }
 
@@ -90,7 +55,7 @@ export default createPaginationContainer(
           edges {
             node {
               oid
-              ...ModelLink_model
+              ...ModelListEntry_model
             }
           }
         }

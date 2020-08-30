@@ -12,69 +12,40 @@ import { %(type_upper)s%(conn_upper)s_%(type_lower)s } from "./__generated__/%(t
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-import ModelLink from "../components/ModelLink";
+import LoadMoreButton from "../components/LoadMoreButton";
+import ModelListEntry from "../components/ModelListEntry";
 
 interface %(type_upper)s%(conn_upper)sProps {
   %(type_lower)s: %(type_upper)s%(conn_upper)s_%(type_lower)s;
   title?: string;
+  hideTitle?: boolean;
+  numToLoad?: number;
   relay: RelayPaginationProp;
 };
 
 class %(type_upper)s%(conn_upper)s extends React.Component<
-  %(type_upper)s%(conn_upper)sProps,
-  { numToLoad: number }
+  %(type_upper)s%(conn_upper)sProps
 > {
-  constructor(props: %(type_upper)s%(conn_upper)sProps) {
-    super(props);
-    this.state = { numToLoad: 10 };
-  }
-
   render() {
-    const { %(type_lower)s, relay, title } = this.props;
+    const { %(type_lower)s, relay, numToLoad, hideTitle, title } = this.props;
     if (!%(type_lower)s.%(conn_lower)s || %(type_lower)s.%(conn_lower)s.edges.length === 0) {
       return null;
     }
     return (
       <>
-        <h3>{title || "%(conn_upper)s"}</h3>
+        {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
         <ul>
           {%(type_lower)s.%(conn_lower)s.edges.map(
             (edge) =>
               edge &&
               edge.node && (
-                <li key={edge.node.oid}>
-                  <ModelLink model={edge.node} />
-                </li>
+                <ModelListEntry key={edge.node.oid} model={edge.node} />
               )
           )}
         </ul>
-        {relay.hasMore() && (
-          <div>
-            <button onClick={() => this._loadMore()}>Load</button>{" "}
-            <input type="text" value={this.state.numToLoad} onChange={e => {
-              const value = parseInt(e.target.value);
-              if (!isNaN(value)) {
-                this.setState({ numToLoad: parseInt(e.target.value) });
-              }
-            }} />
-            {" More"}
-          </div>
-        )}
+        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
       </>
     );
-  }
-
-  _loadMore() {
-    const { relay } = this.props;
-    if (!relay.hasMore() || relay.isLoading()) {
-      return;
-    }
-
-    relay.loadMore(this.state.numToLoad, error => {
-      if (error) {
-        console.log(error);
-      }
-    });
   }
 }
 
@@ -93,7 +64,7 @@ export default createPaginationContainer(
           edges {
             node {
               oid
-              ...ModelLink_model
+              ...ModelListEntry_model
             }
           }
         }
@@ -131,25 +102,22 @@ import { %(type_upper)s%(conn_upper)s_%(type_lower)s } from "./__generated__/%(t
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import LoadMoreButton from "../components/LoadMoreButton";
 import %(node_type_upper)sList from "../components/%(node_type_upper)sList";
 
 interface %(type_upper)s%(conn_upper)sProps {
   %(type_lower)s: %(type_upper)s%(conn_upper)s_%(type_lower)s;
   title?: string;
+  hideTitle?: boolean;
+  numToLoad?: number;
   relay: RelayPaginationProp;
 };
 
 class %(type_upper)s%(conn_upper)s extends React.Component<
-  %(type_upper)s%(conn_upper)sProps,
-  { numToLoad: number | null }
+  %(type_upper)s%(conn_upper)sProps
 > {
-  constructor(props: %(type_upper)s%(conn_upper)sProps) {
-    super(props);
-    this.state = { numToLoad: 10 };
-  }
-
   render() {
-    const { %(type_lower)s, relay, title } = this.props;
+    const { %(type_lower)s, relay, numToLoad, hideTitle, title } = this.props;
     if (
       !%(type_lower)s.%(conn_lower)s ||
       %(type_lower)s.%(conn_lower)s.edges.length === 0
@@ -158,39 +126,11 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
     }
     return (
       <>
-        <h3>{title || "%(conn_upper)s"}</h3>
+        {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
         <%(node_type_upper)sList connection={%(type_lower)s.%(conn_lower)s} />
-        {relay.hasMore() && (
-          <div>
-            <button onClick={() => this._loadMore()}>Load</button>{" "}
-            <input type="text" value={this.state.numToLoad || ""} onChange={e => {
-              if (!e.target.value) {
-                this.setState({ numToLoad: null });
-                return;
-              }
-              const value = parseInt(e.target.value);
-              if (!isNaN(value)) {
-                this.setState({ numToLoad: parseInt(e.target.value) });
-              }
-            }} />
-            {" More"}
-          </div>
-        )}
+        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
       </>
     );
-  }
-
-  _loadMore() {
-    const { relay } = this.props;
-    if (!relay.hasMore() || relay.isLoading()) {
-      return;
-    }
-
-    relay.loadMore(this.state.numToLoad || 10, error => {
-      if (error) {
-        console.log(error);
-      }
-    });
   }
 }
 
