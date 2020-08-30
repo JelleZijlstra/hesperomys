@@ -24,8 +24,13 @@ interface %(type_upper)s%(conn_upper)sProps {
 };
 
 class %(type_upper)s%(conn_upper)s extends React.Component<
-  %(type_upper)s%(conn_upper)sProps
+  %(type_upper)s%(conn_upper)sProps, { expandAll: boolean }
 > {
+  constructor(props: %(type_upper)s%(conn_upper)sProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { %(type_lower)s, relay, numToLoad, hideTitle, title } = this.props;
     if (!%(type_lower)s.%(conn_lower)s || %(type_lower)s.%(conn_lower)s.edges.length === 0) {
@@ -39,11 +44,16 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry key={edge.node.oid} model={edge.node} showChildren={this.state.expandAll} />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={%(set_expand_all)s}
+        />
       </>
     );
   }
@@ -229,6 +239,9 @@ def write_component(
         "conn_upper": conn_upper,
         "conn_lower": conn_lower,
         "node_type_upper": field_type,
+        "set_expand_all": "(expandAll: boolean) => this.setState({ expandAll })"
+        if field_type in ["Taxon", "Region", "Period", "Location", "Collection"]
+        else "undefined",
     }
     if field_type in LIST_TYPES:
         text = LIST_TEMPLATE % args

@@ -16,7 +16,15 @@ interface PeriodChildrenMinProps {
   relay: RelayPaginationProp;
 }
 
-class PeriodChildrenMin extends React.Component<PeriodChildrenMinProps> {
+class PeriodChildrenMin extends React.Component<
+  PeriodChildrenMinProps,
+  { expandAll: boolean }
+> {
+  constructor(props: PeriodChildrenMinProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { period, relay, numToLoad, hideTitle, title } = this.props;
     if (!period.childrenMin || period.childrenMin.edges.length === 0) {
@@ -30,11 +38,20 @@ class PeriodChildrenMin extends React.Component<PeriodChildrenMinProps> {
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={(expandAll: boolean) => this.setState({ expandAll })}
+        />
       </>
     );
   }

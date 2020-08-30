@@ -5,29 +5,39 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
 import ModelLink from "./ModelLink";
+import ModelChildList, { supportsChildren } from "./ModelChildList";
 
 class ModelListEntry extends React.Component<
-  { model: ModelListEntry_model },
-  { showChildren: boolean }
+  { model: ModelListEntry_model; showChildren?: boolean },
+  { showChildren: boolean | null }
 > {
-  constructor(props: { model: ModelListEntry_model }) {
+  constructor(props: { model: ModelListEntry_model; showChildren?: boolean }) {
     super(props);
-    this.state = { showChildren: false };
+    this.state = { showChildren: null };
   }
   render() {
     const { model } = this.props;
+    const showChildren =
+      this.state.showChildren === null
+        ? this.props.showChildren
+        : this.state.showChildren;
     return (
       <li>
         <ModelLink model={model} />{" "}
-        <small
-          onClick={() =>
-            this.setState((state) => {
-              return { showChildren: !state.showChildren };
-            })
-          }
-        >
-          {this.state.showChildren ? "hide" : "show"}
-        </small>
+        {supportsChildren(model) && (
+          <>
+            <small
+              onClick={() =>
+                this.setState((state) => {
+                  return { showChildren: !showChildren };
+                })
+              }
+            >
+              {showChildren ? "hide" : "show"}
+            </small>
+            {showChildren && <ModelChildList model={model} />}
+          </>
+        )}
       </li>
     );
   }
@@ -36,8 +46,8 @@ class ModelListEntry extends React.Component<
 export default createFragmentContainer(ModelListEntry, {
   model: graphql`
     fragment ModelListEntry_model on Model {
-      oid
-      callSign
+      __typename
+      ...ModelChildList_model
       ...ModelLink_model
     }
   `,

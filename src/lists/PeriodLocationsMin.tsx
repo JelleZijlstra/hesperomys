@@ -16,7 +16,15 @@ interface PeriodLocationsMinProps {
   relay: RelayPaginationProp;
 }
 
-class PeriodLocationsMin extends React.Component<PeriodLocationsMinProps> {
+class PeriodLocationsMin extends React.Component<
+  PeriodLocationsMinProps,
+  { expandAll: boolean }
+> {
+  constructor(props: PeriodLocationsMinProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { period, relay, numToLoad, hideTitle, title } = this.props;
     if (!period.locationsMin || period.locationsMin.edges.length === 0) {
@@ -30,11 +38,20 @@ class PeriodLocationsMin extends React.Component<PeriodLocationsMinProps> {
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={(expandAll: boolean) => this.setState({ expandAll })}
+        />
       </>
     );
   }

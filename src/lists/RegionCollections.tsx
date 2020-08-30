@@ -16,7 +16,15 @@ interface RegionCollectionsProps {
   relay: RelayPaginationProp;
 }
 
-class RegionCollections extends React.Component<RegionCollectionsProps> {
+class RegionCollections extends React.Component<
+  RegionCollectionsProps,
+  { expandAll: boolean }
+> {
+  constructor(props: RegionCollectionsProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { region, relay, numToLoad, hideTitle, title } = this.props;
     if (!region.collections || region.collections.edges.length === 0) {
@@ -30,11 +38,20 @@ class RegionCollections extends React.Component<RegionCollectionsProps> {
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={(expandAll: boolean) => this.setState({ expandAll })}
+        />
       </>
     );
   }

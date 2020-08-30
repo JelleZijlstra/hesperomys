@@ -16,7 +16,15 @@ interface ArticleOccurrencesProps {
   relay: RelayPaginationProp;
 }
 
-class ArticleOccurrences extends React.Component<ArticleOccurrencesProps> {
+class ArticleOccurrences extends React.Component<
+  ArticleOccurrencesProps,
+  { expandAll: boolean }
+> {
+  constructor(props: ArticleOccurrencesProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { article, relay, numToLoad, hideTitle, title } = this.props;
     if (!article.occurrences || article.occurrences.edges.length === 0) {
@@ -30,11 +38,20 @@ class ArticleOccurrences extends React.Component<ArticleOccurrencesProps> {
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={undefined}
+        />
       </>
     );
   }

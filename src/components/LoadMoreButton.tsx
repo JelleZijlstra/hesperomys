@@ -4,6 +4,8 @@ import { RelayPaginationProp } from "react-relay";
 interface LoadMoreButtonProps {
   numToLoad: number;
   relay: RelayPaginationProp;
+  expandAll?: boolean;
+  setExpandAll?: (expandAll: boolean) => void;
 }
 
 export default class LoadMoreButton extends React.Component<
@@ -15,24 +17,37 @@ export default class LoadMoreButton extends React.Component<
     this.state = { value: props.numToLoad };
   }
   render() {
-    const { relay } = this.props;
-    if (!relay.hasMore()) {
+    const { relay, expandAll, setExpandAll } = this.props;
+    const hasMore = relay.hasMore();
+    if (!hasMore && !setExpandAll) {
       return null;
     }
     return (
       <div>
-        <button onClick={() => this._loadMore()}>Load</button>{" "}
-        <input
-          type="text"
-          value={this.state.value}
-          onChange={(e) => {
-            const value = parseInt(e.target.value);
-            if (!isNaN(value)) {
-              this.setState({ value });
-            }
-          }}
-        />
-        {" More"}
+        <small>
+          {hasMore && (
+            <>
+              <button onClick={() => this._loadMore()}>Load</button>{" "}
+              <input
+                type="text"
+                value={this.state.value}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value);
+                  if (!isNaN(value)) {
+                    this.setState({ value });
+                  }
+                }}
+              />
+              {" more"}
+            </>
+          )}
+          {setExpandAll && hasMore && <> or </>}
+          {setExpandAll && (
+            <span onClick={() => setExpandAll(!expandAll)}>
+              {expandAll ? "unexpand all" : "expand all"}
+            </span>
+          )}
+        </small>
       </div>
     );
   }

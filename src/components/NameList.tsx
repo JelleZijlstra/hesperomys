@@ -102,9 +102,7 @@ class NameList extends React.Component<{ connection: NameList_connection }> {
       <ul>
         {Array.from(node.childGroups.values()).map((childGroup) => (
           <li key={childGroup.taxon.oid}>
-            <b>
-              <ModelLink model={childGroup.taxon} />
-            </b>
+            <ModelLink model={childGroup.taxon} />
             {this.renderTree(childGroup.node)}
           </li>
         ))}

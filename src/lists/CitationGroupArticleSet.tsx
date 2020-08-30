@@ -17,8 +17,14 @@ interface CitationGroupArticleSetProps {
 }
 
 class CitationGroupArticleSet extends React.Component<
-  CitationGroupArticleSetProps
+  CitationGroupArticleSetProps,
+  { expandAll: boolean }
 > {
+  constructor(props: CitationGroupArticleSetProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { citationGroup, relay, numToLoad, hideTitle, title } = this.props;
     if (
@@ -35,11 +41,20 @@ class CitationGroupArticleSet extends React.Component<
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={undefined}
+        />
       </>
     );
   }

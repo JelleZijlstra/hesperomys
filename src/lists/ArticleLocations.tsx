@@ -16,7 +16,15 @@ interface ArticleLocationsProps {
   relay: RelayPaginationProp;
 }
 
-class ArticleLocations extends React.Component<ArticleLocationsProps> {
+class ArticleLocations extends React.Component<
+  ArticleLocationsProps,
+  { expandAll: boolean }
+> {
+  constructor(props: ArticleLocationsProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { article, relay, numToLoad, hideTitle, title } = this.props;
     if (!article.locations || article.locations.edges.length === 0) {
@@ -30,11 +38,20 @@ class ArticleLocations extends React.Component<ArticleLocationsProps> {
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={(expandAll: boolean) => this.setState({ expandAll })}
+        />
       </>
     );
   }

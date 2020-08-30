@@ -16,7 +16,15 @@ interface PeriodLocationsMaxProps {
   relay: RelayPaginationProp;
 }
 
-class PeriodLocationsMax extends React.Component<PeriodLocationsMaxProps> {
+class PeriodLocationsMax extends React.Component<
+  PeriodLocationsMaxProps,
+  { expandAll: boolean }
+> {
+  constructor(props: PeriodLocationsMaxProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { period, relay, numToLoad, hideTitle, title } = this.props;
     if (!period.locationsMax || period.locationsMax.edges.length === 0) {
@@ -30,11 +38,20 @@ class PeriodLocationsMax extends React.Component<PeriodLocationsMaxProps> {
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={(expandAll: boolean) => this.setState({ expandAll })}
+        />
       </>
     );
   }

@@ -16,7 +16,15 @@ interface NameComplexEndingsProps {
   relay: RelayPaginationProp;
 }
 
-class NameComplexEndings extends React.Component<NameComplexEndingsProps> {
+class NameComplexEndings extends React.Component<
+  NameComplexEndingsProps,
+  { expandAll: boolean }
+> {
+  constructor(props: NameComplexEndingsProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { nameComplex, relay, numToLoad, hideTitle, title } = this.props;
     if (!nameComplex.endings || nameComplex.endings.edges.length === 0) {
@@ -30,11 +38,20 @@ class NameComplexEndings extends React.Component<NameComplexEndingsProps> {
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={undefined}
+        />
       </>
     );
   }

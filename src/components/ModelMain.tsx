@@ -41,7 +41,6 @@ export default function ModelMain() {
           return <div>Not found</div>;
         }
         if (props.models.length > 1) {
-          // TODO link them all
           return (
             <>
               <SiteHeader>

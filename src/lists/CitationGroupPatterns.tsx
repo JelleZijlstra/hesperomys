@@ -17,8 +17,14 @@ interface CitationGroupPatternsProps {
 }
 
 class CitationGroupPatterns extends React.Component<
-  CitationGroupPatternsProps
+  CitationGroupPatternsProps,
+  { expandAll: boolean }
 > {
+  constructor(props: CitationGroupPatternsProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { citationGroup, relay, numToLoad, hideTitle, title } = this.props;
     if (!citationGroup.patterns || citationGroup.patterns.edges.length === 0) {
@@ -32,11 +38,20 @@ class CitationGroupPatterns extends React.Component<
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={undefined}
+        />
       </>
     );
   }

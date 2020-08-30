@@ -16,7 +16,15 @@ interface LocationTaxaProps {
   relay: RelayPaginationProp;
 }
 
-class LocationTaxa extends React.Component<LocationTaxaProps> {
+class LocationTaxa extends React.Component<
+  LocationTaxaProps,
+  { expandAll: boolean }
+> {
+  constructor(props: LocationTaxaProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { location, relay, numToLoad, hideTitle, title } = this.props;
     if (!location.taxa || location.taxa.edges.length === 0) {
@@ -30,11 +38,20 @@ class LocationTaxa extends React.Component<LocationTaxaProps> {
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={undefined}
+        />
       </>
     );
   }

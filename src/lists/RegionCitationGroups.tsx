@@ -16,7 +16,15 @@ interface RegionCitationGroupsProps {
   relay: RelayPaginationProp;
 }
 
-class RegionCitationGroups extends React.Component<RegionCitationGroupsProps> {
+class RegionCitationGroups extends React.Component<
+  RegionCitationGroupsProps,
+  { expandAll: boolean }
+> {
+  constructor(props: RegionCitationGroupsProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { region, relay, numToLoad, hideTitle, title } = this.props;
     if (!region.citationGroups || region.citationGroups.edges.length === 0) {
@@ -30,11 +38,20 @@ class RegionCitationGroups extends React.Component<RegionCitationGroupsProps> {
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={undefined}
+        />
       </>
     );
   }

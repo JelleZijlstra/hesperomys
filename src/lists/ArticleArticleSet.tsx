@@ -16,7 +16,15 @@ interface ArticleArticleSetProps {
   relay: RelayPaginationProp;
 }
 
-class ArticleArticleSet extends React.Component<ArticleArticleSetProps> {
+class ArticleArticleSet extends React.Component<
+  ArticleArticleSetProps,
+  { expandAll: boolean }
+> {
+  constructor(props: ArticleArticleSetProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { article, relay, numToLoad, hideTitle, title } = this.props;
     if (!article.articleSet || article.articleSet.edges.length === 0) {
@@ -30,11 +38,20 @@ class ArticleArticleSet extends React.Component<ArticleArticleSetProps> {
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={undefined}
+        />
       </>
     );
   }

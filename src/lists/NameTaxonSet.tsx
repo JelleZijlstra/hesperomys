@@ -16,7 +16,15 @@ interface NameTaxonSetProps {
   relay: RelayPaginationProp;
 }
 
-class NameTaxonSet extends React.Component<NameTaxonSetProps> {
+class NameTaxonSet extends React.Component<
+  NameTaxonSetProps,
+  { expandAll: boolean }
+> {
+  constructor(props: NameTaxonSetProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { name, relay, numToLoad, hideTitle, title } = this.props;
     if (!name.taxonSet || name.taxonSet.edges.length === 0) {
@@ -30,11 +38,20 @@ class NameTaxonSet extends React.Component<NameTaxonSetProps> {
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={(expandAll: boolean) => this.setState({ expandAll })}
+        />
       </>
     );
   }

@@ -16,7 +16,15 @@ interface TaxonOccurrencesProps {
   relay: RelayPaginationProp;
 }
 
-class TaxonOccurrences extends React.Component<TaxonOccurrencesProps> {
+class TaxonOccurrences extends React.Component<
+  TaxonOccurrencesProps,
+  { expandAll: boolean }
+> {
+  constructor(props: TaxonOccurrencesProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { taxon, relay, numToLoad, hideTitle, title } = this.props;
     if (!taxon.occurrences || taxon.occurrences.edges.length === 0) {
@@ -30,11 +38,20 @@ class TaxonOccurrences extends React.Component<TaxonOccurrencesProps> {
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={undefined}
+        />
       </>
     );
   }

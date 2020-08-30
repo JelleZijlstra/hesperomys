@@ -16,7 +16,15 @@ interface ArticleCommentsProps {
   relay: RelayPaginationProp;
 }
 
-class ArticleComments extends React.Component<ArticleCommentsProps> {
+class ArticleComments extends React.Component<
+  ArticleCommentsProps,
+  { expandAll: boolean }
+> {
+  constructor(props: ArticleCommentsProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { article, relay, numToLoad, hideTitle, title } = this.props;
     if (!article.comments || article.comments.edges.length === 0) {
@@ -30,11 +38,20 @@ class ArticleComments extends React.Component<ArticleCommentsProps> {
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={undefined}
+        />
       </>
     );
   }

@@ -1,0 +1,183 @@
+import { ModelChildList_model } from "./__generated__/ModelChildList_model.graphql";
+import { ModelChildListCollectionQuery } from "./__generated__/ModelChildListCollectionQuery.graphql";
+import { ModelChildListTaxonQuery } from "./__generated__/ModelChildListTaxonQuery.graphql";
+import { ModelChildListLocationQuery } from "./__generated__/ModelChildListLocationQuery.graphql";
+import { ModelChildListRegionQuery } from "./__generated__/ModelChildListRegionQuery.graphql";
+import { ModelChildListPeriodQuery } from "./__generated__/ModelChildListPeriodQuery.graphql";
+
+import React from "react";
+import environment from "../relayEnvironment";
+import { createFragmentContainer, QueryRenderer } from "react-relay";
+import graphql from "babel-plugin-relay/macro";
+
+import CollectionTypeSpecimens from "../lists/CollectionTypeSpecimens";
+import TaxonChildren from "../lists/TaxonChildren";
+import LocationTypeLocalities from "../lists/LocationTypeLocalities";
+import RegionChildren from "../lists/RegionChildren";
+import RegionLocations from "../lists/RegionLocations";
+import PeriodChildren from "../lists/PeriodChildren";
+import PeriodLocationsStratigraphy from "../lists/PeriodLocationsStratigraphy";
+
+export function supportsChildren({
+  __typename,
+}: {
+  __typename: string;
+}): boolean {
+  return ["Collection", "Taxon", "Location", "Region", "Period"].includes(
+    __typename
+  );
+}
+
+class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
+  render() {
+    const { model } = this.props;
+    const { id, __typename } = model;
+    if (!id) {
+      return null;
+    }
+    switch (__typename) {
+      case "Collection":
+        return (
+          <QueryRenderer<ModelChildListCollectionQuery>
+            environment={environment}
+            query={graphql`
+              query ModelChildListCollectionQuery($id: ID!) {
+                node(id: $id) {
+                  ...CollectionTypeSpecimens_collection
+                }
+              }
+            `}
+            variables={{ id }}
+            render={({ error, props }) => {
+              if (error) {
+                return <div>Failed to load</div>;
+              }
+              if (!props || !props.node) {
+                return <div>Loading...</div>;
+              }
+              return (
+                <CollectionTypeSpecimens collection={props.node} hideTitle />
+              );
+            }}
+          />
+        );
+      case "Taxon":
+        return (
+          <QueryRenderer<ModelChildListTaxonQuery>
+            environment={environment}
+            query={graphql`
+              query ModelChildListTaxonQuery($id: ID!) {
+                node(id: $id) {
+                  ...TaxonChildren_taxon
+                }
+              }
+            `}
+            variables={{ id }}
+            render={({ error, props }) => {
+              if (error) {
+                return <div>Failed to load</div>;
+              }
+              if (!props || !props.node) {
+                return <div>Loading...</div>;
+              }
+              return <TaxonChildren taxon={props.node} hideTitle />;
+            }}
+          />
+        );
+      case "Location":
+        return (
+          <QueryRenderer<ModelChildListLocationQuery>
+            environment={environment}
+            query={graphql`
+              query ModelChildListLocationQuery($id: ID!) {
+                node(id: $id) {
+                  ...LocationTypeLocalities_location
+                }
+              }
+            `}
+            variables={{ id }}
+            render={({ error, props }) => {
+              if (error) {
+                return <div>Failed to load</div>;
+              }
+              if (!props || !props.node) {
+                return <div>Loading...</div>;
+              }
+              return <LocationTypeLocalities location={props.node} hideTitle />;
+            }}
+          />
+        );
+      case "Region":
+        return (
+          <QueryRenderer<ModelChildListRegionQuery>
+            environment={environment}
+            query={graphql`
+              query ModelChildListRegionQuery($id: ID!) {
+                node(id: $id) {
+                  ...RegionChildren_region
+                  ...RegionLocations_region
+                }
+              }
+            `}
+            variables={{ id }}
+            render={({ error, props }) => {
+              if (error) {
+                return <div>Failed to load</div>;
+              }
+              if (!props || !props.node) {
+                return <div>Loading...</div>;
+              }
+              return (
+                <>
+                  <RegionChildren region={props.node} hideTitle />
+                  <RegionLocations region={props.node} hideTitle />
+                </>
+              );
+            }}
+          />
+        );
+      case "Period":
+        return (
+          <QueryRenderer<ModelChildListPeriodQuery>
+            environment={environment}
+            query={graphql`
+              query ModelChildListPeriodQuery($id: ID!) {
+                node(id: $id) {
+                  ...PeriodChildren_period
+                  ...PeriodLocationsStratigraphy_period
+                }
+              }
+            `}
+            variables={{ id }}
+            render={({ error, props }) => {
+              if (error) {
+                return <div>Failed to load</div>;
+              }
+              if (!props || !props.node) {
+                return <div>Loading...</div>;
+              }
+              return (
+                <>
+                  <PeriodChildren period={props.node} hideTitle />
+                  <PeriodLocationsStratigraphy period={props.node} hideTitle />
+                </>
+              );
+            }}
+          />
+        );
+      default:
+        return null;
+    }
+  }
+}
+
+export default createFragmentContainer(ModelChildList, {
+  model: graphql`
+    fragment ModelChildList_model on Model {
+      __typename
+      ... on Node {
+        id
+      }
+    }
+  `,
+});

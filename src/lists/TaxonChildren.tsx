@@ -16,7 +16,15 @@ interface TaxonChildrenProps {
   relay: RelayPaginationProp;
 }
 
-class TaxonChildren extends React.Component<TaxonChildrenProps> {
+class TaxonChildren extends React.Component<
+  TaxonChildrenProps,
+  { expandAll: boolean }
+> {
+  constructor(props: TaxonChildrenProps) {
+    super(props);
+    this.state = { expandAll: false };
+  }
+
   render() {
     const { taxon, relay, numToLoad, hideTitle, title } = this.props;
     if (!taxon.children || taxon.children.edges.length === 0) {
@@ -30,11 +38,20 @@ class TaxonChildren extends React.Component<TaxonChildrenProps> {
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} />
+                <ModelListEntry
+                  key={edge.node.oid}
+                  model={edge.node}
+                  showChildren={this.state.expandAll}
+                />
               )
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 10}
+          relay={relay}
+          expandAll={this.state.expandAll}
+          setExpandAll={(expandAll: boolean) => this.setState({ expandAll })}
+        />
       </>
     );
   }
