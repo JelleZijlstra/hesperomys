@@ -63,12 +63,19 @@ type Article implements Node & Model {
   tags: [ArticleTag]!
   citationGroup: CitationGroup
   articleSet(before: String, after: String, first: Int, last: Int): ArticleConnection
+  numArticleSet: Int!
   comments(before: String, after: String, first: Int, last: Int): ArticleCommentConnection
+  numComments: Int!
   locations(before: String, after: String, first: Int, last: Int): LocationConnection
+  numLocations: Int!
   newNames(before: String, after: String, first: Int, last: Int): NameConnection
+  numNewNames: Int!
   typeSourceNames(before: String, after: String, first: Int, last: Int): NameConnection
+  numTypeSourceNames: Int!
   nameComments(before: String, after: String, first: Int, last: Int): NameCommentConnection
+  numNameComments: Int!
   occurrences(before: String, after: String, first: Int, last: Int): OccurrenceConnection
+  numOccurrences: Int!
 }
 
 type ArticleComment implements Node & Model {
@@ -153,9 +160,13 @@ type CitationGroup implements Node & Model {
   tags: [CitationGroupTag]!
   archive: String
   redirects(before: String, after: String, first: Int, last: Int): CitationGroupConnection
+  numRedirects: Int!
   patterns(before: String, after: String, first: Int, last: Int): CitationGroupPatternConnection
+  numPatterns: Int!
   articleSet(before: String, after: String, first: Int, last: Int): ArticleConnection
+  numArticleSet: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
+  numNames: Int!
 }
 
 type CitationGroupConnection {
@@ -201,6 +212,7 @@ type Collection implements Node & Model {
   city: String
   removed: Boolean!
   typeSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
+  numTypeSpecimens: Int!
 }
 
 type CollectionConnection {
@@ -445,7 +457,9 @@ type Location implements Node & Model {
   deleted: Boolean!
   tags: [LocationTag]!
   typeLocalities(before: String, after: String, first: Int, last: Int): NameConnection
+  numTypeLocalities: Int!
   taxa(before: String, after: String, first: Int, last: Int): OccurrenceConnection
+  numTaxa: Int!
 }
 
 type LocationConnection {
@@ -532,8 +546,11 @@ type Name implements Node & Model {
   Definition: String
   tags: [NameTag]!
   typifiedNames(before: String, after: String, first: Int, last: Int): NameConnection
+  numTypifiedNames: Int!
   taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
+  numTaxonSet: Int!
   comments(before: String, after: String, first: Int, last: Int): NameCommentConnection
+  numComments: Int!
 }
 
 type NameComment implements Node & Model {
@@ -571,7 +588,9 @@ type NameComplex implements Node & Model {
   stemRemove: String!
   stemAdd: String!
   endings(before: String, after: String, first: Int, last: Int): NameEndingConnection
+  numEndings: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
+  numNames: Int!
 }
 
 type NameConnection {
@@ -775,13 +794,22 @@ type Period implements Node & Model {
   region: Region
   deleted: Boolean!
   children(before: String, after: String, first: Int, last: Int): PeriodConnection
+  numChildren: Int!
   nextForeign(before: String, after: String, first: Int, last: Int): PeriodConnection
+  numNextForeign: Int!
   prevForeign(before: String, after: String, first: Int, last: Int): PeriodConnection
+  numPrevForeign: Int!
   childrenMin(before: String, after: String, first: Int, last: Int): PeriodConnection
+  numChildrenMin: Int!
   childrenMax(before: String, after: String, first: Int, last: Int): PeriodConnection
+  numChildrenMax: Int!
   locationsMin(before: String, after: String, first: Int, last: Int): LocationConnection
+  numLocationsMin: Int!
   locationsMax(before: String, after: String, first: Int, last: Int): LocationConnection
+  numLocationsMax: Int!
   locationsStratigraphy(before: String, after: String, first: Int, last: Int): LocationConnection
+  numLocationsStratigraphy: Int!
+  hasLocationsStratigraphy: Boolean
 }
 
 type PeriodConnection {
@@ -919,10 +947,20 @@ type Region implements Node & Model {
   parent: Region
   kind: RegionKind!
   children(before: String, after: String, first: Int, last: Int): RegionConnection
+  numChildren: Int!
   citationGroups(before: String, after: String, first: Int, last: Int): CitationGroupConnection
+  numCitationGroups: Int!
   collections(before: String, after: String, first: Int, last: Int): CollectionConnection
+  numCollections: Int!
   periods(before: String, after: String, first: Int, last: Int): PeriodConnection
+  numPeriods: Int!
   locations(before: String, after: String, first: Int, last: Int): LocationConnection
+  numLocations: Int!
+  hasCollections: Boolean
+  hasCitationGroups: Boolean
+  hasLocations: Boolean
+  hasPeriods: Boolean
+  hasTypeLocalities: Boolean
 }
 
 type RegionConnection {
@@ -1010,7 +1048,9 @@ type SpeciesNameComplex implements Node & Model {
   neuterEnding: String!
   comment: String
   endings(before: String, after: String, first: Int, last: Int): SpeciesNameEndingConnection
+  numEndings: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
+  numNames: Int!
 }
 
 type SpeciesNameEnding implements Node & Model {
@@ -1119,8 +1159,11 @@ type Taxon implements Node & Model {
   isPageRoot: Boolean!
   baseName: Name!
   children(before: String, after: String, first: Int, last: Int): TaxonConnection
+  numChildren: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
+  numNames: Int!
   occurrences(before: String, after: String, first: Int, last: Int): OccurrenceConnection
+  numOccurrences: Int!
   class_: Taxon
   order: Taxon
   family: Taxon

@@ -1,11 +1,18 @@
 import * as React from "react";
 
 import { RegionCollections_region } from "./__generated__/RegionCollections_region.graphql";
+import { RegionCollectionsChildrenQuery } from "./__generated__/RegionCollectionsChildrenQuery.graphql";
 
-import { createPaginationContainer, RelayPaginationProp } from "react-relay";
+import {
+  createPaginationContainer,
+  RelayPaginationProp,
+  QueryRenderer,
+} from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import environment from "../relayEnvironment";
 import LoadMoreButton from "../components/LoadMoreButton";
+import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
 
 interface RegionCollectionsProps {
@@ -18,23 +25,72 @@ interface RegionCollectionsProps {
 
 class RegionCollections extends React.Component<
   RegionCollectionsProps,
-  { expandAll: boolean }
+  { expandAll: boolean; showChildren: boolean }
 > {
   constructor(props: RegionCollectionsProps) {
     super(props);
-    this.state = { expandAll: false };
+    this.state = { expandAll: false, showChildren: false };
   }
 
   render() {
     const { region, relay, numToLoad, hideTitle, title } = this.props;
-    if (!region.collections || region.collections.edges.length === 0) {
+    const { oid, numChildren, collections } = region;
+    if (!collections || (numChildren === 0 && collections.edges.length === 0)) {
       return null;
     }
     return (
       <>
         {!hideTitle && <h3>{title || "Collections"}</h3>}
+        {this.state.showChildren && (
+          <QueryRenderer<RegionCollectionsChildrenQuery>
+            environment={environment}
+            query={graphql`
+              query RegionCollectionsChildrenQuery($oid: Int!) {
+                region(oid: $oid) {
+                  children(first: 1000) {
+                    edges {
+                      node {
+                        hasCollections
+                        ...RegionCollections_region
+                        ...ModelLink_model
+                      }
+                    }
+                  }
+                }
+              }
+            `}
+            variables={{ oid }}
+            render={({ error, props }) => {
+              if (error) {
+                return <div>Failed to load</div>;
+              }
+              if (!props || !props.region || !props.region.children) {
+                return <div>Loading...</div>;
+              }
+              const { edges } = props.region.children;
+              return (
+                <ul>
+                  {edges.map(
+                    (edge) =>
+                      edge &&
+                      edge.node &&
+                      edge.node.hasCollections && (
+                        <li>
+                          <ModelLink model={edge.node} />
+                          <RegionCollectionsContainer
+                            region={edge.node}
+                            hideTitle
+                          />
+                        </li>
+                      )
+                  )}
+                </ul>
+              );
+            }}
+          />
+        )}
         <ul>
-          {region.collections.edges.map(
+          {collections.edges.map(
             (edge) =>
               edge &&
               edge.node && (
@@ -51,13 +107,19 @@ class RegionCollections extends React.Component<
           relay={relay}
           expandAll={this.state.expandAll}
           setExpandAll={(expandAll: boolean) => this.setState({ expandAll })}
+          showChildren={this.state.showChildren}
+          setShowChildren={
+            numChildren > 0
+              ? (showChildren) => this.setState({ showChildren })
+              : undefined
+          }
         />
       </>
     );
   }
 }
 
-export default createPaginationContainer(
+const RegionCollectionsContainer = createPaginationContainer(
   RegionCollections,
   {
     region: graphql`
@@ -67,6 +129,7 @@ export default createPaginationContainer(
           cursor: { type: "String", defaultValue: null }
         ) {
         oid
+        numChildren
         collections(first: $count, after: $cursor)
           @connection(key: "RegionCollections_collections") {
           edges {
@@ -101,3 +164,5 @@ export default createPaginationContainer(
     `,
   }
 );
+
+export default RegionCollectionsContainer;

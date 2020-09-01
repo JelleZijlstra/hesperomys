@@ -1,11 +1,18 @@
 import * as React from "react";
 
 import { RegionCitationGroups_region } from "./__generated__/RegionCitationGroups_region.graphql";
+import { RegionCitationGroupsChildrenQuery } from "./__generated__/RegionCitationGroupsChildrenQuery.graphql";
 
-import { createPaginationContainer, RelayPaginationProp } from "react-relay";
+import {
+  createPaginationContainer,
+  RelayPaginationProp,
+  QueryRenderer,
+} from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import environment from "../relayEnvironment";
 import LoadMoreButton from "../components/LoadMoreButton";
+import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
 
 interface RegionCitationGroupsProps {
@@ -18,23 +25,75 @@ interface RegionCitationGroupsProps {
 
 class RegionCitationGroups extends React.Component<
   RegionCitationGroupsProps,
-  { expandAll: boolean }
+  { expandAll: boolean; showChildren: boolean }
 > {
   constructor(props: RegionCitationGroupsProps) {
     super(props);
-    this.state = { expandAll: false };
+    this.state = { expandAll: false, showChildren: false };
   }
 
   render() {
     const { region, relay, numToLoad, hideTitle, title } = this.props;
-    if (!region.citationGroups || region.citationGroups.edges.length === 0) {
+    const { oid, numChildren, citationGroups } = region;
+    if (
+      !citationGroups ||
+      (numChildren === 0 && citationGroups.edges.length === 0)
+    ) {
       return null;
     }
     return (
       <>
         {!hideTitle && <h3>{title || "CitationGroups"}</h3>}
+        {this.state.showChildren && (
+          <QueryRenderer<RegionCitationGroupsChildrenQuery>
+            environment={environment}
+            query={graphql`
+              query RegionCitationGroupsChildrenQuery($oid: Int!) {
+                region(oid: $oid) {
+                  children(first: 1000) {
+                    edges {
+                      node {
+                        hasCitationGroups
+                        ...RegionCitationGroups_region
+                        ...ModelLink_model
+                      }
+                    }
+                  }
+                }
+              }
+            `}
+            variables={{ oid }}
+            render={({ error, props }) => {
+              if (error) {
+                return <div>Failed to load</div>;
+              }
+              if (!props || !props.region || !props.region.children) {
+                return <div>Loading...</div>;
+              }
+              const { edges } = props.region.children;
+              return (
+                <ul>
+                  {edges.map(
+                    (edge) =>
+                      edge &&
+                      edge.node &&
+                      edge.node.hasCitationGroups && (
+                        <li>
+                          <ModelLink model={edge.node} />
+                          <RegionCitationGroupsContainer
+                            region={edge.node}
+                            hideTitle
+                          />
+                        </li>
+                      )
+                  )}
+                </ul>
+              );
+            }}
+          />
+        )}
         <ul>
-          {region.citationGroups.edges.map(
+          {citationGroups.edges.map(
             (edge) =>
               edge &&
               edge.node && (
@@ -51,13 +110,19 @@ class RegionCitationGroups extends React.Component<
           relay={relay}
           expandAll={this.state.expandAll}
           setExpandAll={undefined}
+          showChildren={this.state.showChildren}
+          setShowChildren={
+            numChildren > 0
+              ? (showChildren) => this.setState({ showChildren })
+              : undefined
+          }
         />
       </>
     );
   }
 }
 
-export default createPaginationContainer(
+const RegionCitationGroupsContainer = createPaginationContainer(
   RegionCitationGroups,
   {
     region: graphql`
@@ -67,6 +132,7 @@ export default createPaginationContainer(
           cursor: { type: "String", defaultValue: null }
         ) {
         oid
+        numChildren
         citationGroups(first: $count, after: $cursor)
           @connection(key: "RegionCitationGroups_citationGroups") {
           edges {
@@ -102,3 +168,5 @@ export default createPaginationContainer(
     `,
   }
 );
+
+export default RegionCitationGroupsContainer;

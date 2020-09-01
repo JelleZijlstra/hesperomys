@@ -6,6 +6,8 @@ interface LoadMoreButtonProps {
   relay: RelayPaginationProp;
   expandAll?: boolean;
   setExpandAll?: (expandAll: boolean) => void;
+  showChildren?: boolean;
+  setShowChildren?: (showChildren: boolean) => void;
 }
 
 export default class LoadMoreButton extends React.Component<
@@ -17,36 +19,59 @@ export default class LoadMoreButton extends React.Component<
     this.state = { value: props.numToLoad };
   }
   render() {
-    const { relay, expandAll, setExpandAll } = this.props;
+    const {
+      relay,
+      expandAll,
+      setExpandAll,
+      showChildren,
+      setShowChildren,
+    } = this.props;
     const hasMore = relay.hasMore();
-    if (!hasMore && !setExpandAll) {
+    const components = [];
+    if (hasMore) {
+      components.push(
+        <>
+          <button onClick={() => this._loadMore()}>Load</button>{" "}
+          <input
+            type="text"
+            value={this.state.value}
+            onChange={(e) => {
+              const value = parseInt(e.target.value);
+              if (!isNaN(value)) {
+                this.setState({ value });
+              }
+            }}
+          />
+          {" more"}
+        </>
+      );
+    }
+    if (setExpandAll) {
+      components.push(
+        <span onClick={() => setExpandAll(!expandAll)}>
+          {expandAll ? "unexpand all" : "expand all"}
+        </span>
+      );
+    }
+    if (setShowChildren) {
+      components.push(
+        <span onClick={() => setShowChildren(!showChildren)}>
+          {showChildren ? "hide children" : "show children"}
+        </span>
+      );
+    }
+    if (components.length === 0) {
       return null;
     }
     return (
       <div>
         <small>
-          {hasMore && (
+          {components.map((component, i) => (
             <>
-              <button onClick={() => this._loadMore()}>Load</button>{" "}
-              <input
-                type="text"
-                value={this.state.value}
-                onChange={(e) => {
-                  const value = parseInt(e.target.value);
-                  if (!isNaN(value)) {
-                    this.setState({ value });
-                  }
-                }}
-              />
-              {" more"}
+              {i > 0 && " or "}
+              {component}
             </>
-          )}
-          {setExpandAll && hasMore && <> or </>}
-          {setExpandAll && (
-            <span onClick={() => setExpandAll(!expandAll)}>
-              {expandAll ? "unexpand all" : "expand all"}
-            </span>
-          )}
+          ))}
         </small>
       </div>
     );
