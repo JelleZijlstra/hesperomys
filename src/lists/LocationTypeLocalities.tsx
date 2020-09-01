@@ -31,7 +31,7 @@ class LocationTypeLocalities extends React.Component<
       <>
         {!hideTitle && <h3>{title || "TypeLocalities"}</h3>}
         <NameList connection={location.typeLocalities} />
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

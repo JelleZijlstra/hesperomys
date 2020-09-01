@@ -106,10 +106,14 @@ class PeriodLocationsStratigraphy extends React.Component<
           )}
         </ul>
         <LoadMoreButton
-          numToLoad={numToLoad || 10}
+          numToLoad={numToLoad || 100}
           relay={relay}
           expandAll={this.state.expandAll}
-          setExpandAll={(expandAll: boolean) => this.setState({ expandAll })}
+          setExpandAll={
+            locationsStratigraphy.edges.length > 0
+              ? (expandAll: boolean) => this.setState({ expandAll })
+              : undefined
+          }
           showChildren={this.state.showChildren}
           setShowChildren={
             numChildren > 0

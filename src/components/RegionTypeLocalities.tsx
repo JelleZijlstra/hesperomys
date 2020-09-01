@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { RegionLocations_region } from "./__generated__/RegionLocations_region.graphql";
-import { RegionLocationsChildrenQuery } from "./__generated__/RegionLocationsChildrenQuery.graphql";
+import { RegionTypeLocalities_region } from "./__generated__/RegionTypeLocalities_region.graphql";
+import { RegionTypeLocalitiesChildrenQuery } from "./__generated__/RegionTypeLocalitiesChildrenQuery.graphql";
 
 import {
   createPaginationContainer,
@@ -15,19 +15,19 @@ import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
 
-interface RegionLocationsProps {
-  region: RegionLocations_region;
+interface RegionTypeLocalitiesProps {
+  region: RegionTypeLocalities_region;
   title?: string;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
 }
 
-class RegionLocations extends React.Component<
-  RegionLocationsProps,
+class RegionTypeLocalities extends React.Component<
+  RegionTypeLocalitiesProps,
   { expandAll: boolean; showChildren: boolean }
 > {
-  constructor(props: RegionLocationsProps) {
+  constructor(props: RegionTypeLocalitiesProps) {
     super(props);
     this.state = { expandAll: false, showChildren: false };
   }
@@ -40,18 +40,18 @@ class RegionLocations extends React.Component<
     }
     return (
       <>
-        {!hideTitle && <h3>{title || "Locations"}</h3>}
+        {!hideTitle && <h3>{title || "Type localities"}</h3>}
         {this.state.showChildren && (
-          <QueryRenderer<RegionLocationsChildrenQuery>
+          <QueryRenderer<RegionTypeLocalitiesChildrenQuery>
             environment={environment}
             query={graphql`
-              query RegionLocationsChildrenQuery($oid: Int!) {
+              query RegionTypeLocalitiesChildrenQuery($oid: Int!) {
                 region(oid: $oid) {
                   children(first: 1000) {
                     edges {
                       node {
-                        hasLocations
-                        ...RegionLocations_region
+                        hasTypeLocalities
+                        ...RegionTypeLocalities_region
                         ...ModelLink_model
                       }
                     }
@@ -74,10 +74,10 @@ class RegionLocations extends React.Component<
                     (edge) =>
                       edge &&
                       edge.node &&
-                      edge.node.hasLocations && (
+                      edge.node.hasTypeLocalities && (
                         <li>
                           <ModelLink model={edge.node} />
-                          <RegionLocationsContainer
+                          <RegionTypeLocalitiesContainer
                             region={edge.node}
                             hideTitle
                           />
@@ -93,7 +93,8 @@ class RegionLocations extends React.Component<
           {locations.edges.map(
             (edge) =>
               edge &&
-              edge.node && (
+              edge.node &&
+              edge.node.numTypeLocalities > 0 && (
                 <ModelListEntry
                   key={edge.node.oid}
                   model={edge.node}
@@ -103,14 +104,10 @@ class RegionLocations extends React.Component<
           )}
         </ul>
         <LoadMoreButton
-          numToLoad={numToLoad || 100}
+          numToLoad={numToLoad || 10}
           relay={relay}
           expandAll={this.state.expandAll}
-          setExpandAll={
-            locations.edges.length > 0
-              ? (expandAll: boolean) => this.setState({ expandAll })
-              : undefined
-          }
+          setExpandAll={(expandAll: boolean) => this.setState({ expandAll })}
           showChildren={this.state.showChildren}
           setShowChildren={
             numChildren > 0
@@ -123,11 +120,11 @@ class RegionLocations extends React.Component<
   }
 }
 
-const RegionLocationsContainer = createPaginationContainer(
-  RegionLocations,
+const RegionTypeLocalitiesContainer = createPaginationContainer(
+  RegionTypeLocalities,
   {
     region: graphql`
-      fragment RegionLocations_region on Region
+      fragment RegionTypeLocalities_region on Region
         @argumentDefinitions(
           count: { type: "Int", defaultValue: 10 }
           cursor: { type: "String", defaultValue: null }
@@ -135,9 +132,10 @@ const RegionLocationsContainer = createPaginationContainer(
         oid
         numChildren
         locations(first: $count, after: $cursor)
-          @connection(key: "RegionLocations_locations") {
+          @connection(key: "RegionTypeLocalities_locations") {
           edges {
             node {
+              numTypeLocalities
               oid
               ...ModelListEntry_model
             }
@@ -156,17 +154,17 @@ const RegionLocationsContainer = createPaginationContainer(
       };
     },
     query: graphql`
-      query RegionLocationsPaginationQuery(
+      query RegionTypeLocalitiesPaginationQuery(
         $count: Int!
         $cursor: String
         $oid: Int!
       ) {
         region(oid: $oid) {
-          ...RegionLocations_region @arguments(count: $count, cursor: $cursor)
+          ...RegionTypeLocalities_region @arguments(count: $count, cursor: $cursor)
         }
       }
     `,
   }
 );
 
-export default RegionLocationsContainer;
+export default RegionTypeLocalitiesContainer;

@@ -26,7 +26,7 @@ class ArticleNewNames extends React.Component<ArticleNewNamesProps> {
       <>
         {!hideTitle && <h3>{title || "NewNames"}</h3>}
         <NameList connection={article.newNames} />
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

@@ -31,7 +31,7 @@ class CollectionTypeSpecimens extends React.Component<
       <>
         {!hideTitle && <h3>{title || "TypeSpecimens"}</h3>}
         <NameList connection={collection.typeSpecimens} />
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

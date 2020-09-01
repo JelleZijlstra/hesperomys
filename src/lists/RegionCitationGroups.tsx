@@ -106,10 +106,10 @@ class RegionCitationGroups extends React.Component<
           )}
         </ul>
         <LoadMoreButton
-          numToLoad={numToLoad || 10}
+          numToLoad={numToLoad || 100}
           relay={relay}
           expandAll={this.state.expandAll}
-          setExpandAll={undefined}
+          setExpandAll={citationGroups.edges.length > 0 ? undefined : undefined}
           showChildren={this.state.showChildren}
           setShowChildren={
             numChildren > 0

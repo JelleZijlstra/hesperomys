@@ -37,7 +37,7 @@ class SpeciesNameComplexNames extends React.Component<
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
         <NameList connection={speciesNameComplex.names} />
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

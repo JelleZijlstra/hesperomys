@@ -26,7 +26,7 @@ class NameComplexNames extends React.Component<NameComplexNamesProps> {
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
         <NameList connection={nameComplex.names} />
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

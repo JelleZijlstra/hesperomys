@@ -49,7 +49,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
           )}
         </ul>
         <LoadMoreButton
-          numToLoad={numToLoad || 10}
+          numToLoad={numToLoad || 100}
           relay={relay}
           expandAll={this.state.expandAll}
           setExpandAll={%(set_expand_all)s}
@@ -190,10 +190,10 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
           )}
         </ul>
         <LoadMoreButton
-          numToLoad={numToLoad || 10}
+          numToLoad={numToLoad || 100}
           relay={relay}
           expandAll={this.state.expandAll}
-          setExpandAll={%(set_expand_all)s}
+          setExpandAll={%(conn_lower)s.edges.length > 0 ? %(set_expand_all)s : undefined}
           showChildren={this.state.showChildren}
           setShowChildren={numChildren > 0 ? showChildren => this.setState({ showChildren }) : undefined}
         />
@@ -285,7 +285,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
       <>
         {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
         <%(node_type_upper)sList connection={%(type_lower)s.%(conn_lower)s} />
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

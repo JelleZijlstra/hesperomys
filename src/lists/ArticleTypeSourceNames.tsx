@@ -31,7 +31,7 @@ class ArticleTypeSourceNames extends React.Component<
       <>
         {!hideTitle && <h3>{title || "TypeSourceNames"}</h3>}
         <NameList connection={article.typeSourceNames} />
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

@@ -26,7 +26,7 @@ class CitationGroupNames extends React.Component<CitationGroupNamesProps> {
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
         <NameList connection={citationGroup.names} />
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

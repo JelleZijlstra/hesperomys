@@ -56,7 +56,7 @@ class SpeciesNameComplexEndings extends React.Component<
           )}
         </ul>
         <LoadMoreButton
-          numToLoad={numToLoad || 10}
+          numToLoad={numToLoad || 100}
           relay={relay}
           expandAll={this.state.expandAll}
           setExpandAll={undefined}

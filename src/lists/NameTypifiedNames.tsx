@@ -26,7 +26,7 @@ class NameTypifiedNames extends React.Component<NameTypifiedNamesProps> {
       <>
         {!hideTitle && <h3>{title || "TypifiedNames"}</h3>}
         <NameList connection={name.typifiedNames} />
-        <LoadMoreButton numToLoad={numToLoad || 10} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }
