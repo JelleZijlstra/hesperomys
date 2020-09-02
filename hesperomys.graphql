@@ -39,25 +39,25 @@ type Article implements Node & Model {
   addday: String!
   addyear: String!
   name: String!
-  authors: String!
+  authors: String
   year: String
-  title: String!
+  title: String
   Journal: String!
-  series: String!
-  volume: String!
-  issue: String!
-  startPage: String!
-  endPage: String!
-  url: String!
-  doi: String!
+  series: String
+  volume: String
+  issue: String
+  startPage: String
+  endPage: String
+  url: String
+  doi: String
   type: ArticleType!
-  publisher: String!
+  publisher: String
   Location: String!
-  pages: String!
+  pages: String
   miscData: String!
-  path: String!
-  ids: String!
-  bools: String!
+  path: String
+  ids: String
+  bools: String
   kind: ArticleKind!
   parent: Article
   tags: [ArticleTag]!
