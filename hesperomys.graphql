@@ -867,6 +867,7 @@ type ProbableRepository implements TypeTag {
 type Query {
   node(id: ID!): Node
   byCallSign(callSign: String!, oid: String!): [Model]
+  documentation(path: String!): String
   regionByLabel(label: String): [Region]
   region(oid: Int): Region
   citationGroupByLabel(label: String): [CitationGroup]

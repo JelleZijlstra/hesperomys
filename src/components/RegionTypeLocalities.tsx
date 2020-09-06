@@ -160,7 +160,8 @@ const RegionTypeLocalitiesContainer = createPaginationContainer(
         $oid: Int!
       ) {
         region(oid: $oid) {
-          ...RegionTypeLocalities_region @arguments(count: $count, cursor: $cursor)
+          ...RegionTypeLocalities_region
+            @arguments(count: $count, cursor: $cursor)
         }
       }
     `,
