@@ -14,6 +14,7 @@ import environment from "../relayEnvironment";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
+import { supportsChildren } from "../components/ModelChildList";
 
 interface RegionCitationGroupsProps {
   region: RegionCitationGroups_region;
@@ -41,6 +42,9 @@ class RegionCitationGroups extends React.Component<
     ) {
       return null;
     }
+    const showExpandAll = citationGroups.edges.some(
+      (edge) => edge && edge.node && supportsChildren(edge.node)
+    );
     return (
       <>
         {!hideTitle && <h3>{title || "CitationGroups"}</h3>}
@@ -109,7 +113,7 @@ class RegionCitationGroups extends React.Component<
           numToLoad={numToLoad || 100}
           relay={relay}
           expandAll={this.state.expandAll}
-          setExpandAll={citationGroups.edges.length > 0 ? undefined : undefined}
+          setExpandAll={showExpandAll ? undefined : undefined}
           showChildren={this.state.showChildren}
           setShowChildren={
             numChildren > 0
@@ -138,7 +142,9 @@ const RegionCitationGroupsContainer = createPaginationContainer(
           edges {
             node {
               oid
+              __typename
               ...ModelListEntry_model
+              ...ModelChildList_model @relay(mask: false)
             }
           }
         }

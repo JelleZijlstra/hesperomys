@@ -34,8 +34,12 @@ class RegionTypeLocalities extends React.Component<
 
   render() {
     const { region, relay, numToLoad, hideTitle, title } = this.props;
-    const { oid, numChildren, locations } = region;
-    if (!locations || (numChildren === 0 && locations.edges.length === 0)) {
+    const { oid, numChildren, locations, hasTypeLocalities } = region;
+    if (
+      !locations ||
+      !hasTypeLocalities ||
+      (numChildren === 0 && locations.edges.length === 0)
+    ) {
       return null;
     }
     return (
@@ -104,7 +108,7 @@ class RegionTypeLocalities extends React.Component<
           )}
         </ul>
         <LoadMoreButton
-          numToLoad={numToLoad || 10}
+          numToLoad={numToLoad || 100}
           relay={relay}
           expandAll={this.state.expandAll}
           setExpandAll={(expandAll: boolean) => this.setState({ expandAll })}
@@ -131,6 +135,7 @@ const RegionTypeLocalitiesContainer = createPaginationContainer(
         ) {
         oid
         numChildren
+        hasTypeLocalities
         locations(first: $count, after: $cursor)
           @connection(key: "RegionTypeLocalities_locations") {
           edges {

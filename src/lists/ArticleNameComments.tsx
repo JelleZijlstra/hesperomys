@@ -7,6 +7,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
+import { supportsChildren } from "../components/ModelChildList";
 
 interface ArticleNameCommentsProps {
   article: ArticleNameComments_article;
@@ -30,6 +31,9 @@ class ArticleNameComments extends React.Component<
     if (!article.nameComments || article.nameComments.edges.length === 0) {
       return null;
     }
+    const showExpandAll = article.nameComments.edges.some(
+      (edge) => edge && edge.node && supportsChildren(edge.node)
+    );
     return (
       <>
         {!hideTitle && <h3>{title || "NameComments"}</h3>}
@@ -50,7 +54,7 @@ class ArticleNameComments extends React.Component<
           numToLoad={numToLoad || 100}
           relay={relay}
           expandAll={this.state.expandAll}
-          setExpandAll={undefined}
+          setExpandAll={showExpandAll ? undefined : undefined}
         />
       </>
     );
@@ -72,7 +76,9 @@ export default createPaginationContainer(
           edges {
             node {
               oid
+              __typename
               ...ModelListEntry_model
+              ...ModelChildList_model @relay(mask: false)
             }
           }
         }

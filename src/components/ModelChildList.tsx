@@ -18,14 +18,23 @@ import RegionLocations from "../lists/RegionLocations";
 import PeriodChildren from "../lists/PeriodChildren";
 import PeriodLocationsStratigraphy from "../lists/PeriodLocationsStratigraphy";
 
-export function supportsChildren({
-  __typename,
-}: {
-  __typename: string;
-}): boolean {
-  return ["Collection", "Taxon", "Location", "Region", "Period"].includes(
-    __typename
-  );
+export function supportsChildren(
+  model: Omit<ModelChildList_model, " $refType">
+): boolean {
+  switch (model.__typename) {
+    case "Collection":
+      return !!model.numTypeSpecimens;
+    case "Taxon":
+      return !!model.numChildren;
+    case "Location":
+      return !!model.numTypeLocalities;
+    case "Region":
+      return !!model.numChildren || !!model.numLocations;
+    case "Period":
+      return !!model.numChildren || !!model.numLocationsStratigraphy;
+    default:
+      return false;
+  }
 }
 
 class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
@@ -177,6 +186,23 @@ export default createFragmentContainer(ModelChildList, {
       __typename
       ... on Node {
         id
+      }
+      ... on Collection {
+        numTypeSpecimens
+      }
+      ... on Taxon {
+        numChildren
+      }
+      ... on Location {
+        numTypeLocalities
+      }
+      ... on Region {
+        numChildren
+        numLocations
+      }
+      ... on Period {
+        numChildren
+        numLocationsStratigraphy
       }
     }
   `,

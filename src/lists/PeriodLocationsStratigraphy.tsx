@@ -14,6 +14,7 @@ import environment from "../relayEnvironment";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
+import { supportsChildren } from "../components/ModelChildList";
 
 interface PeriodLocationsStratigraphyProps {
   period: PeriodLocationsStratigraphy_period;
@@ -41,6 +42,9 @@ class PeriodLocationsStratigraphy extends React.Component<
     ) {
       return null;
     }
+    const showExpandAll = locationsStratigraphy.edges.some(
+      (edge) => edge && edge.node && supportsChildren(edge.node)
+    );
     return (
       <>
         {!hideTitle && <h3>{title || "LocationsStratigraphy"}</h3>}
@@ -110,7 +114,7 @@ class PeriodLocationsStratigraphy extends React.Component<
           relay={relay}
           expandAll={this.state.expandAll}
           setExpandAll={
-            locationsStratigraphy.edges.length > 0
+            showExpandAll
               ? (expandAll: boolean) => this.setState({ expandAll })
               : undefined
           }
@@ -144,7 +148,9 @@ const PeriodLocationsStratigraphyContainer = createPaginationContainer(
           edges {
             node {
               oid
+              __typename
               ...ModelListEntry_model
+              ...ModelChildList_model @relay(mask: false)
             }
           }
         }

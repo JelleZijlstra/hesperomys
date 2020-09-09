@@ -48,6 +48,7 @@ export default createFragmentContainer(ModelListEntry, {
     fragment ModelListEntry_model on Model {
       __typename
       ...ModelChildList_model
+      ...ModelChildList_model @relay(mask: false)
       ...ModelLink_model
     }
   `,

@@ -14,6 +14,7 @@ import environment from "../relayEnvironment";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
+import { supportsChildren } from "../components/ModelChildList";
 
 interface RegionCollectionsProps {
   region: RegionCollections_region;
@@ -38,6 +39,9 @@ class RegionCollections extends React.Component<
     if (!collections || (numChildren === 0 && collections.edges.length === 0)) {
       return null;
     }
+    const showExpandAll = collections.edges.some(
+      (edge) => edge && edge.node && supportsChildren(edge.node)
+    );
     return (
       <>
         {!hideTitle && <h3>{title || "Collections"}</h3>}
@@ -107,7 +111,7 @@ class RegionCollections extends React.Component<
           relay={relay}
           expandAll={this.state.expandAll}
           setExpandAll={
-            collections.edges.length > 0
+            showExpandAll
               ? (expandAll: boolean) => this.setState({ expandAll })
               : undefined
           }
@@ -139,7 +143,9 @@ const RegionCollectionsContainer = createPaginationContainer(
           edges {
             node {
               oid
+              __typename
               ...ModelListEntry_model
+              ...ModelChildList_model @relay(mask: false)
             }
           }
         }

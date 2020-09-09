@@ -7,6 +7,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
+import { supportsChildren } from "../components/ModelChildList";
 
 interface PeriodLocationsMinProps {
   period: PeriodLocationsMin_period;
@@ -30,6 +31,9 @@ class PeriodLocationsMin extends React.Component<
     if (!period.locationsMin || period.locationsMin.edges.length === 0) {
       return null;
     }
+    const showExpandAll = period.locationsMin.edges.some(
+      (edge) => edge && edge.node && supportsChildren(edge.node)
+    );
     return (
       <>
         {!hideTitle && <h3>{title || "LocationsMin"}</h3>}
@@ -50,7 +54,11 @@ class PeriodLocationsMin extends React.Component<
           numToLoad={numToLoad || 100}
           relay={relay}
           expandAll={this.state.expandAll}
-          setExpandAll={(expandAll: boolean) => this.setState({ expandAll })}
+          setExpandAll={
+            showExpandAll
+              ? (expandAll: boolean) => this.setState({ expandAll })
+              : undefined
+          }
         />
       </>
     );
@@ -72,7 +80,9 @@ export default createPaginationContainer(
           edges {
             node {
               oid
+              __typename
               ...ModelListEntry_model
+              ...ModelChildList_model @relay(mask: false)
             }
           }
         }

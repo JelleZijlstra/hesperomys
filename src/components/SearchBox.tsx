@@ -3,7 +3,6 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 import { Typeahead, Menu, MenuItem } from "react-bootstrap-typeahead";
 import List from "react-tiny-virtual-list";
-import { Link } from "react-router-dom";
 
 import { SearchBox_modelCls } from "./__generated__/SearchBox_modelCls.graphql";
 
@@ -34,8 +33,9 @@ const SearchBox = ({ modelCls }: { modelCls: SearchBox_modelCls }) => {
                   option={item}
                   position={index}
                   style={style}
+                  onClick={() => window.open(link, "_blank")}
                 >
-                  <Link to={link}>{item}</Link>
+                  {item}
                 </MenuItem>
               );
             }}

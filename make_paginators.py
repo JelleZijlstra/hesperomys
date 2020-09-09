@@ -14,6 +14,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
+import { supportsChildren } from "../components/ModelChildList";
 
 interface %(type_upper)s%(conn_upper)sProps {
   %(type_lower)s: %(type_upper)s%(conn_upper)s_%(type_lower)s;
@@ -36,6 +37,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
     if (!%(type_lower)s.%(conn_lower)s || %(type_lower)s.%(conn_lower)s.edges.length === 0) {
       return null;
     }
+    const showExpandAll = %(type_lower)s.%(conn_lower)s.edges.some(edge => edge && edge.node && supportsChildren(edge.node));
     return (
       <>
         {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
@@ -52,7 +54,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
           numToLoad={numToLoad || 100}
           relay={relay}
           expandAll={this.state.expandAll}
-          setExpandAll={%(set_expand_all)s}
+          setExpandAll={showExpandAll ? (%(set_expand_all)s) : undefined}
         />
       </>
     );
@@ -74,7 +76,9 @@ export default createPaginationContainer(
           edges {
             node {
               oid
+              __typename
               ...ModelListEntry_model
+              ...ModelChildList_model @relay(mask: false)
             }
           }
         }
@@ -119,6 +123,7 @@ import environment from "../relayEnvironment";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
+import { supportsChildren } from "../components/ModelChildList";
 
 interface %(type_upper)s%(conn_upper)sProps {
   %(type_lower)s: %(type_upper)s%(conn_upper)s_%(type_lower)s;
@@ -142,6 +147,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
     if (!%(conn_lower)s || (numChildren === 0 && %(conn_lower)s.edges.length === 0)) {
       return null;
     }
+    const showExpandAll = %(conn_lower)s.edges.some(edge => edge && edge.node && supportsChildren(edge.node));
     return (
       <>
         {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
@@ -193,7 +199,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
           numToLoad={numToLoad || 100}
           relay={relay}
           expandAll={this.state.expandAll}
-          setExpandAll={%(conn_lower)s.edges.length > 0 ? %(set_expand_all)s : undefined}
+          setExpandAll={showExpandAll ? %(set_expand_all)s : undefined}
           showChildren={this.state.showChildren}
           setShowChildren={numChildren > 0 ? showChildren => this.setState({ showChildren }) : undefined}
         />
@@ -218,7 +224,9 @@ const %(type_upper)s%(conn_upper)sContainer = createPaginationContainer(
           edges {
             node {
               oid
+              __typename
               ...ModelListEntry_model
+              ...ModelChildList_model @relay(mask: false)
             }
           }
         }

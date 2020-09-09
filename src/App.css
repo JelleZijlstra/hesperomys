@@ -69,4 +69,6 @@
 
 .rbt-menu {
   z-index: 1;
+  background-color: rgba(1000, 1000, 1000, 1);
+  white-space: nowrap;
 }
