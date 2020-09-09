@@ -66,3 +66,7 @@
 .page-subtitle {
   font-size: large;
 }
+
+.rbt-menu {
+  z-index: 1;
+}

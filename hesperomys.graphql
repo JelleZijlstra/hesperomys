@@ -76,6 +76,7 @@ type Article implements Node & Model {
   numNameComments: Int!
   occurrences(before: String, after: String, first: Int, last: Int): OccurrenceConnection
   numOccurrences: Int!
+  modelCls: ModelCls!
 }
 
 type ArticleComment implements Node & Model {
@@ -86,6 +87,7 @@ type ArticleComment implements Node & Model {
   kind: ArticleCommentKind!
   date: Int!
   text: String!
+  modelCls: ModelCls!
 }
 
 type ArticleCommentConnection {
@@ -167,6 +169,7 @@ type CitationGroup implements Node & Model {
   numArticleSet: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
   numNames: Int!
+  modelCls: ModelCls!
 }
 
 type CitationGroupConnection {
@@ -185,6 +188,7 @@ type CitationGroupPattern implements Node & Model {
   callSign: String!
   pattern: String!
   citationGroup: CitationGroup!
+  modelCls: ModelCls!
 }
 
 type CitationGroupPatternConnection {
@@ -213,6 +217,7 @@ type Collection implements Node & Model {
   removed: Boolean!
   typeSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
   numTypeSpecimens: Int!
+  modelCls: ModelCls!
 }
 
 type CollectionConnection {
@@ -460,6 +465,7 @@ type Location implements Node & Model {
   numTypeLocalities: Int!
   taxa(before: String, after: String, first: Int, last: Int): OccurrenceConnection
   numTaxa: Int!
+  modelCls: ModelCls!
 }
 
 type LocationConnection {
@@ -491,6 +497,12 @@ type MandatoryChangeOf implements NameTag {
 interface Model {
   oid: Int!
   callSign: String!
+}
+
+type ModelCls {
+  callSign: String!
+  name: String!
+  autocompletions(field: String): [String!]!
 }
 
 type MustHave implements CitationGroupTag {
@@ -551,6 +563,7 @@ type Name implements Node & Model {
   numTaxonSet: Int!
   comments(before: String, after: String, first: Int, last: Int): NameCommentConnection
   numComments: Int!
+  modelCls: ModelCls!
 }
 
 type NameComment implements Node & Model {
@@ -563,6 +576,7 @@ type NameComment implements Node & Model {
   text: String!
   source: Article
   page: String!
+  modelCls: ModelCls!
 }
 
 type NameCommentConnection {
@@ -591,6 +605,7 @@ type NameComplex implements Node & Model {
   numEndings: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
   numNames: Int!
+  modelCls: ModelCls!
 }
 
 type NameConnection {
@@ -610,6 +625,7 @@ type NameEnding implements Node & Model {
   nameComplex: NameComplex!
   ending: String!
   comment: String!
+  modelCls: ModelCls!
 }
 
 type NameEndingConnection {
@@ -713,6 +729,7 @@ type Occurrence implements Node & Model {
   comment: String!
   status: OccurrenceStatus!
   source: Article
+  modelCls: ModelCls!
 }
 
 type OccurrenceConnection {
@@ -810,6 +827,7 @@ type Period implements Node & Model {
   locationsStratigraphy(before: String, after: String, first: Int, last: Int): LocationConnection
   numLocationsStratigraphy: Int!
   hasLocationsStratigraphy: Boolean
+  modelCls: ModelCls!
 }
 
 type PeriodConnection {
@@ -868,6 +886,7 @@ type Query {
   node(id: ID!): Node
   byCallSign(callSign: String!, oid: String!): [Model]
   documentation(path: String!): String
+  modelCls(callSign: String!): ModelCls!
   regionByLabel(label: String): [Region]
   region(oid: Int): Region
   citationGroupByLabel(label: String): [CitationGroup]
@@ -962,6 +981,7 @@ type Region implements Node & Model {
   hasLocations: Boolean
   hasPeriods: Boolean
   hasTypeLocalities: Boolean
+  modelCls: ModelCls!
 }
 
 type RegionConnection {
@@ -1052,6 +1072,7 @@ type SpeciesNameComplex implements Node & Model {
   numEndings: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
   numNames: Int!
+  modelCls: ModelCls!
 }
 
 type SpeciesNameEnding implements Node & Model {
@@ -1062,6 +1083,7 @@ type SpeciesNameEnding implements Node & Model {
   ending: String!
   comment: String!
   fullNameOnly: Boolean!
+  modelCls: ModelCls!
 }
 
 type SpeciesNameEndingConnection {
@@ -1168,6 +1190,7 @@ type Taxon implements Node & Model {
   class_: Taxon
   order: Taxon
   family: Taxon
+  modelCls: ModelCls!
 }
 
 type TaxonConnection {
