@@ -33,7 +33,12 @@ const SearchBox = ({ modelCls }: { modelCls: SearchBox_modelCls }) => {
                   option={item}
                   position={index}
                   style={style}
-                  onClick={() => window.open(link, "_blank")}
+                  onClick={() => {
+                    const win = window.open(link, "_blank");
+                    if (win) {
+                      win.focus();
+                    }
+                  }}
                 >
                   {item}
                 </MenuItem>
