@@ -9,6 +9,7 @@ import ModelLink from "../components/ModelLink";
 import Table from "../components/Table";
 import NameTags from "../components/NameTags";
 import NameTypeTags from "../components/NameTypeTags";
+import TaxonContext from "../components/TaxonContext";
 
 function NameSection({ name }: { name: NameBody_name }) {
   const {
@@ -175,6 +176,7 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
 
     return (
       <>
+        <TaxonContext taxon={name.taxon} />
         <NameSection name={name} />
         <NomenclatureSection name={name} />
         <TypeSection name={name} />
@@ -188,6 +190,10 @@ export default createFragmentContainer(NameBody, {
   name: graphql`
     fragment NameBody_name on Name {
       ...NameTypeTags_name
+
+      taxon {
+        ...TaxonContext_taxon
+      }
 
       originalName
       correctedOriginalName

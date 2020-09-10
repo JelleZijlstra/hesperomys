@@ -41,16 +41,51 @@ function NameExtra({ model }: { model: ModelLink_model }) {
   );
 }
 
+function LocationExtra({ model }: { model: ModelLink_model }) {
+  if (!model.locationRegion || !model.minPeriod || !model.maxPeriod) {
+    return null;
+  }
+  const { locationRegion, minPeriod, maxPeriod, stratigraphicUnit } = model;
+  return (
+    <>
+      {" ("}
+      {minPeriod.periodName === maxPeriod.periodName
+        ? minPeriod.periodName
+        : maxPeriod.periodName + "–" + minPeriod.periodName}
+      {" of " + locationRegion.regionName}
+      {stratigraphicUnit &&
+        stratigraphicUnit.periodName !== "Recent" &&
+        "; " + stratigraphicUnit.periodName}
+      )
+    </>
+  );
+}
+
+function ModelExtra({ model }: { model: ModelLink_model }) {
+  switch (model.__typename) {
+    case "Name":
+      return <NameExtra model={model} />;
+    case "Location":
+      return <LocationExtra model={model} />;
+    default:
+      return null;
+  }
+}
+
 class ModelLink extends React.Component<{ model: ModelLink_model }> {
   render() {
     const { model } = this.props;
     const { callSign, oid } = model;
     const url = `/${callSign}/${oid}`;
     return (
-      <Link to={url}>
-        <Title model={model} />
-        <NameExtra model={model} />
-      </Link>
+      <>
+        <Link to={url}>
+          <Title model={model} />
+        </Link>
+        <small>
+          <ModelExtra model={model} />
+        </small>
+      </>
     );
   }
 }
@@ -60,7 +95,22 @@ export default createFragmentContainer(ModelLink, {
     fragment ModelLink_model on Model {
       oid
       callSign
+      __typename
       ...Title_model
+      ... on Location {
+        locationRegion: region {
+          regionName: name
+        }
+        minPeriod {
+          periodName: name
+        }
+        maxPeriod {
+          periodName: name
+        }
+        stratigraphicUnit {
+          periodName: name
+        }
+      }
       ... on Name {
         status
         correctedOriginalName

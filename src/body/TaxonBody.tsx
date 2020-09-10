@@ -6,6 +6,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import ModelLink from "../components/ModelLink";
 import Table from "../components/Table";
+import TaxonContext from "../components/TaxonContext";
 
 import TaxonChildren from "../lists/TaxonChildren";
 import TaxonNames from "../lists/TaxonNames";
@@ -36,6 +37,7 @@ class TaxonBody extends React.Component<{
             ["Parent", parent ? <ModelLink model={parent} /> : null],
           ]}
         />
+        <TaxonContext taxon={taxon} />
         <TaxonNames taxon={taxon} />
         <TaxonChildren taxon={taxon} />
       </>
@@ -55,6 +57,7 @@ export default createFragmentContainer(TaxonBody, {
       baseName {
         ...ModelLink_model
       }
+      ...TaxonContext_taxon
       ...TaxonChildren_taxon
       ...TaxonNames_taxon
     }
