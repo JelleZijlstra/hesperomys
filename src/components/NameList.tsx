@@ -42,9 +42,12 @@ const sortKey = (name: Name | null) => {
   return [cls, order, family, name.taxon.validName, status, name.rootName];
 };
 
-class NameList extends React.Component<{ connection: NameList_connection }> {
+class NameList extends React.Component<{
+  connection: NameList_connection;
+  hideClassification?: boolean;
+}> {
   render() {
-    const { connection } = this.props;
+    const { connection, hideClassification } = this.props;
     const names = connection.edges
       .map((edge) => edge && edge.node)
       .filter((node) => !!node)
@@ -91,7 +94,9 @@ class NameList extends React.Component<{ connection: NameList_connection }> {
       }
       addName(
         treeRoot,
-        [name.taxon.class_, name.taxon.order, name.taxon.family],
+        hideClassification
+          ? []
+          : [name.taxon.class_, name.taxon.order, name.taxon.family],
         name
       );
     });
@@ -107,41 +112,68 @@ class NameList extends React.Component<{ connection: NameList_connection }> {
             {this.renderTree(childGroup.node)}
           </li>
         ))}
-        {node.directChildren.map((name) => (
-          <li key={name.oid}>
-            <ModelLink model={name} />
-            {name.typeTags && (
-              <ul>
-                {name.verbatimCitation && <li>Raw citation: {name.verbatimCitation}</li>}
-                {(name.typeSpecimen || name.speciesTypeKind) && <li>
-                  {name.speciesTypeKind || "Type"}
-                  {name.typeSpecimen && ": " + name.typeSpecimen}
-                </li>}
-                {name.typeTags.map((tag) => {
-                  if (!tag) {
-                    return null;
+        {node.directChildren.map((name) => {
+          const items = [];
+          if (name.verbatimCitation) {
+            items.push(<li>Raw citation: {name.verbatimCitation}</li>);
+          }
+          if (name.typeLocality) {
+            items.push(
+              <li>
+                <ModelLink model={name.typeLocality} />
+              </li>
+            );
+          }
+          if (name.type) {
+            items.push(
+              <li>
+                {name.group === "family" ? "Type genus" : "Type species"}:{" "}
+                <ModelLink model={name.type} />
+              </li>
+            );
+          }
+          if (name.typeSpecimen || name.speciesTypeKind) {
+            items.push(
+              <li>
+                {name.speciesTypeKind || "Type"}
+                {name.typeSpecimen && ": " + name.typeSpecimen}
+              </li>
+            );
+          }
+          if (
+            name.nomenclatureStatus &&
+            name.nomenclatureStatus !== "available"
+          ) {
+            items.push(<li>Status: {name.nomenclatureStatus}</li>);
+          }
+          if (name.typeTags) {
+            name.typeTags.forEach((tag) => {
+              if (!tag) {
+                return;
+              }
+              switch (tag.__typename) {
+                case "LocationDetail":
+                case "CitationDetail":
+                case "CollectionDetail":
+                case "EtymologyDetail":
+                  if (!tag.text) {
+                    return;
                   }
-                  switch (tag.__typename) {
-                    case "LocationDetail":
-                    case "CitationDetail":
-                    case "CollectionDetail":
-                    case "EtymologyDetail":
-                      if (!tag.text) {
-                        return null;
-                      }
-                      return (
-                        <li key={tag.text}>
-                          <Detail text={tag.text} source={tag.source} />
-                        </li>
-                      );
-                    default:
-                      return null;
-                  }
-                })}
-              </ul>
-            )}
-          </li>
-        ))}
+                  items.push(
+                    <li key={tag.text}>
+                      <Detail text={tag.text} source={tag.source} />
+                    </li>
+                  );
+              }
+            });
+          }
+          return (
+            <li key={name.oid}>
+              <ModelLink model={name} />
+              {items.length > 0 && <ul>{items}</ul>}
+            </li>
+          );
+        })}
       </ul>
     );
   }
@@ -155,6 +187,7 @@ export default createFragmentContainer(NameList, {
         showCitationDetail: { type: Boolean, defaultValue: false }
         showCollectionDetail: { type: Boolean, defaultValue: false }
         showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
       ) {
       edges {
         node {
@@ -204,6 +237,17 @@ export default createFragmentContainer(NameList, {
               }
             }
           }
+
+          typeLocality @include(if: $showNameDetail) {
+            ...ModelLink_model
+          }
+          typeSpecimen @include(if: $showNameDetail)
+          speciesTypeKind @include(if: $showNameDetail)
+          type @include(if: $showNameDetail) {
+            ...ModelLink_model
+          }
+          group @include(if: $showNameDetail)
+          nomenclatureStatus @include(if: $showNameDetail)
 
           taxon {
             validName

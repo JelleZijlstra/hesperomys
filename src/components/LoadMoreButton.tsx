@@ -28,7 +28,7 @@ export default class LoadMoreButton extends React.Component<
       showChildren,
       setShowChildren,
       showDetail,
-      setShowDetail
+      setShowDetail,
     } = this.props;
     const hasMore = relay.hasMore();
     const components = [];

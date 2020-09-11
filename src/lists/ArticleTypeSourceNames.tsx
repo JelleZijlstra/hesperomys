@@ -26,7 +26,9 @@ interface ArticleTypeSourceNamesInnerProps {
   showCitationDetail: boolean;
   showCollectionDetail: boolean;
   showEtymologyDetail: boolean;
+  showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
+  hideClassification?: boolean;
 }
 
 class ArticleTypeSourceNamesInner extends React.Component<
@@ -43,7 +45,9 @@ class ArticleTypeSourceNamesInner extends React.Component<
       showCitationDetail,
       showCollectionDetail,
       showEtymologyDetail,
+      showNameDetail,
       setShowDetail,
+      hideClassification,
     } = this.props;
     if (
       !articleInner.typeSourceNames ||
@@ -54,7 +58,10 @@ class ArticleTypeSourceNamesInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "TypeSourceNames"}</h3>}
-        <NameList connection={articleInner.typeSourceNames} />
+        <NameList
+          connection={articleInner.typeSourceNames}
+          hideClassification={hideClassification}
+        />
         <LoadMoreButton
           numToLoad={numToLoad || 100}
           relay={relay}
@@ -62,7 +69,8 @@ class ArticleTypeSourceNamesInner extends React.Component<
             showLocationDetail ||
             showCitationDetail ||
             showCollectionDetail ||
-            showEtymologyDetail
+            showEtymologyDetail ||
+            showNameDetail
           }
           setShowDetail={setShowDetail}
         />
@@ -83,6 +91,7 @@ const ArticleTypeSourceNamesContainer = createPaginationContainer(
           showCitationDetail: { type: Boolean, defaultValue: false }
           showEtymologyDetail: { type: Boolean, defaultValue: false }
           showCollectionDetail: { type: Boolean, defaultValue: false }
+          showNameDetail: { type: Boolean, defaultValue: false }
         ) {
         oid
         typeSourceNames(first: $count, after: $cursor)
@@ -98,6 +107,7 @@ const ArticleTypeSourceNamesContainer = createPaginationContainer(
               showCitationDetail: $showCitationDetail
               showCollectionDetail: $showCollectionDetail
               showEtymologyDetail: $showEtymologyDetail
+              showNameDetail: $showNameDetail
             )
         }
       }
@@ -111,6 +121,7 @@ const ArticleTypeSourceNamesContainer = createPaginationContainer(
         showCitationDetail,
         showCollectionDetail,
         showEtymologyDetail,
+        showNameDetail,
       } = props;
       return {
         count,
@@ -120,6 +131,7 @@ const ArticleTypeSourceNamesContainer = createPaginationContainer(
         showCitationDetail,
         showCollectionDetail,
         showEtymologyDetail,
+        showNameDetail,
       };
     },
     query: graphql`
@@ -131,6 +143,7 @@ const ArticleTypeSourceNamesContainer = createPaginationContainer(
         $showCitationDetail: Boolean!
         $showCollectionDetail: Boolean!
         $showEtymologyDetail: Boolean!
+        $showNameDetail: Boolean!
       ) {
         article(oid: $oid) {
           ...ArticleTypeSourceNames_articleInner
@@ -141,6 +154,7 @@ const ArticleTypeSourceNamesContainer = createPaginationContainer(
               showCitationDetail: $showCitationDetail
               showCollectionDetail: $showCollectionDetail
               showEtymologyDetail: $showEtymologyDetail
+              showNameDetail: $showNameDetail
             )
         }
       }
@@ -153,6 +167,12 @@ interface ArticleTypeSourceNamesProps {
   title?: string;
   hideTitle?: boolean;
   numToLoad?: number;
+  hideClassification?: boolean;
+  showLocationDetail?: boolean;
+  showCitationDetail?: boolean;
+  showCollectionDetail?: boolean;
+  showEtymologyDetail?: boolean;
+  showNameDetail?: boolean;
 }
 
 class ArticleTypeSourceNames extends React.Component<
@@ -162,31 +182,48 @@ class ArticleTypeSourceNames extends React.Component<
     showCitationDetail: boolean;
     showCollectionDetail: boolean;
     showEtymologyDetail: boolean;
+    showNameDetail: boolean;
   }
 > {
   constructor(props: ArticleTypeSourceNamesProps) {
     super(props);
-    this.state = {
-      showLocationDetail: false,
-      showCitationDetail: false,
-      showCollectionDetail: false,
-      showEtymologyDetail: false,
-    };
-  }
-
-  render() {
-    const { article, title, hideTitle, numToLoad } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
       showEtymologyDetail,
+      showNameDetail,
+    } = props;
+    this.state = {
+      showLocationDetail: showLocationDetail ?? false,
+      showCitationDetail: showCitationDetail ?? false,
+      showCollectionDetail: showCollectionDetail ?? false,
+      showEtymologyDetail: showEtymologyDetail ?? false,
+      showNameDetail: showNameDetail ?? false,
+    };
+  }
+
+  render() {
+    const {
+      article,
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+    } = this.props;
+    const {
+      showLocationDetail,
+      showCitationDetail,
+      showCollectionDetail,
+      showEtymologyDetail,
+      showNameDetail,
     } = this.state;
     if (
       showLocationDetail ||
       showCitationDetail ||
       showCollectionDetail ||
-      showEtymologyDetail
+      showEtymologyDetail ||
+      showNameDetail
     ) {
       return (
         <QueryRenderer<ArticleTypeSourceNamesDetailQuery>
@@ -198,6 +235,7 @@ class ArticleTypeSourceNames extends React.Component<
               $showCitationDetail: Boolean!
               $showCollectionDetail: Boolean!
               $showEtymologyDetail: Boolean!
+              $showNameDetail: Boolean!
             ) {
               article(oid: $oid) {
                 ...ArticleTypeSourceNames_articleInner
@@ -206,6 +244,7 @@ class ArticleTypeSourceNames extends React.Component<
                     showCitationDetail: $showCitationDetail
                     showCollectionDetail: $showCollectionDetail
                     showEtymologyDetail: $showEtymologyDetail
+                    showNameDetail: $showNameDetail
                   )
               }
             }
@@ -216,6 +255,7 @@ class ArticleTypeSourceNames extends React.Component<
             showCitationDetail,
             showCollectionDetail,
             showEtymologyDetail,
+            showNameDetail,
           }}
           render={({ error, props }) => {
             if (error) {
@@ -234,7 +274,9 @@ class ArticleTypeSourceNames extends React.Component<
                 showCitationDetail={showCitationDetail}
                 showCollectionDetail={showCollectionDetail}
                 showEtymologyDetail={showEtymologyDetail}
+                showNameDetail={showNameDetail}
                 setShowDetail={undefined}
+                hideClassification={hideClassification}
               />
             );
           }}
@@ -251,7 +293,9 @@ class ArticleTypeSourceNames extends React.Component<
         showCitationDetail={showCitationDetail}
         showCollectionDetail={showCollectionDetail}
         showEtymologyDetail={showEtymologyDetail}
+        showNameDetail={showNameDetail}
         setShowDetail={undefined}
+        hideClassification={hideClassification}
       />
     );
   }

@@ -12,6 +12,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import CollectionTypeSpecimens from "../lists/CollectionTypeSpecimens";
 import TaxonChildren from "../lists/TaxonChildren";
+import TaxonNames from "../lists/TaxonNames";
 import LocationTypeLocalities from "../lists/LocationTypeLocalities";
 import RegionChildren from "../lists/RegionChildren";
 import RegionLocations from "../lists/RegionLocations";
@@ -25,7 +26,7 @@ export function supportsChildren(
     case "Collection":
       return !!model.numTypeSpecimens;
     case "Taxon":
-      return !!model.numChildren;
+      return !!model.numChildren || !!model.numNames;
     case "Location":
       return !!model.numTypeLocalities;
     case "Region":
@@ -77,6 +78,7 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
             query={graphql`
               query ModelChildListTaxonQuery($id: ID!) {
                 node(id: $id) {
+                  ...TaxonNames_taxon
                   ...TaxonChildren_taxon
                 }
               }
@@ -89,7 +91,12 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
               if (!props || !props.node) {
                 return <div>Loading...</div>;
               }
-              return <TaxonChildren taxon={props.node} hideTitle />;
+              return (
+                <>
+                  <TaxonNames taxon={props.node} hideTitle hideClassification />
+                  <TaxonChildren taxon={props.node} hideTitle />
+                </>
+              );
             }}
           />
         );
@@ -192,6 +199,7 @@ export default createFragmentContainer(ModelChildList, {
       }
       ... on Taxon {
         numChildren
+        numNames
       }
       ... on Location {
         numTypeLocalities

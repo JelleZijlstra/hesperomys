@@ -38,7 +38,7 @@ class TaxonBody extends React.Component<{
           ]}
         />
         <TaxonContext taxon={taxon} />
-        <TaxonNames taxon={taxon} />
+        <TaxonNames taxon={taxon} hideClassification />
         <TaxonChildren taxon={taxon} />
       </>
     );

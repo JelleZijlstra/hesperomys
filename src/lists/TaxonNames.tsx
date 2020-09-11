@@ -26,7 +26,9 @@ interface TaxonNamesInnerProps {
   showCitationDetail: boolean;
   showCollectionDetail: boolean;
   showEtymologyDetail: boolean;
+  showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
+  hideClassification?: boolean;
 }
 
 class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
@@ -41,7 +43,9 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
       showCitationDetail,
       showCollectionDetail,
       showEtymologyDetail,
+      showNameDetail,
       setShowDetail,
+      hideClassification,
     } = this.props;
     if (!taxonInner.names || taxonInner.names.edges.length === 0) {
       return null;
@@ -49,7 +53,10 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
     return (
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
-        <NameList connection={taxonInner.names} />
+        <NameList
+          connection={taxonInner.names}
+          hideClassification={hideClassification}
+        />
         <LoadMoreButton
           numToLoad={numToLoad || 100}
           relay={relay}
@@ -57,7 +64,8 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
             showLocationDetail ||
             showCitationDetail ||
             showCollectionDetail ||
-            showEtymologyDetail
+            showEtymologyDetail ||
+            showNameDetail
           }
           setShowDetail={setShowDetail}
         />
@@ -78,6 +86,7 @@ const TaxonNamesContainer = createPaginationContainer(
           showCitationDetail: { type: Boolean, defaultValue: false }
           showEtymologyDetail: { type: Boolean, defaultValue: false }
           showCollectionDetail: { type: Boolean, defaultValue: false }
+          showNameDetail: { type: Boolean, defaultValue: false }
         ) {
         oid
         names(first: $count, after: $cursor)
@@ -93,6 +102,7 @@ const TaxonNamesContainer = createPaginationContainer(
               showCitationDetail: $showCitationDetail
               showCollectionDetail: $showCollectionDetail
               showEtymologyDetail: $showEtymologyDetail
+              showNameDetail: $showNameDetail
             )
         }
       }
@@ -106,6 +116,7 @@ const TaxonNamesContainer = createPaginationContainer(
         showCitationDetail,
         showCollectionDetail,
         showEtymologyDetail,
+        showNameDetail,
       } = props;
       return {
         count,
@@ -115,6 +126,7 @@ const TaxonNamesContainer = createPaginationContainer(
         showCitationDetail,
         showCollectionDetail,
         showEtymologyDetail,
+        showNameDetail,
       };
     },
     query: graphql`
@@ -126,6 +138,7 @@ const TaxonNamesContainer = createPaginationContainer(
         $showCitationDetail: Boolean!
         $showCollectionDetail: Boolean!
         $showEtymologyDetail: Boolean!
+        $showNameDetail: Boolean!
       ) {
         taxon(oid: $oid) {
           ...TaxonNames_taxonInner
@@ -136,6 +149,7 @@ const TaxonNamesContainer = createPaginationContainer(
               showCitationDetail: $showCitationDetail
               showCollectionDetail: $showCollectionDetail
               showEtymologyDetail: $showEtymologyDetail
+              showNameDetail: $showNameDetail
             )
         }
       }
@@ -148,6 +162,12 @@ interface TaxonNamesProps {
   title?: string;
   hideTitle?: boolean;
   numToLoad?: number;
+  hideClassification?: boolean;
+  showLocationDetail?: boolean;
+  showCitationDetail?: boolean;
+  showCollectionDetail?: boolean;
+  showEtymologyDetail?: boolean;
+  showNameDetail?: boolean;
 }
 
 class TaxonNames extends React.Component<
@@ -157,31 +177,48 @@ class TaxonNames extends React.Component<
     showCitationDetail: boolean;
     showCollectionDetail: boolean;
     showEtymologyDetail: boolean;
+    showNameDetail: boolean;
   }
 > {
   constructor(props: TaxonNamesProps) {
     super(props);
-    this.state = {
-      showLocationDetail: false,
-      showCitationDetail: false,
-      showCollectionDetail: false,
-      showEtymologyDetail: false,
-    };
-  }
-
-  render() {
-    const { taxon, title, hideTitle, numToLoad } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
       showEtymologyDetail,
+      showNameDetail,
+    } = props;
+    this.state = {
+      showLocationDetail: showLocationDetail ?? false,
+      showCitationDetail: showCitationDetail ?? false,
+      showCollectionDetail: showCollectionDetail ?? false,
+      showEtymologyDetail: showEtymologyDetail ?? false,
+      showNameDetail: showNameDetail ?? false,
+    };
+  }
+
+  render() {
+    const {
+      taxon,
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+    } = this.props;
+    const {
+      showLocationDetail,
+      showCitationDetail,
+      showCollectionDetail,
+      showEtymologyDetail,
+      showNameDetail,
     } = this.state;
     if (
       showLocationDetail ||
       showCitationDetail ||
       showCollectionDetail ||
-      showEtymologyDetail
+      showEtymologyDetail ||
+      showNameDetail
     ) {
       return (
         <QueryRenderer<TaxonNamesDetailQuery>
@@ -193,6 +230,7 @@ class TaxonNames extends React.Component<
               $showCitationDetail: Boolean!
               $showCollectionDetail: Boolean!
               $showEtymologyDetail: Boolean!
+              $showNameDetail: Boolean!
             ) {
               taxon(oid: $oid) {
                 ...TaxonNames_taxonInner
@@ -201,6 +239,7 @@ class TaxonNames extends React.Component<
                     showCitationDetail: $showCitationDetail
                     showCollectionDetail: $showCollectionDetail
                     showEtymologyDetail: $showEtymologyDetail
+                    showNameDetail: $showNameDetail
                   )
               }
             }
@@ -211,6 +250,7 @@ class TaxonNames extends React.Component<
             showCitationDetail,
             showCollectionDetail,
             showEtymologyDetail,
+            showNameDetail,
           }}
           render={({ error, props }) => {
             if (error) {
@@ -229,7 +269,11 @@ class TaxonNames extends React.Component<
                 showCitationDetail={showCitationDetail}
                 showCollectionDetail={showCollectionDetail}
                 showEtymologyDetail={showEtymologyDetail}
-                setShowDetail={undefined}
+                showNameDetail={showNameDetail}
+                setShowDetail={(showDetail) =>
+                  this.setState({ showNameDetail: showDetail })
+                }
+                hideClassification={hideClassification}
               />
             );
           }}
@@ -246,7 +290,11 @@ class TaxonNames extends React.Component<
         showCitationDetail={showCitationDetail}
         showCollectionDetail={showCollectionDetail}
         showEtymologyDetail={showEtymologyDetail}
-        setShowDetail={undefined}
+        showNameDetail={showNameDetail}
+        setShowDetail={(showDetail) =>
+          this.setState({ showNameDetail: showDetail })
+        }
+        hideClassification={hideClassification}
       />
     );
   }

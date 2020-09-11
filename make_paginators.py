@@ -283,14 +283,16 @@ interface %(type_upper)s%(conn_upper)sInnerProps {
   showCitationDetail: boolean;
   showCollectionDetail: boolean;
   showEtymologyDetail: boolean;
+  showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
+  hideClassification?: boolean;
 };
 
 class %(type_upper)s%(conn_upper)sInner extends React.Component<
   %(type_upper)s%(conn_upper)sInnerProps
 > {
   render() {
-    const { %(type_lower)sInner, relay, numToLoad, hideTitle, title, showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, setShowDetail } = this.props;
+    const { %(type_lower)sInner, relay, numToLoad, hideTitle, title, showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail, setShowDetail, hideClassification } = this.props;
     if (
       !%(type_lower)sInner.%(conn_lower)s ||
       %(type_lower)sInner.%(conn_lower)s.edges.length === 0
@@ -300,11 +302,11 @@ class %(type_upper)s%(conn_upper)sInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
-        <%(node_type_upper)sList connection={%(type_lower)sInner.%(conn_lower)s} />
+        <%(node_type_upper)sList connection={%(type_lower)sInner.%(conn_lower)s} hideClassification={hideClassification} />
         <LoadMoreButton
           numToLoad={numToLoad || 100}
           relay={relay}
-          showDetail={showLocationDetail || showCitationDetail || showCollectionDetail || showEtymologyDetail}
+          showDetail={showLocationDetail || showCitationDetail || showCollectionDetail || showEtymologyDetail || showNameDetail}
           setShowDetail={setShowDetail}
         />
       </>
@@ -324,6 +326,7 @@ const %(type_upper)s%(conn_upper)sContainer = createPaginationContainer(
           showCitationDetail: { type: Boolean, defaultValue: false }
           showEtymologyDetail: { type: Boolean, defaultValue: false }
           showCollectionDetail: { type: Boolean, defaultValue: false }
+          showNameDetail: { type: Boolean, defaultValue: false }
         ) {
         oid
         %(conn_lower)s(first: $count, after: $cursor)
@@ -338,6 +341,7 @@ const %(type_upper)s%(conn_upper)sContainer = createPaginationContainer(
             showCitationDetail: $showCitationDetail
             showCollectionDetail: $showCollectionDetail
             showEtymologyDetail: $showEtymologyDetail
+            showNameDetail: $showNameDetail
           )
         }
       }
@@ -346,7 +350,7 @@ const %(type_upper)s%(conn_upper)sContainer = createPaginationContainer(
   {
     getConnectionFromProps: (props) => props.%(type_lower)sInner.%(conn_lower)s,
     getVariables(props, { count, cursor }, fragmentVariables) {
-      const { showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail } = props;
+      const { showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail } = props;
       return {
         count,
         cursor,
@@ -354,7 +358,8 @@ const %(type_upper)s%(conn_upper)sContainer = createPaginationContainer(
         showLocationDetail,
         showCitationDetail,
         showCollectionDetail,
-        showEtymologyDetail
+        showEtymologyDetail,
+        showNameDetail
       };
     },
     query: graphql`
@@ -366,10 +371,19 @@ const %(type_upper)s%(conn_upper)sContainer = createPaginationContainer(
         $showCitationDetail: Boolean!
         $showCollectionDetail: Boolean!
         $showEtymologyDetail: Boolean!
+        $showNameDetail: Boolean!
       ) {
         %(type_lower)s(oid: $oid) {
           ...%(type_upper)s%(conn_upper)s_%(type_lower)sInner
-            @arguments(count: $count, cursor: $cursor, showLocationDetail: $showLocationDetail, showCitationDetail: $showCitationDetail, showCollectionDetail: $showCollectionDetail, showEtymologyDetail: $showEtymologyDetail)
+            @arguments(
+              count: $count
+              cursor: $cursor
+              showLocationDetail: $showLocationDetail
+              showCitationDetail: $showCitationDetail
+              showCollectionDetail: $showCollectionDetail
+              showEtymologyDetail: $showEtymologyDetail
+              showNameDetail: $showNameDetail
+            )
         }
       }
     `,
@@ -381,6 +395,12 @@ interface %(type_upper)s%(conn_upper)sProps {
   title?: string;
   hideTitle?: boolean;
   numToLoad?: number;
+  hideClassification?: boolean;
+  showLocationDetail?: boolean;
+  showCitationDetail?: boolean;
+  showCollectionDetail?: boolean;
+  showEtymologyDetail?: boolean;
+  showNameDetail?: boolean;
 };
 
 class %(type_upper)s%(conn_upper)s extends React.Component<
@@ -390,22 +410,25 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
     showCitationDetail: boolean;
     showCollectionDetail: boolean;
     showEtymologyDetail: boolean;
+    showNameDetail: boolean;
   }
 > {
   constructor(props: %(type_upper)s%(conn_upper)sProps) {
     super(props);
+    const { showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail } = props;
     this.state = {
-      showLocationDetail: false,
-      showCitationDetail: false,
-      showCollectionDetail: false,
-      showEtymologyDetail: false
+      showLocationDetail: showLocationDetail ?? false,
+      showCitationDetail: showCitationDetail ?? false,
+      showCollectionDetail: showCollectionDetail ?? false,
+      showEtymologyDetail: showEtymologyDetail ?? false,
+      showNameDetail: showNameDetail ?? false,
     };
   }
 
   render() {
-    const { %(type_lower)s, title, hideTitle, numToLoad } = this.props;
-    const { showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail } = this.state;
-    if (showLocationDetail || showCitationDetail || showCollectionDetail || showEtymologyDetail) {
+    const { %(type_lower)s, title, hideTitle, numToLoad, hideClassification } = this.props;
+    const { showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail } = this.state;
+    if (showLocationDetail || showCitationDetail || showCollectionDetail || showEtymologyDetail || showNameDetail) {
       return <QueryRenderer<%(type_upper)s%(conn_upper)sDetailQuery>
         environment={environment}
         query={graphql`
@@ -415,6 +438,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
             $showCitationDetail: Boolean!
             $showCollectionDetail: Boolean!
             $showEtymologyDetail: Boolean!
+            $showNameDetail: Boolean!
           ) {
             %(type_lower)s(oid: $oid) {
               ...%(type_upper)s%(conn_upper)s_%(type_lower)sInner
@@ -423,6 +447,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
                   showCitationDetail: $showCitationDetail
                   showCollectionDetail: $showCollectionDetail
                   showEtymologyDetail: $showEtymologyDetail
+                  showNameDetail: $showNameDetail
                 )
             }
           }
@@ -432,7 +457,8 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
           showLocationDetail,
           showCitationDetail,
           showCollectionDetail,
-          showEtymologyDetail
+          showEtymologyDetail,
+          showNameDetail
         }}
         render={({ error, props }) => {
           if (error) {
@@ -450,7 +476,9 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
             showCitationDetail={showCitationDetail}
             showCollectionDetail={showCollectionDetail}
             showEtymologyDetail={showEtymologyDetail}
+            showNameDetail={showNameDetail}
             setShowDetail={%(set_show_detail)s}
+            hideClassification={hideClassification}
           />;
         }}
       />;
@@ -464,7 +492,9 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
       showCitationDetail={showCitationDetail}
       showCollectionDetail={showCollectionDetail}
       showEtymologyDetail={showEtymologyDetail}
+      showNameDetail={showNameDetail}
       setShowDetail={%(set_show_detail)s}
+      hideClassification={hideClassification}
     />
   }
 }
@@ -528,6 +558,8 @@ def kind_of_detail(type_name: str) -> Optional[str]:
         return "showCitationDetail"
     elif type_name in ("NameComplex", "SpeciesNameComplex"):
         return "showEtymologyDetail"
+    elif type_name == "Taxon":
+        return "showNameDetail"
     else:
         return None
 

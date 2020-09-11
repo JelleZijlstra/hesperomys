@@ -26,7 +26,9 @@ interface NameTypifiedNamesInnerProps {
   showCitationDetail: boolean;
   showCollectionDetail: boolean;
   showEtymologyDetail: boolean;
+  showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
+  hideClassification?: boolean;
 }
 
 class NameTypifiedNamesInner extends React.Component<
@@ -43,7 +45,9 @@ class NameTypifiedNamesInner extends React.Component<
       showCitationDetail,
       showCollectionDetail,
       showEtymologyDetail,
+      showNameDetail,
       setShowDetail,
+      hideClassification,
     } = this.props;
     if (
       !nameInner.typifiedNames ||
@@ -54,7 +58,10 @@ class NameTypifiedNamesInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "TypifiedNames"}</h3>}
-        <NameList connection={nameInner.typifiedNames} />
+        <NameList
+          connection={nameInner.typifiedNames}
+          hideClassification={hideClassification}
+        />
         <LoadMoreButton
           numToLoad={numToLoad || 100}
           relay={relay}
@@ -62,7 +69,8 @@ class NameTypifiedNamesInner extends React.Component<
             showLocationDetail ||
             showCitationDetail ||
             showCollectionDetail ||
-            showEtymologyDetail
+            showEtymologyDetail ||
+            showNameDetail
           }
           setShowDetail={setShowDetail}
         />
@@ -83,6 +91,7 @@ const NameTypifiedNamesContainer = createPaginationContainer(
           showCitationDetail: { type: Boolean, defaultValue: false }
           showEtymologyDetail: { type: Boolean, defaultValue: false }
           showCollectionDetail: { type: Boolean, defaultValue: false }
+          showNameDetail: { type: Boolean, defaultValue: false }
         ) {
         oid
         typifiedNames(first: $count, after: $cursor)
@@ -98,6 +107,7 @@ const NameTypifiedNamesContainer = createPaginationContainer(
               showCitationDetail: $showCitationDetail
               showCollectionDetail: $showCollectionDetail
               showEtymologyDetail: $showEtymologyDetail
+              showNameDetail: $showNameDetail
             )
         }
       }
@@ -111,6 +121,7 @@ const NameTypifiedNamesContainer = createPaginationContainer(
         showCitationDetail,
         showCollectionDetail,
         showEtymologyDetail,
+        showNameDetail,
       } = props;
       return {
         count,
@@ -120,6 +131,7 @@ const NameTypifiedNamesContainer = createPaginationContainer(
         showCitationDetail,
         showCollectionDetail,
         showEtymologyDetail,
+        showNameDetail,
       };
     },
     query: graphql`
@@ -131,6 +143,7 @@ const NameTypifiedNamesContainer = createPaginationContainer(
         $showCitationDetail: Boolean!
         $showCollectionDetail: Boolean!
         $showEtymologyDetail: Boolean!
+        $showNameDetail: Boolean!
       ) {
         name(oid: $oid) {
           ...NameTypifiedNames_nameInner
@@ -141,6 +154,7 @@ const NameTypifiedNamesContainer = createPaginationContainer(
               showCitationDetail: $showCitationDetail
               showCollectionDetail: $showCollectionDetail
               showEtymologyDetail: $showEtymologyDetail
+              showNameDetail: $showNameDetail
             )
         }
       }
@@ -153,6 +167,12 @@ interface NameTypifiedNamesProps {
   title?: string;
   hideTitle?: boolean;
   numToLoad?: number;
+  hideClassification?: boolean;
+  showLocationDetail?: boolean;
+  showCitationDetail?: boolean;
+  showCollectionDetail?: boolean;
+  showEtymologyDetail?: boolean;
+  showNameDetail?: boolean;
 }
 
 class NameTypifiedNames extends React.Component<
@@ -162,31 +182,48 @@ class NameTypifiedNames extends React.Component<
     showCitationDetail: boolean;
     showCollectionDetail: boolean;
     showEtymologyDetail: boolean;
+    showNameDetail: boolean;
   }
 > {
   constructor(props: NameTypifiedNamesProps) {
     super(props);
-    this.state = {
-      showLocationDetail: false,
-      showCitationDetail: false,
-      showCollectionDetail: false,
-      showEtymologyDetail: false,
-    };
-  }
-
-  render() {
-    const { name, title, hideTitle, numToLoad } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
       showEtymologyDetail,
+      showNameDetail,
+    } = props;
+    this.state = {
+      showLocationDetail: showLocationDetail ?? false,
+      showCitationDetail: showCitationDetail ?? false,
+      showCollectionDetail: showCollectionDetail ?? false,
+      showEtymologyDetail: showEtymologyDetail ?? false,
+      showNameDetail: showNameDetail ?? false,
+    };
+  }
+
+  render() {
+    const {
+      name,
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+    } = this.props;
+    const {
+      showLocationDetail,
+      showCitationDetail,
+      showCollectionDetail,
+      showEtymologyDetail,
+      showNameDetail,
     } = this.state;
     if (
       showLocationDetail ||
       showCitationDetail ||
       showCollectionDetail ||
-      showEtymologyDetail
+      showEtymologyDetail ||
+      showNameDetail
     ) {
       return (
         <QueryRenderer<NameTypifiedNamesDetailQuery>
@@ -198,6 +235,7 @@ class NameTypifiedNames extends React.Component<
               $showCitationDetail: Boolean!
               $showCollectionDetail: Boolean!
               $showEtymologyDetail: Boolean!
+              $showNameDetail: Boolean!
             ) {
               name(oid: $oid) {
                 ...NameTypifiedNames_nameInner
@@ -206,6 +244,7 @@ class NameTypifiedNames extends React.Component<
                     showCitationDetail: $showCitationDetail
                     showCollectionDetail: $showCollectionDetail
                     showEtymologyDetail: $showEtymologyDetail
+                    showNameDetail: $showNameDetail
                   )
               }
             }
@@ -216,6 +255,7 @@ class NameTypifiedNames extends React.Component<
             showCitationDetail,
             showCollectionDetail,
             showEtymologyDetail,
+            showNameDetail,
           }}
           render={({ error, props }) => {
             if (error) {
@@ -234,7 +274,9 @@ class NameTypifiedNames extends React.Component<
                 showCitationDetail={showCitationDetail}
                 showCollectionDetail={showCollectionDetail}
                 showEtymologyDetail={showEtymologyDetail}
+                showNameDetail={showNameDetail}
                 setShowDetail={undefined}
+                hideClassification={hideClassification}
               />
             );
           }}
@@ -251,7 +293,9 @@ class NameTypifiedNames extends React.Component<
         showCitationDetail={showCitationDetail}
         showCollectionDetail={showCollectionDetail}
         showEtymologyDetail={showEtymologyDetail}
+        showNameDetail={showNameDetail}
         setShowDetail={undefined}
+        hideClassification={hideClassification}
       />
     );
   }

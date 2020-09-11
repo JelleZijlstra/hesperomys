@@ -26,7 +26,9 @@ interface SpeciesNameComplexNamesInnerProps {
   showCitationDetail: boolean;
   showCollectionDetail: boolean;
   showEtymologyDetail: boolean;
+  showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
+  hideClassification?: boolean;
 }
 
 class SpeciesNameComplexNamesInner extends React.Component<
@@ -43,7 +45,9 @@ class SpeciesNameComplexNamesInner extends React.Component<
       showCitationDetail,
       showCollectionDetail,
       showEtymologyDetail,
+      showNameDetail,
       setShowDetail,
+      hideClassification,
     } = this.props;
     if (
       !speciesNameComplexInner.names ||
@@ -54,7 +58,10 @@ class SpeciesNameComplexNamesInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
-        <NameList connection={speciesNameComplexInner.names} />
+        <NameList
+          connection={speciesNameComplexInner.names}
+          hideClassification={hideClassification}
+        />
         <LoadMoreButton
           numToLoad={numToLoad || 100}
           relay={relay}
@@ -62,7 +69,8 @@ class SpeciesNameComplexNamesInner extends React.Component<
             showLocationDetail ||
             showCitationDetail ||
             showCollectionDetail ||
-            showEtymologyDetail
+            showEtymologyDetail ||
+            showNameDetail
           }
           setShowDetail={setShowDetail}
         />
@@ -83,6 +91,7 @@ const SpeciesNameComplexNamesContainer = createPaginationContainer(
           showCitationDetail: { type: Boolean, defaultValue: false }
           showEtymologyDetail: { type: Boolean, defaultValue: false }
           showCollectionDetail: { type: Boolean, defaultValue: false }
+          showNameDetail: { type: Boolean, defaultValue: false }
         ) {
         oid
         names(first: $count, after: $cursor)
@@ -98,6 +107,7 @@ const SpeciesNameComplexNamesContainer = createPaginationContainer(
               showCitationDetail: $showCitationDetail
               showCollectionDetail: $showCollectionDetail
               showEtymologyDetail: $showEtymologyDetail
+              showNameDetail: $showNameDetail
             )
         }
       }
@@ -111,6 +121,7 @@ const SpeciesNameComplexNamesContainer = createPaginationContainer(
         showCitationDetail,
         showCollectionDetail,
         showEtymologyDetail,
+        showNameDetail,
       } = props;
       return {
         count,
@@ -120,6 +131,7 @@ const SpeciesNameComplexNamesContainer = createPaginationContainer(
         showCitationDetail,
         showCollectionDetail,
         showEtymologyDetail,
+        showNameDetail,
       };
     },
     query: graphql`
@@ -131,6 +143,7 @@ const SpeciesNameComplexNamesContainer = createPaginationContainer(
         $showCitationDetail: Boolean!
         $showCollectionDetail: Boolean!
         $showEtymologyDetail: Boolean!
+        $showNameDetail: Boolean!
       ) {
         speciesNameComplex(oid: $oid) {
           ...SpeciesNameComplexNames_speciesNameComplexInner
@@ -141,6 +154,7 @@ const SpeciesNameComplexNamesContainer = createPaginationContainer(
               showCitationDetail: $showCitationDetail
               showCollectionDetail: $showCollectionDetail
               showEtymologyDetail: $showEtymologyDetail
+              showNameDetail: $showNameDetail
             )
         }
       }
@@ -153,6 +167,12 @@ interface SpeciesNameComplexNamesProps {
   title?: string;
   hideTitle?: boolean;
   numToLoad?: number;
+  hideClassification?: boolean;
+  showLocationDetail?: boolean;
+  showCitationDetail?: boolean;
+  showCollectionDetail?: boolean;
+  showEtymologyDetail?: boolean;
+  showNameDetail?: boolean;
 }
 
 class SpeciesNameComplexNames extends React.Component<
@@ -162,31 +182,48 @@ class SpeciesNameComplexNames extends React.Component<
     showCitationDetail: boolean;
     showCollectionDetail: boolean;
     showEtymologyDetail: boolean;
+    showNameDetail: boolean;
   }
 > {
   constructor(props: SpeciesNameComplexNamesProps) {
     super(props);
-    this.state = {
-      showLocationDetail: false,
-      showCitationDetail: false,
-      showCollectionDetail: false,
-      showEtymologyDetail: false,
-    };
-  }
-
-  render() {
-    const { speciesNameComplex, title, hideTitle, numToLoad } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
       showEtymologyDetail,
+      showNameDetail,
+    } = props;
+    this.state = {
+      showLocationDetail: showLocationDetail ?? false,
+      showCitationDetail: showCitationDetail ?? false,
+      showCollectionDetail: showCollectionDetail ?? false,
+      showEtymologyDetail: showEtymologyDetail ?? false,
+      showNameDetail: showNameDetail ?? false,
+    };
+  }
+
+  render() {
+    const {
+      speciesNameComplex,
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+    } = this.props;
+    const {
+      showLocationDetail,
+      showCitationDetail,
+      showCollectionDetail,
+      showEtymologyDetail,
+      showNameDetail,
     } = this.state;
     if (
       showLocationDetail ||
       showCitationDetail ||
       showCollectionDetail ||
-      showEtymologyDetail
+      showEtymologyDetail ||
+      showNameDetail
     ) {
       return (
         <QueryRenderer<SpeciesNameComplexNamesDetailQuery>
@@ -198,6 +235,7 @@ class SpeciesNameComplexNames extends React.Component<
               $showCitationDetail: Boolean!
               $showCollectionDetail: Boolean!
               $showEtymologyDetail: Boolean!
+              $showNameDetail: Boolean!
             ) {
               speciesNameComplex(oid: $oid) {
                 ...SpeciesNameComplexNames_speciesNameComplexInner
@@ -206,6 +244,7 @@ class SpeciesNameComplexNames extends React.Component<
                     showCitationDetail: $showCitationDetail
                     showCollectionDetail: $showCollectionDetail
                     showEtymologyDetail: $showEtymologyDetail
+                    showNameDetail: $showNameDetail
                   )
               }
             }
@@ -216,6 +255,7 @@ class SpeciesNameComplexNames extends React.Component<
             showCitationDetail,
             showCollectionDetail,
             showEtymologyDetail,
+            showNameDetail,
           }}
           render={({ error, props }) => {
             if (error) {
@@ -234,9 +274,11 @@ class SpeciesNameComplexNames extends React.Component<
                 showCitationDetail={showCitationDetail}
                 showCollectionDetail={showCollectionDetail}
                 showEtymologyDetail={showEtymologyDetail}
+                showNameDetail={showNameDetail}
                 setShowDetail={(showDetail) =>
                   this.setState({ showEtymologyDetail: showDetail })
                 }
+                hideClassification={hideClassification}
               />
             );
           }}
@@ -253,9 +295,11 @@ class SpeciesNameComplexNames extends React.Component<
         showCitationDetail={showCitationDetail}
         showCollectionDetail={showCollectionDetail}
         showEtymologyDetail={showEtymologyDetail}
+        showNameDetail={showNameDetail}
         setShowDetail={(showDetail) =>
           this.setState({ showEtymologyDetail: showDetail })
         }
+        hideClassification={hideClassification}
       />
     );
   }
