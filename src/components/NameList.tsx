@@ -5,6 +5,7 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
 import ModelLink from "./ModelLink";
+import { Detail } from "./NameTypeTags";
 
 type Name = Exclude<
   Exclude<NameList_connection["edges"][0], null>["node"],
@@ -109,6 +110,36 @@ class NameList extends React.Component<{ connection: NameList_connection }> {
         {node.directChildren.map((name) => (
           <li key={name.oid}>
             <ModelLink model={name} />
+            {name.typeTags && (
+              <ul>
+                {name.verbatimCitation && <li>Raw citation: {name.verbatimCitation}</li>}
+                {(name.typeSpecimen || name.speciesTypeKind) && <li>
+                  {name.speciesTypeKind || "Type"}
+                  {name.typeSpecimen && ": " + name.typeSpecimen}
+                </li>}
+                {name.typeTags.map((tag) => {
+                  if (!tag) {
+                    return null;
+                  }
+                  switch (tag.__typename) {
+                    case "LocationDetail":
+                    case "CitationDetail":
+                    case "CollectionDetail":
+                    case "EtymologyDetail":
+                      if (!tag.text) {
+                        return null;
+                      }
+                      return (
+                        <li key={tag.text}>
+                          <Detail text={tag.text} source={tag.source} />
+                        </li>
+                      );
+                    default:
+                      return null;
+                  }
+                })}
+              </ul>
+            )}
           </li>
         ))}
       </ul>
@@ -118,13 +149,62 @@ class NameList extends React.Component<{ connection: NameList_connection }> {
 
 export default createFragmentContainer(NameList, {
   connection: graphql`
-    fragment NameList_connection on NameConnection {
+    fragment NameList_connection on NameConnection
+      @argumentDefinitions(
+        showLocationDetail: { type: Boolean, defaultValue: true }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+      ) {
       edges {
         node {
           ...ModelLink_model
           oid
           status
           rootName
+          typeTags @include(if: $showLocationDetail) {
+            __typename
+            ... on LocationDetail {
+              text
+              source {
+                ...ModelLink_model
+              }
+            }
+          }
+
+          typeTags @include(if: $showCitationDetail) {
+            __typename
+            ... on CitationDetail {
+              text
+              source {
+                ...ModelLink_model
+              }
+            }
+          }
+          verbatimCitation @include(if: $showCitationDetail)
+
+          typeTags @include(if: $showEtymologyDetail) {
+            __typename
+            ... on EtymologyDetail {
+              text
+              source {
+                ...ModelLink_model
+              }
+            }
+          }
+
+          typeSpecimen @include(if: $showCollectionDetail)
+          speciesTypeKind @include(if: $showCollectionDetail)
+          typeTags @include(if: $showCollectionDetail) {
+            __typename
+            ... on CollectionDetail {
+              text
+              source {
+                ...ModelLink_model
+              }
+            }
+          }
+
           taxon {
             validName
             class_ {

@@ -263,50 +263,67 @@ LIST_TEMPLATE = """
 import * as React from "react";
 
 import { %(type_upper)s%(conn_upper)s_%(type_lower)s } from "./__generated__/%(type_upper)s%(conn_upper)s_%(type_lower)s.graphql";
+import { %(type_upper)s%(conn_upper)s_%(type_lower)sInner } from "./__generated__/%(type_upper)s%(conn_upper)s_%(type_lower)sInner.graphql";
+import { %(type_upper)s%(conn_upper)sDetailQuery } from "./__generated__/%(type_upper)s%(conn_upper)sDetailQuery.graphql";
 
-import { createPaginationContainer, RelayPaginationProp } from "react-relay";
+import { createPaginationContainer, createFragmentContainer, QueryRenderer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
 import LoadMoreButton from "../components/LoadMoreButton";
 import %(node_type_upper)sList from "../components/%(node_type_upper)sList";
+import environment from "../relayEnvironment";
 
-interface %(type_upper)s%(conn_upper)sProps {
-  %(type_lower)s: %(type_upper)s%(conn_upper)s_%(type_lower)s;
+interface %(type_upper)s%(conn_upper)sInnerProps {
+  %(type_lower)sInner: %(type_upper)s%(conn_upper)s_%(type_lower)sInner;
   title?: string;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  showLocationDetail: boolean;
+  showCitationDetail: boolean;
+  showCollectionDetail: boolean;
+  showEtymologyDetail: boolean;
+  setShowDetail?: (showDetail: boolean) => void;
 };
 
-class %(type_upper)s%(conn_upper)s extends React.Component<
-  %(type_upper)s%(conn_upper)sProps
+class %(type_upper)s%(conn_upper)sInner extends React.Component<
+  %(type_upper)s%(conn_upper)sInnerProps
 > {
   render() {
-    const { %(type_lower)s, relay, numToLoad, hideTitle, title } = this.props;
+    const { %(type_lower)sInner, relay, numToLoad, hideTitle, title, showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, setShowDetail } = this.props;
     if (
-      !%(type_lower)s.%(conn_lower)s ||
-      %(type_lower)s.%(conn_lower)s.edges.length === 0
+      !%(type_lower)sInner.%(conn_lower)s ||
+      %(type_lower)sInner.%(conn_lower)s.edges.length === 0
     ) {
       return null;
     }
     return (
       <>
         {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
-        <%(node_type_upper)sList connection={%(type_lower)s.%(conn_lower)s} />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <%(node_type_upper)sList connection={%(type_lower)sInner.%(conn_lower)s} />
+        <LoadMoreButton
+          numToLoad={numToLoad || 100}
+          relay={relay}
+          showDetail={showLocationDetail || showCitationDetail || showCollectionDetail || showEtymologyDetail}
+          setShowDetail={setShowDetail}
+        />
       </>
     );
   }
 }
 
-export default createPaginationContainer(
-  %(type_upper)s%(conn_upper)s,
+const %(type_upper)s%(conn_upper)sContainer = createPaginationContainer(
+  %(type_upper)s%(conn_upper)sInner,
   {
-    %(type_lower)s: graphql`
-      fragment %(type_upper)s%(conn_upper)s_%(type_lower)s on %(type_upper)s
+    %(type_lower)sInner: graphql`
+      fragment %(type_upper)s%(conn_upper)s_%(type_lower)sInner on %(type_upper)s
         @argumentDefinitions(
           count: { type: "Int", defaultValue: 10 }
           cursor: { type: "String", defaultValue: null }
+          showLocationDetail: { type: Boolean, defaultValue: false }
+          showCitationDetail: { type: Boolean, defaultValue: false }
+          showEtymologyDetail: { type: Boolean, defaultValue: false }
+          showCollectionDetail: { type: Boolean, defaultValue: false }
         ) {
         oid
         %(conn_lower)s(first: $count, after: $cursor)
@@ -316,18 +333,28 @@ export default createPaginationContainer(
               oid
             }
           }
-          ...%(node_type_upper)sList_connection
+          ...%(node_type_upper)sList_connection @arguments(
+            showLocationDetail: $showLocationDetail
+            showCitationDetail: $showCitationDetail
+            showCollectionDetail: $showCollectionDetail
+            showEtymologyDetail: $showEtymologyDetail
+          )
         }
       }
     `,
   },
   {
-    getConnectionFromProps: (props) => props.%(type_lower)s.%(conn_lower)s,
+    getConnectionFromProps: (props) => props.%(type_lower)sInner.%(conn_lower)s,
     getVariables(props, { count, cursor }, fragmentVariables) {
+      const { showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail } = props;
       return {
         count,
         cursor,
-        oid: props.%(type_lower)s.oid,
+        oid: props.%(type_lower)sInner.oid,
+        showLocationDetail,
+        showCitationDetail,
+        showCollectionDetail,
+        showEtymologyDetail
       };
     },
     query: graphql`
@@ -335,15 +362,121 @@ export default createPaginationContainer(
         $count: Int!
         $cursor: String
         $oid: Int!
+        $showLocationDetail: Boolean!
+        $showCitationDetail: Boolean!
+        $showCollectionDetail: Boolean!
+        $showEtymologyDetail: Boolean!
       ) {
         %(type_lower)s(oid: $oid) {
-          ...%(type_upper)s%(conn_upper)s_%(type_lower)s
-            @arguments(count: $count, cursor: $cursor)
+          ...%(type_upper)s%(conn_upper)s_%(type_lower)sInner
+            @arguments(count: $count, cursor: $cursor, showLocationDetail: $showLocationDetail, showCitationDetail: $showCitationDetail, showCollectionDetail: $showCollectionDetail, showEtymologyDetail: $showEtymologyDetail)
         }
       }
     `,
   }
 );
+
+interface %(type_upper)s%(conn_upper)sProps {
+  %(type_lower)s: %(type_upper)s%(conn_upper)s_%(type_lower)s;
+  title?: string;
+  hideTitle?: boolean;
+  numToLoad?: number;
+};
+
+class %(type_upper)s%(conn_upper)s extends React.Component<
+  %(type_upper)s%(conn_upper)sProps,
+  {
+    showLocationDetail: boolean;
+    showCitationDetail: boolean;
+    showCollectionDetail: boolean;
+    showEtymologyDetail: boolean;
+  }
+> {
+  constructor(props: %(type_upper)s%(conn_upper)sProps) {
+    super(props);
+    this.state = {
+      showLocationDetail: false,
+      showCitationDetail: false,
+      showCollectionDetail: false,
+      showEtymologyDetail: false
+    };
+  }
+
+  render() {
+    const { %(type_lower)s, title, hideTitle, numToLoad } = this.props;
+    const { showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail } = this.state;
+    if (showLocationDetail || showCitationDetail || showCollectionDetail || showEtymologyDetail) {
+      return <QueryRenderer<%(type_upper)s%(conn_upper)sDetailQuery>
+        environment={environment}
+        query={graphql`
+          query %(type_upper)s%(conn_upper)sDetailQuery(
+            $oid: Int!
+            $showLocationDetail: Boolean!
+            $showCitationDetail: Boolean!
+            $showCollectionDetail: Boolean!
+            $showEtymologyDetail: Boolean!
+          ) {
+            %(type_lower)s(oid: $oid) {
+              ...%(type_upper)s%(conn_upper)s_%(type_lower)sInner
+                @arguments(
+                  showLocationDetail: $showLocationDetail
+                  showCitationDetail: $showCitationDetail
+                  showCollectionDetail: $showCollectionDetail
+                  showEtymologyDetail: $showEtymologyDetail
+                )
+            }
+          }
+        `}
+        variables={{ 
+          oid: %(type_lower)s.oid,
+          showLocationDetail,
+          showCitationDetail,
+          showCollectionDetail,
+          showEtymologyDetail
+        }}
+        render={({ error, props }) => {
+          if (error) {
+            return <div>Failed to load</div>;
+          }
+          if (!props || !props.%(type_lower)s) {
+            return <div>Loading...</div>;
+          }
+          return <%(type_upper)s%(conn_upper)sContainer
+            %(type_lower)sInner={props.%(type_lower)s}
+            title={title}
+            hideTitle={hideTitle}
+            numToLoad={numToLoad}
+            showLocationDetail={showLocationDetail}
+            showCitationDetail={showCitationDetail}
+            showCollectionDetail={showCollectionDetail}
+            showEtymologyDetail={showEtymologyDetail}
+            setShowDetail={%(set_show_detail)s}
+          />;
+        }}
+      />;
+    }
+    return <%(type_upper)s%(conn_upper)sContainer
+      %(type_lower)sInner={%(type_lower)s}
+      title={title}
+      hideTitle={hideTitle}
+      numToLoad={numToLoad}
+      showLocationDetail={showLocationDetail}
+      showCitationDetail={showCitationDetail}
+      showCollectionDetail={showCollectionDetail}
+      showEtymologyDetail={showEtymologyDetail}
+      setShowDetail={%(set_show_detail)s}
+    />
+  }
+}
+
+export default createFragmentContainer(%(type_upper)s%(conn_upper)s, {
+  %(type_lower)s: graphql`
+    fragment %(type_upper)s%(conn_upper)s_%(type_lower)s on %(type_upper)s {
+      oid
+      ...%(type_upper)s%(conn_upper)s_%(type_lower)sInner
+    }
+  `
+});
 """
 LIST_TYPES = {"Name"}
 CHILDREN_TYPES = {"Period", "Region"}
@@ -386,6 +519,19 @@ def should_use_children_template(type_name: str, conn_name: str) -> bool:
     return True
 
 
+def kind_of_detail(type_name: str) -> Optional[str]:
+    if type_name == "Location":
+        return "showLocationDetail"
+    elif type_name == "Collection":
+        return "showCollectionDetail"
+    elif type_name == "CitationGroup":
+        return "showCitationDetail"
+    elif type_name in ("NameComplex", "SpeciesNameComplex"):
+        return "showEtymologyDetail"
+    else:
+        return None
+
+
 def write_component(
     type_name: str, conn_name: str, field_type: str, force: bool = False
 ) -> Optional[Path]:
@@ -397,6 +543,7 @@ def write_component(
     if not force and path.exists():
         print(f"{path} already exists; skipping")
         return None
+    detail_field = kind_of_detail(type_name)
     args = {
         "type_upper": type_upper,
         "type_lower": type_lower,
@@ -406,6 +553,7 @@ def write_component(
         "set_expand_all": "(expandAll: boolean) => this.setState({ expandAll })"
         if field_type in ["Taxon", "Region", "Period", "Location", "Collection"]
         else "undefined",
+        "set_show_detail": f'showDetail => this.setState({{ {detail_field}: showDetail }})' if detail_field else "undefined"
     }
     if field_type in LIST_TYPES:
         text = LIST_TEMPLATE % args

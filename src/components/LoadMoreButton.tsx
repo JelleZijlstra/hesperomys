@@ -8,6 +8,8 @@ interface LoadMoreButtonProps {
   setExpandAll?: (expandAll: boolean) => void;
   showChildren?: boolean;
   setShowChildren?: (showChildren: boolean) => void;
+  showDetail?: boolean;
+  setShowDetail?: (showDetail: boolean) => void;
 }
 
 export default class LoadMoreButton extends React.Component<
@@ -25,6 +27,8 @@ export default class LoadMoreButton extends React.Component<
       setExpandAll,
       showChildren,
       setShowChildren,
+      showDetail,
+      setShowDetail
     } = this.props;
     const hasMore = relay.hasMore();
     const components = [];
@@ -57,6 +61,13 @@ export default class LoadMoreButton extends React.Component<
       components.push(
         <span onClick={() => setShowChildren(!showChildren)}>
           {showChildren ? "hide children" : "show children"}
+        </span>
+      );
+    }
+    if (setShowDetail) {
+      components.push(
+        <span onClick={() => setShowDetail(!showDetail)}>
+          {showDetail ? "hide detail" : "show detail"}
         </span>
       );
     }

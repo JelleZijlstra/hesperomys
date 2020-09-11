@@ -8,7 +8,7 @@ import ModelLink from "./ModelLink";
 
 type TypeTag_tag = Exclude<NameTypeTags_name["typeTags"][0], null>;
 
-function Detail({ text, source }: { text: string | null; source: any }) {
+export function Detail({ text, source }: { text: string | null; source: any }) {
   if (!text) {
     return null;
   }
