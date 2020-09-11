@@ -203,14 +203,41 @@ class SpeciesNameComplexNames extends React.Component<
     };
   }
 
-  render() {
+  renderInner(
+    speciesNameComplex: Omit<
+      SpeciesNameComplexNames_speciesNameComplex,
+      "oid" | " $refType"
+    >
+  ) {
+    const { title, hideTitle, numToLoad, hideClassification } = this.props;
     const {
-      speciesNameComplex,
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-    } = this.props;
+      showLocationDetail,
+      showCitationDetail,
+      showCollectionDetail,
+      showEtymologyDetail,
+      showNameDetail,
+    } = this.state;
+    return (
+      <SpeciesNameComplexNamesContainer
+        speciesNameComplexInner={speciesNameComplex}
+        title={title}
+        hideTitle={hideTitle}
+        numToLoad={numToLoad}
+        showLocationDetail={showLocationDetail}
+        showCitationDetail={showCitationDetail}
+        showCollectionDetail={showCollectionDetail}
+        showEtymologyDetail={showEtymologyDetail}
+        showNameDetail={showNameDetail}
+        setShowDetail={(showDetail) =>
+          this.setState({ showEtymologyDetail: showDetail })
+        }
+        hideClassification={hideClassification}
+      />
+    );
+  }
+
+  render() {
+    const { speciesNameComplex } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -262,46 +289,14 @@ class SpeciesNameComplexNames extends React.Component<
               return <div>Failed to load</div>;
             }
             if (!props || !props.speciesNameComplex) {
-              return <div>Loading...</div>;
+              return this.renderInner(speciesNameComplex);
             }
-            return (
-              <SpeciesNameComplexNamesContainer
-                speciesNameComplexInner={props.speciesNameComplex}
-                title={title}
-                hideTitle={hideTitle}
-                numToLoad={numToLoad}
-                showLocationDetail={showLocationDetail}
-                showCitationDetail={showCitationDetail}
-                showCollectionDetail={showCollectionDetail}
-                showEtymologyDetail={showEtymologyDetail}
-                showNameDetail={showNameDetail}
-                setShowDetail={(showDetail) =>
-                  this.setState({ showEtymologyDetail: showDetail })
-                }
-                hideClassification={hideClassification}
-              />
-            );
+            return this.renderInner(props.speciesNameComplex);
           }}
         />
       );
     }
-    return (
-      <SpeciesNameComplexNamesContainer
-        speciesNameComplexInner={speciesNameComplex}
-        title={title}
-        hideTitle={hideTitle}
-        numToLoad={numToLoad}
-        showLocationDetail={showLocationDetail}
-        showCitationDetail={showCitationDetail}
-        showCollectionDetail={showCollectionDetail}
-        showEtymologyDetail={showEtymologyDetail}
-        showNameDetail={showNameDetail}
-        setShowDetail={(showDetail) =>
-          this.setState({ showEtymologyDetail: showDetail })
-        }
-        hideClassification={hideClassification}
-      />
-    );
+    return this.renderInner(speciesNameComplex);
   }
 }
 

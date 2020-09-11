@@ -203,14 +203,34 @@ class NameTypifiedNames extends React.Component<
     };
   }
 
-  render() {
+  renderInner(name: Omit<NameTypifiedNames_name, "oid" | " $refType">) {
+    const { title, hideTitle, numToLoad, hideClassification } = this.props;
     const {
-      name,
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-    } = this.props;
+      showLocationDetail,
+      showCitationDetail,
+      showCollectionDetail,
+      showEtymologyDetail,
+      showNameDetail,
+    } = this.state;
+    return (
+      <NameTypifiedNamesContainer
+        nameInner={name}
+        title={title}
+        hideTitle={hideTitle}
+        numToLoad={numToLoad}
+        showLocationDetail={showLocationDetail}
+        showCitationDetail={showCitationDetail}
+        showCollectionDetail={showCollectionDetail}
+        showEtymologyDetail={showEtymologyDetail}
+        showNameDetail={showNameDetail}
+        setShowDetail={undefined}
+        hideClassification={hideClassification}
+      />
+    );
+  }
+
+  render() {
+    const { name } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -262,42 +282,14 @@ class NameTypifiedNames extends React.Component<
               return <div>Failed to load</div>;
             }
             if (!props || !props.name) {
-              return <div>Loading...</div>;
+              return this.renderInner(name);
             }
-            return (
-              <NameTypifiedNamesContainer
-                nameInner={props.name}
-                title={title}
-                hideTitle={hideTitle}
-                numToLoad={numToLoad}
-                showLocationDetail={showLocationDetail}
-                showCitationDetail={showCitationDetail}
-                showCollectionDetail={showCollectionDetail}
-                showEtymologyDetail={showEtymologyDetail}
-                showNameDetail={showNameDetail}
-                setShowDetail={undefined}
-                hideClassification={hideClassification}
-              />
-            );
+            return this.renderInner(props.name);
           }}
         />
       );
     }
-    return (
-      <NameTypifiedNamesContainer
-        nameInner={name}
-        title={title}
-        hideTitle={hideTitle}
-        numToLoad={numToLoad}
-        showLocationDetail={showLocationDetail}
-        showCitationDetail={showCitationDetail}
-        showCollectionDetail={showCollectionDetail}
-        showEtymologyDetail={showEtymologyDetail}
-        showNameDetail={showNameDetail}
-        setShowDetail={undefined}
-        hideClassification={hideClassification}
-      />
-    );
+    return this.renderInner(name);
   }
 }
 

@@ -200,14 +200,38 @@ class NameComplexNames extends React.Component<
     };
   }
 
-  render() {
+  renderInner(
+    nameComplex: Omit<NameComplexNames_nameComplex, "oid" | " $refType">
+  ) {
+    const { title, hideTitle, numToLoad, hideClassification } = this.props;
     const {
-      nameComplex,
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-    } = this.props;
+      showLocationDetail,
+      showCitationDetail,
+      showCollectionDetail,
+      showEtymologyDetail,
+      showNameDetail,
+    } = this.state;
+    return (
+      <NameComplexNamesContainer
+        nameComplexInner={nameComplex}
+        title={title}
+        hideTitle={hideTitle}
+        numToLoad={numToLoad}
+        showLocationDetail={showLocationDetail}
+        showCitationDetail={showCitationDetail}
+        showCollectionDetail={showCollectionDetail}
+        showEtymologyDetail={showEtymologyDetail}
+        showNameDetail={showNameDetail}
+        setShowDetail={(showDetail) =>
+          this.setState({ showEtymologyDetail: showDetail })
+        }
+        hideClassification={hideClassification}
+      />
+    );
+  }
+
+  render() {
+    const { nameComplex } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -259,46 +283,14 @@ class NameComplexNames extends React.Component<
               return <div>Failed to load</div>;
             }
             if (!props || !props.nameComplex) {
-              return <div>Loading...</div>;
+              return this.renderInner(nameComplex);
             }
-            return (
-              <NameComplexNamesContainer
-                nameComplexInner={props.nameComplex}
-                title={title}
-                hideTitle={hideTitle}
-                numToLoad={numToLoad}
-                showLocationDetail={showLocationDetail}
-                showCitationDetail={showCitationDetail}
-                showCollectionDetail={showCollectionDetail}
-                showEtymologyDetail={showEtymologyDetail}
-                showNameDetail={showNameDetail}
-                setShowDetail={(showDetail) =>
-                  this.setState({ showEtymologyDetail: showDetail })
-                }
-                hideClassification={hideClassification}
-              />
-            );
+            return this.renderInner(props.nameComplex);
           }}
         />
       );
     }
-    return (
-      <NameComplexNamesContainer
-        nameComplexInner={nameComplex}
-        title={title}
-        hideTitle={hideTitle}
-        numToLoad={numToLoad}
-        showLocationDetail={showLocationDetail}
-        showCitationDetail={showCitationDetail}
-        showCollectionDetail={showCollectionDetail}
-        showEtymologyDetail={showEtymologyDetail}
-        showNameDetail={showNameDetail}
-        setShowDetail={(showDetail) =>
-          this.setState({ showEtymologyDetail: showDetail })
-        }
-        hideClassification={hideClassification}
-      />
-    );
+    return this.renderInner(nameComplex);
   }
 }
 

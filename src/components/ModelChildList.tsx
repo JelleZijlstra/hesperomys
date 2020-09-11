@@ -78,7 +78,7 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
             query={graphql`
               query ModelChildListTaxonQuery($id: ID!) {
                 node(id: $id) {
-                  ...TaxonNames_taxon
+                  ...TaxonNames_taxon @arguments(showNameDetail: true)
                   ...TaxonChildren_taxon
                 }
               }
@@ -93,7 +93,12 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
               }
               return (
                 <>
-                  <TaxonNames taxon={props.node} hideTitle hideClassification />
+                  <TaxonNames
+                    taxon={props.node}
+                    hideTitle
+                    hideClassification
+                    showNameDetail
+                  />
                   <TaxonChildren taxon={props.node} hideTitle />
                 </>
               );

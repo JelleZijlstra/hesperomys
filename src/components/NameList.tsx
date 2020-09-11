@@ -6,6 +6,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import ModelLink from "./ModelLink";
 import { Detail } from "./NameTypeTags";
+import { toTitle } from "../utils";
 
 type Name = Exclude<
   Exclude<NameList_connection["edges"][0], null>["node"],
@@ -120,7 +121,7 @@ class NameList extends React.Component<{
           if (name.typeLocality) {
             items.push(
               <li>
-                <ModelLink model={name.typeLocality} />
+                Type locality: <ModelLink model={name.typeLocality} />
               </li>
             );
           }
@@ -135,7 +136,7 @@ class NameList extends React.Component<{
           if (name.typeSpecimen || name.speciesTypeKind) {
             items.push(
               <li>
-                {name.speciesTypeKind || "Type"}
+                {name.speciesTypeKind ? toTitle(name.speciesTypeKind) : "Type"}
                 {name.typeSpecimen && ": " + name.typeSpecimen}
               </li>
             );

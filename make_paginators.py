@@ -425,8 +425,26 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
     };
   }
 
+  renderInner(%(type_lower)s: Omit<%(type_upper)s%(conn_upper)s_%(type_lower)s, "oid" | " $refType">) {
+    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const { showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail } = this.state;
+    return <%(type_upper)s%(conn_upper)sContainer
+      %(type_lower)sInner={%(type_lower)s}
+      title={title}
+      hideTitle={hideTitle}
+      numToLoad={numToLoad}
+      showLocationDetail={showLocationDetail}
+      showCitationDetail={showCitationDetail}
+      showCollectionDetail={showCollectionDetail}
+      showEtymologyDetail={showEtymologyDetail}
+      showNameDetail={showNameDetail}
+      setShowDetail={%(set_show_detail)s}
+      hideClassification={hideClassification}
+    />
+  }
+
   render() {
-    const { %(type_lower)s, title, hideTitle, numToLoad, hideClassification } = this.props;
+    const { %(type_lower)s } = this.props;
     const { showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail } = this.state;
     if (showLocationDetail || showCitationDetail || showCollectionDetail || showEtymologyDetail || showNameDetail) {
       return <QueryRenderer<%(type_upper)s%(conn_upper)sDetailQuery>
@@ -465,37 +483,13 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
             return <div>Failed to load</div>;
           }
           if (!props || !props.%(type_lower)s) {
-            return <div>Loading...</div>;
+            return this.renderInner(%(type_lower)s);
           }
-          return <%(type_upper)s%(conn_upper)sContainer
-            %(type_lower)sInner={props.%(type_lower)s}
-            title={title}
-            hideTitle={hideTitle}
-            numToLoad={numToLoad}
-            showLocationDetail={showLocationDetail}
-            showCitationDetail={showCitationDetail}
-            showCollectionDetail={showCollectionDetail}
-            showEtymologyDetail={showEtymologyDetail}
-            showNameDetail={showNameDetail}
-            setShowDetail={%(set_show_detail)s}
-            hideClassification={hideClassification}
-          />;
+          return this.renderInner(props.%(type_lower)s);
         }}
       />;
     }
-    return <%(type_upper)s%(conn_upper)sContainer
-      %(type_lower)sInner={%(type_lower)s}
-      title={title}
-      hideTitle={hideTitle}
-      numToLoad={numToLoad}
-      showLocationDetail={showLocationDetail}
-      showCitationDetail={showCitationDetail}
-      showCollectionDetail={showCollectionDetail}
-      showEtymologyDetail={showEtymologyDetail}
-      showNameDetail={showNameDetail}
-      setShowDetail={%(set_show_detail)s}
-      hideClassification={hideClassification}
-    />
+    return this.renderInner(%(type_lower)s);
   }
 }
 

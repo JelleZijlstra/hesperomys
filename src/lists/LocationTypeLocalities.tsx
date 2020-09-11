@@ -203,14 +203,38 @@ class LocationTypeLocalities extends React.Component<
     };
   }
 
-  render() {
+  renderInner(
+    location: Omit<LocationTypeLocalities_location, "oid" | " $refType">
+  ) {
+    const { title, hideTitle, numToLoad, hideClassification } = this.props;
     const {
-      location,
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-    } = this.props;
+      showLocationDetail,
+      showCitationDetail,
+      showCollectionDetail,
+      showEtymologyDetail,
+      showNameDetail,
+    } = this.state;
+    return (
+      <LocationTypeLocalitiesContainer
+        locationInner={location}
+        title={title}
+        hideTitle={hideTitle}
+        numToLoad={numToLoad}
+        showLocationDetail={showLocationDetail}
+        showCitationDetail={showCitationDetail}
+        showCollectionDetail={showCollectionDetail}
+        showEtymologyDetail={showEtymologyDetail}
+        showNameDetail={showNameDetail}
+        setShowDetail={(showDetail) =>
+          this.setState({ showLocationDetail: showDetail })
+        }
+        hideClassification={hideClassification}
+      />
+    );
+  }
+
+  render() {
+    const { location } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -262,46 +286,14 @@ class LocationTypeLocalities extends React.Component<
               return <div>Failed to load</div>;
             }
             if (!props || !props.location) {
-              return <div>Loading...</div>;
+              return this.renderInner(location);
             }
-            return (
-              <LocationTypeLocalitiesContainer
-                locationInner={props.location}
-                title={title}
-                hideTitle={hideTitle}
-                numToLoad={numToLoad}
-                showLocationDetail={showLocationDetail}
-                showCitationDetail={showCitationDetail}
-                showCollectionDetail={showCollectionDetail}
-                showEtymologyDetail={showEtymologyDetail}
-                showNameDetail={showNameDetail}
-                setShowDetail={(showDetail) =>
-                  this.setState({ showLocationDetail: showDetail })
-                }
-                hideClassification={hideClassification}
-              />
-            );
+            return this.renderInner(props.location);
           }}
         />
       );
     }
-    return (
-      <LocationTypeLocalitiesContainer
-        locationInner={location}
-        title={title}
-        hideTitle={hideTitle}
-        numToLoad={numToLoad}
-        showLocationDetail={showLocationDetail}
-        showCitationDetail={showCitationDetail}
-        showCollectionDetail={showCollectionDetail}
-        showEtymologyDetail={showEtymologyDetail}
-        showNameDetail={showNameDetail}
-        setShowDetail={(showDetail) =>
-          this.setState({ showLocationDetail: showDetail })
-        }
-        hideClassification={hideClassification}
-      />
-    );
+    return this.renderInner(location);
   }
 }
 

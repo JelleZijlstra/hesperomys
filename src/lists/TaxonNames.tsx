@@ -198,14 +198,36 @@ class TaxonNames extends React.Component<
     };
   }
 
-  render() {
+  renderInner(taxon: Omit<TaxonNames_taxon, "oid" | " $refType">) {
+    const { title, hideTitle, numToLoad, hideClassification } = this.props;
     const {
-      taxon,
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-    } = this.props;
+      showLocationDetail,
+      showCitationDetail,
+      showCollectionDetail,
+      showEtymologyDetail,
+      showNameDetail,
+    } = this.state;
+    return (
+      <TaxonNamesContainer
+        taxonInner={taxon}
+        title={title}
+        hideTitle={hideTitle}
+        numToLoad={numToLoad}
+        showLocationDetail={showLocationDetail}
+        showCitationDetail={showCitationDetail}
+        showCollectionDetail={showCollectionDetail}
+        showEtymologyDetail={showEtymologyDetail}
+        showNameDetail={showNameDetail}
+        setShowDetail={(showDetail) =>
+          this.setState({ showNameDetail: showDetail })
+        }
+        hideClassification={hideClassification}
+      />
+    );
+  }
+
+  render() {
+    const { taxon } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -257,46 +279,14 @@ class TaxonNames extends React.Component<
               return <div>Failed to load</div>;
             }
             if (!props || !props.taxon) {
-              return <div>Loading...</div>;
+              return this.renderInner(taxon);
             }
-            return (
-              <TaxonNamesContainer
-                taxonInner={props.taxon}
-                title={title}
-                hideTitle={hideTitle}
-                numToLoad={numToLoad}
-                showLocationDetail={showLocationDetail}
-                showCitationDetail={showCitationDetail}
-                showCollectionDetail={showCollectionDetail}
-                showEtymologyDetail={showEtymologyDetail}
-                showNameDetail={showNameDetail}
-                setShowDetail={(showDetail) =>
-                  this.setState({ showNameDetail: showDetail })
-                }
-                hideClassification={hideClassification}
-              />
-            );
+            return this.renderInner(props.taxon);
           }}
         />
       );
     }
-    return (
-      <TaxonNamesContainer
-        taxonInner={taxon}
-        title={title}
-        hideTitle={hideTitle}
-        numToLoad={numToLoad}
-        showLocationDetail={showLocationDetail}
-        showCitationDetail={showCitationDetail}
-        showCollectionDetail={showCollectionDetail}
-        showEtymologyDetail={showEtymologyDetail}
-        showNameDetail={showNameDetail}
-        setShowDetail={(showDetail) =>
-          this.setState({ showNameDetail: showDetail })
-        }
-        hideClassification={hideClassification}
-      />
-    );
+    return this.renderInner(taxon);
   }
 }
 

@@ -38,7 +38,7 @@ class TaxonBody extends React.Component<{
           ]}
         />
         <TaxonContext taxon={taxon} />
-        <TaxonNames taxon={taxon} hideClassification />
+        <TaxonNames taxon={taxon} hideClassification showNameDetail />
         <TaxonChildren taxon={taxon} />
       </>
     );
@@ -59,7 +59,7 @@ export default createFragmentContainer(TaxonBody, {
       }
       ...TaxonContext_taxon
       ...TaxonChildren_taxon
-      ...TaxonNames_taxon
+      ...TaxonNames_taxon @arguments(showNameDetail: true)
     }
   `,
 });

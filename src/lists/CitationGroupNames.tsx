@@ -203,14 +203,38 @@ class CitationGroupNames extends React.Component<
     };
   }
 
-  render() {
+  renderInner(
+    citationGroup: Omit<CitationGroupNames_citationGroup, "oid" | " $refType">
+  ) {
+    const { title, hideTitle, numToLoad, hideClassification } = this.props;
     const {
-      citationGroup,
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-    } = this.props;
+      showLocationDetail,
+      showCitationDetail,
+      showCollectionDetail,
+      showEtymologyDetail,
+      showNameDetail,
+    } = this.state;
+    return (
+      <CitationGroupNamesContainer
+        citationGroupInner={citationGroup}
+        title={title}
+        hideTitle={hideTitle}
+        numToLoad={numToLoad}
+        showLocationDetail={showLocationDetail}
+        showCitationDetail={showCitationDetail}
+        showCollectionDetail={showCollectionDetail}
+        showEtymologyDetail={showEtymologyDetail}
+        showNameDetail={showNameDetail}
+        setShowDetail={(showDetail) =>
+          this.setState({ showCitationDetail: showDetail })
+        }
+        hideClassification={hideClassification}
+      />
+    );
+  }
+
+  render() {
+    const { citationGroup } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -262,46 +286,14 @@ class CitationGroupNames extends React.Component<
               return <div>Failed to load</div>;
             }
             if (!props || !props.citationGroup) {
-              return <div>Loading...</div>;
+              return this.renderInner(citationGroup);
             }
-            return (
-              <CitationGroupNamesContainer
-                citationGroupInner={props.citationGroup}
-                title={title}
-                hideTitle={hideTitle}
-                numToLoad={numToLoad}
-                showLocationDetail={showLocationDetail}
-                showCitationDetail={showCitationDetail}
-                showCollectionDetail={showCollectionDetail}
-                showEtymologyDetail={showEtymologyDetail}
-                showNameDetail={showNameDetail}
-                setShowDetail={(showDetail) =>
-                  this.setState({ showCitationDetail: showDetail })
-                }
-                hideClassification={hideClassification}
-              />
-            );
+            return this.renderInner(props.citationGroup);
           }}
         />
       );
     }
-    return (
-      <CitationGroupNamesContainer
-        citationGroupInner={citationGroup}
-        title={title}
-        hideTitle={hideTitle}
-        numToLoad={numToLoad}
-        showLocationDetail={showLocationDetail}
-        showCitationDetail={showCitationDetail}
-        showCollectionDetail={showCollectionDetail}
-        showEtymologyDetail={showEtymologyDetail}
-        showNameDetail={showNameDetail}
-        setShowDetail={(showDetail) =>
-          this.setState({ showCitationDetail: showDetail })
-        }
-        hideClassification={hideClassification}
-      />
-    );
+    return this.renderInner(citationGroup);
   }
 }
 

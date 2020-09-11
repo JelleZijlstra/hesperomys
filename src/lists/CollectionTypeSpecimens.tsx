@@ -203,14 +203,38 @@ class CollectionTypeSpecimens extends React.Component<
     };
   }
 
-  render() {
+  renderInner(
+    collection: Omit<CollectionTypeSpecimens_collection, "oid" | " $refType">
+  ) {
+    const { title, hideTitle, numToLoad, hideClassification } = this.props;
     const {
-      collection,
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-    } = this.props;
+      showLocationDetail,
+      showCitationDetail,
+      showCollectionDetail,
+      showEtymologyDetail,
+      showNameDetail,
+    } = this.state;
+    return (
+      <CollectionTypeSpecimensContainer
+        collectionInner={collection}
+        title={title}
+        hideTitle={hideTitle}
+        numToLoad={numToLoad}
+        showLocationDetail={showLocationDetail}
+        showCitationDetail={showCitationDetail}
+        showCollectionDetail={showCollectionDetail}
+        showEtymologyDetail={showEtymologyDetail}
+        showNameDetail={showNameDetail}
+        setShowDetail={(showDetail) =>
+          this.setState({ showCollectionDetail: showDetail })
+        }
+        hideClassification={hideClassification}
+      />
+    );
+  }
+
+  render() {
+    const { collection } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -262,46 +286,14 @@ class CollectionTypeSpecimens extends React.Component<
               return <div>Failed to load</div>;
             }
             if (!props || !props.collection) {
-              return <div>Loading...</div>;
+              return this.renderInner(collection);
             }
-            return (
-              <CollectionTypeSpecimensContainer
-                collectionInner={props.collection}
-                title={title}
-                hideTitle={hideTitle}
-                numToLoad={numToLoad}
-                showLocationDetail={showLocationDetail}
-                showCitationDetail={showCitationDetail}
-                showCollectionDetail={showCollectionDetail}
-                showEtymologyDetail={showEtymologyDetail}
-                showNameDetail={showNameDetail}
-                setShowDetail={(showDetail) =>
-                  this.setState({ showCollectionDetail: showDetail })
-                }
-                hideClassification={hideClassification}
-              />
-            );
+            return this.renderInner(props.collection);
           }}
         />
       );
     }
-    return (
-      <CollectionTypeSpecimensContainer
-        collectionInner={collection}
-        title={title}
-        hideTitle={hideTitle}
-        numToLoad={numToLoad}
-        showLocationDetail={showLocationDetail}
-        showCitationDetail={showCitationDetail}
-        showCollectionDetail={showCollectionDetail}
-        showEtymologyDetail={showEtymologyDetail}
-        showNameDetail={showNameDetail}
-        setShowDetail={(showDetail) =>
-          this.setState({ showCollectionDetail: showDetail })
-        }
-        hideClassification={hideClassification}
-      />
-    );
+    return this.renderInner(collection);
   }
 }
 

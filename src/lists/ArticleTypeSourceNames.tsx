@@ -203,14 +203,36 @@ class ArticleTypeSourceNames extends React.Component<
     };
   }
 
-  render() {
+  renderInner(
+    article: Omit<ArticleTypeSourceNames_article, "oid" | " $refType">
+  ) {
+    const { title, hideTitle, numToLoad, hideClassification } = this.props;
     const {
-      article,
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-    } = this.props;
+      showLocationDetail,
+      showCitationDetail,
+      showCollectionDetail,
+      showEtymologyDetail,
+      showNameDetail,
+    } = this.state;
+    return (
+      <ArticleTypeSourceNamesContainer
+        articleInner={article}
+        title={title}
+        hideTitle={hideTitle}
+        numToLoad={numToLoad}
+        showLocationDetail={showLocationDetail}
+        showCitationDetail={showCitationDetail}
+        showCollectionDetail={showCollectionDetail}
+        showEtymologyDetail={showEtymologyDetail}
+        showNameDetail={showNameDetail}
+        setShowDetail={undefined}
+        hideClassification={hideClassification}
+      />
+    );
+  }
+
+  render() {
+    const { article } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -262,42 +284,14 @@ class ArticleTypeSourceNames extends React.Component<
               return <div>Failed to load</div>;
             }
             if (!props || !props.article) {
-              return <div>Loading...</div>;
+              return this.renderInner(article);
             }
-            return (
-              <ArticleTypeSourceNamesContainer
-                articleInner={props.article}
-                title={title}
-                hideTitle={hideTitle}
-                numToLoad={numToLoad}
-                showLocationDetail={showLocationDetail}
-                showCitationDetail={showCitationDetail}
-                showCollectionDetail={showCollectionDetail}
-                showEtymologyDetail={showEtymologyDetail}
-                showNameDetail={showNameDetail}
-                setShowDetail={undefined}
-                hideClassification={hideClassification}
-              />
-            );
+            return this.renderInner(props.article);
           }}
         />
       );
     }
-    return (
-      <ArticleTypeSourceNamesContainer
-        articleInner={article}
-        title={title}
-        hideTitle={hideTitle}
-        numToLoad={numToLoad}
-        showLocationDetail={showLocationDetail}
-        showCitationDetail={showCitationDetail}
-        showCollectionDetail={showCollectionDetail}
-        showEtymologyDetail={showEtymologyDetail}
-        showNameDetail={showNameDetail}
-        setShowDetail={undefined}
-        hideClassification={hideClassification}
-      />
-    );
+    return this.renderInner(article);
   }
 }
 
