@@ -78,7 +78,7 @@ class ModelLink extends React.Component<{ model: ModelLink_model }> {
   render() {
     const { model } = this.props;
     const { callSign, oid } = model;
-    const url = `/${callSign}/${oid}`;
+    const url = `/${callSign.toLowerCase()}/${oid}`;
     return (
       <>
         <Link to={url}>

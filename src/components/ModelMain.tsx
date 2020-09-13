@@ -66,6 +66,10 @@ export default function ModelMain() {
         if (model === null) {
           return <div>Not found</div>;
         }
+        const canonicalUrl = `/${model.callSign.toLowerCase()}/${model.oid}`;
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState(null, "", canonicalUrl);
+        }
         return (
           <>
             <SiteHeader subtitle={<Subtitle model={model} />}>
