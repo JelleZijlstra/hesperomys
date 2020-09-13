@@ -299,9 +299,23 @@ class LocationTypeLocalities extends React.Component<
 
 export default createFragmentContainer(LocationTypeLocalities, {
   location: graphql`
-    fragment LocationTypeLocalities_location on Location {
+    fragment LocationTypeLocalities_location on Location
+      @argumentDefinitions(
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
       oid
       ...LocationTypeLocalities_locationInner
+        @arguments(
+          showLocationDetail: $showLocationDetail
+          showCitationDetail: $showCitationDetail
+          showCollectionDetail: $showCollectionDetail
+          showEtymologyDetail: $showEtymologyDetail
+          showNameDetail: $showNameDetail
+        )
     }
   `,
 });

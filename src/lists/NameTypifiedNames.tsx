@@ -295,9 +295,23 @@ class NameTypifiedNames extends React.Component<
 
 export default createFragmentContainer(NameTypifiedNames, {
   name: graphql`
-    fragment NameTypifiedNames_name on Name {
+    fragment NameTypifiedNames_name on Name
+      @argumentDefinitions(
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
       oid
       ...NameTypifiedNames_nameInner
+        @arguments(
+          showLocationDetail: $showLocationDetail
+          showCitationDetail: $showCitationDetail
+          showCollectionDetail: $showCollectionDetail
+          showEtymologyDetail: $showEtymologyDetail
+          showNameDetail: $showNameDetail
+        )
     }
   `,
 });

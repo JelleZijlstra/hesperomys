@@ -299,9 +299,23 @@ class CollectionTypeSpecimens extends React.Component<
 
 export default createFragmentContainer(CollectionTypeSpecimens, {
   collection: graphql`
-    fragment CollectionTypeSpecimens_collection on Collection {
+    fragment CollectionTypeSpecimens_collection on Collection
+      @argumentDefinitions(
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
       oid
       ...CollectionTypeSpecimens_collectionInner
+        @arguments(
+          showLocationDetail: $showLocationDetail
+          showCitationDetail: $showCitationDetail
+          showCollectionDetail: $showCollectionDetail
+          showEtymologyDetail: $showEtymologyDetail
+          showNameDetail: $showNameDetail
+        )
     }
   `,
 });

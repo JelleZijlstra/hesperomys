@@ -296,9 +296,23 @@ class NameComplexNames extends React.Component<
 
 export default createFragmentContainer(NameComplexNames, {
   nameComplex: graphql`
-    fragment NameComplexNames_nameComplex on NameComplex {
+    fragment NameComplexNames_nameComplex on NameComplex
+      @argumentDefinitions(
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
       oid
       ...NameComplexNames_nameComplexInner
+        @arguments(
+          showLocationDetail: $showLocationDetail
+          showCitationDetail: $showCitationDetail
+          showCollectionDetail: $showCollectionDetail
+          showEtymologyDetail: $showEtymologyDetail
+          showNameDetail: $showNameDetail
+        )
     }
   `,
 });

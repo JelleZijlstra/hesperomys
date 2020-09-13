@@ -297,9 +297,23 @@ class ArticleTypeSourceNames extends React.Component<
 
 export default createFragmentContainer(ArticleTypeSourceNames, {
   article: graphql`
-    fragment ArticleTypeSourceNames_article on Article {
+    fragment ArticleTypeSourceNames_article on Article
+      @argumentDefinitions(
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
       oid
       ...ArticleTypeSourceNames_articleInner
+        @arguments(
+          showLocationDetail: $showLocationDetail
+          showCitationDetail: $showCitationDetail
+          showCollectionDetail: $showCollectionDetail
+          showEtymologyDetail: $showEtymologyDetail
+          showNameDetail: $showNameDetail
+        )
     }
   `,
 });

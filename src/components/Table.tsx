@@ -4,7 +4,7 @@ import * as React from "react";
 export default function Table({
   data,
 }: {
-  data: [string, JSX.Element | string | null][];
+  data: [JSX.Element | string, JSX.Element | string | null][];
 }) {
   return (
     <BootstrapTable>
@@ -15,8 +15,8 @@ export default function Table({
             return null;
           }
           return (
-            <tr key={key}>
-              <td>{key}</td>
+            <tr key={String(key)}>
+              <td className="label">{key}</td>
               <td>{value}</td>
             </tr>
           );

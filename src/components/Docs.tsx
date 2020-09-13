@@ -1,16 +1,12 @@
 import React from "react";
 import { QueryRenderer } from "react-relay";
 import environment from "../relayEnvironment";
-import { useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import graphql from "babel-plugin-relay/macro";
 
 import { DocsQuery } from "./__generated__/DocsQuery.graphql";
 
-import SiteHeader from "./SiteHeader";
-
-export default function Docs() {
-  const { path } = useParams();
+export default function Docs({ path }: { path: string }) {
   return (
     <QueryRenderer<DocsQuery>
       environment={environment}
@@ -30,14 +26,7 @@ export default function Docs() {
         if (!props.documentation) {
           return <div>Not found</div>;
         }
-        return (
-          <>
-            <SiteHeader>
-              <>Documentation</>
-            </SiteHeader>
-            <ReactMarkdown source={props.documentation} />
-          </>
-        );
+        return <ReactMarkdown source={props.documentation} />;
       }}
     />
   );

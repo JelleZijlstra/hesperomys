@@ -299,9 +299,23 @@ class CitationGroupNames extends React.Component<
 
 export default createFragmentContainer(CitationGroupNames, {
   citationGroup: graphql`
-    fragment CitationGroupNames_citationGroup on CitationGroup {
+    fragment CitationGroupNames_citationGroup on CitationGroup
+      @argumentDefinitions(
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
       oid
       ...CitationGroupNames_citationGroupInner
+        @arguments(
+          showLocationDetail: $showLocationDetail
+          showCitationDetail: $showCitationDetail
+          showCollectionDetail: $showCollectionDetail
+          showEtymologyDetail: $showEtymologyDetail
+          showNameDetail: $showNameDetail
+        )
     }
   `,
 });

@@ -67,6 +67,8 @@ function ModelExtra({ model }: { model: ModelLink_model }) {
       return <NameExtra model={model} />;
     case "Location":
       return <LocationExtra model={model} />;
+    case "Collection":
+      return model.city ? <>, {model.city}</> : null;
     default:
       return null;
   }
@@ -110,6 +112,9 @@ export default createFragmentContainer(ModelLink, {
         stratigraphicUnit {
           periodName: name
         }
+      }
+      ... on Collection {
+        city
       }
       ... on Name {
         status

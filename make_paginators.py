@@ -495,9 +495,23 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
 
 export default createFragmentContainer(%(type_upper)s%(conn_upper)s, {
   %(type_lower)s: graphql`
-    fragment %(type_upper)s%(conn_upper)s_%(type_lower)s on %(type_upper)s {
+    fragment %(type_upper)s%(conn_upper)s_%(type_lower)s on %(type_upper)s
+      @argumentDefinitions(
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
       oid
       ...%(type_upper)s%(conn_upper)s_%(type_lower)sInner
+        @arguments(
+          showLocationDetail: $showLocationDetail
+          showCitationDetail: $showCitationDetail
+          showCollectionDetail: $showCollectionDetail
+          showEtymologyDetail: $showEtymologyDetail
+          showNameDetail: $showNameDetail
+        )
     }
   `
 });

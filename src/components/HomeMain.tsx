@@ -5,8 +5,10 @@ import graphql from "babel-plugin-relay/macro";
 
 import { HomeMainQuery } from "./__generated__/HomeMainQuery.graphql";
 
+import Docs from "./Docs";
 import SiteHeader from "./SiteHeader";
 import SearchBox from "./SearchBox";
+import SiteBody from "./SiteBody";
 
 export default function HomeMain() {
   return (
@@ -47,12 +49,15 @@ export default function HomeMain() {
             <SiteHeader>
               <>Home</>
             </SiteHeader>
-            <SearchBox modelCls={props.taxonCls} />
-            <SearchBox modelCls={props.nameCls} />
-            <SearchBox modelCls={props.collectionCls} />
-            <SearchBox modelCls={props.regionCls} />
-            <SearchBox modelCls={props.locationCls} />
-            <SearchBox modelCls={props.periodCls} />
+            <SiteBody>
+              <SearchBox modelCls={props.taxonCls} />
+              <SearchBox modelCls={props.nameCls} />
+              <SearchBox modelCls={props.collectionCls} />
+              <SearchBox modelCls={props.regionCls} />
+              <SearchBox modelCls={props.locationCls} />
+              <SearchBox modelCls={props.periodCls} />
+              <Docs path="home" />
+            </SiteBody>
           </>
         );
       }}

@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import HomeMain from "./components/HomeMain";
-import Docs from "./components/Docs";
+import DocsMain from "./components/DocsMain";
 import ModelMain from "./components/ModelMain";
 
 import "./App.css";
@@ -12,7 +12,7 @@ function App() {
     <Router>
       <Switch>
         <Route path="/docs/:path">
-          <Docs />
+          <DocsMain />
         </Route>
         <Route path="/:callSign/:oid">
           <ModelMain />

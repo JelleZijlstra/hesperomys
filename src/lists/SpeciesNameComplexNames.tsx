@@ -302,9 +302,23 @@ class SpeciesNameComplexNames extends React.Component<
 
 export default createFragmentContainer(SpeciesNameComplexNames, {
   speciesNameComplex: graphql`
-    fragment SpeciesNameComplexNames_speciesNameComplex on SpeciesNameComplex {
+    fragment SpeciesNameComplexNames_speciesNameComplex on SpeciesNameComplex
+      @argumentDefinitions(
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
       oid
       ...SpeciesNameComplexNames_speciesNameComplexInner
+        @arguments(
+          showLocationDetail: $showLocationDetail
+          showCitationDetail: $showCitationDetail
+          showCollectionDetail: $showCollectionDetail
+          showEtymologyDetail: $showEtymologyDetail
+          showNameDetail: $showNameDetail
+        )
     }
   `,
 });

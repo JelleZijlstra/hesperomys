@@ -11,6 +11,7 @@ import Subtitle from "../subtitle/Subtitle";
 import SiteHeader from "./SiteHeader";
 import Body from "../body/Body";
 import ModelLink from "./ModelLink";
+import SiteBody from "./SiteBody";
 
 export default function ModelMain() {
   const { callSign, oid } = useParams();
@@ -72,7 +73,9 @@ export default function ModelMain() {
                 <Title model={model} /> ({model.callSign}#{model.oid})
               </>
             </SiteHeader>
-            <Body model={model} />
+            <SiteBody>
+              <Body model={model} />
+            </SiteBody>
           </>
         );
       }}
