@@ -22,7 +22,7 @@ function NameSection({ name }: { name: NameBody_name }) {
   } = name;
   return (
     <>
-      <h2>Name</h2>
+      <h3>Name</h3>
       <Table
         data={[
           ["Root name", <MaybeItalics name={rootName} group={group} />],
@@ -63,7 +63,7 @@ function NomenclatureSection({ name }: { name: NameBody_name }) {
   const { nomenclatureStatus, nameComplex, speciesNameComplex } = name;
   return (
     <>
-      <h2>Nomenclature</h2>
+      <h3>Nomenclature</h3>
       <Table
         data={[
           ["Status", nomenclatureStatus],
@@ -102,7 +102,7 @@ function TypeSection({ name }: { name: NameBody_name }) {
   } = name;
   return (
     <>
-      <h2>{GROUP_TO_TYPE.get(group) || "Type"}</h2>
+      <h3>{GROUP_TO_TYPE.get(group) || "Type"}</h3>
       <Table
         data={[
           ["Type specimen", typeSpecimen],
@@ -147,7 +147,7 @@ function LocationSection({ name }: { name: NameBody_name }) {
   const { typeLocality } = name;
   return (
     <>
-      <h2>Type locality</h2>
+      <h3>Type locality</h3>
       <Table
         data={[
           [

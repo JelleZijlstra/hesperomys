@@ -7,6 +7,7 @@ import graphql from "babel-plugin-relay/macro";
 import CitationGroupNames from "../lists/CitationGroupNames";
 import CitationGroupArticleSet from "../lists/CitationGroupArticleSet";
 import CitationGroupRedirects from "../lists/CitationGroupRedirects";
+import ModelLink from "../components/ModelLink";
 
 class CitationGroupBody extends React.Component<{
   citationGroup: CitationGroupBody_citationGroup;
@@ -15,6 +16,11 @@ class CitationGroupBody extends React.Component<{
     const { citationGroup } = this.props;
     return (
       <>
+        {citationGroup.target && (
+          <p>
+            Alias for <ModelLink model={citationGroup.target} />.
+          </p>
+        )}
         <CitationGroupArticleSet
           citationGroup={citationGroup}
           title="Publications"
@@ -32,6 +38,9 @@ class CitationGroupBody extends React.Component<{
 export default createFragmentContainer(CitationGroupBody, {
   citationGroup: graphql`
     fragment CitationGroupBody_citationGroup on CitationGroup {
+      target {
+        ...ModelLink_model
+      }
       ...CitationGroupRedirects_citationGroup
       ...CitationGroupArticleSet_citationGroup
       ...CitationGroupNames_citationGroup

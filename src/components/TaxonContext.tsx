@@ -33,7 +33,7 @@ function TaxonContext({ taxon }: { taxon: TaxonContext_taxon }) {
   }
   return (
     <>
-      <h2>Context</h2>
+      <h3>Context</h3>
       <Table data={data} />
     </>
   );
