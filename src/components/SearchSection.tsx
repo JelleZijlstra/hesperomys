@@ -2,10 +2,12 @@ import React from "react";
 import { QueryRenderer } from "react-relay";
 import environment from "../relayEnvironment";
 import graphql from "babel-plugin-relay/macro";
+import { Link } from "react-router-dom";
 
 import { SearchSectionQuery } from "./__generated__/SearchSectionQuery.graphql";
 
 import SearchBox from "./SearchBox";
+import Table from "./Table";
 
 export default function SearchSection() {
   return (
@@ -31,6 +33,15 @@ export default function SearchSection() {
           periodCls: modelCls(callSign: "P") {
             ...SearchBox_modelCls
           }
+          citationGroupCls: modelCls(callSign: "CG") {
+            ...SearchBox_modelCls
+          }
+          nameComplexCls: modelCls(callSign: "NC") {
+            ...SearchBox_modelCls
+          }
+          speciesNameComplexCls: modelCls(callSign: "SC") {
+            ...SearchBox_modelCls
+          }
         }
       `}
       variables={{}}
@@ -41,14 +52,48 @@ export default function SearchSection() {
         if (!props) {
           return <div>Loading...</div>;
         }
+        const data: [JSX.Element, JSX.Element][] = [
+          [
+            <Link to="/docs/taxon">Taxon</Link>,
+            <SearchBox modelCls={props.taxonCls} />,
+          ],
+          [
+            <Link to="/docs/name">Name</Link>,
+            <SearchBox modelCls={props.nameCls} />,
+          ],
+          [
+            <Link to="/docs/name">Collection</Link>,
+            <SearchBox modelCls={props.collectionCls} />,
+          ],
+          [
+            <Link to="/docs/name">Region</Link>,
+            <SearchBox modelCls={props.regionCls} />,
+          ],
+          [
+            <Link to="/docs/name">Location</Link>,
+            <SearchBox modelCls={props.locationCls} />,
+          ],
+          [
+            <Link to="/docs/name">Period</Link>,
+            <SearchBox modelCls={props.periodCls} />,
+          ],
+          [
+            <Link to="/docs/citation-group">Citation group</Link>,
+            <SearchBox modelCls={props.citationGroupCls} />,
+          ],
+          [
+            <Link to="/docs/name-complex">Name complex</Link>,
+            <SearchBox modelCls={props.nameComplexCls} />,
+          ],
+          [
+            <Link to="/docs/species-name-complex">Species name complex</Link>,
+            <SearchBox modelCls={props.speciesNameComplexCls} />,
+          ],
+        ];
         return (
           <>
-            <SearchBox modelCls={props.taxonCls} />
-            <SearchBox modelCls={props.nameCls} />
-            <SearchBox modelCls={props.collectionCls} />
-            <SearchBox modelCls={props.regionCls} />
-            <SearchBox modelCls={props.locationCls} />
-            <SearchBox modelCls={props.periodCls} />
+            <h2>Search</h2>
+            <Table data={data} />
           </>
         );
       }}
