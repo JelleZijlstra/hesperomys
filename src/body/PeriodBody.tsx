@@ -5,8 +5,7 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
 import PeriodChildren from "../lists/PeriodChildren";
-import PeriodLocationsMin from "../lists/PeriodLocationsMin";
-import PeriodLocationsMax from "../lists/PeriodLocationsMax";
+import PeriodLocationsChronology from "../lists/PeriodLocationsChronology";
 import PeriodLocationsStratigraphy from "../lists/PeriodLocationsStratigraphy";
 
 import ModelLink from "../components/ModelLink";
@@ -17,7 +16,7 @@ class PeriodBody extends React.Component<{
 }> {
   render() {
     const { period } = this.props;
-    const { parent, prev, next, region } = period;
+    const { parent, prev, next, region, system } = period;
     const data: [string, JSX.Element][] = [];
     if (parent) {
       data.push(["Parent", <ModelLink model={parent} />]);
@@ -35,15 +34,11 @@ class PeriodBody extends React.Component<{
       <>
         <Table data={data} />
         <PeriodChildren period={period} />
-        <PeriodLocationsStratigraphy period={period} title="Locations" />
-        <PeriodLocationsMax
-          period={period}
-          title="Locations (maximum age in this period)"
-        />
-        <PeriodLocationsMin
-          period={period}
-          title="Locations (minimum age in this period)"
-        />
+        {system == "lithostratigraphy" ? (
+          <PeriodLocationsStratigraphy period={period} title="Locations" />
+        ) : (
+          <PeriodLocationsChronology period={period} title="Locations" />
+        )}
       </>
     );
   }
@@ -53,6 +48,7 @@ export default createFragmentContainer(PeriodBody, {
   period: graphql`
     fragment PeriodBody_period on Period {
       oid
+      system
       parent {
         ...ModelLink_model
       }
@@ -66,8 +62,7 @@ export default createFragmentContainer(PeriodBody, {
         ...ModelLink_model
       }
       ...PeriodChildren_period
-      ...PeriodLocationsMax_period
-      ...PeriodLocationsMin_period
+      ...PeriodLocationsChronology_period
       ...PeriodLocationsStratigraphy_period
     }
   `,

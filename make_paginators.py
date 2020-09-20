@@ -552,7 +552,10 @@ def extract_connections(
 def should_use_children_template(type_name: str, conn_name: str) -> bool:
     if type_name not in CHILDREN_TYPES or conn_name == "children":
         return False
-    if type_name == "Period" and conn_name != "locationsStratigraphy":
+    if type_name == "Period" and conn_name not in (
+        "locationsStratigraphy",
+        "locationsChronology",
+    ):
         return False
     return True
 
@@ -593,7 +596,9 @@ def write_component(
         "set_expand_all": "(expandAll: boolean) => this.setState({ expandAll })"
         if field_type in ["Taxon", "Region", "Period", "Location", "Collection"]
         else "undefined",
-        "set_show_detail": f'showDetail => this.setState({{ {detail_field}: showDetail }})' if detail_field else "undefined"
+        "set_show_detail": f"showDetail => this.setState({{ {detail_field}: showDetail }})"
+        if detail_field
+        else "undefined",
     }
     if field_type in LIST_TYPES:
         text = LIST_TEMPLATE % args
