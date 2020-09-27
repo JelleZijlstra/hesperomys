@@ -34,7 +34,7 @@ class PeriodBody extends React.Component<{
       <>
         <Table data={data} />
         <PeriodChildren period={period} />
-        {system == "lithostratigraphy" ? (
+        {system === "lithostratigraphy" ? (
           <PeriodLocationsStratigraphy period={period} title="Locations" />
         ) : (
           <PeriodLocationsChronology period={period} title="Locations" />

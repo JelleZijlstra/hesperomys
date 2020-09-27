@@ -1,7 +1,11 @@
 import { Environment, Network, RecordSource, Store } from "relay-runtime";
 
 function fetchQuery(operation: any, variables: any) {
-  return fetch("http://localhost:8080/graphql", {
+  const url =
+    window.location.hostname === "hesperomys.com"
+      ? "/graphql"
+      : "http://localhost:8080/graphql";
+  return fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
