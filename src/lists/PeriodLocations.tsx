@@ -20,6 +20,7 @@ interface PeriodLocationsProps {
   period: PeriodLocations_period;
   title?: string;
   hideTitle?: boolean;
+  hideChildren?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
 }
@@ -34,7 +35,14 @@ class PeriodLocations extends React.Component<
   }
 
   render() {
-    const { period, relay, numToLoad, hideTitle, title } = this.props;
+    const {
+      period,
+      relay,
+      numToLoad,
+      hideTitle,
+      hideChildren,
+      title,
+    } = this.props;
     const { oid, numChildren, locations } = period;
     if (!locations || (numChildren === 0 && locations.edges.length === 0)) {
       return null;
@@ -117,7 +125,7 @@ class PeriodLocations extends React.Component<
           }
           showChildren={this.state.showChildren}
           setShowChildren={
-            numChildren > 0
+            numChildren > 0 && !hideChildren
               ? (showChildren) => this.setState({ showChildren })
               : undefined
           }

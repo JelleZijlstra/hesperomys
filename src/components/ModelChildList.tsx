@@ -156,7 +156,7 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
               return (
                 <>
                   <RegionChildren region={props.node} hideTitle />
-                  <RegionLocations region={props.node} hideTitle />
+                  <RegionLocations region={props.node} hideTitle hideChildren />
                 </>
               );
             }}
@@ -185,7 +185,7 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
               return (
                 <>
                   <PeriodChildren period={props.node} hideTitle />
-                  <PeriodLocations period={props.node} hideTitle />
+                  <PeriodLocations period={props.node} hideTitle hideChildren />
                 </>
               );
             }}
@@ -220,6 +220,7 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
                   <StratigraphicUnitLocations
                     stratigraphicUnit={props.node}
                     hideTitle
+                    hideChildren
                   />
                 </>
               );

@@ -20,6 +20,7 @@ interface RegionCitationGroupsProps {
   region: RegionCitationGroups_region;
   title?: string;
   hideTitle?: boolean;
+  hideChildren?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
 }
@@ -34,7 +35,14 @@ class RegionCitationGroups extends React.Component<
   }
 
   render() {
-    const { region, relay, numToLoad, hideTitle, title } = this.props;
+    const {
+      region,
+      relay,
+      numToLoad,
+      hideTitle,
+      hideChildren,
+      title,
+    } = this.props;
     const { oid, numChildren, citationGroups } = region;
     if (
       !citationGroups ||
@@ -116,7 +124,7 @@ class RegionCitationGroups extends React.Component<
           setExpandAll={showExpandAll ? undefined : undefined}
           showChildren={this.state.showChildren}
           setShowChildren={
-            numChildren > 0
+            numChildren > 0 && !hideChildren
               ? (showChildren) => this.setState({ showChildren })
               : undefined
           }

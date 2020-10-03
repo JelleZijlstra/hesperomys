@@ -20,6 +20,7 @@ interface RegionCollectionsProps {
   region: RegionCollections_region;
   title?: string;
   hideTitle?: boolean;
+  hideChildren?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
 }
@@ -34,7 +35,14 @@ class RegionCollections extends React.Component<
   }
 
   render() {
-    const { region, relay, numToLoad, hideTitle, title } = this.props;
+    const {
+      region,
+      relay,
+      numToLoad,
+      hideTitle,
+      hideChildren,
+      title,
+    } = this.props;
     const { oid, numChildren, collections } = region;
     if (!collections || (numChildren === 0 && collections.edges.length === 0)) {
       return null;
@@ -117,7 +125,7 @@ class RegionCollections extends React.Component<
           }
           showChildren={this.state.showChildren}
           setShowChildren={
-            numChildren > 0
+            numChildren > 0 && !hideChildren
               ? (showChildren) => this.setState({ showChildren })
               : undefined
           }

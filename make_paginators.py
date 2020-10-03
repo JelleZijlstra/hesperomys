@@ -129,6 +129,7 @@ interface %(type_upper)s%(conn_upper)sProps {
   %(type_lower)s: %(type_upper)s%(conn_upper)s_%(type_lower)s;
   title?: string;
   hideTitle?: boolean;
+  hideChildren?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
 };
@@ -142,7 +143,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
   }
 
   render() {
-    const { %(type_lower)s, relay, numToLoad, hideTitle, title } = this.props;
+    const { %(type_lower)s, relay, numToLoad, hideTitle, hideChildren, title } = this.props;
     const { oid, numChildren, %(conn_lower)s } = %(type_lower)s;
     if (!%(conn_lower)s || (numChildren === 0 && %(conn_lower)s.edges.length === 0)) {
       return null;
@@ -201,7 +202,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
           expandAll={this.state.expandAll}
           setExpandAll={showExpandAll ? %(set_expand_all)s : undefined}
           showChildren={this.state.showChildren}
-          setShowChildren={numChildren > 0 ? showChildren => this.setState({ showChildren }) : undefined}
+          setShowChildren={numChildren > 0 && !hideChildren ? showChildren => this.setState({ showChildren }) : undefined}
         />
       </>
     );

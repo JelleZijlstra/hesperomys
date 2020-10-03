@@ -20,6 +20,7 @@ interface StratigraphicUnitLocationsProps {
   stratigraphicUnit: StratigraphicUnitLocations_stratigraphicUnit;
   title?: string;
   hideTitle?: boolean;
+  hideChildren?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
 }
@@ -39,6 +40,7 @@ class StratigraphicUnitLocations extends React.Component<
       relay,
       numToLoad,
       hideTitle,
+      hideChildren,
       title,
     } = this.props;
     const { oid, numChildren, locations } = stratigraphicUnit;
@@ -127,7 +129,7 @@ class StratigraphicUnitLocations extends React.Component<
           }
           showChildren={this.state.showChildren}
           setShowChildren={
-            numChildren > 0
+            numChildren > 0 && !hideChildren
               ? (showChildren) => this.setState({ showChildren })
               : undefined
           }
