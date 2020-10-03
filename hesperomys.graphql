@@ -451,7 +451,7 @@ type Location implements Node & Model {
   maxPeriod: Period
   minAge: Int
   maxAge: Int
-  stratigraphicUnit: Period
+  stratigraphicUnit: StratigraphicUnit
   region: Region!
   comment: String!
   latitude: String!
@@ -797,7 +797,8 @@ type Period implements Node & Model {
   id: ID!
   oid: Int!
   callSign: String!
-  locationsChronology(before: String, after: String, first: Int, last: Int): LocationConnection
+  locations(before: String, after: String, first: Int, last: Int): LocationConnection
+  numLocations: Int!
   name: String!
   parent: Period
   prev: Period
@@ -821,14 +822,15 @@ type Period implements Node & Model {
   numChildrenMin: Int!
   childrenMax(before: String, after: String, first: Int, last: Int): PeriodConnection
   numChildrenMax: Int!
+  stratigraphicUnitsMin(before: String, after: String, first: Int, last: Int): StratigraphicUnitConnection
+  numStratigraphicUnitsMin: Int!
+  stratigraphicUnitsMax(before: String, after: String, first: Int, last: Int): StratigraphicUnitConnection
+  numStratigraphicUnitsMax: Int!
   locationsMin(before: String, after: String, first: Int, last: Int): LocationConnection
   numLocationsMin: Int!
   locationsMax(before: String, after: String, first: Int, last: Int): LocationConnection
   numLocationsMax: Int!
-  locationsStratigraphy(before: String, after: String, first: Int, last: Int): LocationConnection
-  numLocationsStratigraphy: Int!
-  hasLocationsStratigraphy: Boolean
-  hasLocationsChronology: Boolean
+  hasLocations: Boolean
   modelCls: ModelCls!
 }
 
@@ -902,6 +904,8 @@ type Query {
   collection(oid: Int): Collection
   periodByLabel(label: String): [Period]
   period(oid: Int): Period
+  stratigraphicUnitByLabel(label: String): [StratigraphicUnit]
+  stratigraphicUnit(oid: Int): StratigraphicUnit
   locationByLabel(label: String): [Location]
   location(oid: Int): Location
   taxonByLabel(label: String): [Taxon]
@@ -974,7 +978,7 @@ type Region implements Node & Model {
   numCitationGroups: Int!
   collections(before: String, after: String, first: Int, last: Int): CollectionConnection
   numCollections: Int!
-  periods(before: String, after: String, first: Int, last: Int): PeriodConnection
+  periods(before: String, after: String, first: Int, last: Int): StratigraphicUnitConnection
   numPeriods: Int!
   locations(before: String, after: String, first: Int, last: Int): LocationConnection
   numLocations: Int!
@@ -1153,6 +1157,39 @@ enum Status {
   species_inquirenda
   spurious
   removed
+}
+
+type StratigraphicUnit implements Node & Model {
+  id: ID!
+  oid: Int!
+  callSign: String!
+  name: String!
+  parent: StratigraphicUnit
+  prev: StratigraphicUnit
+  minPeriod: Period
+  maxPeriod: Period
+  rank: PeriodRank!
+  comment: String!
+  region: Region
+  deleted: Boolean!
+  children(before: String, after: String, first: Int, last: Int): StratigraphicUnitConnection
+  numChildren: Int!
+  nextForeign(before: String, after: String, first: Int, last: Int): StratigraphicUnitConnection
+  numNextForeign: Int!
+  locations(before: String, after: String, first: Int, last: Int): LocationConnection
+  numLocations: Int!
+  hasLocations: Boolean
+  modelCls: ModelCls!
+}
+
+type StratigraphicUnitConnection {
+  pageInfo: PageInfo!
+  edges: [StratigraphicUnitEdge]!
+}
+
+type StratigraphicUnitEdge {
+  node: StratigraphicUnit
+  cursor: String!
 }
 
 type StratigraphyDetail implements TypeTag {

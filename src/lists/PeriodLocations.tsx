@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { PeriodLocationsChronology_period } from "./__generated__/PeriodLocationsChronology_period.graphql";
-import { PeriodLocationsChronologyChildrenQuery } from "./__generated__/PeriodLocationsChronologyChildrenQuery.graphql";
+import { PeriodLocations_period } from "./__generated__/PeriodLocations_period.graphql";
+import { PeriodLocationsChildrenQuery } from "./__generated__/PeriodLocationsChildrenQuery.graphql";
 
 import {
   createPaginationContainer,
@@ -16,49 +16,46 @@ import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
 
-interface PeriodLocationsChronologyProps {
-  period: PeriodLocationsChronology_period;
+interface PeriodLocationsProps {
+  period: PeriodLocations_period;
   title?: string;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
 }
 
-class PeriodLocationsChronology extends React.Component<
-  PeriodLocationsChronologyProps,
+class PeriodLocations extends React.Component<
+  PeriodLocationsProps,
   { expandAll: boolean; showChildren: boolean }
 > {
-  constructor(props: PeriodLocationsChronologyProps) {
+  constructor(props: PeriodLocationsProps) {
     super(props);
     this.state = { expandAll: false, showChildren: false };
   }
 
   render() {
     const { period, relay, numToLoad, hideTitle, title } = this.props;
-    const { oid, numChildren, locationsChronology } = period;
-    if (
-      !locationsChronology ||
-      (numChildren === 0 && locationsChronology.edges.length === 0)
-    ) {
+    const { oid, numChildren, locations } = period;
+    if (!locations || (numChildren === 0 && locations.edges.length === 0)) {
       return null;
     }
-    const showExpandAll = locationsChronology.edges.some(
+    const showExpandAll = locations.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
     return (
       <>
-        {!hideTitle && <h3>{title || "LocationsChronology"}</h3>}
+        {!hideTitle && <h3>{title || "Locations"}</h3>}
         {this.state.showChildren && (
-          <QueryRenderer<PeriodLocationsChronologyChildrenQuery>
+          <QueryRenderer<PeriodLocationsChildrenQuery>
             environment={environment}
             query={graphql`
-              query PeriodLocationsChronologyChildrenQuery($oid: Int!) {
+              query PeriodLocationsChildrenQuery($oid: Int!) {
                 period(oid: $oid) {
                   children(first: 1000) {
                     edges {
                       node {
-                        hasLocationsChronology
-                        ...PeriodLocationsChronology_period
+                        hasLocations
+                        ...PeriodLocations_period
                         ...ModelLink_model
                       }
                     }
@@ -81,10 +78,10 @@ class PeriodLocationsChronology extends React.Component<
                     (edge) =>
                       edge &&
                       edge.node &&
-                      edge.node.hasLocationsChronology && (
+                      edge.node.hasLocations && (
                         <li>
                           <ModelLink model={edge.node} />
-                          <PeriodLocationsChronologyContainer
+                          <PeriodLocationsContainer
                             period={edge.node}
                             hideTitle
                           />
@@ -97,7 +94,7 @@ class PeriodLocationsChronology extends React.Component<
           />
         )}
         <ul>
-          {locationsChronology.edges.map(
+          {locations.edges.map(
             (edge) =>
               edge &&
               edge.node && (
@@ -130,19 +127,19 @@ class PeriodLocationsChronology extends React.Component<
   }
 }
 
-const PeriodLocationsChronologyContainer = createPaginationContainer(
-  PeriodLocationsChronology,
+const PeriodLocationsContainer = createPaginationContainer(
+  PeriodLocations,
   {
     period: graphql`
-      fragment PeriodLocationsChronology_period on Period
+      fragment PeriodLocations_period on Period
         @argumentDefinitions(
           count: { type: "Int", defaultValue: 10 }
           cursor: { type: "String", defaultValue: null }
         ) {
         oid
         numChildren
-        locationsChronology(first: $count, after: $cursor)
-          @connection(key: "PeriodLocationsChronology_locationsChronology") {
+        locations(first: $count, after: $cursor)
+          @connection(key: "PeriodLocations_locations") {
           edges {
             node {
               oid
@@ -156,7 +153,7 @@ const PeriodLocationsChronologyContainer = createPaginationContainer(
     `,
   },
   {
-    getConnectionFromProps: (props) => props.period.locationsChronology,
+    getConnectionFromProps: (props) => props.period.locations,
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {
         count,
@@ -165,18 +162,17 @@ const PeriodLocationsChronologyContainer = createPaginationContainer(
       };
     },
     query: graphql`
-      query PeriodLocationsChronologyPaginationQuery(
+      query PeriodLocationsPaginationQuery(
         $count: Int!
         $cursor: String
         $oid: Int!
       ) {
         period(oid: $oid) {
-          ...PeriodLocationsChronology_period
-            @arguments(count: $count, cursor: $cursor)
+          ...PeriodLocations_period @arguments(count: $count, cursor: $cursor)
         }
       }
     `,
   }
 );
 
-export default PeriodLocationsChronologyContainer;
+export default PeriodLocationsContainer;

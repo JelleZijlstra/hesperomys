@@ -19,6 +19,7 @@ import NameEndingBody from "./NameEndingBody";
 import SpeciesNameEndingBody from "./SpeciesNameEndingBody";
 import NameCommentBody from "./NameCommentBody";
 import OccurrenceBody from "./OccurrenceBody";
+import StratigraphicUnitBody from "./StratigraphicUnitBody";
 import NameBody from "./NameBody";
 
 class Body extends React.Component<{ model: Body_model }> {
@@ -57,6 +58,8 @@ class Body extends React.Component<{ model: Body_model }> {
         return <NameCommentBody nameComment={model} />;
       case "Occurrence":
         return <OccurrenceBody occurrence={model} />;
+      case "StratigraphicUnit":
+        return <StratigraphicUnitBody stratigraphicUnit={model} />;
       default:
         return <>(unimplemented for {model.__typename})</>;
     }
@@ -83,6 +86,7 @@ export default createFragmentContainer(Body, {
       ...CitationGroupBody_citationGroup
       ...RegionBody_region
       ...PeriodBody_period
+      ...StratigraphicUnitBody_stratigraphicUnit
     }
   `,
 });

@@ -33,6 +33,9 @@ export default function SearchSection() {
           periodCls: modelCls(callSign: "P") {
             ...SearchBox_modelCls
           }
+          stratigraphicUnitCls: modelCls(callSign: "S") {
+            ...SearchBox_modelCls
+          }
           citationGroupCls: modelCls(callSign: "CG") {
             ...SearchBox_modelCls
           }
@@ -62,20 +65,24 @@ export default function SearchSection() {
             <SearchBox modelCls={props.nameCls} />,
           ],
           [
-            <Link to="/docs/name">Collection</Link>,
+            <Link to="/docs/collection">Collection</Link>,
             <SearchBox modelCls={props.collectionCls} />,
           ],
           [
-            <Link to="/docs/name">Region</Link>,
+            <Link to="/docs/region">Region</Link>,
             <SearchBox modelCls={props.regionCls} />,
           ],
           [
-            <Link to="/docs/name">Location</Link>,
+            <Link to="/docs/location">Location</Link>,
             <SearchBox modelCls={props.locationCls} />,
           ],
           [
-            <Link to="/docs/name">Period</Link>,
+            <Link to="/docs/period">Period</Link>,
             <SearchBox modelCls={props.periodCls} />,
+          ],
+          [
+            <Link to="/docs/stratigraphic-unit">Stratigraphic unit</Link>,
+            <SearchBox modelCls={props.stratigraphicUnitCls} />,
           ],
           [
             <Link to="/docs/citation-group">Citation group</Link>,

@@ -517,7 +517,7 @@ export default createFragmentContainer(%(type_upper)s%(conn_upper)s, {
 });
 """
 LIST_TYPES = {"Name"}
-CHILDREN_TYPES = {"Period", "Region"}
+CHILDREN_TYPES = {"Period", "Region", "StratigraphicUnit"}
 
 
 def lcfirst(s: str) -> str:
@@ -552,10 +552,7 @@ def extract_connections(
 def should_use_children_template(type_name: str, conn_name: str) -> bool:
     if type_name not in CHILDREN_TYPES or conn_name == "children":
         return False
-    if type_name == "Period" and conn_name not in (
-        "locationsStratigraphy",
-        "locationsChronology",
-    ):
+    if type_name in ("Period", "StratigraphicUnit") and conn_name != "locations":
         return False
     return True
 
@@ -594,7 +591,7 @@ def write_component(
         "conn_lower": conn_lower,
         "node_type_upper": field_type,
         "set_expand_all": "(expandAll: boolean) => this.setState({ expandAll })"
-        if field_type in ["Taxon", "Region", "Period", "Location", "Collection"]
+        if field_type in ["Taxon", "Region", "Period", "Location", "Collection", "StratigraphicUnit"]
         else "undefined",
         "set_show_detail": f"showDetail => this.setState({{ {detail_field}: showDetail }})"
         if detail_field

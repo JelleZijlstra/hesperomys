@@ -4,6 +4,7 @@ import { ModelChildListTaxonQuery } from "./__generated__/ModelChildListTaxonQue
 import { ModelChildListLocationQuery } from "./__generated__/ModelChildListLocationQuery.graphql";
 import { ModelChildListRegionQuery } from "./__generated__/ModelChildListRegionQuery.graphql";
 import { ModelChildListPeriodQuery } from "./__generated__/ModelChildListPeriodQuery.graphql";
+import { ModelChildListStratigraphicUnitQuery } from "./__generated__/ModelChildListStratigraphicUnitQuery.graphql";
 
 import React from "react";
 import environment from "../relayEnvironment";
@@ -17,7 +18,9 @@ import LocationTypeLocalities from "../lists/LocationTypeLocalities";
 import RegionChildren from "../lists/RegionChildren";
 import RegionLocations from "../lists/RegionLocations";
 import PeriodChildren from "../lists/PeriodChildren";
-import PeriodLocationsStratigraphy from "../lists/PeriodLocationsStratigraphy";
+import PeriodLocations from "../lists/PeriodLocations";
+import StratigraphicUnitChildren from "../lists/StratigraphicUnitChildren";
+import StratigraphicUnitLocations from "../lists/StratigraphicUnitLocations";
 
 export function supportsChildren(
   model: Omit<ModelChildList_model, " $refType">
@@ -32,7 +35,9 @@ export function supportsChildren(
     case "Region":
       return !!model.numChildren || !!model.numLocations;
     case "Period":
-      return !!model.numChildren || !!model.numLocationsStratigraphy;
+      return !!model.numChildren || !!model.numLocations;
+    case "StratigraphicUnit":
+      return !!model.numChildren || !!model.numLocations;
     default:
       return false;
   }
@@ -165,7 +170,7 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
               query ModelChildListPeriodQuery($id: ID!) {
                 node(id: $id) {
                   ...PeriodChildren_period
-                  ...PeriodLocationsStratigraphy_period
+                  ...PeriodLocations_period
                 }
               }
             `}
@@ -180,7 +185,42 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
               return (
                 <>
                   <PeriodChildren period={props.node} hideTitle />
-                  <PeriodLocationsStratigraphy period={props.node} hideTitle />
+                  <PeriodLocations period={props.node} hideTitle />
+                </>
+              );
+            }}
+          />
+        );
+      case "StratigraphicUnit":
+        return (
+          <QueryRenderer<ModelChildListStratigraphicUnitQuery>
+            environment={environment}
+            query={graphql`
+              query ModelChildListStratigraphicUnitQuery($id: ID!) {
+                node(id: $id) {
+                  ...StratigraphicUnitChildren_stratigraphicUnit
+                  ...StratigraphicUnitLocations_stratigraphicUnit
+                }
+              }
+            `}
+            variables={{ id }}
+            render={({ error, props }) => {
+              if (error) {
+                return <div>Failed to load</div>;
+              }
+              if (!props || !props.node) {
+                return <div>Loading...</div>;
+              }
+              return (
+                <>
+                  <StratigraphicUnitChildren
+                    stratigraphicUnit={props.node}
+                    hideTitle
+                  />
+                  <StratigraphicUnitLocations
+                    stratigraphicUnit={props.node}
+                    hideTitle
+                  />
                 </>
               );
             }}
@@ -215,7 +255,11 @@ export default createFragmentContainer(ModelChildList, {
       }
       ... on Period {
         numChildren
-        numLocationsStratigraphy
+        numLocations
+      }
+      ... on StratigraphicUnit {
+        numChildren
+        numLocations
       }
     }
   `,
