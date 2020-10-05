@@ -642,6 +642,21 @@ interface NameTag {
   _Ignored: ID
 }
 
+type NamedAfter implements TypeTag {
+  _Ignored: ID
+  person: Person!
+}
+
+enum NamingConvention {
+  western
+  chinese
+  japanese
+  dutch
+  burmese
+  spanish
+  ancient
+}
+
 type NeotypeDesignation implements TypeTag {
   _Ignored: ID
   source: Article!
@@ -850,16 +865,9 @@ enum PeriodRank {
   period
   era
   eon
-  bed
-  member
-  formation
-  group
-  supergroup
-  other_lithostratigraphy
   other_chronostratigraphy
   subage
   biozone
-  subgroup
   zonation
 }
 
@@ -869,9 +877,51 @@ enum PeriodSystem {
   elma
   alma
   salma
-  lithostratigraphy
+  _lithostratigraphy
   aulma
   local_biostratigraphy
+}
+
+type Person implements Node & Model {
+  id: ID!
+  oid: Int!
+  callSign: String!
+  familyName: String!
+  givenNames: String
+  initials: String
+  suffix: String
+  tussenvoegsel: String
+  birth: String
+  death: String
+  tags: [PersonTag]!
+  namingConvention: NamingConvention!
+  type: PersonType!
+  target: Person
+  personSet(before: String, after: String, first: Int, last: Int): PersonConnection
+  numPersonSet: Int!
+  modelCls: ModelCls!
+}
+
+type PersonConnection {
+  pageInfo: PageInfo!
+  edges: [PersonEdge]!
+}
+
+type PersonEdge {
+  node: Person
+  cursor: String!
+}
+
+interface PersonTag {
+  _Ignored: ID
+}
+
+enum PersonType {
+  unchecked
+  checked
+  soft_redirect
+  hard_redirect
+  deleted
 }
 
 type PreoccupiedBy implements NameTag {
@@ -918,6 +968,8 @@ type Query {
   nameEnding(oid: Int): NameEnding
   speciesNameEndingByLabel(label: String): [SpeciesNameEnding]
   speciesNameEnding(oid: Int): SpeciesNameEnding
+  personByLabel(label: String): [Person]
+  person(oid: Int): Person
   nameByLabel(label: String): [Name]
   name(oid: Int): Name
   nameComment(oid: Int): NameComment
@@ -1168,14 +1220,14 @@ type StratigraphicUnit implements Node & Model {
   prev: StratigraphicUnit
   minPeriod: Period
   maxPeriod: Period
-  rank: PeriodRank!
+  rank: StratigraphicUnitRank!
   comment: String!
   region: Region
   deleted: Boolean!
   children(before: String, after: String, first: Int, last: Int): StratigraphicUnitConnection
   numChildren: Int!
-  nextForeign(before: String, after: String, first: Int, last: Int): StratigraphicUnitConnection
-  numNextForeign: Int!
+  next(before: String, after: String, first: Int, last: Int): StratigraphicUnitConnection
+  numNext: Int!
   locations(before: String, after: String, first: Int, last: Int): LocationConnection
   numLocations: Int!
   hasLocations: Boolean
@@ -1190,6 +1242,16 @@ type StratigraphicUnitConnection {
 type StratigraphicUnitEdge {
   node: StratigraphicUnit
   cursor: String!
+}
+
+enum StratigraphicUnitRank {
+  bed
+  member
+  formation
+  group
+  supergroup
+  other_lithostratigraphy
+  subgroup
 }
 
 type StratigraphyDetail implements TypeTag {
@@ -1287,4 +1349,9 @@ type VariantOf implements NameTag {
   _Ignored: ID
   name: Name!
   comment: String
+}
+
+type Wiki implements PersonTag {
+  _Ignored: ID
+  text: String
 }

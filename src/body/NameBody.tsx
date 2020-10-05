@@ -80,7 +80,10 @@ function NomenclatureSection({ name }: { name: NameBody_name }) {
         ]}
       />
       <NameTags name={name} />
-      <NameTypeTags name={name} tagsToInclude={["EtymologyDetail"]} />
+      <NameTypeTags
+        name={name}
+        tagsToInclude={["EtymologyDetail", "NamedAfter"]}
+      />
     </>
   );
 }

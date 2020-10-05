@@ -11,6 +11,7 @@ import CitationGroupPatternTitle from "./CitationGroupPatternTitle";
 import CollectionTitle from "./CollectionTitle";
 import LocationTitle from "./LocationTitle";
 import StratigraphicUnitTitle from "./StratigraphicUnitTitle";
+import PersonTitle from "./PersonTitle";
 import NameTitle from "./NameTitle";
 import NameCommentTitle from "./NameCommentTitle";
 import NameComplexTitle from "./NameComplexTitle";
@@ -60,6 +61,8 @@ class Title extends React.Component<{ model: Title_model }> {
         return <TaxonTitle taxon={model} />;
       case "StratigraphicUnit":
         return <StratigraphicUnitTitle stratigraphicUnit={model} />;
+      case "Person":
+        return <PersonTitle person={model} />;
       default:
         return <>(unimplemented for {model.__typename})</>;
     }
@@ -77,6 +80,7 @@ export default createFragmentContainer(Title, {
       ...CollectionTitle_collection
       ...LocationTitle_location
       ...NameTitle_name
+      ...PersonTitle_person
       ...StratigraphicUnitTitle_stratigraphicUnit
       ...NameCommentTitle_nameComment
       ...NameComplexTitle_nameComplex

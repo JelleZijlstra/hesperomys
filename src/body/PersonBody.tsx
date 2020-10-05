@@ -1,0 +1,77 @@
+import { PersonBody_person } from "./__generated__/PersonBody_person.graphql";
+
+import React from "react";
+import { createFragmentContainer } from "react-relay";
+import graphql from "babel-plugin-relay/macro";
+
+import Table from "../components/Table";
+
+class PersonBody extends React.Component<{
+  person: PersonBody_person;
+}> {
+  render() {
+    const { person } = this.props;
+    const data: [string, JSX.Element | string][] = [];
+    data.push(["Family name", person.familyName]);
+    if (person.givenNames) {
+      data.push(["Given names", person.givenNames]);
+    }
+    if (person.initials) {
+      data.push(["Initials", person.initials]);
+    }
+    if (person.suffix) {
+      data.push(["Suffix", person.suffix]);
+    }
+    if (person.tussenvoegsel) {
+      data.push(["Tussenvoegsel", person.tussenvoegsel]);
+    }
+    if (person.birth) {
+      data.push(["Date of birth", person.birth]);
+    }
+    if (person.death) {
+      data.push(["Date of death", person.death]);
+    }
+    data.push(["Naming convention", person.namingConvention]);
+    return (
+      <>
+        <Table data={data} />
+        {person.tags && (
+          <ul>
+            {person.tags.map((tag) => {
+              if (!tag) {
+                return null;
+              }
+              switch (tag.__typename) {
+                case "Wiki":
+                  return tag.text ? <a href={tag.text}>{tag.text}</a> : null;
+                default:
+                  return null;
+              }
+            })}
+          </ul>
+        )}
+      </>
+    );
+  }
+}
+
+export default createFragmentContainer(PersonBody, {
+  person: graphql`
+    fragment PersonBody_person on Person {
+      familyName
+      givenNames
+      initials
+      suffix
+      tussenvoegsel
+      birth
+      death
+      namingConvention
+      tags {
+        __typename
+        ... on Wiki {
+          text
+        }
+      }
+    }
+  `,
+});

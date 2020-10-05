@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { StratigraphicUnitNextForeign_stratigraphicUnit } from "./__generated__/StratigraphicUnitNextForeign_stratigraphicUnit.graphql";
+import { PersonPersonSet_person } from "./__generated__/PersonPersonSet_person.graphql";
 
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
@@ -9,45 +9,36 @@ import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
 
-interface StratigraphicUnitNextForeignProps {
-  stratigraphicUnit: StratigraphicUnitNextForeign_stratigraphicUnit;
+interface PersonPersonSetProps {
+  person: PersonPersonSet_person;
   title?: string;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
 }
 
-class StratigraphicUnitNextForeign extends React.Component<
-  StratigraphicUnitNextForeignProps,
+class PersonPersonSet extends React.Component<
+  PersonPersonSetProps,
   { expandAll: boolean }
 > {
-  constructor(props: StratigraphicUnitNextForeignProps) {
+  constructor(props: PersonPersonSetProps) {
     super(props);
     this.state = { expandAll: false };
   }
 
   render() {
-    const {
-      stratigraphicUnit,
-      relay,
-      numToLoad,
-      hideTitle,
-      title,
-    } = this.props;
-    if (
-      !stratigraphicUnit.nextForeign ||
-      stratigraphicUnit.nextForeign.edges.length === 0
-    ) {
+    const { person, relay, numToLoad, hideTitle, title } = this.props;
+    if (!person.personSet || person.personSet.edges.length === 0) {
       return null;
     }
-    const showExpandAll = stratigraphicUnit.nextForeign.edges.some(
+    const showExpandAll = person.personSet.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
     return (
       <>
-        {!hideTitle && <h3>{title || "NextForeign"}</h3>}
+        {!hideTitle && <h3>{title || "PersonSet"}</h3>}
         <ul>
-          {stratigraphicUnit.nextForeign.edges.map(
+          {person.personSet.edges.map(
             (edge) =>
               edge &&
               edge.node && (
@@ -63,11 +54,7 @@ class StratigraphicUnitNextForeign extends React.Component<
           numToLoad={numToLoad || 100}
           relay={relay}
           expandAll={this.state.expandAll}
-          setExpandAll={
-            showExpandAll
-              ? (expandAll: boolean) => this.setState({ expandAll })
-              : undefined
-          }
+          setExpandAll={showExpandAll ? undefined : undefined}
         />
       </>
     );
@@ -75,17 +62,17 @@ class StratigraphicUnitNextForeign extends React.Component<
 }
 
 export default createPaginationContainer(
-  StratigraphicUnitNextForeign,
+  PersonPersonSet,
   {
-    stratigraphicUnit: graphql`
-      fragment StratigraphicUnitNextForeign_stratigraphicUnit on StratigraphicUnit
+    person: graphql`
+      fragment PersonPersonSet_person on Person
         @argumentDefinitions(
           count: { type: "Int", defaultValue: 10 }
           cursor: { type: "String", defaultValue: null }
         ) {
         oid
-        nextForeign(first: $count, after: $cursor)
-          @connection(key: "StratigraphicUnitNextForeign_nextForeign") {
+        personSet(first: $count, after: $cursor)
+          @connection(key: "PersonPersonSet_personSet") {
           edges {
             node {
               oid
@@ -99,23 +86,22 @@ export default createPaginationContainer(
     `,
   },
   {
-    getConnectionFromProps: (props) => props.stratigraphicUnit.nextForeign,
+    getConnectionFromProps: (props) => props.person.personSet,
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {
         count,
         cursor,
-        oid: props.stratigraphicUnit.oid,
+        oid: props.person.oid,
       };
     },
     query: graphql`
-      query StratigraphicUnitNextForeignPaginationQuery(
+      query PersonPersonSetPaginationQuery(
         $count: Int!
         $cursor: String
         $oid: Int!
       ) {
-        stratigraphicUnit(oid: $oid) {
-          ...StratigraphicUnitNextForeign_stratigraphicUnit
-            @arguments(count: $count, cursor: $cursor)
+        person(oid: $oid) {
+          ...PersonPersonSet_person @arguments(count: $count, cursor: $cursor)
         }
       }
     `,

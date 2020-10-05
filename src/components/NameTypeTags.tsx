@@ -134,6 +134,12 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       );
     case "TypeSpeciesDetail":
       return <Detail text={tag.text} source={tag.source} />;
+    case "NamedAfter":
+      return (
+        <>
+          Named after <ModelLink model={tag.person} />
+        </>
+      );
     default:
       return null;
   }
@@ -300,6 +306,11 @@ export default createFragmentContainer(NameTypeTags, {
         ... on TypeSpeciesDetail {
           text
           source {
+            ...ModelLink_model
+          }
+        }
+        ... on NamedAfter {
+          person {
             ...ModelLink_model
           }
         }
