@@ -34,6 +34,9 @@ class PersonBody extends React.Component<{
     if (person.death) {
       data.push(["Date of death", person.death]);
     }
+    if (person.bio) {
+      data.push(["Short description", person.bio]);
+    }
     data.push(["Naming convention", person.namingConvention]);
     return (
       <>
@@ -71,6 +74,7 @@ export default createFragmentContainer(PersonBody, {
       birth
       death
       namingConvention
+      bio
       tags {
         __typename
         ... on Wiki {

@@ -901,6 +901,7 @@ type Person implements Node & Model {
   tags: [PersonTag]!
   namingConvention: NamingConvention!
   type: PersonType!
+  bio: String
   target: Person
   personSet(before: String, after: String, first: Int, last: Int): PersonConnection
   numPersonSet: Int!
