@@ -41,6 +41,12 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       return <Detail text={tag.text} source={tag.source} />;
     case "Collector":
       return <>Collected by {tag.collector}</>;
+    case "CollectedBy":
+      return (
+        <>
+          Collected by <ModelLink model={tag.person} />
+        </>
+      );
     case "CommissionTypeDesignation":
       if (!tag.opinion || !tag.type) {
         return null;
@@ -196,6 +202,11 @@ export default createFragmentContainer(NameTypeTags, {
         ... on CollectionDetail {
           text
           source {
+            ...ModelLink_model
+          }
+        }
+        ... on CollectedBy {
+          person {
             ...ModelLink_model
           }
         }

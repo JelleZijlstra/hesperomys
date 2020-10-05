@@ -4,6 +4,9 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import PersonCollected from "../lists/PersonCollected";
+import PersonPatronyms from "../lists/PersonPatronyms";
+
 import Table from "../components/Table";
 
 class PersonBody extends React.Component<{
@@ -50,6 +53,8 @@ class PersonBody extends React.Component<{
             })}
           </ul>
         )}
+        <PersonPatronyms person={person} />
+        <PersonCollected person={person} />
       </>
     );
   }
@@ -72,6 +77,8 @@ export default createFragmentContainer(PersonBody, {
           text
         }
       }
+      ...PersonPatronyms_person
+      ...PersonCollected_person
     }
   `,
 });

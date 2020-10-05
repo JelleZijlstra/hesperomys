@@ -122,6 +122,7 @@ function TypeSection({ name }: { name: NameBody_name }) {
         name={name}
         tagsToInclude={[
           "Age",
+          "CollectedBy",
           "Collector",
           "Date",
           "Gender",

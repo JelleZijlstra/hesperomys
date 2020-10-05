@@ -205,6 +205,11 @@ interface CitationGroupTag {
   _Ignored: ID
 }
 
+type CollectedBy implements TypeTag {
+  _Ignored: ID
+  person: Person!
+}
+
 type Collection implements Node & Model {
   id: ID!
   oid: Int!
@@ -899,6 +904,8 @@ type Person implements Node & Model {
   target: Person
   personSet(before: String, after: String, first: Int, last: Int): PersonConnection
   numPersonSet: Int!
+  patronyms(before: String, after: String, first: Int, last: Int): NameConnection
+  collected(before: String, after: String, first: Int, last: Int): NameConnection
   modelCls: ModelCls!
 }
 
