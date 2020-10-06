@@ -7,6 +7,20 @@ import { Link } from "react-router-dom";
 
 import Title from "../title/Title";
 
+function PersonExtra({ model }: { model: ModelLink_model }) {
+  const parts = [];
+  if (model.birth || model.death) {
+    parts.push((model.birth ?? "") + "–" + (model.death ?? ""));
+  }
+  if (model.bio) {
+    parts.push(model.bio);
+  }
+  if (model.personType) {
+    parts.push(model.personType);
+  }
+  return <> ({parts.join("; ")})</>;
+}
+
 function NameExtra({ model }: { model: ModelLink_model }) {
   if (!model.taxon || !model.status) {
     return null;
@@ -67,6 +81,8 @@ function ModelExtra({ model }: { model: ModelLink_model }) {
       return <NameExtra model={model} />;
     case "Location":
       return <LocationExtra model={model} />;
+    case "Person":
+      return <PersonExtra model={model} />;
     case "Collection":
       return model.city ? <>, {model.city}</> : null;
     default:
@@ -123,6 +139,12 @@ export default createFragmentContainer(ModelLink, {
           validName
           ...Title_model
         }
+      }
+      ... on Person {
+        birth
+        death
+        bio
+        personType: type
       }
     }
   `,

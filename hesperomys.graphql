@@ -40,6 +40,7 @@ type Article implements Node & Model {
   addyear: String!
   name: String!
   authors: String
+  authorTags: [AuthorTag]!
   year: String
   title: String
   Journal: String!
@@ -142,6 +143,15 @@ enum ArticleType {
   SUPPLEMENT
   JOURNAL
   REDIRECT
+}
+
+type Author implements AuthorTag {
+  _Ignored: ID
+  person: Person!
+}
+
+interface AuthorTag {
+  _Ignored: ID
 }
 
 type CitationDetail implements TypeTag {
@@ -541,6 +551,7 @@ type Name implements Node & Model {
   correctedOriginalName: String
   nomenclatureStatus: NomenclatureStatus!
   authority: String
+  authorTags: [AuthorTag]!
   originalCitation: Article
   pageDescribed: String
   verbatimCitation: String
@@ -660,6 +671,7 @@ enum NamingConvention {
   burmese
   spanish
   ancient
+  organization
 }
 
 type NeotypeDesignation implements TypeTag {
@@ -907,6 +919,8 @@ type Person implements Node & Model {
   numPersonSet: Int!
   patronyms(before: String, after: String, first: Int, last: Int): NameConnection
   collected(before: String, after: String, first: Int, last: Int): NameConnection
+  articles(before: String, after: String, first: Int, last: Int): ArticleConnection
+  names(before: String, after: String, first: Int, last: Int): NameConnection
   modelCls: ModelCls!
 }
 
@@ -955,6 +969,8 @@ type Query {
   citationGroup(oid: Int): CitationGroup
   citationGroupPatternByLabel(label: String): [CitationGroupPattern]
   citationGroupPattern(oid: Int): CitationGroupPattern
+  personByLabel(label: String): [Person]
+  person(oid: Int): Person
   articleByLabel(label: String): [Article]
   article(oid: Int): Article
   articleComment(oid: Int): ArticleComment
@@ -976,8 +992,6 @@ type Query {
   nameEnding(oid: Int): NameEnding
   speciesNameEndingByLabel(label: String): [SpeciesNameEnding]
   speciesNameEnding(oid: Int): SpeciesNameEnding
-  personByLabel(label: String): [Person]
-  person(oid: Int): Person
   nameByLabel(label: String): [Name]
   name(oid: Int): Name
   nameComment(oid: Int): NameComment

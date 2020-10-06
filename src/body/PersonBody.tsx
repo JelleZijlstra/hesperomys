@@ -6,6 +6,8 @@ import graphql from "babel-plugin-relay/macro";
 
 import PersonCollected from "../lists/PersonCollected";
 import PersonPatronyms from "../lists/PersonPatronyms";
+import PersonNames from "../lists/PersonNames";
+import PersonArticles from "../lists/PersonArticles";
 
 import Table from "../components/Table";
 
@@ -58,6 +60,8 @@ class PersonBody extends React.Component<{
         )}
         <PersonPatronyms person={person} />
         <PersonCollected person={person} />
+        <PersonNames person={person} />
+        <PersonArticles person={person} />
       </>
     );
   }
@@ -83,6 +87,8 @@ export default createFragmentContainer(PersonBody, {
       }
       ...PersonPatronyms_person
       ...PersonCollected_person
+      ...PersonNames_person
+      ...PersonArticles_person
     }
   `,
 });
