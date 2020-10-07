@@ -39,7 +39,7 @@ type Article implements Node & Model {
   addday: String!
   addyear: String!
   name: String!
-  authorTags: [AuthorTag]!
+  authorTags: [AuthorTag!]!
   year: String
   title: String
   Journal: String!
@@ -59,7 +59,7 @@ type Article implements Node & Model {
   ids: String
   bools: String
   kind: ArticleKind!
-  tags: [ArticleTag]!
+  tags: [ArticleTag!]!
   citationGroup: CitationGroup
   parent: Article
   articleSet(before: String, after: String, first: Int, last: Int): ArticleConnection
@@ -168,7 +168,7 @@ type CitationGroup implements Node & Model {
   deleted: Boolean!
   type: ArticleType!
   target: CitationGroup
-  tags: [CitationGroupTag]!
+  tags: [CitationGroupTag!]!
   archive: String
   redirects(before: String, after: String, first: Int, last: Int): CitationGroupConnection
   numRedirects: Int!
@@ -474,7 +474,7 @@ type Location implements Node & Model {
   ageDetail: String!
   source: Article
   deleted: Boolean!
-  tags: [LocationTag]!
+  tags: [LocationTag!]!
   typeLocalities(before: String, after: String, first: Int, last: Int): NameConnection
   numTypeLocalities: Int!
   taxa(before: String, after: String, first: Int, last: Int): OccurrenceConnection
@@ -549,8 +549,7 @@ type Name implements Node & Model {
   originalName: String
   correctedOriginalName: String
   nomenclatureStatus: NomenclatureStatus!
-  authority: String
-  authorTags: [AuthorTag]!
+  authorTags: [AuthorTag!]!
   originalCitation: Article
   pageDescribed: String
   verbatimCitation: String
@@ -568,10 +567,10 @@ type Name implements Node & Model {
   typeSpecimenSource: Article
   genusTypeKind: TypeSpeciesDesignation
   speciesTypeKind: SpeciesGroupType
-  typeTags: [TypeTag]!
+  typeTags: [TypeTag!]!
   data: String
   Definition: String
-  tags: [NameTag]!
+  tags: [NameTag!]!
   typifiedNames(before: String, after: String, first: Int, last: Int): NameConnection
   numTypifiedNames: Int!
   taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
@@ -909,7 +908,7 @@ type Person implements Node & Model {
   tussenvoegsel: String
   birth: String
   death: String
-  tags: [PersonTag]!
+  tags: [PersonTag!]!
   namingConvention: NamingConvention!
   type: PersonType!
   bio: String

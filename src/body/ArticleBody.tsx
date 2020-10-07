@@ -6,6 +6,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import ModelLink from "../components/ModelLink";
 import Table from "../components/Table";
+import AuthorList from "../components/AuthorList";
 
 import ArticleNewNames from "../lists/ArticleNewNames";
 import ArticleArticleSet from "../lists/ArticleArticleSet";
@@ -51,20 +52,7 @@ class ArticleBody extends React.Component<{
     } = article;
     const data: [string, JSX.Element | null | string][] = [
       ["Type", TYPE_TO_STRING.get(articleType) || null],
-      [
-        "Authors",
-        <ul>
-          {authorTags.map(
-            (tag) =>
-              tag &&
-              tag.person && (
-                <li key={tag.person.oid}>
-                  <ModelLink model={tag.person} />
-                </li>
-              )
-          )}
-        </ul>,
-      ],
+      ["Authors", <AuthorList authorTags={authorTags} />],
       ["Year of publication", year],
       ["Title", title],
       ["Publisher", publisher],
@@ -100,12 +88,7 @@ export default createFragmentContainer(ArticleBody, {
     fragment ArticleBody_article on Article {
       articleType: type
       authorTags {
-        ... on Author {
-          person {
-            oid
-            ...ModelLink_model
-          }
-        }
+        ...AuthorList_authorTags
       }
       year
       title

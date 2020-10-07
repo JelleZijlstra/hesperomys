@@ -5,6 +5,7 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
 import MaybeItalics from "../components/MaybeItalics";
+import TaxonomicAuthority from "../components/TaxonomicAuthority";
 
 class NameTitle extends React.Component<{ name: NameTitle_name }> {
   render() {
@@ -12,7 +13,7 @@ class NameTitle extends React.Component<{ name: NameTitle_name }> {
       originalName,
       rootName,
       group,
-      authority,
+      authorTags,
       year,
       pageDescribed,
     } = this.props.name;
@@ -27,8 +28,8 @@ class NameTitle extends React.Component<{ name: NameTitle_name }> {
 
     return (
       <>
-        <MaybeItalics group={group} name={name} />
-        {authority && " " + authority}
+        <MaybeItalics group={group} name={name} />{" "}
+        <TaxonomicAuthority authorTags={authorTags} />
         {year && ", " + year}
         {pageDescribed && ":" + pageDescribed}
       </>
@@ -42,7 +43,9 @@ export default createFragmentContainer(NameTitle, {
       originalName
       rootName
       group
-      authority
+      authorTags {
+        ...TaxonomicAuthority_authorTags
+      }
       year
       pageDescribed
     }

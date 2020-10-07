@@ -10,6 +10,7 @@ import Table from "../components/Table";
 import NameTags from "../components/NameTags";
 import NameTypeTags from "../components/NameTypeTags";
 import TaxonContext from "../components/TaxonContext";
+import AuthorList from "../components/AuthorList";
 
 function NameSection({ name }: { name: NameBody_name }) {
   const {
@@ -38,7 +39,7 @@ function NameSection({ name }: { name: NameBody_name }) {
               <MaybeItalics name={correctedOriginalName} group={group} />
             ) : null,
           ],
-          ["Author", name.authority],
+          ["Authors", <AuthorList authorTags={name.authorTags} />],
           ["Year", name.year],
           ["Page described", name.pageDescribed],
           [
@@ -203,7 +204,9 @@ export default createFragmentContainer(NameBody, {
       correctedOriginalName
       group
       rootName
-      authority
+      authorTags {
+        ...AuthorList_authorTags
+      }
       year
       pageDescribed
       originalCitation {
