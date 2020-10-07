@@ -39,7 +39,6 @@ type Article implements Node & Model {
   addday: String!
   addyear: String!
   name: String!
-  authors: String
   authorTags: [AuthorTag]!
   year: String
   title: String

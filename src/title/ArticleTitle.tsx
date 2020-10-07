@@ -6,7 +6,18 @@ import graphql from "babel-plugin-relay/macro";
 
 class ArticleTitle extends React.Component<{ article: ArticleTitle_article }> {
   render() {
-    const { authors, year } = this.props.article;
+    const { authorTags, year } = this.props.article;
+    const familyNames = authorTags
+      .map((tag) =>
+        tag && tag.person && tag.person.familyName ? tag.person.familyName : ""
+      )
+      .filter((name) => name);
+    const authors =
+      familyNames.length <= 2
+        ? familyNames.join(" & ")
+        : familyNames.slice(0, -1).join(", ") +
+          " & " +
+          familyNames[familyNames.length - 1];
 
     return (
       <>
@@ -19,7 +30,13 @@ class ArticleTitle extends React.Component<{ article: ArticleTitle_article }> {
 export default createFragmentContainer(ArticleTitle, {
   article: graphql`
     fragment ArticleTitle_article on Article {
-      authors
+      authorTags {
+        ... on Author {
+          person {
+            familyName
+          }
+        }
+      }
       year
     }
   `,

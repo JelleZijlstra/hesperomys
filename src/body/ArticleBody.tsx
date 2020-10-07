@@ -34,7 +34,7 @@ class ArticleBody extends React.Component<{
     const { article } = this.props;
     const {
       articleType,
-      authors,
+      authorTags,
       year,
       title,
       series,
@@ -51,7 +51,20 @@ class ArticleBody extends React.Component<{
     } = article;
     const data: [string, JSX.Element | null | string][] = [
       ["Type", TYPE_TO_STRING.get(articleType) || null],
-      ["Authors", authors],
+      [
+        "Authors",
+        <ul>
+          {authorTags.map(
+            (tag) =>
+              tag &&
+              tag.person && (
+                <li key={tag.person.oid}>
+                  <ModelLink model={tag.person} />
+                </li>
+              )
+          )}
+        </ul>,
+      ],
       ["Year of publication", year],
       ["Title", title],
       ["Publisher", publisher],
@@ -86,7 +99,14 @@ export default createFragmentContainer(ArticleBody, {
   article: graphql`
     fragment ArticleBody_article on Article {
       articleType: type
-      authors
+      authorTags {
+        ... on Author {
+          person {
+            oid
+            ...ModelLink_model
+          }
+        }
+      }
       year
       title
       series
