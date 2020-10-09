@@ -2,6 +2,11 @@ schema {
   query: Query
 }
 
+type ActiveRegion implements PersonTag {
+  _Ignored: ID
+  region: Region!
+}
+
 type Age implements TypeTag {
   _Ignored: ID
   age: SpecimenAge
@@ -76,6 +81,23 @@ type Article implements Node & Model {
   numNameComments: Int!
   occurrences(before: String, after: String, first: Int, last: Int): OccurrenceConnection
   numOccurrences: Int!
+  partiallySuppressedNames(before: String, after: String, first: Int, last: Int): NameConnection
+  fullySuppressedNames(before: String, after: String, first: Int, last: Int): NameConnection
+  conservedNames(before: String, after: String, first: Int, last: Int): NameConnection
+  spellingSelections(before: String, after: String, first: Int, last: Int): NameConnection
+  prioritySelections(before: String, after: String, first: Int, last: Int): NameConnection
+  priorityReversals(before: String, after: String, first: Int, last: Int): NameConnection
+  typeDesignations(before: String, after: String, first: Int, last: Int): NameConnection
+  commissionTypeDesignations(before: String, after: String, first: Int, last: Int): NameConnection
+  lectotypeDesignations(before: String, after: String, first: Int, last: Int): NameConnection
+  neotypeDesignations(before: String, after: String, first: Int, last: Int): NameConnection
+  specimenDetails(before: String, after: String, first: Int, last: Int): NameConnection
+  locationDetails(before: String, after: String, first: Int, last: Int): NameConnection
+  collectionDetails(before: String, after: String, first: Int, last: Int): NameConnection
+  citationDetails(before: String, after: String, first: Int, last: Int): NameConnection
+  definitionDetails(before: String, after: String, first: Int, last: Int): NameConnection
+  etymologyDetails(before: String, after: String, first: Int, last: Int): NameConnection
+  typeSpeciesDetails(before: String, after: String, first: Int, last: Int): NameConnection
   modelCls: ModelCls!
 }
 
@@ -231,6 +253,9 @@ type Collection implements Node & Model {
   removed: Boolean!
   typeSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
   numTypeSpecimens: Int!
+  associatedPeople(before: String, after: String, first: Int, last: Int): PersonConnection
+  probableSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
+  sharedSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
   modelCls: ModelCls!
 }
 
@@ -334,6 +359,14 @@ type Eurobats implements ArticleTag {
   text: String
 }
 
+enum FillDataLevel {
+  needs_basic_data
+  needs_more_data
+  incomplete_detail
+  missing_detail
+  nothing_needed
+}
+
 type FullIssue implements ArticleTag {
   _Ignored: ID
   comment: String
@@ -434,6 +467,11 @@ type IncorrectSubsequentSpellingOf implements NameTag {
   _Ignored: ID
   name: Name!
   comment: String
+}
+
+type Institution implements PersonTag {
+  _Ignored: ID
+  institution: Collection!
 }
 
 type JSTOR implements ArticleTag {
@@ -577,6 +615,23 @@ type Name implements Node & Model {
   numTaxonSet: Int!
   comments(before: String, after: String, first: Int, last: Int): NameCommentConnection
   numComments: Int!
+  fillDataLevel: FillDataLevel
+  preoccupiedNames(before: String, after: String, first: Int, last: Int): NameConnection
+  unjustifiedEmendations(before: String, after: String, first: Int, last: Int): NameConnection
+  incorrectSubsequentSpellings(before: String, after: String, first: Int, last: Int): NameConnection
+  nominaNova(before: String, after: String, first: Int, last: Int): NameConnection
+  variants(before: String, after: String, first: Int, last: Int): NameConnection
+  takingPriority(before: String, after: String, first: Int, last: Int): NameConnection
+  nominaOblita(before: String, after: String, first: Int, last: Int): NameConnection
+  mandatoryChanges(before: String, after: String, first: Int, last: Int): NameConnection
+  incorrectOriginalSpellings(before: String, after: String, first: Int, last: Int): NameConnection
+  subsequentUsages(before: String, after: String, first: Int, last: Int): NameConnection
+  selectionsOfPriority(before: String, after: String, first: Int, last: Int): NameConnection
+  selectionsOfSpelling(before: String, after: String, first: Int, last: Int): NameConnection
+  reversalsOfPriority(before: String, after: String, first: Int, last: Int): NameConnection
+  justifiedEmendations(before: String, after: String, first: Int, last: Int): NameConnection
+  designatedAsType(before: String, after: String, first: Int, last: Int): NameConnection
+  commissionDesignatedAsType(before: String, after: String, first: Int, last: Int): NameConnection
   modelCls: ModelCls!
 }
 
@@ -670,6 +725,7 @@ enum NamingConvention {
   spanish
   ancient
   organization
+  hungarian
 }
 
 type NeotypeDesignation implements TypeTag {
@@ -967,13 +1023,13 @@ type Query {
   citationGroup(oid: Int): CitationGroup
   citationGroupPatternByLabel(label: String): [CitationGroupPattern]
   citationGroupPattern(oid: Int): CitationGroupPattern
+  collectionByLabel(label: String): [Collection]
+  collection(oid: Int): Collection
   personByLabel(label: String): [Person]
   person(oid: Int): Person
   articleByLabel(label: String): [Article]
   article(oid: Int): Article
   articleComment(oid: Int): ArticleComment
-  collectionByLabel(label: String): [Collection]
-  collection(oid: Int): Collection
   periodByLabel(label: String): [Period]
   period(oid: Int): Period
   stratigraphicUnitByLabel(label: String): [StratigraphicUnit]
@@ -1059,6 +1115,7 @@ type Region implements Node & Model {
   hasLocations: Boolean
   hasPeriods: Boolean
   hasTypeLocalities: Boolean
+  associatedPeople(before: String, after: String, first: Int, last: Int): PersonConnection
   modelCls: ModelCls!
 }
 
