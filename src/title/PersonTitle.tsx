@@ -18,8 +18,7 @@ class PersonTitle extends React.Component<{
     } = this.props.person;
     return (
       <>
-        {givenNames}
-        {initials}
+        {givenNames || initials}
         {(givenNames || initials) && " "}
         {tussenvoegsel && tussenvoegsel + " "}
         {familyName}

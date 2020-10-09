@@ -45,6 +45,9 @@ export default function SearchSection() {
           speciesNameComplexCls: modelCls(callSign: "SC") {
             ...SearchBox_modelCls
           }
+          personCls: modelCls(callSign: "H") {
+            ...SearchBox_modelCls
+          }
         }
       `}
       variables={{}}
@@ -95,6 +98,10 @@ export default function SearchSection() {
           [
             <Link to="/docs/species-name-complex">Species name complex</Link>,
             <SearchBox modelCls={props.speciesNameComplexCls} />,
+          ],
+          [
+            <Link to="/docs/person">Person</Link>,
+            <SearchBox modelCls={props.personCls} />,
           ],
         ];
         return (
