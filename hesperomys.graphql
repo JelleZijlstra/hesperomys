@@ -115,6 +115,8 @@ type Article implements Node & Model {
   numEtymologyDetails: Int!
   typeSpeciesDetails(before: String, after: String, first: Int, last: Int): NameConnection
   numTypeSpeciesDetails: Int!
+  biographies(before: String, after: String, first: Int, last: Int): PersonConnection
+  numBiographies: Int!
   modelCls: ModelCls!
 }
 
@@ -190,6 +192,11 @@ type Author implements AuthorTag {
 
 interface AuthorTag {
   _Ignored: ID
+}
+
+type Biography implements PersonTag {
+  _Ignored: ID
+  article: Article!
 }
 
 type CitationDetail implements TypeTag {

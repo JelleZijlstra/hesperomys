@@ -3,6 +3,7 @@ import { PersonBody_person } from "./__generated__/PersonBody_person.graphql";
 import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
+import { Link } from "react-router-dom";
 
 import PersonCollected from "../lists/PersonCollected";
 import PersonPatronyms from "../lists/PersonPatronyms";
@@ -17,7 +18,10 @@ class PersonBody extends React.Component<{
   render() {
     const { person } = this.props;
     const data: [string, JSX.Element | string][] = [];
-    data.push(["Family name", person.familyName]);
+    data.push([
+      "Family name",
+      <Link to={"/h/" + person.familyName}>{person.familyName}</Link>,
+    ]);
     if (person.givenNames) {
       data.push(["Given names", person.givenNames]);
     }

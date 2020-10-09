@@ -31,9 +31,10 @@ export default class LoadMoreButton extends React.Component<
       setShowDetail,
     } = this.props;
     const hasMore = relay.hasMore();
-    const components = [];
+    const components: [string, JSX.Element][] = [];
     if (hasMore) {
-      components.push(
+      components.push([
+        "load-more",
         <>
           <button onClick={() => this._loadMore()}>Load</button>{" "}
           <input
@@ -47,29 +48,32 @@ export default class LoadMoreButton extends React.Component<
             }}
           />
           {" more"}
-        </>
-      );
+        </>,
+      ]);
     }
     if (setExpandAll) {
-      components.push(
+      components.push([
+        "expand-all",
         <span onClick={() => setExpandAll(!expandAll)}>
           {expandAll ? "unexpand all" : "expand all"}
-        </span>
-      );
+        </span>,
+      ]);
     }
     if (setShowChildren) {
-      components.push(
+      components.push([
+        "show-children",
         <span onClick={() => setShowChildren(!showChildren)}>
           {showChildren ? "hide children" : "show children"}
-        </span>
-      );
+        </span>,
+      ]);
     }
     if (setShowDetail) {
-      components.push(
-        <span onClick={() => setShowDetail(!showDetail)}>
+      components.push([
+        "show-detail",
+        <span key="show-detail" onClick={() => setShowDetail(!showDetail)}>
           {showDetail ? "hide detail" : "show detail"}
-        </span>
-      );
+        </span>,
+      ]);
     }
     if (components.length === 0) {
       return null;
@@ -77,11 +81,11 @@ export default class LoadMoreButton extends React.Component<
     return (
       <div>
         <small>
-          {components.map((component, i) => (
-            <>
+          {components.map(([key, component], i) => (
+            <React.Fragment key={key}>
               {i > 0 && " or "}
               {component}
-            </>
+            </React.Fragment>
           ))}
         </small>
       </div>
