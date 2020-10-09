@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface NameCommentsProps {
   name: NameComments_name;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,7 @@ class NameComments extends React.Component<
   }
 
   render() {
-    const { name, relay, numToLoad, hideTitle, title } = this.props;
+    const { name, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!name.comments || name.comments.edges.length === 0) {
       return null;
     }
@@ -37,6 +38,7 @@ class NameComments extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Comments"}</h3>}
+        {subtitle}
         <ul>
           {name.comments.edges.map(
             (edge) =>

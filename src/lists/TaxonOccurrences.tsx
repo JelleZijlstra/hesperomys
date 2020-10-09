@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface TaxonOccurrencesProps {
   taxon: TaxonOccurrences_taxon;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,7 @@ class TaxonOccurrences extends React.Component<
   }
 
   render() {
-    const { taxon, relay, numToLoad, hideTitle, title } = this.props;
+    const { taxon, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!taxon.occurrences || taxon.occurrences.edges.length === 0) {
       return null;
     }
@@ -37,6 +38,7 @@ class TaxonOccurrences extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Occurrences"}</h3>}
+        {subtitle}
         <ul>
           {taxon.occurrences.edges.map(
             (edge) =>

@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface NamePreoccupiedNamesInnerProps {
   nameInner: NamePreoccupiedNames_nameInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class NamePreoccupiedNamesInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class NamePreoccupiedNamesInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "PreoccupiedNames"}</h3>}
+        {subtitle}
         <NameList
           connection={nameInner.preoccupiedNames}
           hideClassification={hideClassification}
@@ -165,6 +168,7 @@ const NamePreoccupiedNamesContainer = createPaginationContainer(
 interface NamePreoccupiedNamesProps {
   name: NamePreoccupiedNames_name;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -204,7 +208,13 @@ class NamePreoccupiedNames extends React.Component<
   }
 
   renderInner(name: Omit<NamePreoccupiedNames_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -216,6 +226,7 @@ class NamePreoccupiedNames extends React.Component<
       <NamePreoccupiedNamesContainer
         nameInner={name}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

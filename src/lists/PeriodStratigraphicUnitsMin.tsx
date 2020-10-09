@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface PeriodStratigraphicUnitsMinProps {
   period: PeriodStratigraphicUnitsMin_period;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,7 @@ class PeriodStratigraphicUnitsMin extends React.Component<
   }
 
   render() {
-    const { period, relay, numToLoad, hideTitle, title } = this.props;
+    const { period, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (
       !period.stratigraphicUnitsMin ||
       period.stratigraphicUnitsMin.edges.length === 0
@@ -40,6 +41,7 @@ class PeriodStratigraphicUnitsMin extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "StratigraphicUnitsMin"}</h3>}
+        {subtitle}
         <ul>
           {period.stratigraphicUnitsMin.edges.map(
             (edge) =>

@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface StratigraphicUnitNextProps {
   stratigraphicUnit: StratigraphicUnitNext_stratigraphicUnit;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -33,6 +34,7 @@ class StratigraphicUnitNext extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
     } = this.props;
     if (!stratigraphicUnit.next || stratigraphicUnit.next.edges.length === 0) {
       return null;
@@ -43,6 +45,7 @@ class StratigraphicUnitNext extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Next"}</h3>}
+        {subtitle}
         <ul>
           {stratigraphicUnit.next.edges.map(
             (edge) =>

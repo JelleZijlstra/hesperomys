@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface LocationTypeLocalitiesInnerProps {
   locationInner: LocationTypeLocalities_locationInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class LocationTypeLocalitiesInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class LocationTypeLocalitiesInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "TypeLocalities"}</h3>}
+        {subtitle}
         <NameList
           connection={locationInner.typeLocalities}
           hideClassification={hideClassification}
@@ -165,6 +168,7 @@ const LocationTypeLocalitiesContainer = createPaginationContainer(
 interface LocationTypeLocalitiesProps {
   location: LocationTypeLocalities_location;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -206,7 +210,13 @@ class LocationTypeLocalities extends React.Component<
   renderInner(
     location: Omit<LocationTypeLocalities_location, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -218,6 +228,7 @@ class LocationTypeLocalities extends React.Component<
       <LocationTypeLocalitiesContainer
         locationInner={location}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

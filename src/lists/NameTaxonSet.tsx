@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface NameTaxonSetProps {
   name: NameTaxonSet_name;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,7 @@ class NameTaxonSet extends React.Component<
   }
 
   render() {
-    const { name, relay, numToLoad, hideTitle, title } = this.props;
+    const { name, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!name.taxonSet || name.taxonSet.edges.length === 0) {
       return null;
     }
@@ -37,6 +38,7 @@ class NameTaxonSet extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "TaxonSet"}</h3>}
+        {subtitle}
         <ul>
           {name.taxonSet.edges.map(
             (edge) =>

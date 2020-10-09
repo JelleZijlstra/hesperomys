@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface NameComplexEndingsProps {
   nameComplex: NameComplexEndings_nameComplex;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,14 @@ class NameComplexEndings extends React.Component<
   }
 
   render() {
-    const { nameComplex, relay, numToLoad, hideTitle, title } = this.props;
+    const {
+      nameComplex,
+      relay,
+      numToLoad,
+      hideTitle,
+      title,
+      subtitle,
+    } = this.props;
     if (!nameComplex.endings || nameComplex.endings.edges.length === 0) {
       return null;
     }
@@ -37,6 +45,7 @@ class NameComplexEndings extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Endings"}</h3>}
+        {subtitle}
         <ul>
           {nameComplex.endings.edges.map(
             (edge) =>

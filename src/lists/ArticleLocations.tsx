@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface ArticleLocationsProps {
   article: ArticleLocations_article;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,14 @@ class ArticleLocations extends React.Component<
   }
 
   render() {
-    const { article, relay, numToLoad, hideTitle, title } = this.props;
+    const {
+      article,
+      relay,
+      numToLoad,
+      hideTitle,
+      title,
+      subtitle,
+    } = this.props;
     if (!article.locations || article.locations.edges.length === 0) {
       return null;
     }
@@ -37,6 +45,7 @@ class ArticleLocations extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Locations"}</h3>}
+        {subtitle}
         <ul>
           {article.locations.edges.map(
             (edge) =>

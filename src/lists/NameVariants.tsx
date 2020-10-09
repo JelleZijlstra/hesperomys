@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface NameVariantsInnerProps {
   nameInner: NameVariants_nameInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -39,6 +40,7 @@ class NameVariantsInner extends React.Component<NameVariantsInnerProps> {
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -53,6 +55,7 @@ class NameVariantsInner extends React.Component<NameVariantsInnerProps> {
     return (
       <>
         {!hideTitle && <h3>{title || "Variants"}</h3>}
+        {subtitle}
         <NameList
           connection={nameInner.variants}
           hideClassification={hideClassification}
@@ -160,6 +163,7 @@ const NameVariantsContainer = createPaginationContainer(
 interface NameVariantsProps {
   name: NameVariants_name;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -199,7 +203,13 @@ class NameVariants extends React.Component<
   }
 
   renderInner(name: Omit<NameVariants_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -211,6 +221,7 @@ class NameVariants extends React.Component<
       <NameVariantsContainer
         nameInner={name}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

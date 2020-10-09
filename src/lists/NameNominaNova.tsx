@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface NameNominaNovaInnerProps {
   nameInner: NameNominaNova_nameInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -39,6 +40,7 @@ class NameNominaNovaInner extends React.Component<NameNominaNovaInnerProps> {
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -53,6 +55,7 @@ class NameNominaNovaInner extends React.Component<NameNominaNovaInnerProps> {
     return (
       <>
         {!hideTitle && <h3>{title || "NominaNova"}</h3>}
+        {subtitle}
         <NameList
           connection={nameInner.nominaNova}
           hideClassification={hideClassification}
@@ -160,6 +163,7 @@ const NameNominaNovaContainer = createPaginationContainer(
 interface NameNominaNovaProps {
   name: NameNominaNova_name;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -199,7 +203,13 @@ class NameNominaNova extends React.Component<
   }
 
   renderInner(name: Omit<NameNominaNova_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -211,6 +221,7 @@ class NameNominaNova extends React.Component<
       <NameNominaNovaContainer
         nameInner={name}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

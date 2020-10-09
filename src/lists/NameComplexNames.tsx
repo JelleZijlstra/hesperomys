@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface NameComplexNamesInnerProps {
   nameComplexInner: NameComplexNames_nameComplexInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class NameComplexNamesInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -55,6 +57,7 @@ class NameComplexNamesInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
+        {subtitle}
         <NameList
           connection={nameComplexInner.names}
           hideClassification={hideClassification}
@@ -162,6 +165,7 @@ const NameComplexNamesContainer = createPaginationContainer(
 interface NameComplexNamesProps {
   nameComplex: NameComplexNames_nameComplex;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -203,7 +207,13 @@ class NameComplexNames extends React.Component<
   renderInner(
     nameComplex: Omit<NameComplexNames_nameComplex, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -215,6 +225,7 @@ class NameComplexNames extends React.Component<
       <NameComplexNamesContainer
         nameComplexInner={nameComplex}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface ArticleConservedNamesInnerProps {
   articleInner: ArticleConservedNames_articleInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class ArticleConservedNamesInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class ArticleConservedNamesInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "ConservedNames"}</h3>}
+        {subtitle}
         <NameList
           connection={articleInner.conservedNames}
           hideClassification={hideClassification}
@@ -165,6 +168,7 @@ const ArticleConservedNamesContainer = createPaginationContainer(
 interface ArticleConservedNamesProps {
   article: ArticleConservedNames_article;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -206,7 +210,13 @@ class ArticleConservedNames extends React.Component<
   renderInner(
     article: Omit<ArticleConservedNames_article, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -218,6 +228,7 @@ class ArticleConservedNames extends React.Component<
       <ArticleConservedNamesContainer
         articleInner={article}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

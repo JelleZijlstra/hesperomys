@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface StratigraphicUnitChildrenProps {
   stratigraphicUnit: StratigraphicUnitChildren_stratigraphicUnit;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -33,6 +34,7 @@ class StratigraphicUnitChildren extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
     } = this.props;
     if (
       !stratigraphicUnit.children ||
@@ -46,6 +48,7 @@ class StratigraphicUnitChildren extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Children"}</h3>}
+        {subtitle}
         <ul>
           {stratigraphicUnit.children.edges.map(
             (edge) =>

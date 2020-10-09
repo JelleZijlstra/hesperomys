@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface CitationGroupPatternsProps {
   citationGroup: CitationGroupPatterns_citationGroup;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,14 @@ class CitationGroupPatterns extends React.Component<
   }
 
   render() {
-    const { citationGroup, relay, numToLoad, hideTitle, title } = this.props;
+    const {
+      citationGroup,
+      relay,
+      numToLoad,
+      hideTitle,
+      title,
+      subtitle,
+    } = this.props;
     if (!citationGroup.patterns || citationGroup.patterns.edges.length === 0) {
       return null;
     }
@@ -37,6 +45,7 @@ class CitationGroupPatterns extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Patterns"}</h3>}
+        {subtitle}
         <ul>
           {citationGroup.patterns.edges.map(
             (edge) =>

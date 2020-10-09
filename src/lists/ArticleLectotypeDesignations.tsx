@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface ArticleLectotypeDesignationsInnerProps {
   articleInner: ArticleLectotypeDesignations_articleInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class ArticleLectotypeDesignationsInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class ArticleLectotypeDesignationsInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "LectotypeDesignations"}</h3>}
+        {subtitle}
         <NameList
           connection={articleInner.lectotypeDesignations}
           hideClassification={hideClassification}
@@ -167,6 +170,7 @@ const ArticleLectotypeDesignationsContainer = createPaginationContainer(
 interface ArticleLectotypeDesignationsProps {
   article: ArticleLectotypeDesignations_article;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -208,7 +212,13 @@ class ArticleLectotypeDesignations extends React.Component<
   renderInner(
     article: Omit<ArticleLectotypeDesignations_article, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -220,6 +230,7 @@ class ArticleLectotypeDesignations extends React.Component<
       <ArticleLectotypeDesignationsContainer
         articleInner={article}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

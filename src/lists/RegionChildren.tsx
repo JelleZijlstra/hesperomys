@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface RegionChildrenProps {
   region: RegionChildren_region;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,7 @@ class RegionChildren extends React.Component<
   }
 
   render() {
-    const { region, relay, numToLoad, hideTitle, title } = this.props;
+    const { region, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!region.children || region.children.edges.length === 0) {
       return null;
     }
@@ -37,6 +38,7 @@ class RegionChildren extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Children"}</h3>}
+        {subtitle}
         <ul>
           {region.children.edges.map(
             (edge) =>

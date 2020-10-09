@@ -19,6 +19,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface RegionCitationGroupsProps {
   region: RegionCitationGroups_region;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   hideChildren?: boolean;
   numToLoad?: number;
@@ -42,6 +43,7 @@ class RegionCitationGroups extends React.Component<
       hideTitle,
       hideChildren,
       title,
+      subtitle,
     } = this.props;
     const { oid, numChildren, citationGroups } = region;
     if (
@@ -56,6 +58,7 @@ class RegionCitationGroups extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "CitationGroups"}</h3>}
+        {subtitle}
         {this.state.showChildren && (
           <QueryRenderer<RegionCitationGroupsChildrenQuery>
             environment={environment}

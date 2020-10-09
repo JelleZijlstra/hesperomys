@@ -10,6 +10,23 @@ import AuthorList from "../components/AuthorList";
 
 import ArticleNewNames from "../lists/ArticleNewNames";
 import ArticleArticleSet from "../lists/ArticleArticleSet";
+import ArticlePartiallySuppressedNames from "../lists/ArticlePartiallySuppressedNames";
+import ArticleFullySuppressedNames from "../lists/ArticleFullySuppressedNames";
+import ArticleConservedNames from "../lists/ArticleConservedNames";
+import ArticleSpellingSelections from "../lists/ArticleSpellingSelections";
+import ArticlePrioritySelections from "../lists/ArticlePrioritySelections";
+import ArticlePriorityReversals from "../lists/ArticlePriorityReversals";
+import ArticleTypeDesignations from "../lists/ArticleTypeDesignations";
+import ArticleCommissionTypeDesignations from "../lists/ArticleCommissionTypeDesignations";
+import ArticleLectotypeDesignations from "../lists/ArticleLectotypeDesignations";
+import ArticleNeotypeDesignations from "../lists/ArticleNeotypeDesignations";
+import ArticleSpecimenDetails from "../lists/ArticleSpecimenDetails";
+import ArticleLocationDetails from "../lists/ArticleLocationDetails";
+import ArticleCollectionDetails from "../lists/ArticleCollectionDetails";
+import ArticleCitationDetails from "../lists/ArticleCitationDetails";
+import ArticleDefinitionDetails from "../lists/ArticleDefinitionDetails";
+import ArticleEtymologyDetails from "../lists/ArticleEtymologyDetails";
+import ArticleTypeSpeciesDetails from "../lists/ArticleTypeSpeciesDetails";
 
 const TYPE_TO_STRING = new Map([
   ["ERROR", "unknown"],
@@ -78,6 +95,56 @@ class ArticleBody extends React.Component<{
         <Table data={data} />
         <ArticleNewNames article={article} title="New names" />
         <ArticleArticleSet article={article} title="Child articles" />
+        <ArticlePartiallySuppressedNames
+          article={article}
+          title="Partially suppressed names"
+        />
+        <ArticleFullySuppressedNames
+          article={article}
+          title="Fully suppressed names"
+        />
+        <ArticleConservedNames article={article} title="Conserved names" />
+        <ArticleSpellingSelections
+          article={article}
+          title="Spelling selections"
+        />
+        <ArticlePrioritySelections
+          article={article}
+          title="Priority selections"
+        />
+        <ArticlePriorityReversals
+          article={article}
+          title="Priority reversals"
+        />
+        <ArticleTypeDesignations article={article} title="Type designations" />
+        <ArticleCommissionTypeDesignations
+          article={article}
+          title="Commission type designations"
+        />
+        <ArticleLectotypeDesignations
+          article={article}
+          title="Lectotype designations"
+        />
+        <ArticleNeotypeDesignations
+          article={article}
+          title="Neotype designations"
+        />
+        <ArticleSpecimenDetails article={article} title="Specimen details" />
+        <ArticleLocationDetails article={article} title="Location details" />
+        <ArticleCollectionDetails
+          article={article}
+          title="Collection details"
+        />
+        <ArticleCitationDetails article={article} title="Citation details" />
+        <ArticleDefinitionDetails
+          article={article}
+          title="Definition details"
+        />
+        <ArticleEtymologyDetails article={article} title="Etymology details" />
+        <ArticleTypeSpeciesDetails
+          article={article}
+          title="Type species details"
+        />
       </>
     );
   }
@@ -109,6 +176,23 @@ export default createFragmentContainer(ArticleBody, {
       }
       ...ArticleNewNames_article
       ...ArticleArticleSet_article
+      ...ArticlePartiallySuppressedNames_article
+      ...ArticleFullySuppressedNames_article
+      ...ArticleConservedNames_article
+      ...ArticleSpellingSelections_article
+      ...ArticlePrioritySelections_article
+      ...ArticlePriorityReversals_article
+      ...ArticleTypeDesignations_article
+      ...ArticleCommissionTypeDesignations_article
+      ...ArticleLectotypeDesignations_article
+      ...ArticleNeotypeDesignations_article
+      ...ArticleSpecimenDetails_article
+      ...ArticleLocationDetails_article
+      ...ArticleCollectionDetails_article
+      ...ArticleCitationDetails_article
+      ...ArticleDefinitionDetails_article
+      ...ArticleEtymologyDetails_article
+      ...ArticleTypeSpeciesDetails_article
     }
   `,
 });

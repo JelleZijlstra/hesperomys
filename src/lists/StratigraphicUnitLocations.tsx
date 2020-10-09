@@ -19,6 +19,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface StratigraphicUnitLocationsProps {
   stratigraphicUnit: StratigraphicUnitLocations_stratigraphicUnit;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   hideChildren?: boolean;
   numToLoad?: number;
@@ -42,6 +43,7 @@ class StratigraphicUnitLocations extends React.Component<
       hideTitle,
       hideChildren,
       title,
+      subtitle,
     } = this.props;
     const { oid, numChildren, locations } = stratigraphicUnit;
     if (!locations || (numChildren === 0 && locations.edges.length === 0)) {
@@ -53,6 +55,7 @@ class StratigraphicUnitLocations extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Locations"}</h3>}
+        {subtitle}
         {this.state.showChildren && (
           <QueryRenderer<StratigraphicUnitLocationsChildrenQuery>
             environment={environment}

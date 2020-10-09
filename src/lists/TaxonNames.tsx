@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface TaxonNamesInnerProps {
   taxonInner: TaxonNames_taxonInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -39,6 +40,7 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -53,6 +55,7 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
     return (
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
+        {subtitle}
         <NameList
           connection={taxonInner.names}
           hideClassification={hideClassification}
@@ -160,6 +163,7 @@ const TaxonNamesContainer = createPaginationContainer(
 interface TaxonNamesProps {
   taxon: TaxonNames_taxon;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -199,7 +203,13 @@ class TaxonNames extends React.Component<
   }
 
   renderInner(taxon: Omit<TaxonNames_taxon, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -211,6 +221,7 @@ class TaxonNames extends React.Component<
       <TaxonNamesContainer
         taxonInner={taxon}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

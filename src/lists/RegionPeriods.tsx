@@ -19,6 +19,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface RegionPeriodsProps {
   region: RegionPeriods_region;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   hideChildren?: boolean;
   numToLoad?: number;
@@ -42,6 +43,7 @@ class RegionPeriods extends React.Component<
       hideTitle,
       hideChildren,
       title,
+      subtitle,
     } = this.props;
     const { oid, numChildren, periods } = region;
     if (!periods || (numChildren === 0 && periods.edges.length === 0)) {
@@ -53,6 +55,7 @@ class RegionPeriods extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Periods"}</h3>}
+        {subtitle}
         {this.state.showChildren && (
           <QueryRenderer<RegionPeriodsChildrenQuery>
             environment={environment}

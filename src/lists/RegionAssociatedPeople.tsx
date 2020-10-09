@@ -19,6 +19,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface RegionAssociatedPeopleProps {
   region: RegionAssociatedPeople_region;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   hideChildren?: boolean;
   numToLoad?: number;
@@ -42,6 +43,7 @@ class RegionAssociatedPeople extends React.Component<
       hideTitle,
       hideChildren,
       title,
+      subtitle,
     } = this.props;
     const { oid, numChildren, associatedPeople } = region;
     if (
@@ -56,6 +58,7 @@ class RegionAssociatedPeople extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "AssociatedPeople"}</h3>}
+        {subtitle}
         {this.state.showChildren && (
           <QueryRenderer<RegionAssociatedPeopleChildrenQuery>
             environment={environment}

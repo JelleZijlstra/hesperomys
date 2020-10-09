@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface NameUnjustifiedEmendationsInnerProps {
   nameInner: NameUnjustifiedEmendations_nameInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class NameUnjustifiedEmendationsInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class NameUnjustifiedEmendationsInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "UnjustifiedEmendations"}</h3>}
+        {subtitle}
         <NameList
           connection={nameInner.unjustifiedEmendations}
           hideClassification={hideClassification}
@@ -167,6 +170,7 @@ const NameUnjustifiedEmendationsContainer = createPaginationContainer(
 interface NameUnjustifiedEmendationsProps {
   name: NameUnjustifiedEmendations_name;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -208,7 +212,13 @@ class NameUnjustifiedEmendations extends React.Component<
   renderInner(
     name: Omit<NameUnjustifiedEmendations_name, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -220,6 +230,7 @@ class NameUnjustifiedEmendations extends React.Component<
       <NameUnjustifiedEmendationsContainer
         nameInner={name}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

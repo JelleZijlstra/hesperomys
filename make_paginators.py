@@ -19,6 +19,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface %(type_upper)s%(conn_upper)sProps {
   %(type_lower)s: %(type_upper)s%(conn_upper)s_%(type_lower)s;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -33,7 +34,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
   }
 
   render() {
-    const { %(type_lower)s, relay, numToLoad, hideTitle, title } = this.props;
+    const { %(type_lower)s, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!%(type_lower)s.%(conn_lower)s || %(type_lower)s.%(conn_lower)s.edges.length === 0) {
       return null;
     }
@@ -41,6 +42,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
+        {subtitle}
         <ul>
           {%(type_lower)s.%(conn_lower)s.edges.map(
             (edge) =>
@@ -128,6 +130,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface %(type_upper)s%(conn_upper)sProps {
   %(type_lower)s: %(type_upper)s%(conn_upper)s_%(type_lower)s;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   hideChildren?: boolean;
   numToLoad?: number;
@@ -143,7 +146,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
   }
 
   render() {
-    const { %(type_lower)s, relay, numToLoad, hideTitle, hideChildren, title } = this.props;
+    const { %(type_lower)s, relay, numToLoad, hideTitle, hideChildren, title, subtitle } = this.props;
     const { oid, numChildren, %(conn_lower)s } = %(type_lower)s;
     if (!%(conn_lower)s || (numChildren === 0 && %(conn_lower)s.edges.length === 0)) {
       return null;
@@ -152,6 +155,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
+        {subtitle}
         {this.state.showChildren &&
         <QueryRenderer<%(type_upper)s%(conn_upper)sChildrenQuery>
           environment={environment}
@@ -277,6 +281,7 @@ import environment from "../relayEnvironment";
 interface %(type_upper)s%(conn_upper)sInnerProps {
   %(type_lower)sInner: %(type_upper)s%(conn_upper)s_%(type_lower)sInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -293,7 +298,7 @@ class %(type_upper)s%(conn_upper)sInner extends React.Component<
   %(type_upper)s%(conn_upper)sInnerProps
 > {
   render() {
-    const { %(type_lower)sInner, relay, numToLoad, hideTitle, title, showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail, setShowDetail, hideClassification } = this.props;
+    const { %(type_lower)sInner, relay, numToLoad, hideTitle, title, subtitle, showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail, setShowDetail, hideClassification } = this.props;
     if (
       !%(type_lower)sInner.%(conn_lower)s ||
       %(type_lower)sInner.%(conn_lower)s.edges.length === 0
@@ -303,6 +308,7 @@ class %(type_upper)s%(conn_upper)sInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
+        {subtitle}
         <%(node_type_upper)sList connection={%(type_lower)sInner.%(conn_lower)s} hideClassification={hideClassification} />
         <LoadMoreButton
           numToLoad={numToLoad || 100}
@@ -394,6 +400,7 @@ const %(type_upper)s%(conn_upper)sContainer = createPaginationContainer(
 interface %(type_upper)s%(conn_upper)sProps {
   %(type_lower)s: %(type_upper)s%(conn_upper)s_%(type_lower)s;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -427,11 +434,12 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
   }
 
   renderInner(%(type_lower)s: Omit<%(type_upper)s%(conn_upper)s_%(type_lower)s, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const { showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail } = this.state;
     return <%(type_upper)s%(conn_upper)sContainer
       %(type_lower)sInner={%(type_lower)s}
       title={title}
+      subtitle={subtitle}
       hideTitle={hideTitle}
       numToLoad={numToLoad}
       showLocationDetail={showLocationDetail}

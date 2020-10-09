@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface NameMandatoryChangesInnerProps {
   nameInner: NameMandatoryChanges_nameInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class NameMandatoryChangesInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class NameMandatoryChangesInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "MandatoryChanges"}</h3>}
+        {subtitle}
         <NameList
           connection={nameInner.mandatoryChanges}
           hideClassification={hideClassification}
@@ -165,6 +168,7 @@ const NameMandatoryChangesContainer = createPaginationContainer(
 interface NameMandatoryChangesProps {
   name: NameMandatoryChanges_name;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -204,7 +208,13 @@ class NameMandatoryChanges extends React.Component<
   }
 
   renderInner(name: Omit<NameMandatoryChanges_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -216,6 +226,7 @@ class NameMandatoryChanges extends React.Component<
       <NameMandatoryChangesContainer
         nameInner={name}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

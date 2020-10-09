@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface LocationTaxaProps {
   location: LocationTaxa_location;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,14 @@ class LocationTaxa extends React.Component<
   }
 
   render() {
-    const { location, relay, numToLoad, hideTitle, title } = this.props;
+    const {
+      location,
+      relay,
+      numToLoad,
+      hideTitle,
+      title,
+      subtitle,
+    } = this.props;
     if (!location.taxa || location.taxa.edges.length === 0) {
       return null;
     }
@@ -37,6 +45,7 @@ class LocationTaxa extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Taxa"}</h3>}
+        {subtitle}
         <ul>
           {location.taxa.edges.map(
             (edge) =>

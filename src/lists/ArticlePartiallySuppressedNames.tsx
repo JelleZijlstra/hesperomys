@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface ArticlePartiallySuppressedNamesInnerProps {
   articleInner: ArticlePartiallySuppressedNames_articleInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class ArticlePartiallySuppressedNamesInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class ArticlePartiallySuppressedNamesInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "PartiallySuppressedNames"}</h3>}
+        {subtitle}
         <NameList
           connection={articleInner.partiallySuppressedNames}
           hideClassification={hideClassification}
@@ -168,6 +171,7 @@ const ArticlePartiallySuppressedNamesContainer = createPaginationContainer(
 interface ArticlePartiallySuppressedNamesProps {
   article: ArticlePartiallySuppressedNames_article;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -209,7 +213,13 @@ class ArticlePartiallySuppressedNames extends React.Component<
   renderInner(
     article: Omit<ArticlePartiallySuppressedNames_article, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -221,6 +231,7 @@ class ArticlePartiallySuppressedNames extends React.Component<
       <ArticlePartiallySuppressedNamesContainer
         articleInner={article}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

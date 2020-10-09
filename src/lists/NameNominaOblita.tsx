@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface NameNominaOblitaInnerProps {
   nameInner: NameNominaOblita_nameInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class NameNominaOblitaInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -55,6 +57,7 @@ class NameNominaOblitaInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "NominaOblita"}</h3>}
+        {subtitle}
         <NameList
           connection={nameInner.nominaOblita}
           hideClassification={hideClassification}
@@ -162,6 +165,7 @@ const NameNominaOblitaContainer = createPaginationContainer(
 interface NameNominaOblitaProps {
   name: NameNominaOblita_name;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -201,7 +205,13 @@ class NameNominaOblita extends React.Component<
   }
 
   renderInner(name: Omit<NameNominaOblita_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -213,6 +223,7 @@ class NameNominaOblita extends React.Component<
       <NameNominaOblitaContainer
         nameInner={name}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

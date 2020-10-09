@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface NameReversalsOfPriorityInnerProps {
   nameInner: NameReversalsOfPriority_nameInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class NameReversalsOfPriorityInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class NameReversalsOfPriorityInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "ReversalsOfPriority"}</h3>}
+        {subtitle}
         <NameList
           connection={nameInner.reversalsOfPriority}
           hideClassification={hideClassification}
@@ -165,6 +168,7 @@ const NameReversalsOfPriorityContainer = createPaginationContainer(
 interface NameReversalsOfPriorityProps {
   name: NameReversalsOfPriority_name;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -204,7 +208,13 @@ class NameReversalsOfPriority extends React.Component<
   }
 
   renderInner(name: Omit<NameReversalsOfPriority_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -216,6 +226,7 @@ class NameReversalsOfPriority extends React.Component<
       <NameReversalsOfPriorityContainer
         nameInner={name}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

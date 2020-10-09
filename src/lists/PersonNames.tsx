@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface PersonNamesInnerProps {
   personInner: PersonNames_personInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -39,6 +40,7 @@ class PersonNamesInner extends React.Component<PersonNamesInnerProps> {
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -53,6 +55,7 @@ class PersonNamesInner extends React.Component<PersonNamesInnerProps> {
     return (
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
+        {subtitle}
         <NameList
           connection={personInner.names}
           hideClassification={hideClassification}
@@ -160,6 +163,7 @@ const PersonNamesContainer = createPaginationContainer(
 interface PersonNamesProps {
   person: PersonNames_person;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -199,7 +203,13 @@ class PersonNames extends React.Component<
   }
 
   renderInner(person: Omit<PersonNames_person, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -211,6 +221,7 @@ class PersonNames extends React.Component<
       <PersonNamesContainer
         personInner={person}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

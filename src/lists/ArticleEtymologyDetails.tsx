@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface ArticleEtymologyDetailsInnerProps {
   articleInner: ArticleEtymologyDetails_articleInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class ArticleEtymologyDetailsInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class ArticleEtymologyDetailsInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "EtymologyDetails"}</h3>}
+        {subtitle}
         <NameList
           connection={articleInner.etymologyDetails}
           hideClassification={hideClassification}
@@ -165,6 +168,7 @@ const ArticleEtymologyDetailsContainer = createPaginationContainer(
 interface ArticleEtymologyDetailsProps {
   article: ArticleEtymologyDetails_article;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -206,7 +210,13 @@ class ArticleEtymologyDetails extends React.Component<
   renderInner(
     article: Omit<ArticleEtymologyDetails_article, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -218,6 +228,7 @@ class ArticleEtymologyDetails extends React.Component<
       <ArticleEtymologyDetailsContainer
         articleInner={article}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

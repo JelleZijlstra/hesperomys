@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface NameTakingPriorityInnerProps {
   nameInner: NameTakingPriority_nameInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class NameTakingPriorityInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class NameTakingPriorityInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "TakingPriority"}</h3>}
+        {subtitle}
         <NameList
           connection={nameInner.takingPriority}
           hideClassification={hideClassification}
@@ -165,6 +168,7 @@ const NameTakingPriorityContainer = createPaginationContainer(
 interface NameTakingPriorityProps {
   name: NameTakingPriority_name;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -204,7 +208,13 @@ class NameTakingPriority extends React.Component<
   }
 
   renderInner(name: Omit<NameTakingPriority_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -216,6 +226,7 @@ class NameTakingPriority extends React.Component<
       <NameTakingPriorityContainer
         nameInner={name}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

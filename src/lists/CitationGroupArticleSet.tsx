@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface CitationGroupArticleSetProps {
   citationGroup: CitationGroupArticleSet_citationGroup;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,14 @@ class CitationGroupArticleSet extends React.Component<
   }
 
   render() {
-    const { citationGroup, relay, numToLoad, hideTitle, title } = this.props;
+    const {
+      citationGroup,
+      relay,
+      numToLoad,
+      hideTitle,
+      title,
+      subtitle,
+    } = this.props;
     if (
       !citationGroup.articleSet ||
       citationGroup.articleSet.edges.length === 0
@@ -40,6 +48,7 @@ class CitationGroupArticleSet extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "ArticleSet"}</h3>}
+        {subtitle}
         <ul>
           {citationGroup.articleSet.edges.map(
             (edge) =>

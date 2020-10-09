@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface PeriodChildrenProps {
   period: PeriodChildren_period;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,7 @@ class PeriodChildren extends React.Component<
   }
 
   render() {
-    const { period, relay, numToLoad, hideTitle, title } = this.props;
+    const { period, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!period.children || period.children.edges.length === 0) {
       return null;
     }
@@ -37,6 +38,7 @@ class PeriodChildren extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Children"}</h3>}
+        {subtitle}
         <ul>
           {period.children.edges.map(
             (edge) =>

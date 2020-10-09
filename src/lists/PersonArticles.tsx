@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface PersonArticlesProps {
   person: PersonArticles_person;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,7 @@ class PersonArticles extends React.Component<
   }
 
   render() {
-    const { person, relay, numToLoad, hideTitle, title } = this.props;
+    const { person, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!person.articles || person.articles.edges.length === 0) {
       return null;
     }
@@ -37,6 +38,7 @@ class PersonArticles extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Articles"}</h3>}
+        {subtitle}
         <ul>
           {person.articles.edges.map(
             (edge) =>

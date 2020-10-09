@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface CitationGroupNamesInnerProps {
   citationGroupInner: CitationGroupNames_citationGroupInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class CitationGroupNamesInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class CitationGroupNamesInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
+        {subtitle}
         <NameList
           connection={citationGroupInner.names}
           hideClassification={hideClassification}
@@ -165,6 +168,7 @@ const CitationGroupNamesContainer = createPaginationContainer(
 interface CitationGroupNamesProps {
   citationGroup: CitationGroupNames_citationGroup;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -206,7 +210,13 @@ class CitationGroupNames extends React.Component<
   renderInner(
     citationGroup: Omit<CitationGroupNames_citationGroup, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -218,6 +228,7 @@ class CitationGroupNames extends React.Component<
       <CitationGroupNamesContainer
         citationGroupInner={citationGroup}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface TaxonChildrenProps {
   taxon: TaxonChildren_taxon;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,7 @@ class TaxonChildren extends React.Component<
   }
 
   render() {
-    const { taxon, relay, numToLoad, hideTitle, title } = this.props;
+    const { taxon, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!taxon.children || taxon.children.edges.length === 0) {
       return null;
     }
@@ -37,6 +38,7 @@ class TaxonChildren extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Children"}</h3>}
+        {subtitle}
         <ul>
           {taxon.children.edges.map(
             (edge) =>

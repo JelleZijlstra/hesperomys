@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface ArticleOccurrencesProps {
   article: ArticleOccurrences_article;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,14 @@ class ArticleOccurrences extends React.Component<
   }
 
   render() {
-    const { article, relay, numToLoad, hideTitle, title } = this.props;
+    const {
+      article,
+      relay,
+      numToLoad,
+      hideTitle,
+      title,
+      subtitle,
+    } = this.props;
     if (!article.occurrences || article.occurrences.edges.length === 0) {
       return null;
     }
@@ -37,6 +45,7 @@ class ArticleOccurrences extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Occurrences"}</h3>}
+        {subtitle}
         <ul>
           {article.occurrences.edges.map(
             (edge) =>

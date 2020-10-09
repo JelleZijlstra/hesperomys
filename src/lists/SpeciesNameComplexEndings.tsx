@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface SpeciesNameComplexEndingsProps {
   speciesNameComplex: SpeciesNameComplexEndings_speciesNameComplex;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -33,6 +34,7 @@ class SpeciesNameComplexEndings extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
     } = this.props;
     if (
       !speciesNameComplex.endings ||
@@ -46,6 +48,7 @@ class SpeciesNameComplexEndings extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Endings"}</h3>}
+        {subtitle}
         <ul>
           {speciesNameComplex.endings.edges.map(
             (edge) =>

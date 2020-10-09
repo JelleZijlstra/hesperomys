@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface ArticleTypeSourceNamesInnerProps {
   articleInner: ArticleTypeSourceNames_articleInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class ArticleTypeSourceNamesInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class ArticleTypeSourceNamesInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "TypeSourceNames"}</h3>}
+        {subtitle}
         <NameList
           connection={articleInner.typeSourceNames}
           hideClassification={hideClassification}
@@ -165,6 +168,7 @@ const ArticleTypeSourceNamesContainer = createPaginationContainer(
 interface ArticleTypeSourceNamesProps {
   article: ArticleTypeSourceNames_article;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -206,7 +210,13 @@ class ArticleTypeSourceNames extends React.Component<
   renderInner(
     article: Omit<ArticleTypeSourceNames_article, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -218,6 +228,7 @@ class ArticleTypeSourceNames extends React.Component<
       <ArticleTypeSourceNamesContainer
         articleInner={article}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

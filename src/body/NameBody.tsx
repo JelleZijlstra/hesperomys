@@ -11,6 +11,23 @@ import NameTags from "../components/NameTags";
 import NameTypeTags from "../components/NameTypeTags";
 import TaxonContext from "../components/TaxonContext";
 import AuthorList from "../components/AuthorList";
+import NameTypifiedNames from "../lists/NameTypifiedNames";
+import NamePreoccupiedNames from "../lists/NamePreoccupiedNames";
+import NameUnjustifiedEmendations from "../lists/NameUnjustifiedEmendations";
+import NameIncorrectSubsequentSpellings from "../lists/NameIncorrectSubsequentSpellings";
+import NameNominaNova from "../lists/NameNominaNova";
+import NameVariants from "../lists/NameVariants";
+import NameTakingPriority from "../lists/NameTakingPriority";
+import NameNominaOblita from "../lists/NameNominaOblita";
+import NameMandatoryChanges from "../lists/NameMandatoryChanges";
+import NameIncorrectOriginalSpellings from "../lists/NameIncorrectOriginalSpellings";
+import NameSubsequentUsages from "../lists/NameSubsequentUsages";
+import NameSelectionsOfPriority from "../lists/NameSelectionsOfPriority";
+import NameSelectionsOfSpelling from "../lists/NameSelectionsOfSpelling";
+import NameReversalsOfPriority from "../lists/NameReversalsOfPriority";
+import NameJustifiedEmendations from "../lists/NameJustifiedEmendations";
+import NameDesignatedAsType from "../lists/NameDesignatedAsType";
+import NameCommissionDesignatedAsType from "../lists/NameCommissionDesignatedAsType";
 
 function NameSection({ name }: { name: NameBody_name }) {
   const {
@@ -186,6 +203,47 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
         <NomenclatureSection name={name} />
         <TypeSection name={name} />
         <LocationSection name={name} />
+        <NameTypifiedNames name={name} title="Typified names" />
+        <NameDesignatedAsType name={name} title="Type designations" />
+        <NameCommissionDesignatedAsType
+          name={name}
+          title="Type designations by the Commission"
+        />
+
+        <NamePreoccupiedNames name={name} title="Preoccupied names" />
+        <NameNominaNova name={name} title="NameNominaNova" />
+        <NameSubsequentUsages name={name} title="Subsequent usages" />
+
+        <NameUnjustifiedEmendations
+          name={name}
+          title="Unjustified emendations"
+        />
+        <NameIncorrectSubsequentSpellings
+          name={name}
+          title="Incorrect subsequent spellings"
+        />
+        <NameVariants name={name} title="Variants" />
+        <NameMandatoryChanges name={name} title="Mandatory changes" />
+        <NameIncorrectOriginalSpellings
+          name={name}
+          title="Incorrect original spellings"
+        />
+        <NameJustifiedEmendations name={name} title="Justified emendations" />
+
+        <NameTakingPriority
+          name={name}
+          title="Taking the priority of this name"
+        />
+        <NameNominaOblita name={name} title="Nomina oblita" />
+        <NameSelectionsOfPriority
+          name={name}
+          title="Selected as having priority"
+        />
+        <NameSelectionsOfSpelling
+          name={name}
+          title="Selected as the correct spelling"
+        />
+        <NameReversalsOfPriority name={name} title="Reversals of priority" />
       </>
     );
   }
@@ -238,6 +296,23 @@ export default createFragmentContainer(NameBody, {
       typeLocality {
         ...ModelLink_model
       }
+      ...NameTypifiedNames_name
+      ...NamePreoccupiedNames_name
+      ...NameUnjustifiedEmendations_name
+      ...NameIncorrectSubsequentSpellings_name
+      ...NameNominaNova_name
+      ...NameVariants_name
+      ...NameTakingPriority_name
+      ...NameNominaOblita_name
+      ...NameMandatoryChanges_name
+      ...NameIncorrectOriginalSpellings_name
+      ...NameSubsequentUsages_name
+      ...NameSelectionsOfPriority_name
+      ...NameSelectionsOfSpelling_name
+      ...NameReversalsOfPriority_name
+      ...NameJustifiedEmendations_name
+      ...NameDesignatedAsType_name
+      ...NameCommissionDesignatedAsType_name
     }
   `,
 });

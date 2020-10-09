@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface CollectionSharedSpecimensInnerProps {
   collectionInner: CollectionSharedSpecimens_collectionInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class CollectionSharedSpecimensInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class CollectionSharedSpecimensInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "SharedSpecimens"}</h3>}
+        {subtitle}
         <NameList
           connection={collectionInner.sharedSpecimens}
           hideClassification={hideClassification}
@@ -165,6 +168,7 @@ const CollectionSharedSpecimensContainer = createPaginationContainer(
 interface CollectionSharedSpecimensProps {
   collection: CollectionSharedSpecimens_collection;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -206,7 +210,13 @@ class CollectionSharedSpecimens extends React.Component<
   renderInner(
     collection: Omit<CollectionSharedSpecimens_collection, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -218,6 +228,7 @@ class CollectionSharedSpecimens extends React.Component<
       <CollectionSharedSpecimensContainer
         collectionInner={collection}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

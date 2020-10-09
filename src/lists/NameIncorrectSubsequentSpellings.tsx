@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface NameIncorrectSubsequentSpellingsInnerProps {
   nameInner: NameIncorrectSubsequentSpellings_nameInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class NameIncorrectSubsequentSpellingsInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class NameIncorrectSubsequentSpellingsInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "IncorrectSubsequentSpellings"}</h3>}
+        {subtitle}
         <NameList
           connection={nameInner.incorrectSubsequentSpellings}
           hideClassification={hideClassification}
@@ -168,6 +171,7 @@ const NameIncorrectSubsequentSpellingsContainer = createPaginationContainer(
 interface NameIncorrectSubsequentSpellingsProps {
   name: NameIncorrectSubsequentSpellings_name;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -209,7 +213,13 @@ class NameIncorrectSubsequentSpellings extends React.Component<
   renderInner(
     name: Omit<NameIncorrectSubsequentSpellings_name, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -221,6 +231,7 @@ class NameIncorrectSubsequentSpellings extends React.Component<
       <NameIncorrectSubsequentSpellingsContainer
         nameInner={name}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface CollectionAssociatedPeopleProps {
   collection: CollectionAssociatedPeople_collection;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,14 @@ class CollectionAssociatedPeople extends React.Component<
   }
 
   render() {
-    const { collection, relay, numToLoad, hideTitle, title } = this.props;
+    const {
+      collection,
+      relay,
+      numToLoad,
+      hideTitle,
+      title,
+      subtitle,
+    } = this.props;
     if (
       !collection.associatedPeople ||
       collection.associatedPeople.edges.length === 0
@@ -40,6 +48,7 @@ class CollectionAssociatedPeople extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "AssociatedPeople"}</h3>}
+        {subtitle}
         <ul>
           {collection.associatedPeople.edges.map(
             (edge) =>

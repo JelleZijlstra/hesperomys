@@ -82,22 +82,39 @@ type Article implements Node & Model {
   occurrences(before: String, after: String, first: Int, last: Int): OccurrenceConnection
   numOccurrences: Int!
   partiallySuppressedNames(before: String, after: String, first: Int, last: Int): NameConnection
+  numPartiallySuppressedNames: Int!
   fullySuppressedNames(before: String, after: String, first: Int, last: Int): NameConnection
+  numFullySuppressedNames: Int!
   conservedNames(before: String, after: String, first: Int, last: Int): NameConnection
+  numConservedNames: Int!
   spellingSelections(before: String, after: String, first: Int, last: Int): NameConnection
+  numSpellingSelections: Int!
   prioritySelections(before: String, after: String, first: Int, last: Int): NameConnection
+  numPrioritySelections: Int!
   priorityReversals(before: String, after: String, first: Int, last: Int): NameConnection
+  numPriorityReversals: Int!
   typeDesignations(before: String, after: String, first: Int, last: Int): NameConnection
+  numTypeDesignations: Int!
   commissionTypeDesignations(before: String, after: String, first: Int, last: Int): NameConnection
+  numCommissionTypeDesignations: Int!
   lectotypeDesignations(before: String, after: String, first: Int, last: Int): NameConnection
+  numLectotypeDesignations: Int!
   neotypeDesignations(before: String, after: String, first: Int, last: Int): NameConnection
+  numNeotypeDesignations: Int!
   specimenDetails(before: String, after: String, first: Int, last: Int): NameConnection
+  numSpecimenDetails: Int!
   locationDetails(before: String, after: String, first: Int, last: Int): NameConnection
+  numLocationDetails: Int!
   collectionDetails(before: String, after: String, first: Int, last: Int): NameConnection
+  numCollectionDetails: Int!
   citationDetails(before: String, after: String, first: Int, last: Int): NameConnection
+  numCitationDetails: Int!
   definitionDetails(before: String, after: String, first: Int, last: Int): NameConnection
+  numDefinitionDetails: Int!
   etymologyDetails(before: String, after: String, first: Int, last: Int): NameConnection
+  numEtymologyDetails: Int!
   typeSpeciesDetails(before: String, after: String, first: Int, last: Int): NameConnection
+  numTypeSpeciesDetails: Int!
   modelCls: ModelCls!
 }
 
@@ -254,8 +271,11 @@ type Collection implements Node & Model {
   typeSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
   numTypeSpecimens: Int!
   associatedPeople(before: String, after: String, first: Int, last: Int): PersonConnection
+  numAssociatedPeople: Int!
   probableSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
+  numProbableSpecimens: Int!
   sharedSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
+  numSharedSpecimens: Int!
   modelCls: ModelCls!
 }
 
@@ -617,21 +637,37 @@ type Name implements Node & Model {
   numComments: Int!
   fillDataLevel: FillDataLevel
   preoccupiedNames(before: String, after: String, first: Int, last: Int): NameConnection
+  numPreoccupiedNames: Int!
   unjustifiedEmendations(before: String, after: String, first: Int, last: Int): NameConnection
+  numUnjustifiedEmendations: Int!
   incorrectSubsequentSpellings(before: String, after: String, first: Int, last: Int): NameConnection
+  numIncorrectSubsequentSpellings: Int!
   nominaNova(before: String, after: String, first: Int, last: Int): NameConnection
+  numNominaNova: Int!
   variants(before: String, after: String, first: Int, last: Int): NameConnection
+  numVariants: Int!
   takingPriority(before: String, after: String, first: Int, last: Int): NameConnection
+  numTakingPriority: Int!
   nominaOblita(before: String, after: String, first: Int, last: Int): NameConnection
+  numNominaOblita: Int!
   mandatoryChanges(before: String, after: String, first: Int, last: Int): NameConnection
+  numMandatoryChanges: Int!
   incorrectOriginalSpellings(before: String, after: String, first: Int, last: Int): NameConnection
+  numIncorrectOriginalSpellings: Int!
   subsequentUsages(before: String, after: String, first: Int, last: Int): NameConnection
+  numSubsequentUsages: Int!
   selectionsOfPriority(before: String, after: String, first: Int, last: Int): NameConnection
+  numSelectionsOfPriority: Int!
   selectionsOfSpelling(before: String, after: String, first: Int, last: Int): NameConnection
+  numSelectionsOfSpelling: Int!
   reversalsOfPriority(before: String, after: String, first: Int, last: Int): NameConnection
+  numReversalsOfPriority: Int!
   justifiedEmendations(before: String, after: String, first: Int, last: Int): NameConnection
+  numJustifiedEmendations: Int!
   designatedAsType(before: String, after: String, first: Int, last: Int): NameConnection
+  numDesignatedAsType: Int!
   commissionDesignatedAsType(before: String, after: String, first: Int, last: Int): NameConnection
+  numCommissionDesignatedAsType: Int!
   modelCls: ModelCls!
 }
 
@@ -972,9 +1008,13 @@ type Person implements Node & Model {
   personSet(before: String, after: String, first: Int, last: Int): PersonConnection
   numPersonSet: Int!
   patronyms(before: String, after: String, first: Int, last: Int): NameConnection
+  numPatronyms: Int!
   collected(before: String, after: String, first: Int, last: Int): NameConnection
+  numCollected: Int!
   articles(before: String, after: String, first: Int, last: Int): ArticleConnection
+  numArticles: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
+  numNames: Int!
   modelCls: ModelCls!
 }
 
@@ -1115,7 +1155,9 @@ type Region implements Node & Model {
   hasLocations: Boolean
   hasPeriods: Boolean
   hasTypeLocalities: Boolean
+  hasAssociatedPeople: Boolean
   associatedPeople(before: String, after: String, first: Int, last: Int): PersonConnection
+  numAssociatedPeople: Int!
   modelCls: ModelCls!
 }
 

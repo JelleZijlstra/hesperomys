@@ -19,6 +19,7 @@ import environment from "../relayEnvironment";
 interface NameIncorrectOriginalSpellingsInnerProps {
   nameInner: NameIncorrectOriginalSpellings_nameInner;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -41,6 +42,7 @@ class NameIncorrectOriginalSpellingsInner extends React.Component<
       numToLoad,
       hideTitle,
       title,
+      subtitle,
       showLocationDetail,
       showCitationDetail,
       showCollectionDetail,
@@ -58,6 +60,7 @@ class NameIncorrectOriginalSpellingsInner extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "IncorrectOriginalSpellings"}</h3>}
+        {subtitle}
         <NameList
           connection={nameInner.incorrectOriginalSpellings}
           hideClassification={hideClassification}
@@ -168,6 +171,7 @@ const NameIncorrectOriginalSpellingsContainer = createPaginationContainer(
 interface NameIncorrectOriginalSpellingsProps {
   name: NameIncorrectOriginalSpellings_name;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
@@ -209,7 +213,13 @@ class NameIncorrectOriginalSpellings extends React.Component<
   renderInner(
     name: Omit<NameIncorrectOriginalSpellings_name, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification } = this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      subtitle,
+    } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -221,6 +231,7 @@ class NameIncorrectOriginalSpellings extends React.Component<
       <NameIncorrectOriginalSpellingsContainer
         nameInner={name}
         title={title}
+        subtitle={subtitle}
         hideTitle={hideTitle}
         numToLoad={numToLoad}
         showLocationDetail={showLocationDetail}

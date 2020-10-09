@@ -12,6 +12,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface ArticleArticleSetProps {
   article: ArticleArticleSet_article;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
@@ -27,7 +28,14 @@ class ArticleArticleSet extends React.Component<
   }
 
   render() {
-    const { article, relay, numToLoad, hideTitle, title } = this.props;
+    const {
+      article,
+      relay,
+      numToLoad,
+      hideTitle,
+      title,
+      subtitle,
+    } = this.props;
     if (!article.articleSet || article.articleSet.edges.length === 0) {
       return null;
     }
@@ -37,6 +45,7 @@ class ArticleArticleSet extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "ArticleSet"}</h3>}
+        {subtitle}
         <ul>
           {article.articleSet.edges.map(
             (edge) =>

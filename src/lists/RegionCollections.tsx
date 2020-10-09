@@ -19,6 +19,7 @@ import { supportsChildren } from "../components/ModelChildList";
 interface RegionCollectionsProps {
   region: RegionCollections_region;
   title?: string;
+  subtitle?: JSX.Element;
   hideTitle?: boolean;
   hideChildren?: boolean;
   numToLoad?: number;
@@ -42,6 +43,7 @@ class RegionCollections extends React.Component<
       hideTitle,
       hideChildren,
       title,
+      subtitle,
     } = this.props;
     const { oid, numChildren, collections } = region;
     if (!collections || (numChildren === 0 && collections.edges.length === 0)) {
@@ -53,6 +55,7 @@ class RegionCollections extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Collections"}</h3>}
+        {subtitle}
         {this.state.showChildren && (
           <QueryRenderer<RegionCollectionsChildrenQuery>
             environment={environment}
