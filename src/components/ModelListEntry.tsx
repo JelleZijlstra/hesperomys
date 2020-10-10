@@ -6,6 +6,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import ModelLink from "./ModelLink";
 import ModelChildList, { supportsChildren } from "./ModelChildList";
+import Reference from "../reference/Reference";
 
 class ModelListEntry extends React.Component<
   { model: ModelListEntry_model; showChildren?: boolean },
@@ -23,7 +24,11 @@ class ModelListEntry extends React.Component<
         : this.state.showChildren;
     return (
       <li>
-        <ModelLink model={model} />{" "}
+        {model.__typename === "Article" ? (
+          <Reference article={model} />
+        ) : (
+          <ModelLink model={model} />
+        )}{" "}
         {supportsChildren(model) && (
           <>
             <small
@@ -50,6 +55,7 @@ export default createFragmentContainer(ModelListEntry, {
       ...ModelChildList_model
       ...ModelChildList_model @relay(mask: false)
       ...ModelLink_model
+      ...Reference_article
     }
   `,
 });

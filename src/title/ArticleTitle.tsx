@@ -4,7 +4,7 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-import TaxonomicAuthority from "../components/TaxonomicAuthority";
+import TaxonomicAuthority from "../reference/TaxonomicAuthority";
 
 class ArticleTitle extends React.Component<{ article: ArticleTitle_article }> {
   render() {

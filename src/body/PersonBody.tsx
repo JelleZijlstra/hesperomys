@@ -10,6 +10,7 @@ import PersonPatronyms from "../lists/PersonPatronyms";
 import PersonNames from "../lists/PersonNames";
 import PersonArticles from "../lists/PersonArticles";
 
+import ModelLink from "../components/ModelLink";
 import Table from "../components/Table";
 
 class PersonBody extends React.Component<{
@@ -55,7 +56,29 @@ class PersonBody extends React.Component<{
               }
               switch (tag.__typename) {
                 case "Wiki":
-                  return tag.text ? <a href={tag.text}>{tag.text}</a> : null;
+                  return tag.text ? (
+                    <li key={tag.text}>
+                      <a href={tag.text}>{tag.text}</a>
+                    </li>
+                  ) : null;
+                case "ActiveRegion":
+                  return (
+                    <li key={tag.region.id}>
+                      Region of activity: <ModelLink model={tag.region} />
+                    </li>
+                  );
+                case "Institution":
+                  return (
+                    <li key={tag.institution.id}>
+                      Institution: <ModelLink model={tag.institution} />
+                    </li>
+                  );
+                case "Biography":
+                  return (
+                    <li key={tag.article.id}>
+                      Biography: <ModelLink model={tag.article} />
+                    </li>
+                  );
                 default:
                   return null;
               }
@@ -87,6 +110,24 @@ export default createFragmentContainer(PersonBody, {
         __typename
         ... on Wiki {
           text
+        }
+        ... on Biography {
+          article {
+            id
+            ...ModelLink_model
+          }
+        }
+        ... on Institution {
+          institution {
+            id
+            ...ModelLink_model
+          }
+        }
+        ... on ActiveRegion {
+          region {
+            id
+            ...ModelLink_model
+          }
         }
       }
       ...PersonPatronyms_person

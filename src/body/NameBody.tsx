@@ -6,6 +6,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import MaybeItalics from "../components/MaybeItalics";
 import ModelLink from "../components/ModelLink";
+import Reference from "../reference/Reference";
 import Table from "../components/Table";
 import NameTags from "../components/NameTags";
 import NameTypeTags from "../components/NameTypeTags";
@@ -61,7 +62,7 @@ function NameSection({ name }: { name: NameBody_name }) {
           ["Page described", name.pageDescribed],
           [
             "Original citation",
-            originalCitation ? <ModelLink model={originalCitation} /> : null,
+            originalCitation ? <Reference article={originalCitation} /> : null,
           ],
           [
             "Published in",
@@ -268,7 +269,7 @@ export default createFragmentContainer(NameBody, {
       year
       pageDescribed
       originalCitation {
-        ...ModelLink_model
+        ...Reference_article
       }
       citationGroup {
         ...ModelLink_model

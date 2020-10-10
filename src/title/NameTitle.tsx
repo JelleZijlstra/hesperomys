@@ -5,7 +5,7 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
 import MaybeItalics from "../components/MaybeItalics";
-import TaxonomicAuthority from "../components/TaxonomicAuthority";
+import TaxonomicAuthority from "../reference/TaxonomicAuthority";
 
 class NameTitle extends React.Component<{ name: NameTitle_name }> {
   render() {
