@@ -3,7 +3,6 @@ import { SimpleReference_article } from "./__generated__/SimpleReference_article
 import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
-import { Link } from "react-router-dom";
 
 import ReferencePrefix from "./ReferencePrefix";
 import ReferenceSuffix from "./ReferenceSuffix";

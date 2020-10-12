@@ -760,7 +760,7 @@ type NamedAfter implements TypeTag {
 }
 
 enum NamingConvention {
-  western
+  unspecified
   chinese
   japanese
   dutch
@@ -769,6 +769,10 @@ enum NamingConvention {
   ancient
   organization
   hungarian
+  vietnamese
+  german
+  western
+  russian
 }
 
 type NeotypeDesignation implements TypeTag {

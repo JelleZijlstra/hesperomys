@@ -3,7 +3,6 @@ import { ReferenceSuffix_article } from "./__generated__/ReferenceSuffix_article
 import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
-import { Link } from "react-router-dom";
 
 export const ReferenceSuffix = ({
   article,
