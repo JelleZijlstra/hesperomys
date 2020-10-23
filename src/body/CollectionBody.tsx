@@ -23,12 +23,21 @@ class CollectionBody extends React.Component<{
         <CollectionSharedSpecimens
           collection={collection}
           title="Shared type specimens"
-          subtitle={<p>Part but not all of the type material for these names in this collection.</p>}
+          subtitle={
+            <p>
+              Part but not all of the type material for these names in this
+              collection.
+            </p>
+          }
         />
         <CollectionProbableSpecimens
           collection={collection}
           title="Probable type specimens"
-          subtitle={<p>Type material for these names is likely to be in this collection.</p>}
+          subtitle={
+            <p>
+              Type material for these names is likely to be in this collection.
+            </p>
+          }
         />
         <CollectionAssociatedPeople
           collection={collection}

@@ -39,8 +39,6 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       return <Detail text={tag.text} source={tag.source} />;
     case "CollectionDetail":
       return <Detail text={tag.text} source={tag.source} />;
-    case "Collector":
-      return <>Collected by {tag.collector}</>;
     case "CollectedBy":
       return (
         <>
@@ -209,9 +207,6 @@ export default createFragmentContainer(NameTypeTags, {
           person {
             ...ModelLink_model
           }
-        }
-        ... on Collector {
-          collector: name
         }
         ... on CommissionTypeDesignation {
           opinion {

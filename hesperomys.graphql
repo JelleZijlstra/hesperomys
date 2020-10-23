@@ -302,11 +302,6 @@ type CollectionEdge {
   cursor: String!
 }
 
-type Collector implements TypeTag {
-  _Ignored: ID
-  name: String
-}
-
 enum CommentKind {
   taxonomy
   nomenclature
@@ -355,6 +350,11 @@ type DefinitionDetail implements TypeTag {
   _Ignored: ID
   text: String
   source: Article!
+}
+
+type DifferentAuthority implements TypeTag {
+  _Ignored: ID
+  comment: String
 }
 
 type ETMNA implements LocationTag {
@@ -496,6 +496,10 @@ type IncorrectSubsequentSpellingOf implements NameTag {
   comment: String
 }
 
+type InitialsOnly implements ArticleTag {
+  _Ignored: ID
+}
+
 type Institution implements PersonTag {
   _Ignored: ID
   institution: Collection!
@@ -621,7 +625,7 @@ type Name implements Node & Model {
   citationGroup: CitationGroup
   year: String
   stem: String
-  gender: GrammaticalGender
+  nameGender: GrammaticalGender
   nameComplex: NameComplex
   speciesNameComplex: SpeciesNameComplex
   type: Name
@@ -761,7 +765,7 @@ type NamedAfter implements TypeTag {
 
 enum NamingConvention {
   unspecified
-  chinese
+  pinyin
   japanese
   dutch
   burmese
@@ -773,6 +777,9 @@ enum NamingConvention {
   german
   western
   russian
+  turkish
+  chinese
+  korean
 }
 
 type NeotypeDesignation implements TypeTag {
@@ -781,6 +788,18 @@ type NeotypeDesignation implements TypeTag {
   neotype: String
   valid: Boolean
   comment: String
+}
+
+type NoEtymology implements TypeTag {
+  _Ignored: ID
+}
+
+type NoLocation implements TypeTag {
+  _Ignored: ID
+}
+
+type NoSpecimen implements TypeTag {
+  _Ignored: ID
 }
 
 interface Node {
