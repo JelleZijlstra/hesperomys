@@ -47,7 +47,6 @@ type Article implements Node & Model {
   authorTags: [AuthorTag!]!
   year: String
   title: String
-  Journal: String!
   series: String
   volume: String
   issue: String
@@ -780,6 +779,12 @@ enum NamingConvention {
   turkish
   chinese
   korean
+  mongolian
+}
+
+type NeedsTranslation implements ArticleTag {
+  _Ignored: ID
+  language: SourceLanguage
 }
 
 type NeotypeDesignation implements TypeTag {
