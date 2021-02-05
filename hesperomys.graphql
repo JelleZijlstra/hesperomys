@@ -74,8 +74,6 @@ type Article implements Node & Model {
   numLocations: Int!
   newNames(before: String, after: String, first: Int, last: Int): NameConnection
   numNewNames: Int!
-  typeSourceNames(before: String, after: String, first: Int, last: Int): NameConnection
-  numTypeSourceNames: Int!
   nameComments(before: String, after: String, first: Int, last: Int): NameCommentConnection
   numNameComments: Int!
   occurrences(before: String, after: String, first: Int, last: Int): OccurrenceConnection
@@ -387,9 +385,11 @@ type Eurobats implements ArticleTag {
 
 enum FillDataLevel {
   needs_basic_data
-  needs_more_data
-  incomplete_detail
+  missing_required_fields
   missing_detail
+  incomplete_detail
+  incomplete_derived_tags
+  no_data_from_original
   nothing_needed
 }
 
@@ -477,6 +477,11 @@ type IgnorePotentialCitations implements CitationGroupTag {
   _Ignored: ID
 }
 
+type ImpreciseLocality implements TypeTag {
+  _Ignored: ID
+  comment: String
+}
+
 type IncludedSpecies implements TypeTag {
   _Ignored: ID
   name: Name!
@@ -502,6 +507,12 @@ type InitialsOnly implements ArticleTag {
 type Institution implements PersonTag {
   _Ignored: ID
   institution: Collection!
+}
+
+type Involved implements TypeTag {
+  _Ignored: ID
+  person: Person!
+  comment: String
 }
 
 type JSTOR implements ArticleTag {
@@ -541,8 +552,11 @@ type Location implements Node & Model {
   locationDetail: String!
   ageDetail: String!
   source: Article
-  deleted: Boolean!
+  deleted: LocationStatus!
   tags: [LocationTag!]!
+  parent: Location
+  aliases(before: String, after: String, first: Int, last: Int): LocationConnection
+  numAliases: Int!
   typeLocalities(before: String, after: String, first: Int, last: Int): NameConnection
   numTypeLocalities: Int!
   taxa(before: String, after: String, first: Int, last: Int): OccurrenceConnection
@@ -564,6 +578,12 @@ type LocationDetail implements TypeTag {
 type LocationEdge {
   node: Location
   cursor: String!
+}
+
+enum LocationStatus {
+  valid
+  deleted
+  alias
 }
 
 interface LocationTag {
@@ -632,7 +652,6 @@ type Name implements Node & Model {
   typeLocality: Location
   typeSpecimen: String
   collection: Collection
-  typeSpecimenSource: Article
   genusTypeKind: TypeSpeciesDesignation
   speciesTypeKind: SpeciesGroupType
   typeTags: [TypeTag!]!
@@ -795,11 +814,31 @@ type NeotypeDesignation implements TypeTag {
   comment: String
 }
 
+type NoAge implements TypeTag {
+  _Ignored: ID
+}
+
+type NoCollector implements TypeTag {
+  _Ignored: ID
+}
+
+type NoDate implements TypeTag {
+  _Ignored: ID
+}
+
 type NoEtymology implements TypeTag {
   _Ignored: ID
 }
 
+type NoGender implements TypeTag {
+  _Ignored: ID
+}
+
 type NoLocation implements TypeTag {
+  _Ignored: ID
+}
+
+type NoOrgan implements TypeTag {
   _Ignored: ID
 }
 
@@ -1022,6 +1061,7 @@ enum PeriodSystem {
   _lithostratigraphy
   aulma
   local_biostratigraphy
+  aflma
 }
 
 type Person implements Node & Model {
@@ -1046,6 +1086,8 @@ type Person implements Node & Model {
   numPatronyms: Int!
   collected(before: String, after: String, first: Int, last: Int): NameConnection
   numCollected: Int!
+  involved(before: String, after: String, first: Int, last: Int): NameConnection
+  numInvolved: Int!
   articles(before: String, after: String, first: Int, last: Int): ArticleConnection
   numArticles: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
@@ -1259,6 +1301,11 @@ enum SourceLanguage {
   arabic
   chinese
   mongolian
+  japanese
+  thai
+  korean
+  hungarian
+  vietnamese
 }
 
 enum SpeciesGroupType {
@@ -1353,6 +1400,39 @@ enum SpecimenOrgan {
   in_alcohol
   other
   maxilla
+  antler
+  humerus
+  femur
+  ulna
+  radius
+  tibia
+  fibula
+  vertebra
+  pelvis
+  dentary
+  caudal_tube
+  osteoderm
+  coracoid
+  whole_animal
+  egg
+  horn_core
+  frontlet
+  petrosal
+  tarsometatarsus
+  scapula
+  carpal
+  hyoid
+  rib
+  manus
+  pes
+  astragalus
+  calcaneum
+  clavicle
+  navicular
+  sternum
+  baculum
+  tissue_sample
+  shell
 }
 
 enum Status {
