@@ -424,6 +424,7 @@ enum GenderArticle {
   bad_transliteration
   unknown_obvious_stem
   stem_expressly_set
+  assumed
 }
 
 type General implements LocationTag {
