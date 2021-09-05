@@ -196,6 +196,40 @@ type Biography implements PersonTag {
   article: Article!
 }
 
+type Book implements Node & Model {
+  id: ID!
+  oid: Int!
+  callSign: String!
+  authorTags: [AuthorTag!]!
+  year: String
+  title: String
+  pages: String
+  isbn: String
+  publisher: String
+  tags: [BookTag!]!
+  citationGroup: CitationGroup
+  modelCls: ModelCls!
+}
+
+type BookConnection {
+  pageInfo: PageInfo!
+  edges: [BookEdge]!
+}
+
+type BookEdge {
+  node: Book
+  cursor: String!
+}
+
+type BookEdition implements BookTag {
+  _Ignored: ID
+  text: String
+}
+
+interface BookTag {
+  _Ignored: ID
+}
+
 type CitationDetail implements TypeTag {
   _Ignored: ID
   text: String
@@ -221,6 +255,8 @@ type CitationGroup implements Node & Model {
   numArticleSet: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
   numNames: Int!
+  bookSet(before: String, after: String, first: Int, last: Int): BookConnection
+  numBookSet: Int!
   modelCls: ModelCls!
 }
 
@@ -526,6 +562,11 @@ type JustifiedEmendationOf implements NameTag {
   name: Name!
   justification: EmendationJustification
   comment: String
+}
+
+type Language implements BookTag {
+  _Ignored: ID
+  language: SourceLanguage
 }
 
 type LectotypeDesignation implements TypeTag {
@@ -962,6 +1003,11 @@ type Organ implements TypeTag {
   condition: String
 }
 
+type OriginalLanguage implements BookTag {
+  _Ignored: ID
+  language: SourceLanguage
+}
+
 type PBDB implements LocationTag {
   _Ignored: ID
   id: String
@@ -1091,6 +1137,8 @@ type Person implements Node & Model {
   numInvolved: Int!
   articles(before: String, after: String, first: Int, last: Int): ArticleConnection
   numArticles: Int!
+  books(before: String, after: String, first: Int, last: Int): BookConnection
+  numBooks: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
   numNames: Int!
   modelCls: ModelCls!
@@ -1168,6 +1216,8 @@ type Query {
   name(oid: Int): Name
   nameComment(oid: Int): NameComment
   occurrence(oid: Int): Occurrence
+  bookByLabel(label: String): [Book]
+  book(oid: Int): Book
 }
 
 enum Rank {

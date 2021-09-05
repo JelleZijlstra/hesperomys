@@ -1,5 +1,5 @@
 from pathlib import Path
-import graphql
+import graphql.language.ast
 import subprocess
 from typing import Iterable, Tuple, Optional
 
