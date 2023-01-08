@@ -36,10 +36,10 @@ class PersonBody extends React.Component<{
       data.push(["Tussenvoegsel", person.tussenvoegsel]);
     }
     if (person.birth) {
-      data.push(["Date of birth", person.birth]);
+      data.push(["Year of birth", person.birth]);
     }
     if (person.death) {
-      data.push(["Date of death", person.death]);
+      data.push(["Year of death", person.death]);
     }
     if (person.bio) {
       data.push(["Short description", person.bio]);
