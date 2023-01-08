@@ -12,6 +12,8 @@ interface LoadMoreButtonProps {
   setShowDetail?: (showDetail: boolean) => void;
 }
 
+const DEFAULT_LOAD_MORE = 1000;
+
 export default class LoadMoreButton extends React.Component<
   LoadMoreButtonProps,
   { value: number }
@@ -35,44 +37,31 @@ export default class LoadMoreButton extends React.Component<
     if (hasMore) {
       components.push([
         "load-more",
-        <>
-          <button onClick={() => this._loadMore()}>Load</button>{" "}
-          <input
-            type="text"
-            value={this.state.value}
-            onChange={(e) => {
-              const value = parseInt(e.target.value);
-              if (!isNaN(value)) {
-                this.setState({ value });
-              }
-            }}
-          />
-          {" more"}
-        </>,
+        <button onClick={() => this._loadMore()}>load more</button>,
       ]);
     }
     if (setExpandAll) {
       components.push([
         "expand-all",
-        <span onClick={() => setExpandAll(!expandAll)}>
+        <button onClick={() => setExpandAll(!expandAll)}>
           {expandAll ? "unexpand all" : "expand all"}
-        </span>,
+        </button>,
       ]);
     }
     if (setShowChildren) {
       components.push([
         "show-children",
-        <span onClick={() => setShowChildren(!showChildren)}>
+        <button onClick={() => setShowChildren(!showChildren)}>
           {showChildren ? "hide children" : "show children"}
-        </span>,
+        </button>,
       ]);
     }
     if (setShowDetail) {
       components.push([
         "show-detail",
-        <span key="show-detail" onClick={() => setShowDetail(!showDetail)}>
+        <button key="show-detail" onClick={() => setShowDetail(!showDetail)}>
           {showDetail ? "hide detail" : "show detail"}
-        </span>,
+        </button>,
       ]);
     }
     if (components.length === 0) {
@@ -98,7 +87,7 @@ export default class LoadMoreButton extends React.Component<
       return;
     }
 
-    relay.loadMore(this.state.value, (error) => {
+    relay.loadMore(DEFAULT_LOAD_MORE, (error) => {
       if (error) {
         console.log(error);
       }
