@@ -5,6 +5,8 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 import { Link } from "react-router-dom";
 
+import InlineMarkdown from "../components/InlineMarkdown";
+
 interface ReferencePrefixProps {
   article: ReferencePrefix_article;
   skipLinks?: boolean;
@@ -80,13 +82,17 @@ const ReferencePrefix = ({ article, skipLinks }: ReferencePrefixProps) => (
     {!skipLinks && article.year && article.year + ". "}
     {skipLinks ? (
       article.title ? (
-        article.title
+        <InlineMarkdown source={article.title} />
       ) : (
         "[No title]"
       )
     ) : (
       <Link to={`/a/${article.oid}`}>
-        {article.title ? article.title : "[No title]"}
+        {article.title ? (
+          <InlineMarkdown source={article.title} />
+        ) : (
+          "[No title]"
+        )}
       </Link>
     )}
     {". "}

@@ -3,6 +3,7 @@ import { ArticleBody_article } from "./__generated__/ArticleBody_article.graphql
 import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
+import ReactMarkdown from "react-markdown";
 
 import ModelLink from "../components/ModelLink";
 import Table from "../components/Table";
@@ -71,7 +72,7 @@ class ArticleBody extends React.Component<{
       ["Type", TYPE_TO_STRING.get(articleType) || null],
       ["Authors", <AuthorList authorTags={authorTags} />],
       ["Year of publication", year],
-      ["Title", title],
+      ["Title", title ? <ReactMarkdown source={title} /> : null],
       ["Publisher", publisher],
       [
         TYPE_TO_CG_LABEL.get(articleType) || "Citation group",

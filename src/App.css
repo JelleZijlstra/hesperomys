@@ -81,3 +81,7 @@
   margin-left: 3%;
   margin-right: 3%;
 }
+
+.inline-markdown p {
+  display: inline;
+}

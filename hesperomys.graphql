@@ -184,6 +184,12 @@ enum ArticleType {
   REDIRECT
 }
 
+type AsEmendedBy implements NameTag {
+  _Ignored: ID
+  name: Name!
+  comment: String
+}
+
 type Author implements AuthorTag {
   _Ignored: ID
   person: Person!
