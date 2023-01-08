@@ -202,12 +202,17 @@ type Book implements Node & Model {
   callSign: String!
   authorTags: [AuthorTag!]!
   year: String
-  title: String
+  title: String!
+  subtitle: String
   pages: String
   isbn: String
   publisher: String
   tags: [BookTag!]!
   citationGroup: CitationGroup
+  dewey: String
+  loc: String
+  data: String
+  category: String
   modelCls: ModelCls!
 }
 
@@ -490,6 +495,12 @@ type HDL implements ArticleTag {
   text: String
 }
 
+type HMW implements NameTag {
+  _Ignored: ID
+  number: String
+  name: String
+}
+
 type Habitat implements TypeTag {
   _Ignored: ID
   text: String
@@ -523,6 +534,11 @@ type IncludedSpecies implements TypeTag {
   _Ignored: ID
   name: Name!
   comment: String
+}
+
+type IncorrectGrammar implements TypeTag {
+  _Ignored: ID
+  text: String
 }
 
 type IncorrectOriginalSpellingOf implements NameTag {
@@ -685,8 +701,6 @@ type Name implements Node & Model {
   verbatimCitation: String
   citationGroup: CitationGroup
   year: String
-  stem: String
-  nameGender: GrammaticalGender
   nameComplex: NameComplex
   speciesNameComplex: SpeciesNameComplex
   type: Name
@@ -697,6 +711,7 @@ type Name implements Node & Model {
   genusTypeKind: TypeSpeciesDesignation
   speciesTypeKind: SpeciesGroupType
   typeTags: [TypeTag!]!
+  originalRank: Rank
   data: String
   Definition: String
   tags: [NameTag!]!
@@ -841,6 +856,8 @@ enum NamingConvention {
   chinese
   korean
   mongolian
+  ukrainian
+  other
 }
 
 type NeedsTranslation implements ArticleTag {
@@ -902,6 +919,12 @@ type NomenOblitum implements NameTag {
   _Ignored: ID
   name: Name!
   comment: String
+}
+
+type NomenclatureDetail implements TypeTag {
+  _Ignored: ID
+  text: String
+  source: Article!
 }
 
 enum NomenclatureStatus {
@@ -1093,9 +1116,15 @@ enum PeriodRank {
   period
   era
   eon
+  _bed
+  _member
+  _formation
+  _group
+  _supergroup
   other_chronostratigraphy
   subage
   biozone
+  _subgroup
   zonation
 }
 
@@ -1126,6 +1155,7 @@ type Person implements Node & Model {
   namingConvention: NamingConvention!
   type: PersonType!
   bio: String
+  olId: String
   target: Person
   personSet(before: String, after: String, first: Int, last: Int): PersonConnection
   numPersonSet: Int!
@@ -1218,6 +1248,9 @@ type Query {
   occurrence(oid: Int): Occurrence
   bookByLabel(label: String): [Book]
   book(oid: Int): Book
+  specimenByLabel(label: String): [Specimen]
+  specimen(oid: Int): Specimen
+  specimenComment(oid: Int): SpecimenComment
 }
 
 enum Rank {
@@ -1230,6 +1263,7 @@ enum Rank {
   infratribe
   subtribe
   tribe
+  infrafamily
   subfamily
   family
   superfamily
@@ -1258,6 +1292,11 @@ enum Rank {
   root
   unranked
   informal
+  other
+  variety
+  form
+  infrasubspecific
+  synonym
 }
 
 type Region implements Node & Model {
@@ -1278,6 +1317,8 @@ type Region implements Node & Model {
   numPeriods: Int!
   locations(before: String, after: String, first: Int, last: Int): LocationConnection
   numLocations: Int!
+  specimenSet(before: String, after: String, first: Int, last: Int): SpecimenConnection
+  numSpecimenSet: Int!
   hasCollections: Boolean
   hasCitationGroups: Boolean
   hasLocations: Boolean
@@ -1306,6 +1347,15 @@ enum RegionKind {
   planet
   other
   county
+  island
+  state
+  province
+  department
+  region
+  canton
+  prefecture
+  territory
+  supranational
 }
 
 type Rejected implements NameTag {
@@ -1357,6 +1407,23 @@ enum SourceLanguage {
   korean
   hungarian
   vietnamese
+  italian
+  dutch
+  papiamento
+  catalan
+  modern_greek
+  hebrew
+  aramaic
+  sanskrit
+  hindi
+  old_english
+  bulgarian
+  albanian
+  frisian
+  norwegian
+  danish
+  swedish
+  finnish
 }
 
 enum SpeciesGroupType {
@@ -1421,6 +1488,22 @@ enum SpeciesNameKind {
   unknown
 }
 
+type Specimen implements Node & Model {
+  id: ID!
+  oid: Int!
+  callSign: String!
+  taxon: Taxon!
+  region: Region!
+  taxonText: String!
+  locationText: String!
+  date: String!
+  description: String!
+  link: String!
+  comments(before: String, after: String, first: Int, last: Int): SpecimenCommentConnection
+  numComments: Int!
+  modelCls: ModelCls!
+}
+
 enum SpecimenAge {
   embryo
   juvenile
@@ -1429,10 +1512,40 @@ enum SpecimenAge {
   larva
 }
 
+type SpecimenComment implements Node & Model {
+  id: ID!
+  oid: Int!
+  callSign: String!
+  specimen: Specimen!
+  date: Int!
+  text: String!
+  modelCls: ModelCls!
+}
+
+type SpecimenCommentConnection {
+  pageInfo: PageInfo!
+  edges: [SpecimenCommentEdge]!
+}
+
+type SpecimenCommentEdge {
+  node: SpecimenComment
+  cursor: String!
+}
+
+type SpecimenConnection {
+  pageInfo: PageInfo!
+  edges: [SpecimenEdge]!
+}
+
 type SpecimenDetail implements TypeTag {
   _Ignored: ID
   text: String
   source: Article!
+}
+
+type SpecimenEdge {
+  node: Specimen
+  cursor: String!
 }
 
 enum SpecimenGender {
@@ -1484,6 +1597,12 @@ enum SpecimenOrgan {
   baculum
   tissue_sample
   shell
+  skeleton
+  limb
+  girdle
+  scapulocoracoid
+  carpometacarpal
+  patella
 }
 
 enum Status {
@@ -1573,6 +1692,8 @@ type Taxon implements Node & Model {
   numNames: Int!
   occurrences(before: String, after: String, first: Int, last: Int): OccurrenceConnection
   numOccurrences: Int!
+  specimenSet(before: String, after: String, first: Int, last: Int): SpecimenConnection
+  numSpecimenSet: Int!
   class_: Taxon
   order: Taxon
   family: Taxon
@@ -1587,6 +1708,11 @@ type TaxonConnection {
 type TaxonEdge {
   node: Taxon
   cursor: String!
+}
+
+type TextualOriginalRank implements TypeTag {
+  _Ignored: ID
+  text: String
 }
 
 type TypeDesignation implements TypeTag {
@@ -1637,6 +1763,11 @@ type VariantOf implements NameTag {
 }
 
 type Wiki implements PersonTag {
+  _Ignored: ID
+  text: String
+}
+
+type _RawCollector implements TypeTag {
   _Ignored: ID
   text: String
 }
