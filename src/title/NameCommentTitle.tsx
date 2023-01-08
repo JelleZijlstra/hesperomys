@@ -14,7 +14,7 @@ class NameCommentTitle extends React.Component<{
 
     return (
       <>
-        comment on <NameTitle name={name} />
+        Comment on <NameTitle name={name} />
       </>
     );
   }

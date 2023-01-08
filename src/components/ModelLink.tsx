@@ -3,9 +3,10 @@ import { ModelLink_model } from "./__generated__/ModelLink_model.graphql";
 import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
-import { Link } from "react-router-dom";
 
 import Title from "../title/Title";
+import ModelLinkNoExtra from "./ModelLinkNoExtra";
+import ReactMarkdown from "react-markdown";
 
 function PersonExtra({ model }: { model: ModelLink_model }) {
   const parts = [];
@@ -75,6 +76,24 @@ function LocationExtra({ model }: { model: ModelLink_model }) {
   );
 }
 
+function NameCommentExtra({ model }: { model: ModelLink_model }) {
+  if (!model.date) {
+    return null;
+  }
+  return (
+    <>
+      {model.source && (
+        <>
+          <ModelLinkNoExtra model={model.source} />
+          {model.page && `: ${model.page}`}
+          {"; "}
+        </>
+      )}
+      {new Date(model.date * 1000).toDateString()}
+    </>
+  );
+}
+
 function ModelExtra({ model }: { model: ModelLink_model }) {
   switch (model.__typename) {
     case "Name":
@@ -85,6 +104,8 @@ function ModelExtra({ model }: { model: ModelLink_model }) {
       return <PersonExtra model={model} />;
     case "Collection":
       return model.city ? <>, {model.city}</> : null;
+    case "NameComment":
+      return <NameCommentExtra model={model} />;
     default:
       return null;
   }
@@ -93,13 +114,9 @@ function ModelExtra({ model }: { model: ModelLink_model }) {
 class ModelLink extends React.Component<{ model: ModelLink_model }> {
   render() {
     const { model } = this.props;
-    const { callSign, oid } = model;
-    const url = `/${callSign.toLowerCase()}/${oid}`;
     return (
       <>
-        <Link to={url}>
-          <Title model={model} />
-        </Link>
+        {model.__typename === "NameComment" ? <ReactMarkdown source={model.text} /> : <ModelLinkNoExtra model={model} />}
         <small>
           <ModelExtra model={model} />
         </small>
@@ -111,10 +128,8 @@ class ModelLink extends React.Component<{ model: ModelLink_model }> {
 export default createFragmentContainer(ModelLink, {
   model: graphql`
     fragment ModelLink_model on Model {
-      oid
-      callSign
       __typename
-      ...Title_model
+      ...ModelLinkNoExtra_model
       ... on Location {
         locationRegion: region {
           regionName: name
@@ -145,6 +160,14 @@ export default createFragmentContainer(ModelLink, {
         death
         bio
         personType: type
+      }
+      ... on NameComment {
+        source {
+          ...ModelLinkNoExtra_model
+        }
+        date
+        page
+        text
       }
     }
   `,

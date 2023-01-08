@@ -29,6 +29,7 @@ import NameReversalsOfPriority from "../lists/NameReversalsOfPriority";
 import NameJustifiedEmendations from "../lists/NameJustifiedEmendations";
 import NameDesignatedAsType from "../lists/NameDesignatedAsType";
 import NameCommissionDesignatedAsType from "../lists/NameCommissionDesignatedAsType";
+import NameComments from "../lists/NameComments";
 
 function NameSection({ name }: { name: NameBody_name }) {
   const {
@@ -244,6 +245,7 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
           title="Selected as the correct spelling"
         />
         <NameReversalsOfPriority name={name} title="Reversals of priority" />
+        <NameComments name={name} title="Comments" />
       </>
     );
   }
@@ -313,6 +315,7 @@ export default createFragmentContainer(NameBody, {
       ...NameJustifiedEmendations_name
       ...NameDesignatedAsType_name
       ...NameCommissionDesignatedAsType_name
+      ...NameComments_name
     }
   `,
 });
