@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { QueryRenderer } from "react-relay";
 import environment from "../relayEnvironment";
 import { useParams } from "react-router-dom";
@@ -6,12 +6,45 @@ import graphql from "babel-plugin-relay/macro";
 
 import { ModelMainQuery } from "./__generated__/ModelMainQuery.graphql";
 
-import Title from "../title/Title";
+import PageTitle from "./PageTitle";
 import Subtitle from "../subtitle/Subtitle";
 import SiteHeader from "./SiteHeader";
 import Body from "../body/Body";
 import ModelLink from "./ModelLink";
 import SiteBody from "./SiteBody";
+
+const MultiModel = function ({
+  models,
+  callSign,
+  oid,
+}: {
+  models: NonNullable<ModelMainQuery["response"]["models"]>;
+  callSign: string;
+  oid: string;
+}) {
+  useEffect(() => {
+    document.title = `/${callSign}/${oid}`;
+  }, [callSign, oid]);
+  return (
+    <>
+      <SiteHeader>
+        <>
+          /{callSign}/{oid}
+        </>
+      </SiteHeader>
+      <ul>
+        {models.map(
+          (model) =>
+            model && (
+              <li key={model.oid}>
+                <ModelLink model={model} />
+              </li>
+            )
+        )}
+      </ul>
+    </>
+  );
+};
 
 export default function ModelMain() {
   const { callSign, oid } = useParams();
@@ -23,7 +56,7 @@ export default function ModelMain() {
           models: byCallSign(callSign: $callSign, oid: $oid) {
             callSign
             oid
-            ...Title_model
+            ...PageTitle_model
             ...Subtitle_model
             ...Body_model
             ...ModelLink_model
@@ -43,23 +76,7 @@ export default function ModelMain() {
         }
         if (props.models.length > 1) {
           return (
-            <>
-              <SiteHeader>
-                <>
-                  /{callSign}/{oid}
-                </>
-              </SiteHeader>
-              <ul>
-                {props.models.map(
-                  (model) =>
-                    model && (
-                      <li key={model.oid}>
-                        <ModelLink model={model} />
-                      </li>
-                    )
-                )}
-              </ul>
-            </>
+            <MultiModel models={props.models} callSign={callSign} oid={oid} />
           );
         }
         const [model] = props.models;
@@ -73,9 +90,7 @@ export default function ModelMain() {
         return (
           <>
             <SiteHeader subtitle={<Subtitle model={model} />}>
-              <>
-                <Title model={model} /> ({model.callSign}#{model.oid})
-              </>
+              <PageTitle model={model} />
             </SiteHeader>
             <SiteBody>
               <Body model={model} />
