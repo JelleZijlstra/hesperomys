@@ -144,6 +144,8 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           Named after <ModelLink model={tag.person} />
         </>
       );
+    case "TextualOriginalRank":
+      return <>Original rank: {tag.text}</>
     default:
       return null;
   }
@@ -319,6 +321,9 @@ export default createFragmentContainer(NameTypeTags, {
           person {
             ...ModelLink_model
           }
+        }
+        ... on TextualOriginalRank {
+          text
         }
       }
     }

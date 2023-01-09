@@ -30,6 +30,7 @@ import NameJustifiedEmendations from "../lists/NameJustifiedEmendations";
 import NameDesignatedAsType from "../lists/NameDesignatedAsType";
 import NameCommissionDesignatedAsType from "../lists/NameCommissionDesignatedAsType";
 import NameComments from "../lists/NameComments";
+import ReactMarkdown from "react-markdown";
 
 function NameSection({ name }: { name: NameBody_name }) {
   const {
@@ -67,7 +68,9 @@ function NameSection({ name }: { name: NameBody_name }) {
           ],
           [
             "Raw unverified citation",
-            name.verbatimCitation
+            name.verbatimCitation ? (
+              <ReactMarkdown source={name.verbatimCitation} />
+            ) : null,
           ],
           [
             "Published in",
@@ -84,13 +87,14 @@ function NameSection({ name }: { name: NameBody_name }) {
 }
 
 function NomenclatureSection({ name }: { name: NameBody_name }) {
-  const { nomenclatureStatus, nameComplex, speciesNameComplex } = name;
+  const { nomenclatureStatus, originalRank, nameComplex, speciesNameComplex } = name;
   return (
     <>
       <h3>Nomenclature</h3>
       <Table
         data={[
           ["Status", nomenclatureStatus],
+          ["Original rank", originalRank],
           [
             "Name complex",
             nameComplex ? <ModelLink model={nameComplex} /> : null,
@@ -106,7 +110,7 @@ function NomenclatureSection({ name }: { name: NameBody_name }) {
       <NameTags name={name} />
       <NameTypeTags
         name={name}
-        tagsToInclude={["EtymologyDetail", "NamedAfter"]}
+        tagsToInclude={["EtymologyDetail", "NamedAfter", "TextualOriginalRank"]}
       />
     </>
   );
@@ -282,6 +286,7 @@ export default createFragmentContainer(NameBody, {
       }
 
       nomenclatureStatus
+      originalRank
       nameComplex {
         ...ModelLink_model
       }

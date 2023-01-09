@@ -5,6 +5,7 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
 import ModelLink from "./ModelLink";
+import InlineMarkdown from "./InlineMarkdown";
 
 function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
   if (!tag) {
@@ -195,7 +196,13 @@ class NameTags extends React.Component<{ name: NameTags_name }> {
             tag && (
               <React.Fragment key={tag.__typename}>
                 <Tag tag={tag} />
-                {(tag as any).comment && ` (comment: ${(tag as any).comment})`}
+                {(tag as any).comment && (
+                  <>
+                    {" (comment: "}
+                    <InlineMarkdown source={(tag as any).comment} />
+                    {")"}
+                  </>
+                )}
               </React.Fragment>
             )
         )}
