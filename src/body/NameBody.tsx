@@ -66,6 +66,10 @@ function NameSection({ name }: { name: NameBody_name }) {
             originalCitation ? <Reference article={originalCitation} /> : null,
           ],
           [
+            "Raw unverified citation",
+            name.verbatimCitation
+          ],
+          [
             "Published in",
             citationGroup ? <ModelLink model={citationGroup} /> : null,
           ],
@@ -272,6 +276,7 @@ export default createFragmentContainer(NameBody, {
       originalCitation {
         ...Reference_article
       }
+      verbatimCitation
       citationGroup {
         ...ModelLink_model
       }
