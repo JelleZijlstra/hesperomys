@@ -87,7 +87,12 @@ function NameSection({ name }: { name: NameBody_name }) {
 }
 
 function NomenclatureSection({ name }: { name: NameBody_name }) {
-  const { nomenclatureStatus, originalRank, nameComplex, speciesNameComplex } = name;
+  const {
+    nomenclatureStatus,
+    originalRank,
+    nameComplex,
+    speciesNameComplex,
+  } = name;
   return (
     <>
       <h3>Nomenclature</h3>

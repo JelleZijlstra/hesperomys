@@ -67,6 +67,8 @@ class ArticleBody extends React.Component<{
       pages,
       parent,
       citationGroup,
+      articleName,
+      path,
     } = article;
     const data: [string, JSX.Element | null | string][] = [
       ["Type", TYPE_TO_STRING.get(articleType) || null],
@@ -90,6 +92,10 @@ class ArticleBody extends React.Component<{
     if (doi) {
       const href = `https://dx.doi.org/${doi}`;
       data.push(["DOI", <a href={href}>{doi}</a>]);
+    }
+    if (path && new URLSearchParams(window.location.search).get("showPath")) {
+      data.push(["Path", path]);
+      data.push(["File name", articleName]);
     }
     return (
       <>
@@ -169,6 +175,8 @@ export default createFragmentContainer(ArticleBody, {
       doi
       publisher
       pages
+      articleName: name
+      path
       parent {
         ...ModelLink_model
       }

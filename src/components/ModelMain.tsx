@@ -83,7 +83,9 @@ export default function ModelMain() {
         if (model === null) {
           return <div>Not found</div>;
         }
-        const canonicalUrl = `/${model.callSign.toLowerCase()}/${model.oid}`;
+        const canonicalUrl = `/${model.callSign.toLowerCase()}/${model.oid}${
+          window.location.search
+        }`;
         if (window.history && window.history.replaceState) {
           window.history.replaceState(null, "", canonicalUrl);
         }

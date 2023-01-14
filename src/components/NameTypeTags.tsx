@@ -145,7 +145,7 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
         </>
       );
     case "TextualOriginalRank":
-      return <>Original rank: {tag.text}</>
+      return <>Original rank: {tag.text}</>;
     default:
       return null;
   }

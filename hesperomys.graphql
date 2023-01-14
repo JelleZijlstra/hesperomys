@@ -166,6 +166,7 @@ enum ArticleKind {
   redirect
   removed
   reference
+  alternative_version
 }
 
 interface ArticleTag {
