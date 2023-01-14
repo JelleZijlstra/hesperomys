@@ -18,19 +18,24 @@ const CitationGroupTags = ({
   const data: [string, JSX.Element | null | string][] = [];
   citationGroup.tags.map((tag) => {
     switch (tag.__typename) {
-      case "ISSN":
-        data.push(["ISSN", tag.text]);
+      case "ISSN": {
+        const url = `https://www.worldcat.org/search?fq=x0:jrnl&q=n2:${tag.text}`;
+        data.push(["ISSN", <a href={url}>{tag.text}</a>]);
         break;
-      case "ISSNOnline":
-        data.push(["ISSN (online)", tag.text]);
+      }
+      case "ISSNOnline": {
+        const url = `https://www.worldcat.org/search?fq=x0:jrnl&q=n2:${tag.text}`;
+        data.push(["ISSN (online)", <a href={url}>{tag.text}</a>]);
         break;
-      case "BHLBibliography":
+      }
+      case "BHLBibliography": {
         const url = `https://www.biodiversitylibrary.org/bibliography/${tag.text}`;
         data.push([
           "Biodiversity Heritage Library",
           <a href={url}>{tag.text}</a>,
         ]);
         break;
+      }
       case "CitationGroupURL":
         if (tag.text) {
           data.push(["URL", <a href={tag.text}>{tag.text}</a>]);
