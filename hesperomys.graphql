@@ -41,6 +41,7 @@ type Article implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   addmonth: String!
   addday: String!
   addyear: String!
@@ -123,6 +124,7 @@ type ArticleComment implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   article: Article!
   kind: ArticleCommentKind!
   date: Int!
@@ -210,6 +212,7 @@ type Book implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   authorTags: [AuthorTag!]!
   year: String
   title: String!
@@ -256,6 +259,7 @@ type CitationGroup implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   name: String!
   region: Region
   deleted: Boolean!
@@ -291,6 +295,7 @@ type CitationGroupPattern implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   pattern: String!
   citationGroup: CitationGroup!
   modelCls: ModelCls!
@@ -320,6 +325,7 @@ type Collection implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   label: String!
   name: String!
   location: Region!
@@ -611,6 +617,7 @@ type Location implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   name: String!
   minPeriod: Period
   maxPeriod: Period
@@ -672,6 +679,7 @@ interface Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
 }
 
 type ModelCls {
@@ -704,6 +712,7 @@ type Name implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   group: Group!
   rootName: String!
   status: Status!
@@ -778,6 +787,7 @@ type NameComment implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   name: Name!
   kind: CommentKind!
   date: Int!
@@ -802,6 +812,7 @@ type NameComplex implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   label: String!
   stem: String
   sourceLanguage: SourceLanguage!
@@ -832,6 +843,7 @@ type NameEnding implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   nameComplex: NameComplex!
   ending: String!
   comment: String!
@@ -1005,6 +1017,7 @@ type Occurrence implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   taxon: Taxon!
   location: Location!
   comment: String!
@@ -1084,6 +1097,7 @@ type Period implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   locations(before: String, after: String, first: Int, last: Int): LocationConnection
   numLocations: Int!
   name: String!
@@ -1166,6 +1180,7 @@ type Person implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   familyName: String!
   givenNames: String
   initials: String
@@ -1326,6 +1341,7 @@ type Region implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   name: String!
   comment: String
   parent: Region
@@ -1462,6 +1478,7 @@ type SpeciesNameComplex implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   label: String!
   stem: String
   kind: SpeciesNameKind!
@@ -1481,6 +1498,7 @@ type SpeciesNameEnding implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   nameComplex: SpeciesNameComplex!
   ending: String!
   comment: String!
@@ -1518,6 +1536,7 @@ type Specimen implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   taxon: Taxon!
   region: Region!
   taxonText: String!
@@ -1543,6 +1562,7 @@ type SpecimenComment implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   specimen: Specimen!
   date: Int!
   text: String!
@@ -1647,6 +1667,7 @@ type StratigraphicUnit implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   name: String!
   parent: StratigraphicUnit
   prev: StratigraphicUnit
@@ -1708,6 +1729,7 @@ type Taxon implements Node & Model {
   oid: Int!
   callSign: String!
   pageTitle: String!
+  redirectUrl: String
   rank: Rank!
   validName: String!
   age: AgeClass!

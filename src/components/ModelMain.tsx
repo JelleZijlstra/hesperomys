@@ -56,6 +56,7 @@ export default function ModelMain() {
           models: byCallSign(callSign: $callSign, oid: $oid) {
             callSign
             oid
+            redirectUrl
             ...PageTitle_model
             ...Subtitle_model
             ...Body_model
@@ -82,6 +83,10 @@ export default function ModelMain() {
         const [model] = props.models;
         if (model === null) {
           return <div>Not found</div>;
+        }
+        if (model.redirectUrl) {
+          window.location.assign(`${model.redirectUrl}${window.location.search}`);
+          return <div>Redirecting to <a href={model.redirectUrl}>model.redirecturl</a>...</div>;
         }
         const canonicalUrl = `/${model.callSign.toLowerCase()}/${model.oid}${
           window.location.search
