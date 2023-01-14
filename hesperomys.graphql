@@ -326,6 +326,11 @@ interface CitationGroupTag {
   _Ignored: ID
 }
 
+type CitationGroupURL implements CitationGroupTag {
+  _Ignored: ID
+  text: String
+}
+
 type CollectedBy implements TypeTag {
   _Ignored: ID
   person: Person!

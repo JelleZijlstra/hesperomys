@@ -31,6 +31,11 @@ const CitationGroupTags = ({
           <a href={url}>{tag.text}</a>,
         ]);
         break;
+      case "CitationGroupURL":
+        if (tag.text) {
+          data.push(["URL", <a href={tag.text}>{tag.text}</a>]);
+        }
+        break;
     }
   });
   if (!data) {
@@ -81,6 +86,9 @@ export default createFragmentContainer(CitationGroupBody, {
           text
         }
         ... on BHLBibliography {
+          text
+        }
+        ... on CitationGroupURL {
           text
         }
       }
