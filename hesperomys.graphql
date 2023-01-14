@@ -23,6 +23,7 @@ enum AgeClass {
   coprolite
   burrow
   bite_trace
+  redirect
 }
 
 type Altitude implements TypeTag {
@@ -160,6 +161,11 @@ type ArticleEdge {
   cursor: String!
 }
 
+type ArticleISSN implements ArticleTag {
+  _Ignored: ID
+  text: String
+}
+
 enum ArticleKind {
   electronic
   physical
@@ -200,6 +206,11 @@ type Author implements AuthorTag {
 
 interface AuthorTag {
   _Ignored: ID
+}
+
+type BHLBibliography implements CitationGroupTag {
+  _Ignored: ID
+  text: String
 }
 
 type Biography implements PersonTag {
@@ -535,7 +546,12 @@ type ISBN implements ArticleTag {
   text: String
 }
 
-type ISSN implements ArticleTag {
+type ISSN implements CitationGroupTag {
+  _Ignored: ID
+  text: String
+}
+
+type ISSNOnline implements CitationGroupTag {
   _Ignored: ID
   text: String
 }
@@ -720,6 +736,7 @@ type Name implements Node & Model {
   originalName: String
   correctedOriginalName: String
   nomenclatureStatus: NomenclatureStatus!
+  target: Name
   authorTags: [AuthorTag!]!
   originalCitation: Article
   pageDescribed: String
@@ -740,6 +757,8 @@ type Name implements Node & Model {
   data: String
   Definition: String
   tags: [NameTag!]!
+  redirects(before: String, after: String, first: Int, last: Int): NameConnection
+  numRedirects: Int!
   typifiedNames(before: String, after: String, first: Int, last: Int): NameConnection
   numTypifiedNames: Int!
   taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
@@ -1660,6 +1679,7 @@ enum Status {
   species_inquirenda
   spurious
   removed
+  redirect
 }
 
 type StratigraphicUnit implements Node & Model {

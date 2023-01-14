@@ -69,6 +69,7 @@ class ArticleBody extends React.Component<{
       citationGroup,
       articleName,
       path,
+      tags,
     } = article;
     const data: [string, JSX.Element | null | string][] = [
       ["Type", TYPE_TO_STRING.get(articleType) || null],
@@ -93,6 +94,29 @@ class ArticleBody extends React.Component<{
       const href = `https://dx.doi.org/${doi}`;
       data.push(["DOI", <a href={href}>{doi}</a>]);
     }
+    tags.map((tag) => {
+      let url: string | null = null;
+      switch (tag.__typename) {
+        case "ISBN":
+          url = `https://en.wikipedia.org/wiki/Special:BookSources/${tag.text}`;
+          break;
+        case "HDL":
+          url = `https://hdl.handle.net/${tag.text}`;
+          break;
+        case "JSTOR":
+          url = `https://www.jstor.org/stable/${tag.text}`;
+          break;
+        case "PMID":
+          url = `https://pubmed.ncbi.nlm.nih.gov/${tag.text}/`;
+          break;
+        case "PMC":
+          url = `https://www.ncbi.nlm.nih.gov/pmc/articles/PMC${tag.text}/`;
+          break;
+      }
+      if (url !== null && "text" in tag) {
+        data.push([tag.__typename, <a href={url}>{tag.text}</a>]);
+      }
+    });
     if (path && new URLSearchParams(window.location.search).get("showPath")) {
       data.push(["Path", path]);
       data.push(["File name", articleName]);
@@ -182,6 +206,27 @@ export default createFragmentContainer(ArticleBody, {
       }
       citationGroup {
         ...ModelLink_model
+      }
+      tags {
+        __typename
+        ... on ISBN {
+          text
+        }
+        ... on Eurobats {
+          text
+        }
+        ... on HDL {
+          text
+        }
+        ... on JSTOR {
+          text
+        }
+        ... on PMID {
+          text
+        }
+        ... on PMC {
+          text
+        }
       }
       ...ArticleNewNames_article
       ...ArticleArticleSet_article
