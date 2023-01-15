@@ -16,6 +16,7 @@ const CitationGroupTags = ({
   citationGroup: CitationGroupBody_citationGroup;
 }) => {
   const data: [string, JSX.Element | null | string][] = [];
+  let showLink = false;
   citationGroup.tags.map((tag) => {
     switch (tag.__typename) {
       case "ISSN": {
@@ -41,12 +42,30 @@ const CitationGroupTags = ({
           data.push(["URL", <a href={tag.text}>{tag.text}</a>]);
         }
         break;
+      case "Predecessor":
+        data.push(["Previous name", <ModelLink model={tag.cg} />]);
+        showLink = true;
+        break;
+      case "YearRange":
+        data.push(["Published during", `${tag.start}-${tag.end}`]);
+        showLink = true;
+        break;
     }
   });
   if (!data) {
     return null;
   }
-  return <Table data={data} />;
+  return (
+    <>
+      <Table data={data} />
+
+      {showLink && (
+        <p>
+          <a href="/docs/tricky-journals">See note on "Tricky journals"</a>
+        </p>
+      )}
+    </>
+  );
 };
 
 class CitationGroupBody extends React.Component<{
@@ -95,6 +114,15 @@ export default createFragmentContainer(CitationGroupBody, {
         }
         ... on CitationGroupURL {
           text
+        }
+        ... on Predecessor {
+          cg {
+            ...ModelLink_model
+          }
+        }
+        ... on YearRange {
+          start
+          end
         }
       }
       ...CitationGroupRedirects_citationGroup

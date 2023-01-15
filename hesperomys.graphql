@@ -1257,6 +1257,11 @@ enum PersonType {
   deleted
 }
 
+type Predecessor implements CitationGroupTag {
+  _Ignored: ID
+  cg: CitationGroup!
+}
+
 type PreoccupiedBy implements NameTag {
   _Ignored: ID
   name: Name!
@@ -1450,6 +1455,11 @@ type SelectionOfSpelling implements NameTag {
   _Ignored: ID
   source: Article!
   comment: String
+}
+
+type SeriesRegex implements CitationGroupTag {
+  _Ignored: ID
+  text: String
 }
 
 enum SourceLanguage {
@@ -1841,6 +1851,12 @@ type VariantOf implements NameTag {
 type Wiki implements PersonTag {
   _Ignored: ID
   text: String
+}
+
+type YearRange implements CitationGroupTag {
+  _Ignored: ID
+  start: String
+  end: String
 }
 
 type _RawCollector implements TypeTag {
