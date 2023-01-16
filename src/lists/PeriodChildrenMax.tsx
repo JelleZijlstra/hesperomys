@@ -72,10 +72,10 @@ export default createPaginationContainer(
   {
     period: graphql`
       fragment PeriodChildrenMax_period on Period
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         childrenMax(first: $count, after: $cursor)
           @connection(key: "PeriodChildrenMax_childrenMax") {

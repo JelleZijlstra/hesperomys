@@ -31,10 +31,7 @@ const CitationGroupTags = ({
       }
       case "BHLBibliography": {
         const url = `https://www.biodiversitylibrary.org/bibliography/${tag.text}`;
-        data.push([
-          "Biodiversity Heritage Library",
-          <a href={url}>{tag.text}</a>,
-        ]);
+        data.push(["Biodiversity Heritage Library", <a href={url}>{tag.text}</a>]);
         break;
       }
       case "CitationGroupURL":
@@ -81,10 +78,7 @@ class CitationGroupBody extends React.Component<{
           </p>
         )}
         <CitationGroupTags citationGroup={citationGroup} />
-        <CitationGroupArticleSet
-          citationGroup={citationGroup}
-          title="Publications"
-        />
+        <CitationGroupArticleSet citationGroup={citationGroup} title="Publications" />
         <CitationGroupNames
           citationGroup={citationGroup}
           title="Names published here"

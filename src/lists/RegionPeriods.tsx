@@ -36,15 +36,8 @@ class RegionPeriods extends React.Component<
   }
 
   render() {
-    const {
-      region,
-      relay,
-      numToLoad,
-      hideTitle,
-      hideChildren,
-      title,
-      subtitle,
-    } = this.props;
+    const { region, relay, numToLoad, hideTitle, hideChildren, title, subtitle } =
+      this.props;
     const { oid, numChildren, periods } = region;
     if (!periods || (numChildren === 0 && periods.edges.length === 0)) {
       return null;
@@ -92,10 +85,7 @@ class RegionPeriods extends React.Component<
                       edge.node.hasPeriods && (
                         <li>
                           <ModelLink model={edge.node} />
-                          <RegionPeriodsContainer
-                            region={edge.node}
-                            hideTitle
-                          />
+                          <RegionPeriodsContainer region={edge.node} hideTitle />
                         </li>
                       )
                   )}
@@ -143,10 +133,10 @@ const RegionPeriodsContainer = createPaginationContainer(
   {
     region: graphql`
       fragment RegionPeriods_region on Region
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         numChildren
         periods(first: $count, after: $cursor)
@@ -173,11 +163,7 @@ const RegionPeriodsContainer = createPaginationContainer(
       };
     },
     query: graphql`
-      query RegionPeriodsPaginationQuery(
-        $count: Int!
-        $cursor: String
-        $oid: Int!
-      ) {
+      query RegionPeriodsPaginationQuery($count: Int!, $cursor: String, $oid: Int!) {
         region(oid: $oid) {
           ...RegionPeriods_region @arguments(count: $count, cursor: $cursor)
         }

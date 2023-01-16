@@ -28,18 +28,9 @@ class StratigraphicUnitChildren extends React.Component<
   }
 
   render() {
-    const {
-      stratigraphicUnit,
-      relay,
-      numToLoad,
-      hideTitle,
-      title,
-      subtitle,
-    } = this.props;
-    if (
-      !stratigraphicUnit.children ||
-      stratigraphicUnit.children.edges.length === 0
-    ) {
+    const { stratigraphicUnit, relay, numToLoad, hideTitle, title, subtitle } =
+      this.props;
+    if (!stratigraphicUnit.children || stratigraphicUnit.children.edges.length === 0) {
       return null;
     }
     const showExpandAll = stratigraphicUnit.children.edges.some(
@@ -82,10 +73,10 @@ export default createPaginationContainer(
   {
     stratigraphicUnit: graphql`
       fragment StratigraphicUnitChildren_stratigraphicUnit on StratigraphicUnit
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         children(first: $count, after: $cursor)
           @connection(key: "StratigraphicUnitChildren_children") {

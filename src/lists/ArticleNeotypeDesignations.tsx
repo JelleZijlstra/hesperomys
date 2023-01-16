@@ -32,9 +32,7 @@ interface ArticleNeotypeDesignationsInnerProps {
   hideClassification?: boolean;
 }
 
-class ArticleNeotypeDesignationsInner extends React.Component<
-  ArticleNeotypeDesignationsInnerProps
-> {
+class ArticleNeotypeDesignationsInner extends React.Component<ArticleNeotypeDesignationsInnerProps> {
   render() {
     const {
       articleInner,
@@ -87,15 +85,15 @@ const ArticleNeotypeDesignationsContainer = createPaginationContainer(
   {
     articleInner: graphql`
       fragment ArticleNeotypeDesignations_articleInner on Article
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         neotypeDesignations(first: $count, after: $cursor)
           @connection(key: "ArticleNeotypeDesignations_neotypeDesignations") {
@@ -207,16 +205,8 @@ class ArticleNeotypeDesignations extends React.Component<
     };
   }
 
-  renderInner(
-    article: Omit<ArticleNeotypeDesignations_article, "oid" | " $refType">
-  ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+  renderInner(article: Omit<ArticleNeotypeDesignations_article, "oid" | " $refType">) {
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -309,13 +299,13 @@ class ArticleNeotypeDesignations extends React.Component<
 export default createFragmentContainer(ArticleNeotypeDesignations, {
   article: graphql`
     fragment ArticleNeotypeDesignations_article on Article
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...ArticleNeotypeDesignations_articleInner
         @arguments(

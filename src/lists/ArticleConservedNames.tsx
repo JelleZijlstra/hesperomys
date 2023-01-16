@@ -32,9 +32,7 @@ interface ArticleConservedNamesInnerProps {
   hideClassification?: boolean;
 }
 
-class ArticleConservedNamesInner extends React.Component<
-  ArticleConservedNamesInnerProps
-> {
+class ArticleConservedNamesInner extends React.Component<ArticleConservedNamesInnerProps> {
   render() {
     const {
       articleInner,
@@ -87,15 +85,15 @@ const ArticleConservedNamesContainer = createPaginationContainer(
   {
     articleInner: graphql`
       fragment ArticleConservedNames_articleInner on Article
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         conservedNames(first: $count, after: $cursor)
           @connection(key: "ArticleConservedNames_conservedNames") {
@@ -207,16 +205,8 @@ class ArticleConservedNames extends React.Component<
     };
   }
 
-  renderInner(
-    article: Omit<ArticleConservedNames_article, "oid" | " $refType">
-  ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+  renderInner(article: Omit<ArticleConservedNames_article, "oid" | " $refType">) {
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -309,13 +299,13 @@ class ArticleConservedNames extends React.Component<
 export default createFragmentContainer(ArticleConservedNames, {
   article: graphql`
     fragment ArticleConservedNames_article on Article
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...ArticleConservedNames_articleInner
         @arguments(

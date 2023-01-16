@@ -32,9 +32,7 @@ interface ArticleCommissionTypeDesignationsInnerProps {
   hideClassification?: boolean;
 }
 
-class ArticleCommissionTypeDesignationsInner extends React.Component<
-  ArticleCommissionTypeDesignationsInnerProps
-> {
+class ArticleCommissionTypeDesignationsInner extends React.Component<ArticleCommissionTypeDesignationsInnerProps> {
   render() {
     const {
       articleInner,
@@ -87,15 +85,15 @@ const ArticleCommissionTypeDesignationsContainer = createPaginationContainer(
   {
     articleInner: graphql`
       fragment ArticleCommissionTypeDesignations_articleInner on Article
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         commissionTypeDesignations(first: $count, after: $cursor)
           @connection(
@@ -119,8 +117,7 @@ const ArticleCommissionTypeDesignationsContainer = createPaginationContainer(
     `,
   },
   {
-    getConnectionFromProps: (props) =>
-      props.articleInner.commissionTypeDesignations,
+    getConnectionFromProps: (props) => props.articleInner.commissionTypeDesignations,
     getVariables(props, { count, cursor }, fragmentVariables) {
       const {
         showLocationDetail,
@@ -211,18 +208,9 @@ class ArticleCommissionTypeDesignations extends React.Component<
   }
 
   renderInner(
-    article: Omit<
-      ArticleCommissionTypeDesignations_article,
-      "oid" | " $refType"
-    >
+    article: Omit<ArticleCommissionTypeDesignations_article, "oid" | " $refType">
   ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -315,13 +303,13 @@ class ArticleCommissionTypeDesignations extends React.Component<
 export default createFragmentContainer(ArticleCommissionTypeDesignations, {
   article: graphql`
     fragment ArticleCommissionTypeDesignations_article on Article
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...ArticleCommissionTypeDesignations_articleInner
         @arguments(

@@ -28,18 +28,9 @@ class SpeciesNameComplexEndings extends React.Component<
   }
 
   render() {
-    const {
-      speciesNameComplex,
-      relay,
-      numToLoad,
-      hideTitle,
-      title,
-      subtitle,
-    } = this.props;
-    if (
-      !speciesNameComplex.endings ||
-      speciesNameComplex.endings.edges.length === 0
-    ) {
+    const { speciesNameComplex, relay, numToLoad, hideTitle, title, subtitle } =
+      this.props;
+    if (!speciesNameComplex.endings || speciesNameComplex.endings.edges.length === 0) {
       return null;
     }
     const showExpandAll = speciesNameComplex.endings.edges.some(
@@ -78,10 +69,10 @@ export default createPaginationContainer(
   {
     speciesNameComplex: graphql`
       fragment SpeciesNameComplexEndings_speciesNameComplex on SpeciesNameComplex
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         endings(first: $count, after: $cursor)
           @connection(key: "SpeciesNameComplexEndings_endings") {

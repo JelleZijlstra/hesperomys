@@ -32,9 +32,7 @@ interface ArticleCitationDetailsInnerProps {
   hideClassification?: boolean;
 }
 
-class ArticleCitationDetailsInner extends React.Component<
-  ArticleCitationDetailsInnerProps
-> {
+class ArticleCitationDetailsInner extends React.Component<ArticleCitationDetailsInnerProps> {
   render() {
     const {
       articleInner,
@@ -87,15 +85,15 @@ const ArticleCitationDetailsContainer = createPaginationContainer(
   {
     articleInner: graphql`
       fragment ArticleCitationDetails_articleInner on Article
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         citationDetails(first: $count, after: $cursor)
           @connection(key: "ArticleCitationDetails_citationDetails") {
@@ -207,16 +205,8 @@ class ArticleCitationDetails extends React.Component<
     };
   }
 
-  renderInner(
-    article: Omit<ArticleCitationDetails_article, "oid" | " $refType">
-  ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+  renderInner(article: Omit<ArticleCitationDetails_article, "oid" | " $refType">) {
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -309,13 +299,13 @@ class ArticleCitationDetails extends React.Component<
 export default createFragmentContainer(ArticleCitationDetails, {
   article: graphql`
     fragment ArticleCitationDetails_article on Article
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...ArticleCitationDetails_articleInner
         @arguments(

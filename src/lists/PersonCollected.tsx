@@ -82,15 +82,15 @@ const PersonCollectedContainer = createPaginationContainer(
   {
     personInner: graphql`
       fragment PersonCollected_personInner on Person
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         collected(first: $count, after: $cursor)
           @connection(key: "PersonCollected_collected") {
@@ -203,13 +203,7 @@ class PersonCollected extends React.Component<
   }
 
   renderInner(person: Omit<PersonCollected_person, "oid" | " $refType">) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -302,13 +296,13 @@ class PersonCollected extends React.Component<
 export default createFragmentContainer(PersonCollected, {
   person: graphql`
     fragment PersonCollected_person on Person
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...PersonCollected_personInner
         @arguments(

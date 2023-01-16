@@ -32,9 +32,7 @@ interface ArticleTypeDesignationsInnerProps {
   hideClassification?: boolean;
 }
 
-class ArticleTypeDesignationsInner extends React.Component<
-  ArticleTypeDesignationsInnerProps
-> {
+class ArticleTypeDesignationsInner extends React.Component<ArticleTypeDesignationsInnerProps> {
   render() {
     const {
       articleInner,
@@ -87,15 +85,15 @@ const ArticleTypeDesignationsContainer = createPaginationContainer(
   {
     articleInner: graphql`
       fragment ArticleTypeDesignations_articleInner on Article
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         typeDesignations(first: $count, after: $cursor)
           @connection(key: "ArticleTypeDesignations_typeDesignations") {
@@ -207,16 +205,8 @@ class ArticleTypeDesignations extends React.Component<
     };
   }
 
-  renderInner(
-    article: Omit<ArticleTypeDesignations_article, "oid" | " $refType">
-  ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+  renderInner(article: Omit<ArticleTypeDesignations_article, "oid" | " $refType">) {
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -309,13 +299,13 @@ class ArticleTypeDesignations extends React.Component<
 export default createFragmentContainer(ArticleTypeDesignations, {
   article: graphql`
     fragment ArticleTypeDesignations_article on Article
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...ArticleTypeDesignations_articleInner
         @arguments(

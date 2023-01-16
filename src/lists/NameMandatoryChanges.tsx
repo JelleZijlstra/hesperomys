@@ -32,9 +32,7 @@ interface NameMandatoryChangesInnerProps {
   hideClassification?: boolean;
 }
 
-class NameMandatoryChangesInner extends React.Component<
-  NameMandatoryChangesInnerProps
-> {
+class NameMandatoryChangesInner extends React.Component<NameMandatoryChangesInnerProps> {
   render() {
     const {
       nameInner,
@@ -51,10 +49,7 @@ class NameMandatoryChangesInner extends React.Component<
       setShowDetail,
       hideClassification,
     } = this.props;
-    if (
-      !nameInner.mandatoryChanges ||
-      nameInner.mandatoryChanges.edges.length === 0
-    ) {
+    if (!nameInner.mandatoryChanges || nameInner.mandatoryChanges.edges.length === 0) {
       return null;
     }
     return (
@@ -87,15 +82,15 @@ const NameMandatoryChangesContainer = createPaginationContainer(
   {
     nameInner: graphql`
       fragment NameMandatoryChanges_nameInner on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         mandatoryChanges(first: $count, after: $cursor)
           @connection(key: "NameMandatoryChanges_mandatoryChanges") {
@@ -208,13 +203,7 @@ class NameMandatoryChanges extends React.Component<
   }
 
   renderInner(name: Omit<NameMandatoryChanges_name, "oid" | " $refType">) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -307,13 +296,13 @@ class NameMandatoryChanges extends React.Component<
 export default createFragmentContainer(NameMandatoryChanges, {
   name: graphql`
     fragment NameMandatoryChanges_name on Name
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...NameMandatoryChanges_nameInner
         @arguments(

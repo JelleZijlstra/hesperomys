@@ -32,9 +32,7 @@ interface NameJustifiedEmendationsInnerProps {
   hideClassification?: boolean;
 }
 
-class NameJustifiedEmendationsInner extends React.Component<
-  NameJustifiedEmendationsInnerProps
-> {
+class NameJustifiedEmendationsInner extends React.Component<NameJustifiedEmendationsInnerProps> {
   render() {
     const {
       nameInner,
@@ -87,15 +85,15 @@ const NameJustifiedEmendationsContainer = createPaginationContainer(
   {
     nameInner: graphql`
       fragment NameJustifiedEmendations_nameInner on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         justifiedEmendations(first: $count, after: $cursor)
           @connection(key: "NameJustifiedEmendations_justifiedEmendations") {
@@ -208,13 +206,7 @@ class NameJustifiedEmendations extends React.Component<
   }
 
   renderInner(name: Omit<NameJustifiedEmendations_name, "oid" | " $refType">) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -307,13 +299,13 @@ class NameJustifiedEmendations extends React.Component<
 export default createFragmentContainer(NameJustifiedEmendations, {
   name: graphql`
     fragment NameJustifiedEmendations_name on Name
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...NameJustifiedEmendations_nameInner
         @arguments(

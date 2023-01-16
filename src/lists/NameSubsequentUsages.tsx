@@ -32,9 +32,7 @@ interface NameSubsequentUsagesInnerProps {
   hideClassification?: boolean;
 }
 
-class NameSubsequentUsagesInner extends React.Component<
-  NameSubsequentUsagesInnerProps
-> {
+class NameSubsequentUsagesInner extends React.Component<NameSubsequentUsagesInnerProps> {
   render() {
     const {
       nameInner,
@@ -51,10 +49,7 @@ class NameSubsequentUsagesInner extends React.Component<
       setShowDetail,
       hideClassification,
     } = this.props;
-    if (
-      !nameInner.subsequentUsages ||
-      nameInner.subsequentUsages.edges.length === 0
-    ) {
+    if (!nameInner.subsequentUsages || nameInner.subsequentUsages.edges.length === 0) {
       return null;
     }
     return (
@@ -87,15 +82,15 @@ const NameSubsequentUsagesContainer = createPaginationContainer(
   {
     nameInner: graphql`
       fragment NameSubsequentUsages_nameInner on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         subsequentUsages(first: $count, after: $cursor)
           @connection(key: "NameSubsequentUsages_subsequentUsages") {
@@ -208,13 +203,7 @@ class NameSubsequentUsages extends React.Component<
   }
 
   renderInner(name: Omit<NameSubsequentUsages_name, "oid" | " $refType">) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -307,13 +296,13 @@ class NameSubsequentUsages extends React.Component<
 export default createFragmentContainer(NameSubsequentUsages, {
   name: graphql`
     fragment NameSubsequentUsages_name on Name
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...NameSubsequentUsages_nameInner
         @arguments(

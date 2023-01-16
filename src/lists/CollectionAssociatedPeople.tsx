@@ -28,14 +28,7 @@ class CollectionAssociatedPeople extends React.Component<
   }
 
   render() {
-    const {
-      collection,
-      relay,
-      numToLoad,
-      hideTitle,
-      title,
-      subtitle,
-    } = this.props;
+    const { collection, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (
       !collection.associatedPeople ||
       collection.associatedPeople.edges.length === 0
@@ -78,10 +71,10 @@ export default createPaginationContainer(
   {
     collection: graphql`
       fragment CollectionAssociatedPeople_collection on Collection
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         associatedPeople(first: $count, after: $cursor)
           @connection(key: "CollectionAssociatedPeople_associatedPeople") {

@@ -82,18 +82,17 @@ const TaxonNamesContainer = createPaginationContainer(
   {
     taxonInner: graphql`
       fragment TaxonNames_taxonInner on Taxon
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
-        names(first: $count, after: $cursor)
-          @connection(key: "TaxonNames_names") {
+        names(first: $count, after: $cursor) @connection(key: "TaxonNames_names") {
           edges {
             node {
               oid
@@ -203,13 +202,7 @@ class TaxonNames extends React.Component<
   }
 
   renderInner(taxon: Omit<TaxonNames_taxon, "oid" | " $refType">) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -229,9 +222,7 @@ class TaxonNames extends React.Component<
         showCollectionDetail={showCollectionDetail}
         showEtymologyDetail={showEtymologyDetail}
         showNameDetail={showNameDetail}
-        setShowDetail={(showDetail) =>
-          this.setState({ showNameDetail: showDetail })
-        }
+        setShowDetail={(showDetail) => this.setState({ showNameDetail: showDetail })}
         hideClassification={hideClassification}
       />
     );
@@ -304,13 +295,13 @@ class TaxonNames extends React.Component<
 export default createFragmentContainer(TaxonNames, {
   taxon: graphql`
     fragment TaxonNames_taxon on Taxon
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...TaxonNames_taxonInner
         @arguments(

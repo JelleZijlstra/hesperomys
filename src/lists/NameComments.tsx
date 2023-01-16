@@ -18,10 +18,7 @@ interface NameCommentsProps {
   relay: RelayPaginationProp;
 }
 
-class NameComments extends React.Component<
-  NameCommentsProps,
-  { expandAll: boolean }
-> {
+class NameComments extends React.Component<NameCommentsProps, { expandAll: boolean }> {
   constructor(props: NameCommentsProps) {
     super(props);
     this.state = { expandAll: false };
@@ -68,10 +65,10 @@ export default createPaginationContainer(
   {
     name: graphql`
       fragment NameComments_name on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         comments(first: $count, after: $cursor)
           @connection(key: "NameComments_comments") {
@@ -97,11 +94,7 @@ export default createPaginationContainer(
       };
     },
     query: graphql`
-      query NameCommentsPaginationQuery(
-        $count: Int!
-        $cursor: String
-        $oid: Int!
-      ) {
+      query NameCommentsPaginationQuery($count: Int!, $cursor: String, $oid: Int!) {
         name(oid: $oid) {
           ...NameComments_name @arguments(count: $count, cursor: $cursor)
         }

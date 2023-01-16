@@ -49,9 +49,7 @@ function NameSection({ name }: { name: NameBody_name }) {
           ["Root name", <MaybeItalics name={rootName} group={group} />],
           [
             "Original name",
-            originalName ? (
-              <MaybeItalics name={originalName} group={group} />
-            ) : null,
+            originalName ? <MaybeItalics name={originalName} group={group} /> : null,
           ],
           [
             "Cleaned original name",
@@ -72,10 +70,7 @@ function NameSection({ name }: { name: NameBody_name }) {
               <ReactMarkdown source={name.verbatimCitation} />
             ) : null,
           ],
-          [
-            "Published in",
-            citationGroup ? <ModelLink model={citationGroup} /> : null,
-          ],
+          ["Published in", citationGroup ? <ModelLink model={citationGroup} /> : null],
         ]}
       />
       <NameTypeTags
@@ -87,12 +82,7 @@ function NameSection({ name }: { name: NameBody_name }) {
 }
 
 function NomenclatureSection({ name }: { name: NameBody_name }) {
-  const {
-    nomenclatureStatus,
-    originalRank,
-    nameComplex,
-    speciesNameComplex,
-  } = name;
+  const { nomenclatureStatus, originalRank, nameComplex, speciesNameComplex } = name;
   return (
     <>
       <h3>Nomenclature</h3>
@@ -100,15 +90,10 @@ function NomenclatureSection({ name }: { name: NameBody_name }) {
         data={[
           ["Status", nomenclatureStatus],
           ["Original rank", originalRank],
+          ["Name complex", nameComplex ? <ModelLink model={nameComplex} /> : null],
           [
             "Name complex",
-            nameComplex ? <ModelLink model={nameComplex} /> : null,
-          ],
-          [
-            "Name complex",
-            speciesNameComplex ? (
-              <ModelLink model={speciesNameComplex} />
-            ) : null,
+            speciesNameComplex ? <ModelLink model={speciesNameComplex} /> : null,
           ],
         ]}
       />
@@ -128,14 +113,8 @@ const GROUP_TO_TYPE = new Map([
 ]);
 
 function TypeSection({ name }: { name: NameBody_name }) {
-  const {
-    group,
-    typeSpecimen,
-    collection,
-    speciesTypeKind,
-    genusTypeKind,
-    type,
-  } = name;
+  const { group, typeSpecimen, collection, speciesTypeKind, genusTypeKind, type } =
+    name;
   return (
     <>
       <h3>{GROUP_TO_TYPE.get(group) || "Type"}</h3>
@@ -186,10 +165,7 @@ function LocationSection({ name }: { name: NameBody_name }) {
       <h3>Type locality</h3>
       <Table
         data={[
-          [
-            "Type locality",
-            typeLocality ? <ModelLink model={typeLocality} /> : null,
-          ],
+          ["Type locality", typeLocality ? <ModelLink model={typeLocality} /> : null],
         ]}
       />
       <NameTypeTags
@@ -228,10 +204,7 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
         <NameNominaNova name={name} title="NameNominaNova" />
         <NameSubsequentUsages name={name} title="Subsequent usages" />
 
-        <NameUnjustifiedEmendations
-          name={name}
-          title="Unjustified emendations"
-        />
+        <NameUnjustifiedEmendations name={name} title="Unjustified emendations" />
         <NameIncorrectSubsequentSpellings
           name={name}
           title="Incorrect subsequent spellings"
@@ -244,15 +217,9 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
         />
         <NameJustifiedEmendations name={name} title="Justified emendations" />
 
-        <NameTakingPriority
-          name={name}
-          title="Taking the priority of this name"
-        />
+        <NameTakingPriority name={name} title="Taking the priority of this name" />
         <NameNominaOblita name={name} title="Nomina oblita" />
-        <NameSelectionsOfPriority
-          name={name}
-          title="Selected as having priority"
-        />
+        <NameSelectionsOfPriority name={name} title="Selected as having priority" />
         <NameSelectionsOfSpelling
           name={name}
           title="Selected as the correct spelling"

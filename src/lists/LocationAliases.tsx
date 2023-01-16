@@ -28,14 +28,7 @@ class LocationAliases extends React.Component<
   }
 
   render() {
-    const {
-      location,
-      relay,
-      numToLoad,
-      hideTitle,
-      title,
-      subtitle,
-    } = this.props;
+    const { location, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!location.aliases || location.aliases.edges.length === 0) {
       return null;
     }
@@ -79,10 +72,10 @@ export default createPaginationContainer(
   {
     location: graphql`
       fragment LocationAliases_location on Location
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         aliases(first: $count, after: $cursor)
           @connection(key: "LocationAliases_aliases") {
@@ -108,11 +101,7 @@ export default createPaginationContainer(
       };
     },
     query: graphql`
-      query LocationAliasesPaginationQuery(
-        $count: Int!
-        $cursor: String
-        $oid: Int!
-      ) {
+      query LocationAliasesPaginationQuery($count: Int!, $cursor: String, $oid: Int!) {
         location(oid: $oid) {
           ...LocationAliases_location @arguments(count: $count, cursor: $cursor)
         }

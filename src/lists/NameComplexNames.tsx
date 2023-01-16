@@ -32,9 +32,7 @@ interface NameComplexNamesInnerProps {
   hideClassification?: boolean;
 }
 
-class NameComplexNamesInner extends React.Component<
-  NameComplexNamesInnerProps
-> {
+class NameComplexNamesInner extends React.Component<NameComplexNamesInnerProps> {
   render() {
     const {
       nameComplexInner,
@@ -84,15 +82,15 @@ const NameComplexNamesContainer = createPaginationContainer(
   {
     nameComplexInner: graphql`
       fragment NameComplexNames_nameComplexInner on NameComplex
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         names(first: $count, after: $cursor)
           @connection(key: "NameComplexNames_names") {
@@ -204,16 +202,8 @@ class NameComplexNames extends React.Component<
     };
   }
 
-  renderInner(
-    nameComplex: Omit<NameComplexNames_nameComplex, "oid" | " $refType">
-  ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+  renderInner(nameComplex: Omit<NameComplexNames_nameComplex, "oid" | " $refType">) {
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -308,13 +298,13 @@ class NameComplexNames extends React.Component<
 export default createFragmentContainer(NameComplexNames, {
   nameComplex: graphql`
     fragment NameComplexNames_nameComplex on NameComplex
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...NameComplexNames_nameComplexInner
         @arguments(

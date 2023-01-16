@@ -32,9 +32,7 @@ interface ArticleFullySuppressedNamesInnerProps {
   hideClassification?: boolean;
 }
 
-class ArticleFullySuppressedNamesInner extends React.Component<
-  ArticleFullySuppressedNamesInnerProps
-> {
+class ArticleFullySuppressedNamesInner extends React.Component<ArticleFullySuppressedNamesInnerProps> {
   render() {
     const {
       articleInner,
@@ -87,15 +85,15 @@ const ArticleFullySuppressedNamesContainer = createPaginationContainer(
   {
     articleInner: graphql`
       fragment ArticleFullySuppressedNames_articleInner on Article
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         fullySuppressedNames(first: $count, after: $cursor)
           @connection(key: "ArticleFullySuppressedNames_fullySuppressedNames") {
@@ -207,16 +205,8 @@ class ArticleFullySuppressedNames extends React.Component<
     };
   }
 
-  renderInner(
-    article: Omit<ArticleFullySuppressedNames_article, "oid" | " $refType">
-  ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+  renderInner(article: Omit<ArticleFullySuppressedNames_article, "oid" | " $refType">) {
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -309,13 +299,13 @@ class ArticleFullySuppressedNames extends React.Component<
 export default createFragmentContainer(ArticleFullySuppressedNames, {
   article: graphql`
     fragment ArticleFullySuppressedNames_article on Article
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...ArticleFullySuppressedNames_articleInner
         @arguments(

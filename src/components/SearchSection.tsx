@@ -63,10 +63,7 @@ export default function SearchSection() {
             <Link to="/docs/taxon">Taxon</Link>,
             <SearchBox modelCls={props.taxonCls} />,
           ],
-          [
-            <Link to="/docs/name">Name</Link>,
-            <SearchBox modelCls={props.nameCls} />,
-          ],
+          [<Link to="/docs/name">Name</Link>, <SearchBox modelCls={props.nameCls} />],
           [
             <Link to="/docs/collection">Collection</Link>,
             <SearchBox modelCls={props.collectionCls} />,

@@ -32,9 +32,7 @@ interface CollectionTypeSpecimensInnerProps {
   hideClassification?: boolean;
 }
 
-class CollectionTypeSpecimensInner extends React.Component<
-  CollectionTypeSpecimensInnerProps
-> {
+class CollectionTypeSpecimensInner extends React.Component<CollectionTypeSpecimensInnerProps> {
   render() {
     const {
       collectionInner,
@@ -87,15 +85,15 @@ const CollectionTypeSpecimensContainer = createPaginationContainer(
   {
     collectionInner: graphql`
       fragment CollectionTypeSpecimens_collectionInner on Collection
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         typeSpecimens(first: $count, after: $cursor)
           @connection(key: "CollectionTypeSpecimens_typeSpecimens") {
@@ -210,13 +208,7 @@ class CollectionTypeSpecimens extends React.Component<
   renderInner(
     collection: Omit<CollectionTypeSpecimens_collection, "oid" | " $refType">
   ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -311,13 +303,13 @@ class CollectionTypeSpecimens extends React.Component<
 export default createFragmentContainer(CollectionTypeSpecimens, {
   collection: graphql`
     fragment CollectionTypeSpecimens_collection on Collection
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...CollectionTypeSpecimens_collectionInner
         @arguments(

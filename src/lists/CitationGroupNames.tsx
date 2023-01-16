@@ -32,9 +32,7 @@ interface CitationGroupNamesInnerProps {
   hideClassification?: boolean;
 }
 
-class CitationGroupNamesInner extends React.Component<
-  CitationGroupNamesInnerProps
-> {
+class CitationGroupNamesInner extends React.Component<CitationGroupNamesInnerProps> {
   render() {
     const {
       citationGroupInner,
@@ -51,10 +49,7 @@ class CitationGroupNamesInner extends React.Component<
       setShowDetail,
       hideClassification,
     } = this.props;
-    if (
-      !citationGroupInner.names ||
-      citationGroupInner.names.edges.length === 0
-    ) {
+    if (!citationGroupInner.names || citationGroupInner.names.edges.length === 0) {
       return null;
     }
     return (
@@ -87,15 +82,15 @@ const CitationGroupNamesContainer = createPaginationContainer(
   {
     citationGroupInner: graphql`
       fragment CitationGroupNames_citationGroupInner on CitationGroup
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         names(first: $count, after: $cursor)
           @connection(key: "CitationGroupNames_names") {
@@ -210,13 +205,7 @@ class CitationGroupNames extends React.Component<
   renderInner(
     citationGroup: Omit<CitationGroupNames_citationGroup, "oid" | " $refType">
   ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -311,13 +300,13 @@ class CitationGroupNames extends React.Component<
 export default createFragmentContainer(CitationGroupNames, {
   citationGroup: graphql`
     fragment CitationGroupNames_citationGroup on CitationGroup
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...CitationGroupNames_citationGroupInner
         @arguments(

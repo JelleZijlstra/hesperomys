@@ -36,15 +36,8 @@ class RegionCollections extends React.Component<
   }
 
   render() {
-    const {
-      region,
-      relay,
-      numToLoad,
-      hideTitle,
-      hideChildren,
-      title,
-      subtitle,
-    } = this.props;
+    const { region, relay, numToLoad, hideTitle, hideChildren, title, subtitle } =
+      this.props;
     const { oid, numChildren, collections } = region;
     if (!collections || (numChildren === 0 && collections.edges.length === 0)) {
       return null;
@@ -92,10 +85,7 @@ class RegionCollections extends React.Component<
                       edge.node.hasCollections && (
                         <li>
                           <ModelLink model={edge.node} />
-                          <RegionCollectionsContainer
-                            region={edge.node}
-                            hideTitle
-                          />
+                          <RegionCollectionsContainer region={edge.node} hideTitle />
                         </li>
                       )
                   )}
@@ -143,10 +133,10 @@ const RegionCollectionsContainer = createPaginationContainer(
   {
     region: graphql`
       fragment RegionCollections_region on Region
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         numChildren
         collections(first: $count, after: $cursor)

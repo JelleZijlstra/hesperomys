@@ -72,10 +72,10 @@ export default createPaginationContainer(
   {
     period: graphql`
       fragment PeriodLocationsMin_period on Period
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         locationsMin(first: $count, after: $cursor)
           @connection(key: "PeriodLocationsMin_locationsMin") {
@@ -107,8 +107,7 @@ export default createPaginationContainer(
         $oid: Int!
       ) {
         period(oid: $oid) {
-          ...PeriodLocationsMin_period
-            @arguments(count: $count, cursor: $cursor)
+          ...PeriodLocationsMin_period @arguments(count: $count, cursor: $cursor)
         }
       }
     `,

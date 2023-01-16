@@ -72,10 +72,10 @@ export default createPaginationContainer(
   {
     period: graphql`
       fragment PeriodChildren_period on Period
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         children(first: $count, after: $cursor)
           @connection(key: "PeriodChildren_children") {
@@ -101,11 +101,7 @@ export default createPaginationContainer(
       };
     },
     query: graphql`
-      query PeriodChildrenPaginationQuery(
-        $count: Int!
-        $cursor: String
-        $oid: Int!
-      ) {
+      query PeriodChildrenPaginationQuery($count: Int!, $cursor: String, $oid: Int!) {
         period(oid: $oid) {
           ...PeriodChildren_period @arguments(count: $count, cursor: $cursor)
         }

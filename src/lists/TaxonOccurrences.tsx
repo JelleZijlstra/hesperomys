@@ -68,10 +68,10 @@ export default createPaginationContainer(
   {
     taxon: graphql`
       fragment TaxonOccurrences_taxon on Taxon
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         occurrences(first: $count, after: $cursor)
           @connection(key: "TaxonOccurrences_occurrences") {
@@ -97,11 +97,7 @@ export default createPaginationContainer(
       };
     },
     query: graphql`
-      query TaxonOccurrencesPaginationQuery(
-        $count: Int!
-        $cursor: String
-        $oid: Int!
-      ) {
+      query TaxonOccurrencesPaginationQuery($count: Int!, $cursor: String, $oid: Int!) {
         taxon(oid: $oid) {
           ...TaxonOccurrences_taxon @arguments(count: $count, cursor: $cursor)
         }

@@ -36,20 +36,10 @@ class RegionCitationGroups extends React.Component<
   }
 
   render() {
-    const {
-      region,
-      relay,
-      numToLoad,
-      hideTitle,
-      hideChildren,
-      title,
-      subtitle,
-    } = this.props;
+    const { region, relay, numToLoad, hideTitle, hideChildren, title, subtitle } =
+      this.props;
     const { oid, numChildren, citationGroups } = region;
-    if (
-      !citationGroups ||
-      (numChildren === 0 && citationGroups.edges.length === 0)
-    ) {
+    if (!citationGroups || (numChildren === 0 && citationGroups.edges.length === 0)) {
       return null;
     }
     const showExpandAll = citationGroups.edges.some(
@@ -95,10 +85,7 @@ class RegionCitationGroups extends React.Component<
                       edge.node.hasCitationGroups && (
                         <li>
                           <ModelLink model={edge.node} />
-                          <RegionCitationGroupsContainer
-                            region={edge.node}
-                            hideTitle
-                          />
+                          <RegionCitationGroupsContainer region={edge.node} hideTitle />
                         </li>
                       )
                   )}
@@ -142,10 +129,10 @@ const RegionCitationGroupsContainer = createPaginationContainer(
   {
     region: graphql`
       fragment RegionCitationGroups_region on Region
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         numChildren
         citationGroups(first: $count, after: $cursor)
@@ -178,8 +165,7 @@ const RegionCitationGroupsContainer = createPaginationContainer(
         $oid: Int!
       ) {
         region(oid: $oid) {
-          ...RegionCitationGroups_region
-            @arguments(count: $count, cursor: $cursor)
+          ...RegionCitationGroups_region @arguments(count: $count, cursor: $cursor)
         }
       }
     `,

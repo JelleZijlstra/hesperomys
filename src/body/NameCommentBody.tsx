@@ -11,14 +11,7 @@ class NameCommentBody extends React.Component<{
   nameComment: NameCommentBody_nameComment;
 }> {
   render() {
-    const {
-      name,
-      commentKind,
-      date,
-      text,
-      source,
-      page,
-    } = this.props.nameComment;
+    const { name, commentKind, date, text, source, page } = this.props.nameComment;
     const data: [string, JSX.Element | null | string][] = [
       ["Name", <ModelLink model={name} />],
       ["Kind", commentKind],

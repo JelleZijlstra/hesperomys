@@ -62,12 +62,8 @@ class TaxonTitle extends React.Component<{ taxon: TaxonTitle_taxon }> {
 
     return (
       <>
-        <MaybeItalics
-          group={RANK_TO_GROUP.get(taxonRank) || "high"}
-          name={validName}
-        />
-        {baseName.status !== "valid" &&
-          ` (${STATUS_TO_TEXT.get(baseName.status)})`}
+        <MaybeItalics group={RANK_TO_GROUP.get(taxonRank) || "high"} name={validName} />
+        {baseName.status !== "valid" && ` (${STATUS_TO_TEXT.get(baseName.status)})`}
       </>
     );
   }

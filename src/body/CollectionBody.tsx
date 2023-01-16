@@ -16,17 +16,13 @@ class CollectionBody extends React.Component<{
     const { collection } = this.props;
     return (
       <>
-        <CollectionTypeSpecimens
-          collection={collection}
-          title="Type specimens"
-        />
+        <CollectionTypeSpecimens collection={collection} title="Type specimens" />
         <CollectionSharedSpecimens
           collection={collection}
           title="Shared type specimens"
           subtitle={
             <p>
-              Part but not all of the type material for these names in this
-              collection.
+              Part but not all of the type material for these names in this collection.
             </p>
           }
         />
@@ -34,15 +30,10 @@ class CollectionBody extends React.Component<{
           collection={collection}
           title="Probable type specimens"
           subtitle={
-            <p>
-              Type material for these names is likely to be in this collection.
-            </p>
+            <p>Type material for these names is likely to be in this collection.</p>
           }
         />
-        <CollectionAssociatedPeople
-          collection={collection}
-          title="Associated people"
-        />
+        <CollectionAssociatedPeople collection={collection} title="Associated people" />
       </>
     );
   }

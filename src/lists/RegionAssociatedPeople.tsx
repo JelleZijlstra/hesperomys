@@ -36,15 +36,8 @@ class RegionAssociatedPeople extends React.Component<
   }
 
   render() {
-    const {
-      region,
-      relay,
-      numToLoad,
-      hideTitle,
-      hideChildren,
-      title,
-      subtitle,
-    } = this.props;
+    const { region, relay, numToLoad, hideTitle, hideChildren, title, subtitle } =
+      this.props;
     const { oid, numChildren, associatedPeople } = region;
     if (
       !associatedPeople ||
@@ -142,10 +135,10 @@ const RegionAssociatedPeopleContainer = createPaginationContainer(
   {
     region: graphql`
       fragment RegionAssociatedPeople_region on Region
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         numChildren
         associatedPeople(first: $count, after: $cursor)
@@ -178,8 +171,7 @@ const RegionAssociatedPeopleContainer = createPaginationContainer(
         $oid: Int!
       ) {
         region(oid: $oid) {
-          ...RegionAssociatedPeople_region
-            @arguments(count: $count, cursor: $cursor)
+          ...RegionAssociatedPeople_region @arguments(count: $count, cursor: $cursor)
         }
       }
     `,

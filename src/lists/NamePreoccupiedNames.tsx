@@ -32,9 +32,7 @@ interface NamePreoccupiedNamesInnerProps {
   hideClassification?: boolean;
 }
 
-class NamePreoccupiedNamesInner extends React.Component<
-  NamePreoccupiedNamesInnerProps
-> {
+class NamePreoccupiedNamesInner extends React.Component<NamePreoccupiedNamesInnerProps> {
   render() {
     const {
       nameInner,
@@ -51,10 +49,7 @@ class NamePreoccupiedNamesInner extends React.Component<
       setShowDetail,
       hideClassification,
     } = this.props;
-    if (
-      !nameInner.preoccupiedNames ||
-      nameInner.preoccupiedNames.edges.length === 0
-    ) {
+    if (!nameInner.preoccupiedNames || nameInner.preoccupiedNames.edges.length === 0) {
       return null;
     }
     return (
@@ -87,15 +82,15 @@ const NamePreoccupiedNamesContainer = createPaginationContainer(
   {
     nameInner: graphql`
       fragment NamePreoccupiedNames_nameInner on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         preoccupiedNames(first: $count, after: $cursor)
           @connection(key: "NamePreoccupiedNames_preoccupiedNames") {
@@ -208,13 +203,7 @@ class NamePreoccupiedNames extends React.Component<
   }
 
   renderInner(name: Omit<NamePreoccupiedNames_name, "oid" | " $refType">) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -307,13 +296,13 @@ class NamePreoccupiedNames extends React.Component<
 export default createFragmentContainer(NamePreoccupiedNames, {
   name: graphql`
     fragment NamePreoccupiedNames_name on Name
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...NamePreoccupiedNames_nameInner
         @arguments(

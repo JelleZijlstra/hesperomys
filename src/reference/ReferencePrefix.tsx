@@ -41,9 +41,7 @@ const SingleAuthor = ({
     <>
       {person.tussenvoegsel &&
         person.namingConvention === "dutch" &&
-        person.tussenvoegsel[0].toUpperCase() +
-          person.tussenvoegsel.slice(1) +
-          " "}
+        person.tussenvoegsel[0].toUpperCase() + person.tussenvoegsel.slice(1) + " "}
       {person.familyName}
       {addComma && ", "}
       {person.givenNames ? initializeGiven(person.givenNames) : person.initials}
@@ -88,11 +86,7 @@ const ReferencePrefix = ({ article, skipLinks }: ReferencePrefixProps) => (
       )
     ) : (
       <Link to={`/a/${article.oid}`}>
-        {article.title ? (
-          <InlineMarkdown source={article.title} />
-        ) : (
-          "[No title]"
-        )}
+        {article.title ? <InlineMarkdown source={article.title} /> : "[No title]"}
       </Link>
     )}
     {". "}

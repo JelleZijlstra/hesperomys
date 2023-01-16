@@ -22,8 +22,7 @@ class PersonTitle extends React.Component<{
         {(givenNames || initials) && " "}
         {tussenvoegsel && tussenvoegsel + " "}
         {familyName}
-        {suffix &&
-          (namingConvention === "ancient" ? " " + suffix : ", " + suffix)}
+        {suffix && (namingConvention === "ancient" ? " " + suffix : ", " + suffix)}
       </>
     );
   }

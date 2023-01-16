@@ -13,15 +13,7 @@ class SimpleReference extends React.Component<{
 }> {
   render() {
     const { article, skipLinks } = this.props;
-    const {
-      type,
-      citationGroup,
-      series,
-      volume,
-      issue,
-      startPage,
-      endPage,
-    } = article;
+    const { type, citationGroup, series, volume, issue, startPage, endPage } = article;
     switch (type) {
       case "JOURNAL":
         return (
@@ -31,9 +23,7 @@ class SimpleReference extends React.Component<{
             {series && `(${series})`}
             {volume && volume}
             {issue && `(${issue})`}:
-            {startPage === endPage || !endPage
-              ? startPage
-              : `${startPage}–${endPage}`}
+            {startPage === endPage || !endPage ? startPage : `${startPage}–${endPage}`}
             .
             <ReferenceSuffix article={article} skipLinks={skipLinks} />
           </>

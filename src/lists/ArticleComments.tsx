@@ -28,14 +28,7 @@ class ArticleComments extends React.Component<
   }
 
   render() {
-    const {
-      article,
-      relay,
-      numToLoad,
-      hideTitle,
-      title,
-      subtitle,
-    } = this.props;
+    const { article, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!article.comments || article.comments.edges.length === 0) {
       return null;
     }
@@ -75,10 +68,10 @@ export default createPaginationContainer(
   {
     article: graphql`
       fragment ArticleComments_article on Article
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         comments(first: $count, after: $cursor)
           @connection(key: "ArticleComments_comments") {
@@ -104,11 +97,7 @@ export default createPaginationContainer(
       };
     },
     query: graphql`
-      query ArticleCommentsPaginationQuery(
-        $count: Int!
-        $cursor: String
-        $oid: Int!
-      ) {
+      query ArticleCommentsPaginationQuery($count: Int!, $cursor: String, $oid: Int!) {
         article(oid: $oid) {
           ...ArticleComments_article @arguments(count: $count, cursor: $cursor)
         }

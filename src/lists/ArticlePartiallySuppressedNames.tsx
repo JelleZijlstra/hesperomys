@@ -32,9 +32,7 @@ interface ArticlePartiallySuppressedNamesInnerProps {
   hideClassification?: boolean;
 }
 
-class ArticlePartiallySuppressedNamesInner extends React.Component<
-  ArticlePartiallySuppressedNamesInnerProps
-> {
+class ArticlePartiallySuppressedNamesInner extends React.Component<ArticlePartiallySuppressedNamesInnerProps> {
   render() {
     const {
       articleInner,
@@ -87,20 +85,18 @@ const ArticlePartiallySuppressedNamesContainer = createPaginationContainer(
   {
     articleInner: graphql`
       fragment ArticlePartiallySuppressedNames_articleInner on Article
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         partiallySuppressedNames(first: $count, after: $cursor)
-          @connection(
-            key: "ArticlePartiallySuppressedNames_partiallySuppressedNames"
-          ) {
+          @connection(key: "ArticlePartiallySuppressedNames_partiallySuppressedNames") {
           edges {
             node {
               oid
@@ -119,8 +115,7 @@ const ArticlePartiallySuppressedNamesContainer = createPaginationContainer(
     `,
   },
   {
-    getConnectionFromProps: (props) =>
-      props.articleInner.partiallySuppressedNames,
+    getConnectionFromProps: (props) => props.articleInner.partiallySuppressedNames,
     getVariables(props, { count, cursor }, fragmentVariables) {
       const {
         showLocationDetail,
@@ -213,13 +208,7 @@ class ArticlePartiallySuppressedNames extends React.Component<
   renderInner(
     article: Omit<ArticlePartiallySuppressedNames_article, "oid" | " $refType">
   ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -312,13 +301,13 @@ class ArticlePartiallySuppressedNames extends React.Component<
 export default createFragmentContainer(ArticlePartiallySuppressedNames, {
   article: graphql`
     fragment ArticlePartiallySuppressedNames_article on Article
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...ArticlePartiallySuppressedNames_articleInner
         @arguments(

@@ -68,10 +68,10 @@ export default createPaginationContainer(
   {
     person: graphql`
       fragment PersonPersonSet_person on Person
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         personSet(first: $count, after: $cursor)
           @connection(key: "PersonPersonSet_personSet") {
@@ -97,11 +97,7 @@ export default createPaginationContainer(
       };
     },
     query: graphql`
-      query PersonPersonSetPaginationQuery(
-        $count: Int!
-        $cursor: String
-        $oid: Int!
-      ) {
+      query PersonPersonSetPaginationQuery($count: Int!, $cursor: String, $oid: Int!) {
         person(oid: $oid) {
           ...PersonPersonSet_person @arguments(count: $count, cursor: $cursor)
         }

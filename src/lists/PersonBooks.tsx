@@ -18,10 +18,7 @@ interface PersonBooksProps {
   relay: RelayPaginationProp;
 }
 
-class PersonBooks extends React.Component<
-  PersonBooksProps,
-  { expandAll: boolean }
-> {
+class PersonBooks extends React.Component<PersonBooksProps, { expandAll: boolean }> {
   constructor(props: PersonBooksProps) {
     super(props);
     this.state = { expandAll: false };
@@ -68,13 +65,12 @@ export default createPaginationContainer(
   {
     person: graphql`
       fragment PersonBooks_person on Person
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
-        books(first: $count, after: $cursor)
-          @connection(key: "PersonBooks_books") {
+        books(first: $count, after: $cursor) @connection(key: "PersonBooks_books") {
           edges {
             node {
               oid
@@ -97,11 +93,7 @@ export default createPaginationContainer(
       };
     },
     query: graphql`
-      query PersonBooksPaginationQuery(
-        $count: Int!
-        $cursor: String
-        $oid: Int!
-      ) {
+      query PersonBooksPaginationQuery($count: Int!, $cursor: String, $oid: Int!) {
         person(oid: $oid) {
           ...PersonBooks_person @arguments(count: $count, cursor: $cursor)
         }

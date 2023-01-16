@@ -76,18 +76,14 @@ export default function ModelMain() {
           return <div>Not found</div>;
         }
         if (props.models.length > 1) {
-          return (
-            <MultiModel models={props.models} callSign={callSign} oid={oid} />
-          );
+          return <MultiModel models={props.models} callSign={callSign} oid={oid} />;
         }
         const [model] = props.models;
         if (model === null) {
           return <div>Not found</div>;
         }
         if (model.redirectUrl) {
-          window.location.assign(
-            `${model.redirectUrl}${window.location.search}`
-          );
+          window.location.assign(`${model.redirectUrl}${window.location.search}`);
           return (
             <div>
               Redirecting to <a href={model.redirectUrl}>model.redirecturl</a>

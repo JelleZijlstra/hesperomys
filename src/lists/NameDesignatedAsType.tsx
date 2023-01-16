@@ -32,9 +32,7 @@ interface NameDesignatedAsTypeInnerProps {
   hideClassification?: boolean;
 }
 
-class NameDesignatedAsTypeInner extends React.Component<
-  NameDesignatedAsTypeInnerProps
-> {
+class NameDesignatedAsTypeInner extends React.Component<NameDesignatedAsTypeInnerProps> {
   render() {
     const {
       nameInner,
@@ -51,10 +49,7 @@ class NameDesignatedAsTypeInner extends React.Component<
       setShowDetail,
       hideClassification,
     } = this.props;
-    if (
-      !nameInner.designatedAsType ||
-      nameInner.designatedAsType.edges.length === 0
-    ) {
+    if (!nameInner.designatedAsType || nameInner.designatedAsType.edges.length === 0) {
       return null;
     }
     return (
@@ -87,15 +82,15 @@ const NameDesignatedAsTypeContainer = createPaginationContainer(
   {
     nameInner: graphql`
       fragment NameDesignatedAsType_nameInner on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         designatedAsType(first: $count, after: $cursor)
           @connection(key: "NameDesignatedAsType_designatedAsType") {
@@ -208,13 +203,7 @@ class NameDesignatedAsType extends React.Component<
   }
 
   renderInner(name: Omit<NameDesignatedAsType_name, "oid" | " $refType">) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -307,13 +296,13 @@ class NameDesignatedAsType extends React.Component<
 export default createFragmentContainer(NameDesignatedAsType, {
   name: graphql`
     fragment NameDesignatedAsType_name on Name
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...NameDesignatedAsType_nameInner
         @arguments(

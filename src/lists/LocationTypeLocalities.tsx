@@ -32,9 +32,7 @@ interface LocationTypeLocalitiesInnerProps {
   hideClassification?: boolean;
 }
 
-class LocationTypeLocalitiesInner extends React.Component<
-  LocationTypeLocalitiesInnerProps
-> {
+class LocationTypeLocalitiesInner extends React.Component<LocationTypeLocalitiesInnerProps> {
   render() {
     const {
       locationInner,
@@ -87,15 +85,15 @@ const LocationTypeLocalitiesContainer = createPaginationContainer(
   {
     locationInner: graphql`
       fragment LocationTypeLocalities_locationInner on Location
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         typeLocalities(first: $count, after: $cursor)
           @connection(key: "LocationTypeLocalities_typeLocalities") {
@@ -207,16 +205,8 @@ class LocationTypeLocalities extends React.Component<
     };
   }
 
-  renderInner(
-    location: Omit<LocationTypeLocalities_location, "oid" | " $refType">
-  ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+  renderInner(location: Omit<LocationTypeLocalities_location, "oid" | " $refType">) {
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -311,13 +301,13 @@ class LocationTypeLocalities extends React.Component<
 export default createFragmentContainer(LocationTypeLocalities, {
   location: graphql`
     fragment LocationTypeLocalities_location on Location
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...LocationTypeLocalities_locationInner
         @arguments(

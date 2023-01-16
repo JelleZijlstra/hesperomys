@@ -18,24 +18,14 @@ interface LocationTaxaProps {
   relay: RelayPaginationProp;
 }
 
-class LocationTaxa extends React.Component<
-  LocationTaxaProps,
-  { expandAll: boolean }
-> {
+class LocationTaxa extends React.Component<LocationTaxaProps, { expandAll: boolean }> {
   constructor(props: LocationTaxaProps) {
     super(props);
     this.state = { expandAll: false };
   }
 
   render() {
-    const {
-      location,
-      relay,
-      numToLoad,
-      hideTitle,
-      title,
-      subtitle,
-    } = this.props;
+    const { location, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!location.taxa || location.taxa.edges.length === 0) {
       return null;
     }
@@ -75,13 +65,12 @@ export default createPaginationContainer(
   {
     location: graphql`
       fragment LocationTaxa_location on Location
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
-        taxa(first: $count, after: $cursor)
-          @connection(key: "LocationTaxa_taxa") {
+        taxa(first: $count, after: $cursor) @connection(key: "LocationTaxa_taxa") {
           edges {
             node {
               oid
@@ -104,11 +93,7 @@ export default createPaginationContainer(
       };
     },
     query: graphql`
-      query LocationTaxaPaginationQuery(
-        $count: Int!
-        $cursor: String
-        $oid: Int!
-      ) {
+      query LocationTaxaPaginationQuery($count: Int!, $cursor: String, $oid: Int!) {
         location(oid: $oid) {
           ...LocationTaxa_location @arguments(count: $count, cursor: $cursor)
         }

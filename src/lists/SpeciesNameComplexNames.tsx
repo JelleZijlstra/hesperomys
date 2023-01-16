@@ -32,9 +32,7 @@ interface SpeciesNameComplexNamesInnerProps {
   hideClassification?: boolean;
 }
 
-class SpeciesNameComplexNamesInner extends React.Component<
-  SpeciesNameComplexNamesInnerProps
-> {
+class SpeciesNameComplexNamesInner extends React.Component<SpeciesNameComplexNamesInnerProps> {
   render() {
     const {
       speciesNameComplexInner,
@@ -87,15 +85,15 @@ const SpeciesNameComplexNamesContainer = createPaginationContainer(
   {
     speciesNameComplexInner: graphql`
       fragment SpeciesNameComplexNames_speciesNameComplexInner on SpeciesNameComplex
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         names(first: $count, after: $cursor)
           @connection(key: "SpeciesNameComplexNames_names") {
@@ -213,13 +211,7 @@ class SpeciesNameComplexNames extends React.Component<
       "oid" | " $refType"
     >
   ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -314,13 +306,13 @@ class SpeciesNameComplexNames extends React.Component<
 export default createFragmentContainer(SpeciesNameComplexNames, {
   speciesNameComplex: graphql`
     fragment SpeciesNameComplexNames_speciesNameComplex on SpeciesNameComplex
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...SpeciesNameComplexNames_speciesNameComplexInner
         @arguments(

@@ -81,10 +81,7 @@ class RegionTypeLocalities extends React.Component<
                       edge.node.hasTypeLocalities && (
                         <li>
                           <ModelLink model={edge.node} />
-                          <RegionTypeLocalitiesContainer
-                            region={edge.node}
-                            hideTitle
-                          />
+                          <RegionTypeLocalitiesContainer region={edge.node} hideTitle />
                         </li>
                       )
                   )}
@@ -129,10 +126,10 @@ const RegionTypeLocalitiesContainer = createPaginationContainer(
   {
     region: graphql`
       fragment RegionTypeLocalities_region on Region
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         numChildren
         hasTypeLocalities
@@ -165,8 +162,7 @@ const RegionTypeLocalitiesContainer = createPaginationContainer(
         $oid: Int!
       ) {
         region(oid: $oid) {
-          ...RegionTypeLocalities_region
-            @arguments(count: $count, cursor: $cursor)
+          ...RegionTypeLocalities_region @arguments(count: $count, cursor: $cursor)
         }
       }
     `,

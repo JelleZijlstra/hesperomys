@@ -32,9 +32,7 @@ interface NameNominaOblitaInnerProps {
   hideClassification?: boolean;
 }
 
-class NameNominaOblitaInner extends React.Component<
-  NameNominaOblitaInnerProps
-> {
+class NameNominaOblitaInner extends React.Component<NameNominaOblitaInnerProps> {
   render() {
     const {
       nameInner,
@@ -84,15 +82,15 @@ const NameNominaOblitaContainer = createPaginationContainer(
   {
     nameInner: graphql`
       fragment NameNominaOblita_nameInner on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         nominaOblita(first: $count, after: $cursor)
           @connection(key: "NameNominaOblita_nominaOblita") {
@@ -205,13 +203,7 @@ class NameNominaOblita extends React.Component<
   }
 
   renderInner(name: Omit<NameNominaOblita_name, "oid" | " $refType">) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -304,13 +296,13 @@ class NameNominaOblita extends React.Component<
 export default createFragmentContainer(NameNominaOblita, {
   name: graphql`
     fragment NameNominaOblita_name on Name
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...NameNominaOblita_nameInner
         @arguments(

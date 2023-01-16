@@ -72,10 +72,10 @@ export default createPaginationContainer(
   {
     taxon: graphql`
       fragment TaxonChildren_taxon on Taxon
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         children(first: $count, after: $cursor)
           @connection(key: "TaxonChildren_children") {
@@ -101,11 +101,7 @@ export default createPaginationContainer(
       };
     },
     query: graphql`
-      query TaxonChildrenPaginationQuery(
-        $count: Int!
-        $cursor: String
-        $oid: Int!
-      ) {
+      query TaxonChildrenPaginationQuery($count: Int!, $cursor: String, $oid: Int!) {
         taxon(oid: $oid) {
           ...TaxonChildren_taxon @arguments(count: $count, cursor: $cursor)
         }

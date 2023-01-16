@@ -28,14 +28,7 @@ class ArticleOccurrences extends React.Component<
   }
 
   render() {
-    const {
-      article,
-      relay,
-      numToLoad,
-      hideTitle,
-      title,
-      subtitle,
-    } = this.props;
+    const { article, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!article.occurrences || article.occurrences.edges.length === 0) {
       return null;
     }
@@ -75,10 +68,10 @@ export default createPaginationContainer(
   {
     article: graphql`
       fragment ArticleOccurrences_article on Article
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         occurrences(first: $count, after: $cursor)
           @connection(key: "ArticleOccurrences_occurrences") {
@@ -110,8 +103,7 @@ export default createPaginationContainer(
         $oid: Int!
       ) {
         article(oid: $oid) {
-          ...ArticleOccurrences_article
-            @arguments(count: $count, cursor: $cursor)
+          ...ArticleOccurrences_article @arguments(count: $count, cursor: $cursor)
         }
       }
     `,

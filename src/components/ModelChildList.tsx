@@ -70,9 +70,7 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
               if (!props || !props.node) {
                 return <div>Loading...</div>;
               }
-              return (
-                <CollectionTypeSpecimens collection={props.node} hideTitle />
-              );
+              return <CollectionTypeSpecimens collection={props.node} hideTitle />;
             }}
           />
         );
@@ -213,10 +211,7 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
               }
               return (
                 <>
-                  <StratigraphicUnitChildren
-                    stratigraphicUnit={props.node}
-                    hideTitle
-                  />
+                  <StratigraphicUnitChildren stratigraphicUnit={props.node} hideTitle />
                   <StratigraphicUnitLocations
                     stratigraphicUnit={props.node}
                     hideTitle

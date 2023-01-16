@@ -15,9 +15,7 @@ class LocationBody extends React.Component<{
   render() {
     const { location } = this.props;
     const data: [string | JSX.Element, JSX.Element][] = [];
-    const isGeneral = location.tags.some(
-      (tag) => tag && tag.__typename === "General"
-    );
+    const isGeneral = location.tags.some((tag) => tag && tag.__typename === "General");
     data.push(["Region", <ModelLink model={location.locationRegion} />]);
     if (location.minPeriod) {
       data.push(["Minimum age", <ModelLink model={location.minPeriod} />]);

@@ -28,14 +28,7 @@ class NameComplexEndings extends React.Component<
   }
 
   render() {
-    const {
-      nameComplex,
-      relay,
-      numToLoad,
-      hideTitle,
-      title,
-      subtitle,
-    } = this.props;
+    const { nameComplex, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!nameComplex.endings || nameComplex.endings.edges.length === 0) {
       return null;
     }
@@ -75,10 +68,10 @@ export default createPaginationContainer(
   {
     nameComplex: graphql`
       fragment NameComplexEndings_nameComplex on NameComplex
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         endings(first: $count, after: $cursor)
           @connection(key: "NameComplexEndings_endings") {
@@ -110,8 +103,7 @@ export default createPaginationContainer(
         $oid: Int!
       ) {
         nameComplex(oid: $oid) {
-          ...NameComplexEndings_nameComplex
-            @arguments(count: $count, cursor: $cursor)
+          ...NameComplexEndings_nameComplex @arguments(count: $count, cursor: $cursor)
         }
       }
     `,

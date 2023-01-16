@@ -36,15 +36,8 @@ class PeriodLocations extends React.Component<
   }
 
   render() {
-    const {
-      period,
-      relay,
-      numToLoad,
-      hideTitle,
-      hideChildren,
-      title,
-      subtitle,
-    } = this.props;
+    const { period, relay, numToLoad, hideTitle, hideChildren, title, subtitle } =
+      this.props;
     const { oid, numChildren, locations } = period;
     if (!locations || (numChildren === 0 && locations.edges.length === 0)) {
       return null;
@@ -92,10 +85,7 @@ class PeriodLocations extends React.Component<
                       edge.node.hasLocations && (
                         <li>
                           <ModelLink model={edge.node} />
-                          <PeriodLocationsContainer
-                            period={edge.node}
-                            hideTitle
-                          />
+                          <PeriodLocationsContainer period={edge.node} hideTitle />
                         </li>
                       )
                   )}
@@ -143,10 +133,10 @@ const PeriodLocationsContainer = createPaginationContainer(
   {
     period: graphql`
       fragment PeriodLocations_period on Period
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         numChildren
         locations(first: $count, after: $cursor)
@@ -173,11 +163,7 @@ const PeriodLocationsContainer = createPaginationContainer(
       };
     },
     query: graphql`
-      query PeriodLocationsPaginationQuery(
-        $count: Int!
-        $cursor: String
-        $oid: Int!
-      ) {
+      query PeriodLocationsPaginationQuery($count: Int!, $cursor: String, $oid: Int!) {
         period(oid: $oid) {
           ...PeriodLocations_period @arguments(count: $count, cursor: $cursor)
         }

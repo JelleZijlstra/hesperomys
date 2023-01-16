@@ -28,14 +28,7 @@ class ArticleBiographies extends React.Component<
   }
 
   render() {
-    const {
-      article,
-      relay,
-      numToLoad,
-      hideTitle,
-      title,
-      subtitle,
-    } = this.props;
+    const { article, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!article.biographies || article.biographies.edges.length === 0) {
       return null;
     }
@@ -75,10 +68,10 @@ export default createPaginationContainer(
   {
     article: graphql`
       fragment ArticleBiographies_article on Article
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         biographies(first: $count, after: $cursor)
           @connection(key: "ArticleBiographies_biographies") {
@@ -110,8 +103,7 @@ export default createPaginationContainer(
         $oid: Int!
       ) {
         article(oid: $oid) {
-          ...ArticleBiographies_article
-            @arguments(count: $count, cursor: $cursor)
+          ...ArticleBiographies_article @arguments(count: $count, cursor: $cursor)
         }
       }
     `,

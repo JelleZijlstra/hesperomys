@@ -75,15 +75,13 @@ export default createPaginationContainer(
   {
     period: graphql`
       fragment PeriodStratigraphicUnitsMin_period on Period
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         stratigraphicUnitsMin(first: $count, after: $cursor)
-          @connection(
-            key: "PeriodStratigraphicUnitsMin_stratigraphicUnitsMin"
-          ) {
+          @connection(key: "PeriodStratigraphicUnitsMin_stratigraphicUnitsMin") {
           edges {
             node {
               oid

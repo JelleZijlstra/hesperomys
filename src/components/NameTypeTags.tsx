@@ -90,8 +90,8 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
     case "LectotypeDesignation":
       return (
         <>
-          Lectotype designated by <ModelLink model={tag.source} />:{" "}
-          {tag.lectotype}.{tag.comment && " Comment: " + tag.comment}
+          Lectotype designated by <ModelLink model={tag.source} />: {tag.lectotype}.
+          {tag.comment && " Comment: " + tag.comment}
         </>
       );
     case "NeotypeDesignation":
@@ -132,8 +132,7 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       return (
         <>
           Type species designated by <ModelLink model={tag.source} />:{" "}
-          <ModelLink model={tag.type} />.
-          {tag.comment && ` Comment: ${tag.comment}`}
+          <ModelLink model={tag.type} />.{tag.comment && ` Comment: ${tag.comment}`}
         </>
       );
     case "TypeSpeciesDetail":

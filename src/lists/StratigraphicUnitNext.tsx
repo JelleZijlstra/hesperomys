@@ -28,14 +28,8 @@ class StratigraphicUnitNext extends React.Component<
   }
 
   render() {
-    const {
-      stratigraphicUnit,
-      relay,
-      numToLoad,
-      hideTitle,
-      title,
-      subtitle,
-    } = this.props;
+    const { stratigraphicUnit, relay, numToLoad, hideTitle, title, subtitle } =
+      this.props;
     if (!stratigraphicUnit.next || stratigraphicUnit.next.edges.length === 0) {
       return null;
     }
@@ -79,10 +73,10 @@ export default createPaginationContainer(
   {
     stratigraphicUnit: graphql`
       fragment StratigraphicUnitNext_stratigraphicUnit on StratigraphicUnit
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         next(first: $count, after: $cursor)
           @connection(key: "StratigraphicUnitNext_next") {

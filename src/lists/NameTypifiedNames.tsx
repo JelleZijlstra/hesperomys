@@ -32,9 +32,7 @@ interface NameTypifiedNamesInnerProps {
   hideClassification?: boolean;
 }
 
-class NameTypifiedNamesInner extends React.Component<
-  NameTypifiedNamesInnerProps
-> {
+class NameTypifiedNamesInner extends React.Component<NameTypifiedNamesInnerProps> {
   render() {
     const {
       nameInner,
@@ -51,10 +49,7 @@ class NameTypifiedNamesInner extends React.Component<
       setShowDetail,
       hideClassification,
     } = this.props;
-    if (
-      !nameInner.typifiedNames ||
-      nameInner.typifiedNames.edges.length === 0
-    ) {
+    if (!nameInner.typifiedNames || nameInner.typifiedNames.edges.length === 0) {
       return null;
     }
     return (
@@ -87,15 +82,15 @@ const NameTypifiedNamesContainer = createPaginationContainer(
   {
     nameInner: graphql`
       fragment NameTypifiedNames_nameInner on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         typifiedNames(first: $count, after: $cursor)
           @connection(key: "NameTypifiedNames_typifiedNames") {
@@ -208,13 +203,7 @@ class NameTypifiedNames extends React.Component<
   }
 
   renderInner(name: Omit<NameTypifiedNames_name, "oid" | " $refType">) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -307,13 +296,13 @@ class NameTypifiedNames extends React.Component<
 export default createFragmentContainer(NameTypifiedNames, {
   name: graphql`
     fragment NameTypifiedNames_name on Name
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...NameTypifiedNames_nameInner
         @arguments(

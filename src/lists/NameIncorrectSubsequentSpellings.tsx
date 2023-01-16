@@ -32,9 +32,7 @@ interface NameIncorrectSubsequentSpellingsInnerProps {
   hideClassification?: boolean;
 }
 
-class NameIncorrectSubsequentSpellingsInner extends React.Component<
-  NameIncorrectSubsequentSpellingsInnerProps
-> {
+class NameIncorrectSubsequentSpellingsInner extends React.Component<NameIncorrectSubsequentSpellingsInnerProps> {
   render() {
     const {
       nameInner,
@@ -87,15 +85,15 @@ const NameIncorrectSubsequentSpellingsContainer = createPaginationContainer(
   {
     nameInner: graphql`
       fragment NameIncorrectSubsequentSpellings_nameInner on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         incorrectSubsequentSpellings(first: $count, after: $cursor)
           @connection(
@@ -119,8 +117,7 @@ const NameIncorrectSubsequentSpellingsContainer = createPaginationContainer(
     `,
   },
   {
-    getConnectionFromProps: (props) =>
-      props.nameInner.incorrectSubsequentSpellings,
+    getConnectionFromProps: (props) => props.nameInner.incorrectSubsequentSpellings,
     getVariables(props, { count, cursor }, fragmentVariables) {
       const {
         showLocationDetail,
@@ -210,16 +207,8 @@ class NameIncorrectSubsequentSpellings extends React.Component<
     };
   }
 
-  renderInner(
-    name: Omit<NameIncorrectSubsequentSpellings_name, "oid" | " $refType">
-  ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+  renderInner(name: Omit<NameIncorrectSubsequentSpellings_name, "oid" | " $refType">) {
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -312,13 +301,13 @@ class NameIncorrectSubsequentSpellings extends React.Component<
 export default createFragmentContainer(NameIncorrectSubsequentSpellings, {
   name: graphql`
     fragment NameIncorrectSubsequentSpellings_name on Name
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...NameIncorrectSubsequentSpellings_nameInner
         @arguments(

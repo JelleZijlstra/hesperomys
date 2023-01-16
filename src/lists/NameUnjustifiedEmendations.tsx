@@ -32,9 +32,7 @@ interface NameUnjustifiedEmendationsInnerProps {
   hideClassification?: boolean;
 }
 
-class NameUnjustifiedEmendationsInner extends React.Component<
-  NameUnjustifiedEmendationsInnerProps
-> {
+class NameUnjustifiedEmendationsInner extends React.Component<NameUnjustifiedEmendationsInnerProps> {
   render() {
     const {
       nameInner,
@@ -87,20 +85,18 @@ const NameUnjustifiedEmendationsContainer = createPaginationContainer(
   {
     nameInner: graphql`
       fragment NameUnjustifiedEmendations_nameInner on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         unjustifiedEmendations(first: $count, after: $cursor)
-          @connection(
-            key: "NameUnjustifiedEmendations_unjustifiedEmendations"
-          ) {
+          @connection(key: "NameUnjustifiedEmendations_unjustifiedEmendations") {
           edges {
             node {
               oid
@@ -209,16 +205,8 @@ class NameUnjustifiedEmendations extends React.Component<
     };
   }
 
-  renderInner(
-    name: Omit<NameUnjustifiedEmendations_name, "oid" | " $refType">
-  ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+  renderInner(name: Omit<NameUnjustifiedEmendations_name, "oid" | " $refType">) {
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -311,13 +299,13 @@ class NameUnjustifiedEmendations extends React.Component<
 export default createFragmentContainer(NameUnjustifiedEmendations, {
   name: graphql`
     fragment NameUnjustifiedEmendations_name on Name
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...NameUnjustifiedEmendations_nameInner
         @arguments(

@@ -16,9 +16,7 @@ const SingleTaxonomicAuthority = ({
     <>
       {person.tussenvoegsel &&
         person.namingConvention === "dutch" &&
-        person.tussenvoegsel[0].toUpperCase() +
-          person.tussenvoegsel.slice(1) +
-          " "}
+        person.tussenvoegsel[0].toUpperCase() + person.tussenvoegsel.slice(1) + " "}
       {person.familyName}
     </>
   );

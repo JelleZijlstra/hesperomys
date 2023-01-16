@@ -28,14 +28,7 @@ class CitationGroupPatterns extends React.Component<
   }
 
   render() {
-    const {
-      citationGroup,
-      relay,
-      numToLoad,
-      hideTitle,
-      title,
-      subtitle,
-    } = this.props;
+    const { citationGroup, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!citationGroup.patterns || citationGroup.patterns.edges.length === 0) {
       return null;
     }
@@ -75,10 +68,10 @@ export default createPaginationContainer(
   {
     citationGroup: graphql`
       fragment CitationGroupPatterns_citationGroup on CitationGroup
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         patterns(first: $count, after: $cursor)
           @connection(key: "CitationGroupPatterns_patterns") {

@@ -28,14 +28,7 @@ class CitationGroupBookSet extends React.Component<
   }
 
   render() {
-    const {
-      citationGroup,
-      relay,
-      numToLoad,
-      hideTitle,
-      title,
-      subtitle,
-    } = this.props;
+    const { citationGroup, relay, numToLoad, hideTitle, title, subtitle } = this.props;
     if (!citationGroup.bookSet || citationGroup.bookSet.edges.length === 0) {
       return null;
     }
@@ -75,10 +68,10 @@ export default createPaginationContainer(
   {
     citationGroup: graphql`
       fragment CitationGroupBookSet_citationGroup on CitationGroup
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         bookSet(first: $count, after: $cursor)
           @connection(key: "CitationGroupBookSet_bookSet") {

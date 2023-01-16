@@ -32,9 +32,7 @@ interface NameIncorrectOriginalSpellingsInnerProps {
   hideClassification?: boolean;
 }
 
-class NameIncorrectOriginalSpellingsInner extends React.Component<
-  NameIncorrectOriginalSpellingsInnerProps
-> {
+class NameIncorrectOriginalSpellingsInner extends React.Component<NameIncorrectOriginalSpellingsInnerProps> {
   render() {
     const {
       nameInner,
@@ -87,15 +85,15 @@ const NameIncorrectOriginalSpellingsContainer = createPaginationContainer(
   {
     nameInner: graphql`
       fragment NameIncorrectOriginalSpellings_nameInner on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         incorrectOriginalSpellings(first: $count, after: $cursor)
           @connection(
@@ -119,8 +117,7 @@ const NameIncorrectOriginalSpellingsContainer = createPaginationContainer(
     `,
   },
   {
-    getConnectionFromProps: (props) =>
-      props.nameInner.incorrectOriginalSpellings,
+    getConnectionFromProps: (props) => props.nameInner.incorrectOriginalSpellings,
     getVariables(props, { count, cursor }, fragmentVariables) {
       const {
         showLocationDetail,
@@ -210,16 +207,8 @@ class NameIncorrectOriginalSpellings extends React.Component<
     };
   }
 
-  renderInner(
-    name: Omit<NameIncorrectOriginalSpellings_name, "oid" | " $refType">
-  ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+  renderInner(name: Omit<NameIncorrectOriginalSpellings_name, "oid" | " $refType">) {
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -312,13 +301,13 @@ class NameIncorrectOriginalSpellings extends React.Component<
 export default createFragmentContainer(NameIncorrectOriginalSpellings, {
   name: graphql`
     fragment NameIncorrectOriginalSpellings_name on Name
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...NameIncorrectOriginalSpellings_nameInner
         @arguments(

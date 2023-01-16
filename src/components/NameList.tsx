@@ -8,10 +8,7 @@ import ModelLink from "./ModelLink";
 import { Detail } from "./NameTypeTags";
 import { toTitle } from "../utils";
 
-type Name = Exclude<
-  Exclude<NameList_connection["edges"][0], null>["node"],
-  null
->;
+type Name = Exclude<Exclude<NameList_connection["edges"][0], null>["node"], null>;
 type Taxon = Exclude<Name["taxon"]["class_"], null>;
 type TreeNode = {
   directChildren: Name[];
@@ -64,11 +61,7 @@ class NameList extends React.Component<{
         }
       });
     const treeRoot: TreeNode = makeNode();
-    const addName = (
-      treeNode: TreeNode,
-      parents: (Taxon | null)[],
-      name: Name
-    ) => {
+    const addName = (treeNode: TreeNode, parents: (Taxon | null)[], name: Name) => {
       if (parents.length === 0) {
         treeNode.directChildren.push(name);
       } else if (parents[0] === null) {
@@ -141,10 +134,7 @@ class NameList extends React.Component<{
               </li>
             );
           }
-          if (
-            name.nomenclatureStatus &&
-            name.nomenclatureStatus !== "available"
-          ) {
+          if (name.nomenclatureStatus && name.nomenclatureStatus !== "available") {
             items.push(<li>Status: {name.nomenclatureStatus}</li>);
           }
           if (name.typeTags) {
@@ -183,13 +173,13 @@ class NameList extends React.Component<{
 export default createFragmentContainer(NameList, {
   connection: graphql`
     fragment NameList_connection on NameConnection
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: true }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: true }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       edges {
         node {
           ...ModelLink_model

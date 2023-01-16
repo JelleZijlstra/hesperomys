@@ -32,9 +32,7 @@ interface CollectionSharedSpecimensInnerProps {
   hideClassification?: boolean;
 }
 
-class CollectionSharedSpecimensInner extends React.Component<
-  CollectionSharedSpecimensInnerProps
-> {
+class CollectionSharedSpecimensInner extends React.Component<CollectionSharedSpecimensInnerProps> {
   render() {
     const {
       collectionInner,
@@ -87,15 +85,15 @@ const CollectionSharedSpecimensContainer = createPaginationContainer(
   {
     collectionInner: graphql`
       fragment CollectionSharedSpecimens_collectionInner on Collection
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         sharedSpecimens(first: $count, after: $cursor)
           @connection(key: "CollectionSharedSpecimens_sharedSpecimens") {
@@ -210,13 +208,7 @@ class CollectionSharedSpecimens extends React.Component<
   renderInner(
     collection: Omit<CollectionSharedSpecimens_collection, "oid" | " $refType">
   ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -311,13 +303,13 @@ class CollectionSharedSpecimens extends React.Component<
 export default createFragmentContainer(CollectionSharedSpecimens, {
   collection: graphql`
     fragment CollectionSharedSpecimens_collection on Collection
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...CollectionSharedSpecimens_collectionInner
         @arguments(

@@ -9,14 +9,8 @@ import TaxonomicAuthority from "../reference/TaxonomicAuthority";
 
 class NameTitle extends React.Component<{ name: NameTitle_name }> {
   render() {
-    const {
-      originalName,
-      rootName,
-      group,
-      authorTags,
-      year,
-      pageDescribed,
-    } = this.props.name;
+    const { originalName, rootName, group, authorTags, year, pageDescribed } =
+      this.props.name;
     let name;
     if (originalName) {
       name = originalName;

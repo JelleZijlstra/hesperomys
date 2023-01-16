@@ -32,9 +32,7 @@ interface NameCommissionDesignatedAsTypeInnerProps {
   hideClassification?: boolean;
 }
 
-class NameCommissionDesignatedAsTypeInner extends React.Component<
-  NameCommissionDesignatedAsTypeInnerProps
-> {
+class NameCommissionDesignatedAsTypeInner extends React.Component<NameCommissionDesignatedAsTypeInnerProps> {
   render() {
     const {
       nameInner,
@@ -87,15 +85,15 @@ const NameCommissionDesignatedAsTypeContainer = createPaginationContainer(
   {
     nameInner: graphql`
       fragment NameCommissionDesignatedAsType_nameInner on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         commissionDesignatedAsType(first: $count, after: $cursor)
           @connection(
@@ -119,8 +117,7 @@ const NameCommissionDesignatedAsTypeContainer = createPaginationContainer(
     `,
   },
   {
-    getConnectionFromProps: (props) =>
-      props.nameInner.commissionDesignatedAsType,
+    getConnectionFromProps: (props) => props.nameInner.commissionDesignatedAsType,
     getVariables(props, { count, cursor }, fragmentVariables) {
       const {
         showLocationDetail,
@@ -210,16 +207,8 @@ class NameCommissionDesignatedAsType extends React.Component<
     };
   }
 
-  renderInner(
-    name: Omit<NameCommissionDesignatedAsType_name, "oid" | " $refType">
-  ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+  renderInner(name: Omit<NameCommissionDesignatedAsType_name, "oid" | " $refType">) {
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -312,13 +301,13 @@ class NameCommissionDesignatedAsType extends React.Component<
 export default createFragmentContainer(NameCommissionDesignatedAsType, {
   name: graphql`
     fragment NameCommissionDesignatedAsType_name on Name
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...NameCommissionDesignatedAsType_nameInner
         @arguments(

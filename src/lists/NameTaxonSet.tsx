@@ -18,10 +18,7 @@ interface NameTaxonSetProps {
   relay: RelayPaginationProp;
 }
 
-class NameTaxonSet extends React.Component<
-  NameTaxonSetProps,
-  { expandAll: boolean }
-> {
+class NameTaxonSet extends React.Component<NameTaxonSetProps, { expandAll: boolean }> {
   constructor(props: NameTaxonSetProps) {
     super(props);
     this.state = { expandAll: false };
@@ -72,10 +69,10 @@ export default createPaginationContainer(
   {
     name: graphql`
       fragment NameTaxonSet_name on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         taxonSet(first: $count, after: $cursor)
           @connection(key: "NameTaxonSet_taxonSet") {
@@ -101,11 +98,7 @@ export default createPaginationContainer(
       };
     },
     query: graphql`
-      query NameTaxonSetPaginationQuery(
-        $count: Int!
-        $cursor: String
-        $oid: Int!
-      ) {
+      query NameTaxonSetPaginationQuery($count: Int!, $cursor: String, $oid: Int!) {
         name(oid: $oid) {
           ...NameTaxonSet_name @arguments(count: $count, cursor: $cursor)
         }

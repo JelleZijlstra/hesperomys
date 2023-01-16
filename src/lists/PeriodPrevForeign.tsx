@@ -72,10 +72,10 @@ export default createPaginationContainer(
   {
     period: graphql`
       fragment PeriodPrevForeign_period on Period
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         prevForeign(first: $count, after: $cursor)
           @connection(key: "PeriodPrevForeign_prevForeign") {

@@ -32,9 +32,7 @@ interface NameSelectionsOfPriorityInnerProps {
   hideClassification?: boolean;
 }
 
-class NameSelectionsOfPriorityInner extends React.Component<
-  NameSelectionsOfPriorityInnerProps
-> {
+class NameSelectionsOfPriorityInner extends React.Component<NameSelectionsOfPriorityInnerProps> {
   render() {
     const {
       nameInner,
@@ -87,15 +85,15 @@ const NameSelectionsOfPriorityContainer = createPaginationContainer(
   {
     nameInner: graphql`
       fragment NameSelectionsOfPriority_nameInner on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         selectionsOfPriority(first: $count, after: $cursor)
           @connection(key: "NameSelectionsOfPriority_selectionsOfPriority") {
@@ -208,13 +206,7 @@ class NameSelectionsOfPriority extends React.Component<
   }
 
   renderInner(name: Omit<NameSelectionsOfPriority_name, "oid" | " $refType">) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -307,13 +299,13 @@ class NameSelectionsOfPriority extends React.Component<
 export default createFragmentContainer(NameSelectionsOfPriority, {
   name: graphql`
     fragment NameSelectionsOfPriority_name on Name
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...NameSelectionsOfPriority_nameInner
         @arguments(

@@ -130,23 +130,11 @@ class ArticleBody extends React.Component<{
           article={article}
           title="Partially suppressed names"
         />
-        <ArticleFullySuppressedNames
-          article={article}
-          title="Fully suppressed names"
-        />
+        <ArticleFullySuppressedNames article={article} title="Fully suppressed names" />
         <ArticleConservedNames article={article} title="Conserved names" />
-        <ArticleSpellingSelections
-          article={article}
-          title="Spelling selections"
-        />
-        <ArticlePrioritySelections
-          article={article}
-          title="Priority selections"
-        />
-        <ArticlePriorityReversals
-          article={article}
-          title="Priority reversals"
-        />
+        <ArticleSpellingSelections article={article} title="Spelling selections" />
+        <ArticlePrioritySelections article={article} title="Priority selections" />
+        <ArticlePriorityReversals article={article} title="Priority reversals" />
         <ArticleTypeDesignations article={article} title="Type designations" />
         <ArticleCommissionTypeDesignations
           article={article}
@@ -156,26 +144,14 @@ class ArticleBody extends React.Component<{
           article={article}
           title="Lectotype designations"
         />
-        <ArticleNeotypeDesignations
-          article={article}
-          title="Neotype designations"
-        />
+        <ArticleNeotypeDesignations article={article} title="Neotype designations" />
         <ArticleSpecimenDetails article={article} title="Specimen details" />
         <ArticleLocationDetails article={article} title="Location details" />
-        <ArticleCollectionDetails
-          article={article}
-          title="Collection details"
-        />
+        <ArticleCollectionDetails article={article} title="Collection details" />
         <ArticleCitationDetails article={article} title="Citation details" />
-        <ArticleDefinitionDetails
-          article={article}
-          title="Definition details"
-        />
+        <ArticleDefinitionDetails article={article} title="Definition details" />
         <ArticleEtymologyDetails article={article} title="Etymology details" />
-        <ArticleTypeSpeciesDetails
-          article={article}
-          title="Type species details"
-        />
+        <ArticleTypeSpeciesDetails article={article} title="Type species details" />
       </>
     );
   }

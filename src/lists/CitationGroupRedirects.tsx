@@ -28,18 +28,8 @@ class CitationGroupRedirects extends React.Component<
   }
 
   render() {
-    const {
-      citationGroup,
-      relay,
-      numToLoad,
-      hideTitle,
-      title,
-      subtitle,
-    } = this.props;
-    if (
-      !citationGroup.redirects ||
-      citationGroup.redirects.edges.length === 0
-    ) {
+    const { citationGroup, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    if (!citationGroup.redirects || citationGroup.redirects.edges.length === 0) {
       return null;
     }
     const showExpandAll = citationGroup.redirects.edges.some(
@@ -78,10 +68,10 @@ export default createPaginationContainer(
   {
     citationGroup: graphql`
       fragment CitationGroupRedirects_citationGroup on CitationGroup
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         redirects(first: $count, after: $cursor)
           @connection(key: "CitationGroupRedirects_redirects") {

@@ -138,8 +138,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
       }
       return (
         <>
-          Selected as the correct original spelling by{" "}
-          <ModelLink model={tag.source} />
+          Selected as the correct original spelling by <ModelLink model={tag.source} />
         </>
       );
     case "SubsequentUsageOf":

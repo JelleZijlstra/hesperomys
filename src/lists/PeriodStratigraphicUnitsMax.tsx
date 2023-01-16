@@ -75,15 +75,13 @@ export default createPaginationContainer(
   {
     period: graphql`
       fragment PeriodStratigraphicUnitsMax_period on Period
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         stratigraphicUnitsMax(first: $count, after: $cursor)
-          @connection(
-            key: "PeriodStratigraphicUnitsMax_stratigraphicUnitsMax"
-          ) {
+          @connection(key: "PeriodStratigraphicUnitsMax_stratigraphicUnitsMax") {
           edges {
             node {
               oid

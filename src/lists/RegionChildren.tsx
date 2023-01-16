@@ -72,10 +72,10 @@ export default createPaginationContainer(
   {
     region: graphql`
       fragment RegionChildren_region on Region
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         children(first: $count, after: $cursor)
           @connection(key: "RegionChildren_children") {
@@ -101,11 +101,7 @@ export default createPaginationContainer(
       };
     },
     query: graphql`
-      query RegionChildrenPaginationQuery(
-        $count: Int!
-        $cursor: String
-        $oid: Int!
-      ) {
+      query RegionChildrenPaginationQuery($count: Int!, $cursor: String, $oid: Int!) {
         region(oid: $oid) {
           ...RegionChildren_region @arguments(count: $count, cursor: $cursor)
         }

@@ -32,9 +32,7 @@ interface ArticleLectotypeDesignationsInnerProps {
   hideClassification?: boolean;
 }
 
-class ArticleLectotypeDesignationsInner extends React.Component<
-  ArticleLectotypeDesignationsInnerProps
-> {
+class ArticleLectotypeDesignationsInner extends React.Component<ArticleLectotypeDesignationsInnerProps> {
   render() {
     const {
       articleInner,
@@ -87,20 +85,18 @@ const ArticleLectotypeDesignationsContainer = createPaginationContainer(
   {
     articleInner: graphql`
       fragment ArticleLectotypeDesignations_articleInner on Article
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         lectotypeDesignations(first: $count, after: $cursor)
-          @connection(
-            key: "ArticleLectotypeDesignations_lectotypeDesignations"
-          ) {
+          @connection(key: "ArticleLectotypeDesignations_lectotypeDesignations") {
           edges {
             node {
               oid
@@ -212,13 +208,7 @@ class ArticleLectotypeDesignations extends React.Component<
   renderInner(
     article: Omit<ArticleLectotypeDesignations_article, "oid" | " $refType">
   ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -311,13 +301,13 @@ class ArticleLectotypeDesignations extends React.Component<
 export default createFragmentContainer(ArticleLectotypeDesignations, {
   article: graphql`
     fragment ArticleLectotypeDesignations_article on Article
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...ArticleLectotypeDesignations_articleInner
         @arguments(

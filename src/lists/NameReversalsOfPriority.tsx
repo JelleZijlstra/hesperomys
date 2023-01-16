@@ -32,9 +32,7 @@ interface NameReversalsOfPriorityInnerProps {
   hideClassification?: boolean;
 }
 
-class NameReversalsOfPriorityInner extends React.Component<
-  NameReversalsOfPriorityInnerProps
-> {
+class NameReversalsOfPriorityInner extends React.Component<NameReversalsOfPriorityInnerProps> {
   render() {
     const {
       nameInner,
@@ -87,15 +85,15 @@ const NameReversalsOfPriorityContainer = createPaginationContainer(
   {
     nameInner: graphql`
       fragment NameReversalsOfPriority_nameInner on Name
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-          showLocationDetail: { type: Boolean, defaultValue: false }
-          showCitationDetail: { type: Boolean, defaultValue: false }
-          showEtymologyDetail: { type: Boolean, defaultValue: false }
-          showCollectionDetail: { type: Boolean, defaultValue: false }
-          showNameDetail: { type: Boolean, defaultValue: false }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+        showLocationDetail: { type: Boolean, defaultValue: false }
+        showCitationDetail: { type: Boolean, defaultValue: false }
+        showEtymologyDetail: { type: Boolean, defaultValue: false }
+        showCollectionDetail: { type: Boolean, defaultValue: false }
+        showNameDetail: { type: Boolean, defaultValue: false }
+      ) {
         oid
         reversalsOfPriority(first: $count, after: $cursor)
           @connection(key: "NameReversalsOfPriority_reversalsOfPriority") {
@@ -208,13 +206,7 @@ class NameReversalsOfPriority extends React.Component<
   }
 
   renderInner(name: Omit<NameReversalsOfPriority_name, "oid" | " $refType">) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      subtitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -307,13 +299,13 @@ class NameReversalsOfPriority extends React.Component<
 export default createFragmentContainer(NameReversalsOfPriority, {
   name: graphql`
     fragment NameReversalsOfPriority_name on Name
-      @argumentDefinitions(
-        showLocationDetail: { type: Boolean, defaultValue: false }
-        showCitationDetail: { type: Boolean, defaultValue: false }
-        showEtymologyDetail: { type: Boolean, defaultValue: false }
-        showCollectionDetail: { type: Boolean, defaultValue: false }
-        showNameDetail: { type: Boolean, defaultValue: false }
-      ) {
+    @argumentDefinitions(
+      showLocationDetail: { type: Boolean, defaultValue: false }
+      showCitationDetail: { type: Boolean, defaultValue: false }
+      showEtymologyDetail: { type: Boolean, defaultValue: false }
+      showCollectionDetail: { type: Boolean, defaultValue: false }
+      showNameDetail: { type: Boolean, defaultValue: false }
+    ) {
       oid
       ...NameReversalsOfPriority_nameInner
         @arguments(

@@ -72,10 +72,10 @@ export default createPaginationContainer(
   {
     period: graphql`
       fragment PeriodLocationsMax_period on Period
-        @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
-          cursor: { type: "String", defaultValue: null }
-        ) {
+      @argumentDefinitions(
+        count: { type: "Int", defaultValue: 10 }
+        cursor: { type: "String", defaultValue: null }
+      ) {
         oid
         locationsMax(first: $count, after: $cursor)
           @connection(key: "PeriodLocationsMax_locationsMax") {
@@ -107,8 +107,7 @@ export default createPaginationContainer(
         $oid: Int!
       ) {
         period(oid: $oid) {
-          ...PeriodLocationsMax_period
-            @arguments(count: $count, cursor: $cursor)
+          ...PeriodLocationsMax_period @arguments(count: $count, cursor: $cursor)
         }
       }
     `,
