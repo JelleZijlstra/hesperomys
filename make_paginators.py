@@ -1,7 +1,7 @@
 from pathlib import Path
 import graphql.language.ast
 import subprocess
-from typing import Iterable, Tuple, Optional
+from collections.abc import Iterable
 
 TEMPLATE = """
 
@@ -479,7 +479,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
             }
           }
         `}
-        variables={{ 
+        variables={{
           oid: %(type_lower)s.oid,
           showLocationDetail,
           showCitationDetail,
@@ -545,7 +545,7 @@ def parse_graphql_schema() -> graphql.language.ast.DocumentNode:
 
 def extract_connections(
     schema: graphql.language.ast.DocumentNode,
-) -> Iterable[Tuple[str, str, str]]:
+) -> Iterable[tuple[str, str, str]]:
     for defn in schema.definitions:
         if not isinstance(defn, graphql.language.ast.ObjectTypeDefinitionNode):
             continue
@@ -566,7 +566,7 @@ def should_use_children_template(type_name: str, conn_name: str) -> bool:
     return True
 
 
-def kind_of_detail(type_name: str) -> Optional[str]:
+def kind_of_detail(type_name: str) -> str | None:
     if type_name == "Location":
         return "showLocationDetail"
     elif type_name == "Collection":
@@ -583,7 +583,7 @@ def kind_of_detail(type_name: str) -> Optional[str]:
 
 def write_component(
     type_name: str, conn_name: str, field_type: str, force: bool = False
-) -> Optional[Path]:
+) -> Path | None:
     type_upper = type_name
     type_lower = lcfirst(type_name)
     conn_upper = ucfirst(conn_name)
@@ -600,9 +600,12 @@ def write_component(
         "conn_lower": conn_lower,
         "node_type_upper": field_type,
         "set_expand_all": "(expandAll: boolean) => this.setState({ expandAll })"
-        if field_type in ["Taxon", "Region", "Period", "Location", "Collection", "StratigraphicUnit"]
+        if field_type
+        in ["Taxon", "Region", "Period", "Location", "Collection", "StratigraphicUnit"]
         else "undefined",
-        "set_show_detail": f"showDetail => this.setState({{ {detail_field}: showDetail }})"
+        "set_show_detail": (
+            f"showDetail => this.setState({{ {detail_field}: showDetail }})"
+        )
         if detail_field
         else "undefined",
     }

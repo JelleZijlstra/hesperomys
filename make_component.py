@@ -81,7 +81,10 @@ def create_file(typename: str, component: str):
     default_line = "      default:"
     current = current.replace(
         default_line,
-        f'      case "{typename}":\n        return <{full_component} {propname}={{model}} />;\n{default_line}',
+        (
+            f'      case "{typename}":\n        return'
+            f" <{full_component} {propname}={{model}} />;\n{default_line}"
+        ),
     )
 
     name_spread = f"      ...{name_component}_name\n"
