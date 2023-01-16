@@ -608,6 +608,11 @@ type Involved implements TypeTag {
   comment: String
 }
 
+type IssueRegex implements CitationGroupTag {
+  _Ignored: ID
+  text: String
+}
+
 type JSTOR implements ArticleTag {
   _Ignored: ID
   text: String
@@ -1108,6 +1113,13 @@ type PageInfo {
   hasPreviousPage: Boolean!
   startCursor: String
   endCursor: String
+}
+
+type PageRegex implements CitationGroupTag {
+  _Ignored: ID
+  startPageRegex: String
+  pagesRegex: String
+  allowStandard: Boolean
 }
 
 type PartiallySuppressedBy implements NameTag {
@@ -1846,6 +1858,11 @@ type VariantOf implements NameTag {
   _Ignored: ID
   name: Name!
   comment: String
+}
+
+type VolumeRegex implements CitationGroupTag {
+  _Ignored: ID
+  text: String
 }
 
 type Wiki implements PersonTag {
