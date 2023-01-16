@@ -26,7 +26,7 @@ export default function Docs({ path }: { path: string }) {
         if (!props.documentation) {
           return <div>Not found</div>;
         }
-        return <ReactMarkdown source={props.documentation} />;
+        return <ReactMarkdown children={props.documentation} />;
       }}
     />
   );

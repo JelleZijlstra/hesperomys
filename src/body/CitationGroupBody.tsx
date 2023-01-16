@@ -17,7 +17,7 @@ const CitationGroupTags = ({
 }) => {
   const data: [string, JSX.Element | null | string][] = [];
   let showLink = false;
-  citationGroup.tags.map((tag) => {
+  citationGroup.tags.forEach((tag) => {
     switch (tag.__typename) {
       case "ISSN": {
         const url = `https://www.worldcat.org/search?fq=x0:jrnl&q=n2:${tag.text}`;

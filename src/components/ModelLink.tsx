@@ -117,7 +117,7 @@ class ModelLink extends React.Component<{ model: ModelLink_model }> {
     return (
       <>
         {model.__typename === "NameComment" ? (
-          <ReactMarkdown source={model.text} />
+          <ReactMarkdown children={model.text || ""} />
         ) : (
           <ModelLinkNoExtra model={model} />
         )}

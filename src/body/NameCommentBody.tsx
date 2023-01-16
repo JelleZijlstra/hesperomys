@@ -16,7 +16,7 @@ class NameCommentBody extends React.Component<{
       ["Name", <ModelLink model={name} />],
       ["Kind", commentKind],
       ["Date", new Date(date * 1000).toDateString()],
-      ["Text", <ReactMarkdown source={text} />],
+      ["Text", <ReactMarkdown children={text} />],
       ["Source", source ? <ModelLink model={source} /> : null],
       ["Page", page],
     ];

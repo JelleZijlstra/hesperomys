@@ -67,7 +67,7 @@ function NameSection({ name }: { name: NameBody_name }) {
           [
             "Raw unverified citation",
             name.verbatimCitation ? (
-              <ReactMarkdown source={name.verbatimCitation} />
+              <ReactMarkdown children={name.verbatimCitation} />
             ) : null,
           ],
           ["Published in", citationGroup ? <ModelLink model={citationGroup} /> : null],

@@ -75,7 +75,7 @@ class ArticleBody extends React.Component<{
       ["Type", TYPE_TO_STRING.get(articleType) || null],
       ["Authors", <AuthorList authorTags={authorTags} />],
       ["Year of publication", year],
-      ["Title", title ? <ReactMarkdown source={title} /> : null],
+      ["Title", title ? <ReactMarkdown children={title} /> : null],
       ["Publisher", publisher],
       [
         TYPE_TO_CG_LABEL.get(articleType) || "Citation group",
@@ -94,7 +94,7 @@ class ArticleBody extends React.Component<{
       const href = `https://dx.doi.org/${doi}`;
       data.push(["DOI", <a href={href}>{doi}</a>]);
     }
-    tags.map((tag) => {
+    tags.forEach((tag) => {
       let url: string | null = null;
       switch (tag.__typename) {
         case "ISBN":

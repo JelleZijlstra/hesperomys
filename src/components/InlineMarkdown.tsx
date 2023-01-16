@@ -3,7 +3,7 @@ import ReactMarkdown from "react-markdown";
 
 const InlineMarkdown = ({ source }: { source: string }) => (
   <span className="inline-markdown">
-    <ReactMarkdown source={source} />
+    <ReactMarkdown children={source} />
   </span>
 );
 
