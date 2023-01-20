@@ -419,6 +419,13 @@ type Date implements TypeTag {
   date: String
 }
 
+enum DateSource {
+  internal
+  external
+  doi_published_print
+  doi_published_electronically
+}
+
 type DefinitionDetail implements TypeTag {
   _Ignored: ID
   text: String
@@ -561,6 +568,12 @@ type ISSNOnline implements CitationGroupTag {
   text: String
 }
 
+type IgnoreLint implements ArticleTag {
+  _Ignored: ID
+  label: String
+  comment: String
+}
+
 type IgnorePotentialCitations implements CitationGroupTag {
   _Ignored: ID
 }
@@ -623,6 +636,16 @@ type JustifiedEmendationOf implements NameTag {
   name: Name!
   justification: EmendationJustification
   comment: String
+}
+
+type LSID implements TypeTag {
+  _Ignored: ID
+  text: String
+}
+
+type LSIDArticle implements ArticleTag {
+  _Ignored: ID
+  text: String
 }
 
 type Language implements BookTag {
@@ -1284,6 +1307,13 @@ type ProbableRepository implements TypeTag {
   _Ignored: ID
   repository: Collection!
   reasoning: String
+}
+
+type PublicationDate implements ArticleTag {
+  _Ignored: ID
+  source: DateSource
+  date: String
+  comment: String
 }
 
 type Query {
