@@ -69,7 +69,7 @@ export default createPaginationContainer(
     person: graphql`
       fragment PersonArticles_person on Person
       @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
+        count: { type: "Int", defaultValue: 50 }
         cursor: { type: "String", defaultValue: null }
       ) {
         oid

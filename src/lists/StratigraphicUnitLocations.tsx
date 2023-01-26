@@ -148,7 +148,7 @@ const StratigraphicUnitLocationsContainer = createPaginationContainer(
     stratigraphicUnit: graphql`
       fragment StratigraphicUnitLocations_stratigraphicUnit on StratigraphicUnit
       @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
+        count: { type: "Int", defaultValue: 50 }
         cursor: { type: "String", defaultValue: null }
       ) {
         oid

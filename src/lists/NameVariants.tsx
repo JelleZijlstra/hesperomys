@@ -83,7 +83,7 @@ const NameVariantsContainer = createPaginationContainer(
     nameInner: graphql`
       fragment NameVariants_nameInner on Name
       @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
+        count: { type: "Int", defaultValue: 50 }
         cursor: { type: "String", defaultValue: null }
         showLocationDetail: { type: Boolean, defaultValue: false }
         showCitationDetail: { type: Boolean, defaultValue: false }

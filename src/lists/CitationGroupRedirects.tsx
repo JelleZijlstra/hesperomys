@@ -69,7 +69,7 @@ export default createPaginationContainer(
     citationGroup: graphql`
       fragment CitationGroupRedirects_citationGroup on CitationGroup
       @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
+        count: { type: "Int", defaultValue: 50 }
         cursor: { type: "String", defaultValue: null }
       ) {
         oid

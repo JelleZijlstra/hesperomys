@@ -130,7 +130,7 @@ const RegionCitationGroupsContainer = createPaginationContainer(
     region: graphql`
       fragment RegionCitationGroups_region on Region
       @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
+        count: { type: "Int", defaultValue: 50 }
         cursor: { type: "String", defaultValue: null }
       ) {
         oid

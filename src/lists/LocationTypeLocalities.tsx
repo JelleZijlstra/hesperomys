@@ -86,7 +86,7 @@ const LocationTypeLocalitiesContainer = createPaginationContainer(
     locationInner: graphql`
       fragment LocationTypeLocalities_locationInner on Location
       @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
+        count: { type: "Int", defaultValue: 50 }
         cursor: { type: "String", defaultValue: null }
         showLocationDetail: { type: Boolean, defaultValue: false }
         showCitationDetail: { type: Boolean, defaultValue: false }

@@ -73,7 +73,7 @@ export default createPaginationContainer(
     taxon: graphql`
       fragment TaxonChildren_taxon on Taxon
       @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
+        count: { type: "Int", defaultValue: 50 }
         cursor: { type: "String", defaultValue: null }
       ) {
         oid

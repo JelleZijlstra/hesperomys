@@ -70,7 +70,7 @@ export default createPaginationContainer(
     speciesNameComplex: graphql`
       fragment SpeciesNameComplexEndings_speciesNameComplex on SpeciesNameComplex
       @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
+        count: { type: "Int", defaultValue: 50 }
         cursor: { type: "String", defaultValue: null }
       ) {
         oid

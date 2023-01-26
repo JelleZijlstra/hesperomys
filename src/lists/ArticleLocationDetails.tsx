@@ -86,7 +86,7 @@ const ArticleLocationDetailsContainer = createPaginationContainer(
     articleInner: graphql`
       fragment ArticleLocationDetails_articleInner on Article
       @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
+        count: { type: "Int", defaultValue: 50 }
         cursor: { type: "String", defaultValue: null }
         showLocationDetail: { type: Boolean, defaultValue: false }
         showCitationDetail: { type: Boolean, defaultValue: false }

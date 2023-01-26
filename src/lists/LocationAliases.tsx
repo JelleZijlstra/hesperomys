@@ -73,7 +73,7 @@ export default createPaginationContainer(
     location: graphql`
       fragment LocationAliases_location on Location
       @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
+        count: { type: "Int", defaultValue: 50 }
         cursor: { type: "String", defaultValue: null }
       ) {
         oid

@@ -74,7 +74,7 @@ export default createPaginationContainer(
     stratigraphicUnit: graphql`
       fragment StratigraphicUnitChildren_stratigraphicUnit on StratigraphicUnit
       @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
+        count: { type: "Int", defaultValue: 50 }
         cursor: { type: "String", defaultValue: null }
       ) {
         oid

@@ -83,7 +83,7 @@ const PersonPatronymsContainer = createPaginationContainer(
     personInner: graphql`
       fragment PersonPatronyms_personInner on Person
       @argumentDefinitions(
-        count: { type: "Int", defaultValue: 10 }
+        count: { type: "Int", defaultValue: 50 }
         cursor: { type: "String", defaultValue: null }
         showLocationDetail: { type: Boolean, defaultValue: false }
         showCitationDetail: { type: Boolean, defaultValue: false }
