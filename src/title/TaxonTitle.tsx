@@ -5,6 +5,7 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
 import MaybeItalics from "../components/MaybeItalics";
+import TaxonomicAuthority from "../reference/TaxonomicAuthority";
 
 const STATUS_TO_TEXT = new Map([
   ["valid", "valid"],
@@ -60,9 +61,23 @@ class TaxonTitle extends React.Component<{ taxon: TaxonTitle_taxon }> {
   render() {
     const { taxonRank, validName, baseName } = this.props.taxon;
 
+    const shouldParenthesize =
+      baseName.group === "species" &&
+      baseName.correctedOriginalName !== null &&
+      validName.split(" ")[0] !== baseName.correctedOriginalName.split(" ")[0];
+
     return (
       <>
         <MaybeItalics group={RANK_TO_GROUP.get(taxonRank) || "high"} name={validName} />
+        {baseName.authorTags && (
+          <>
+            {" "}
+            {shouldParenthesize && "("}
+            <TaxonomicAuthority authorTags={baseName.authorTags} />
+            {baseName.year && ", " + baseName.year}
+            {shouldParenthesize && ")"}
+          </>
+        )}
         {baseName.status !== "valid" && ` (${STATUS_TO_TEXT.get(baseName.status)})`}
       </>
     );
@@ -75,6 +90,12 @@ export default createFragmentContainer(TaxonTitle, {
       validName
       taxonRank: rank
       baseName {
+        group
+        correctedOriginalName
+        authorTags {
+          ...TaxonomicAuthority_authorTags
+        }
+        year
         status
       }
     }
