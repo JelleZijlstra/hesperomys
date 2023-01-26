@@ -54,7 +54,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
       }
       return (
         <>
-          Justified emendation (reason: {tag.justification}) by{" "}
+          Justified emendation (reason: {tag.justification}) of{" "}
           <ModelLink model={tag.name} />
         </>
       );
