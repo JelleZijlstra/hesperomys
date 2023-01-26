@@ -69,7 +69,7 @@ export default createPaginationContainer(
     %(type_lower)s: graphql`
       fragment %(type_upper)s%(conn_upper)s_%(type_lower)s on %(type_upper)s
         @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 50 }
           cursor: { type: "String", defaultValue: null }
         ) {
         oid
@@ -219,7 +219,7 @@ const %(type_upper)s%(conn_upper)sContainer = createPaginationContainer(
     %(type_lower)s: graphql`
       fragment %(type_upper)s%(conn_upper)s_%(type_lower)s on %(type_upper)s
         @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 50 }
           cursor: { type: "String", defaultValue: null }
         ) {
         oid
@@ -327,7 +327,7 @@ const %(type_upper)s%(conn_upper)sContainer = createPaginationContainer(
     %(type_lower)sInner: graphql`
       fragment %(type_upper)s%(conn_upper)s_%(type_lower)sInner on %(type_upper)s
         @argumentDefinitions(
-          count: { type: "Int", defaultValue: 10 }
+          count: { type: "Int", defaultValue: 50 }
           cursor: { type: "String", defaultValue: null }
           showLocationDetail: { type: Boolean, defaultValue: false }
           showCitationDetail: { type: Boolean, defaultValue: false }
@@ -537,20 +537,20 @@ def ucfirst(s: str) -> str:
     return s[0].upper() + s[1:]
 
 
-def parse_graphql_schema() -> graphql.language.ast.DocumentNode:
+def parse_graphql_schema() -> graphql.language.ast.Document:
     schema_file = Path("hesperomys.graphql")
     schema_text = schema_file.read_text()
-    return graphql.parse(schema_text)
+    return graphql.parse(schema_text.replace(" & ", ", "))
 
 
 def extract_connections(
-    schema: graphql.language.ast.DocumentNode,
+    schema: graphql.language.ast.Document,
 ) -> Iterable[tuple[str, str, str]]:
     for defn in schema.definitions:
-        if not isinstance(defn, graphql.language.ast.ObjectTypeDefinitionNode):
+        if not isinstance(defn, graphql.language.ast.ObjectTypeDefinition):
             continue
         for field in defn.fields:
-            if not isinstance(field.type, graphql.language.ast.NamedTypeNode):
+            if not isinstance(field.type, graphql.language.ast.NamedType):
                 continue
             field_type = field.type.name.value
             if not field_type.endswith("Connection"):
@@ -620,12 +620,8 @@ def write_component(
 
 
 if __name__ == "__main__":
-    paths = [
+    for type_name, conn_name, field_type in extract_connections(parse_graphql_schema()):
+        if field_type in ("Specimen", "SpecimenComment"):
+            continue
         write_component(type_name, conn_name, field_type, force=True)
-        for type_name, conn_name, field_type, in extract_connections(
-            parse_graphql_schema()
-        )
-    ]
-    subprocess.check_call(
-        ["prettier", "--write", *[str(path) for path in paths if path is not None]]
-    )
+    subprocess.call(["pre-commit", "run", "--all", "prettier"])
