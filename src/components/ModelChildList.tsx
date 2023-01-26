@@ -154,7 +154,12 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
               return (
                 <>
                   <RegionChildren region={props.node} hideTitle />
-                  <RegionLocations region={props.node} hideTitle hideChildren />
+                  <ul>
+                    <li>
+                      <i>Locations</i>
+                    </li>
+                    <RegionLocations region={props.node} hideTitle hideChildren />
+                  </ul>
                 </>
               );
             }}
