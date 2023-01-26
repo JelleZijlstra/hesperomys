@@ -40,8 +40,8 @@ const SingleAuthor = ({
   return (
     <>
       {person.tussenvoegsel &&
-        person.namingConvention === "dutch" &&
-        person.tussenvoegsel[0].toUpperCase() + person.tussenvoegsel.slice(1) + " "}
+        person.namingConvention !== "dutch" &&
+        person.tussenvoegsel + " "}
       {person.familyName}
       {addComma && ", "}
       {person.givenNames ? initializeGiven(person.givenNames) : person.initials}
