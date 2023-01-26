@@ -33,7 +33,7 @@ class PersonBody extends React.Component<{
       data.push(["Suffix", person.suffix]);
     }
     if (person.tussenvoegsel) {
-      data.push(["Tussenvoegsel", person.tussenvoegsel]);
+      data.push(["Particle", person.tussenvoegsel]);
     }
     if (person.birth) {
       data.push(["Year of birth", person.birth]);
