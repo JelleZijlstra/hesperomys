@@ -5,6 +5,7 @@ import { NameTaxonSet_name } from "./__generated__/NameTaxonSet_name.graphql";
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
@@ -36,6 +37,14 @@ class NameTaxonSet extends React.Component<NameTaxonSetProps, { expandAll: boole
       <>
         {!hideTitle && <h3>{title || "TaxonSet"}</h3>}
         {subtitle}
+        <ExpandButtons
+          expandAll={this.state.expandAll}
+          setExpandAll={
+            showExpandAll
+              ? (expandAll: boolean) => this.setState({ expandAll })
+              : undefined
+          }
+        />
         <ul>
           {name.taxonSet.edges.map(
             (edge) =>
@@ -49,16 +58,7 @@ class NameTaxonSet extends React.Component<NameTaxonSetProps, { expandAll: boole
               )
           )}
         </ul>
-        <LoadMoreButton
-          numToLoad={numToLoad || 100}
-          relay={relay}
-          expandAll={this.state.expandAll}
-          setExpandAll={
-            showExpandAll
-              ? (expandAll: boolean) => this.setState({ expandAll })
-              : undefined
-          }
-        />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

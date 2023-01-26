@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
 import environment from "../relayEnvironment";
@@ -56,13 +57,7 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
         {subtitle}
-        <NameList
-          connection={taxonInner.names}
-          hideClassification={hideClassification}
-        />
-        <LoadMoreButton
-          numToLoad={numToLoad || 100}
-          relay={relay}
+        <ExpandButtons
           showDetail={
             showLocationDetail ||
             showCitationDetail ||
@@ -72,6 +67,11 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
           }
           setShowDetail={setShowDetail}
         />
+        <NameList
+          connection={taxonInner.names}
+          hideClassification={hideClassification}
+        />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

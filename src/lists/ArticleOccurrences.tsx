@@ -5,6 +5,7 @@ import { ArticleOccurrences_article } from "./__generated__/ArticleOccurrences_a
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
@@ -39,6 +40,10 @@ class ArticleOccurrences extends React.Component<
       <>
         {!hideTitle && <h3>{title || "Occurrences"}</h3>}
         {subtitle}
+        <ExpandButtons
+          expandAll={this.state.expandAll}
+          setExpandAll={showExpandAll ? undefined : undefined}
+        />
         <ul>
           {article.occurrences.edges.map(
             (edge) =>
@@ -52,12 +57,7 @@ class ArticleOccurrences extends React.Component<
               )
           )}
         </ul>
-        <LoadMoreButton
-          numToLoad={numToLoad || 100}
-          relay={relay}
-          expandAll={this.state.expandAll}
-          setExpandAll={showExpandAll ? undefined : undefined}
-        />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

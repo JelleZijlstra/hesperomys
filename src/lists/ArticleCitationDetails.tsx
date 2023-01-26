@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
 import environment from "../relayEnvironment";
@@ -59,13 +60,7 @@ class ArticleCitationDetailsInner extends React.Component<ArticleCitationDetails
       <>
         {!hideTitle && <h3>{title || "CitationDetails"}</h3>}
         {subtitle}
-        <NameList
-          connection={articleInner.citationDetails}
-          hideClassification={hideClassification}
-        />
-        <LoadMoreButton
-          numToLoad={numToLoad || 100}
-          relay={relay}
+        <ExpandButtons
           showDetail={
             showLocationDetail ||
             showCitationDetail ||
@@ -75,6 +70,11 @@ class ArticleCitationDetailsInner extends React.Component<ArticleCitationDetails
           }
           setShowDetail={setShowDetail}
         />
+        <NameList
+          connection={articleInner.citationDetails}
+          hideClassification={hideClassification}
+        />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

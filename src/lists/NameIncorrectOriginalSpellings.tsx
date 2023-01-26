@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
 import environment from "../relayEnvironment";
@@ -59,13 +60,7 @@ class NameIncorrectOriginalSpellingsInner extends React.Component<NameIncorrectO
       <>
         {!hideTitle && <h3>{title || "IncorrectOriginalSpellings"}</h3>}
         {subtitle}
-        <NameList
-          connection={nameInner.incorrectOriginalSpellings}
-          hideClassification={hideClassification}
-        />
-        <LoadMoreButton
-          numToLoad={numToLoad || 100}
-          relay={relay}
+        <ExpandButtons
           showDetail={
             showLocationDetail ||
             showCitationDetail ||
@@ -75,6 +70,11 @@ class NameIncorrectOriginalSpellingsInner extends React.Component<NameIncorrectO
           }
           setShowDetail={setShowDetail}
         />
+        <NameList
+          connection={nameInner.incorrectOriginalSpellings}
+          hideClassification={hideClassification}
+        />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

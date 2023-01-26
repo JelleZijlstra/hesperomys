@@ -5,6 +5,7 @@ import { RegionChildren_region } from "./__generated__/RegionChildren_region.gra
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
@@ -39,6 +40,14 @@ class RegionChildren extends React.Component<
       <>
         {!hideTitle && <h3>{title || "Children"}</h3>}
         {subtitle}
+        <ExpandButtons
+          expandAll={this.state.expandAll}
+          setExpandAll={
+            showExpandAll
+              ? (expandAll: boolean) => this.setState({ expandAll })
+              : undefined
+          }
+        />
         <ul>
           {region.children.edges.map(
             (edge) =>
@@ -52,16 +61,7 @@ class RegionChildren extends React.Component<
               )
           )}
         </ul>
-        <LoadMoreButton
-          numToLoad={numToLoad || 100}
-          relay={relay}
-          expandAll={this.state.expandAll}
-          setExpandAll={
-            showExpandAll
-              ? (expandAll: boolean) => this.setState({ expandAll })
-              : undefined
-          }
-        />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

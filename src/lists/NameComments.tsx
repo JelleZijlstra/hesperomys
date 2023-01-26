@@ -5,6 +5,7 @@ import { NameComments_name } from "./__generated__/NameComments_name.graphql";
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
@@ -36,6 +37,10 @@ class NameComments extends React.Component<NameCommentsProps, { expandAll: boole
       <>
         {!hideTitle && <h3>{title || "Comments"}</h3>}
         {subtitle}
+        <ExpandButtons
+          expandAll={this.state.expandAll}
+          setExpandAll={showExpandAll ? undefined : undefined}
+        />
         <ul>
           {name.comments.edges.map(
             (edge) =>
@@ -49,12 +54,7 @@ class NameComments extends React.Component<NameCommentsProps, { expandAll: boole
               )
           )}
         </ul>
-        <LoadMoreButton
-          numToLoad={numToLoad || 100}
-          relay={relay}
-          expandAll={this.state.expandAll}
-          setExpandAll={showExpandAll ? undefined : undefined}
-        />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

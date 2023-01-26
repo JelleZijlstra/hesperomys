@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
 import environment from "../relayEnvironment";
@@ -59,13 +60,7 @@ class CollectionProbableSpecimensInner extends React.Component<CollectionProbabl
       <>
         {!hideTitle && <h3>{title || "ProbableSpecimens"}</h3>}
         {subtitle}
-        <NameList
-          connection={collectionInner.probableSpecimens}
-          hideClassification={hideClassification}
-        />
-        <LoadMoreButton
-          numToLoad={numToLoad || 100}
-          relay={relay}
+        <ExpandButtons
           showDetail={
             showLocationDetail ||
             showCitationDetail ||
@@ -75,6 +70,11 @@ class CollectionProbableSpecimensInner extends React.Component<CollectionProbabl
           }
           setShowDetail={setShowDetail}
         />
+        <NameList
+          connection={collectionInner.probableSpecimens}
+          hideClassification={hideClassification}
+        />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

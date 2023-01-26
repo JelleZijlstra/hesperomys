@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
 import environment from "../relayEnvironment";
@@ -56,13 +57,7 @@ class NameTakingPriorityInner extends React.Component<NameTakingPriorityInnerPro
       <>
         {!hideTitle && <h3>{title || "TakingPriority"}</h3>}
         {subtitle}
-        <NameList
-          connection={nameInner.takingPriority}
-          hideClassification={hideClassification}
-        />
-        <LoadMoreButton
-          numToLoad={numToLoad || 100}
-          relay={relay}
+        <ExpandButtons
           showDetail={
             showLocationDetail ||
             showCitationDetail ||
@@ -72,6 +67,11 @@ class NameTakingPriorityInner extends React.Component<NameTakingPriorityInnerPro
           }
           setShowDetail={setShowDetail}
         />
+        <NameList
+          connection={nameInner.takingPriority}
+          hideClassification={hideClassification}
+        />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

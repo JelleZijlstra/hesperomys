@@ -11,6 +11,7 @@ import {
 import graphql from "babel-plugin-relay/macro";
 
 import environment from "../relayEnvironment";
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
@@ -56,6 +57,20 @@ class StratigraphicUnitLocations extends React.Component<
       <>
         {!hideTitle && <h3>{title || "Locations"}</h3>}
         {subtitle}
+        <ExpandButtons
+          expandAll={this.state.expandAll}
+          setExpandAll={
+            showExpandAll
+              ? (expandAll: boolean) => this.setState({ expandAll })
+              : undefined
+          }
+          showChildren={this.state.showChildren}
+          setShowChildren={
+            numChildren > 0 && !hideChildren
+              ? (showChildren) => this.setState({ showChildren })
+              : undefined
+          }
+        />
         {this.state.showChildren && (
           <QueryRenderer<StratigraphicUnitLocationsChildrenQuery>
             environment={environment}
@@ -121,22 +136,7 @@ class StratigraphicUnitLocations extends React.Component<
               )
           )}
         </ul>
-        <LoadMoreButton
-          numToLoad={numToLoad || 100}
-          relay={relay}
-          expandAll={this.state.expandAll}
-          setExpandAll={
-            showExpandAll
-              ? (expandAll: boolean) => this.setState({ expandAll })
-              : undefined
-          }
-          showChildren={this.state.showChildren}
-          setShowChildren={
-            numChildren > 0 && !hideChildren
-              ? (showChildren) => this.setState({ showChildren })
-              : undefined
-          }
-        />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

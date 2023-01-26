@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
 import environment from "../relayEnvironment";
@@ -59,13 +60,7 @@ class NameUnjustifiedEmendationsInner extends React.Component<NameUnjustifiedEme
       <>
         {!hideTitle && <h3>{title || "UnjustifiedEmendations"}</h3>}
         {subtitle}
-        <NameList
-          connection={nameInner.unjustifiedEmendations}
-          hideClassification={hideClassification}
-        />
-        <LoadMoreButton
-          numToLoad={numToLoad || 100}
-          relay={relay}
+        <ExpandButtons
           showDetail={
             showLocationDetail ||
             showCitationDetail ||
@@ -75,6 +70,11 @@ class NameUnjustifiedEmendationsInner extends React.Component<NameUnjustifiedEme
           }
           setShowDetail={setShowDetail}
         />
+        <NameList
+          connection={nameInner.unjustifiedEmendations}
+          hideClassification={hideClassification}
+        />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

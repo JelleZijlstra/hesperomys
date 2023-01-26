@@ -12,6 +12,7 @@ import { %(type_upper)s%(conn_upper)s_%(type_lower)s } from "./__generated__/%(t
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
@@ -43,6 +44,10 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
       <>
         {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
         {subtitle}
+        <ExpandButtons
+         expandAll={this.state.expandAll}
+         setExpandAll={showExpandAll ? (%(set_expand_all)s) : undefined}
+        />
         <ul>
           {%(type_lower)s.%(conn_lower)s.edges.map(
             (edge) =>
@@ -55,8 +60,6 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
         <LoadMoreButton
           numToLoad={numToLoad || 100}
           relay={relay}
-          expandAll={this.state.expandAll}
-          setExpandAll={showExpandAll ? (%(set_expand_all)s) : undefined}
         />
       </>
     );
@@ -122,6 +125,7 @@ import { createPaginationContainer, RelayPaginationProp, QueryRenderer } from "r
 import graphql from "babel-plugin-relay/macro";
 
 import environment from "../relayEnvironment";
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
@@ -156,6 +160,12 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
       <>
         {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
         {subtitle}
+        <ExpandButtons
+          expandAll={this.state.expandAll}
+          setExpandAll={showExpandAll ? %(set_expand_all)s : undefined}
+          showChildren={this.state.showChildren}
+          setShowChildren={numChildren > 0 && !hideChildren ? showChildren => this.setState({ showChildren }) : undefined}
+        />
         {this.state.showChildren &&
         <QueryRenderer<%(type_upper)s%(conn_upper)sChildrenQuery>
           environment={environment}
@@ -203,10 +213,6 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
         <LoadMoreButton
           numToLoad={numToLoad || 100}
           relay={relay}
-          expandAll={this.state.expandAll}
-          setExpandAll={showExpandAll ? %(set_expand_all)s : undefined}
-          showChildren={this.state.showChildren}
-          setShowChildren={numChildren > 0 && !hideChildren ? showChildren => this.setState({ showChildren }) : undefined}
         />
       </>
     );
@@ -274,6 +280,7 @@ import { %(type_upper)s%(conn_upper)sDetailQuery } from "./__generated__/%(type_
 import { createPaginationContainer, createFragmentContainer, QueryRenderer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import %(node_type_upper)sList from "../components/%(node_type_upper)sList";
 import environment from "../relayEnvironment";
@@ -309,12 +316,14 @@ class %(type_upper)s%(conn_upper)sInner extends React.Component<
       <>
         {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
         {subtitle}
+        <ExpandButtons
+          showDetail={showLocationDetail || showCitationDetail || showCollectionDetail || showEtymologyDetail || showNameDetail}
+          setShowDetail={setShowDetail}
+        />
         <%(node_type_upper)sList connection={%(type_lower)sInner.%(conn_lower)s} hideClassification={hideClassification} />
         <LoadMoreButton
           numToLoad={numToLoad || 100}
           relay={relay}
-          showDetail={showLocationDetail || showCitationDetail || showCollectionDetail || showEtymologyDetail || showNameDetail}
-          setShowDetail={setShowDetail}
         />
       </>
     );

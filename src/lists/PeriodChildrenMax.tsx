@@ -5,6 +5,7 @@ import { PeriodChildrenMax_period } from "./__generated__/PeriodChildrenMax_peri
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
@@ -39,6 +40,14 @@ class PeriodChildrenMax extends React.Component<
       <>
         {!hideTitle && <h3>{title || "ChildrenMax"}</h3>}
         {subtitle}
+        <ExpandButtons
+          expandAll={this.state.expandAll}
+          setExpandAll={
+            showExpandAll
+              ? (expandAll: boolean) => this.setState({ expandAll })
+              : undefined
+          }
+        />
         <ul>
           {period.childrenMax.edges.map(
             (edge) =>
@@ -52,16 +61,7 @@ class PeriodChildrenMax extends React.Component<
               )
           )}
         </ul>
-        <LoadMoreButton
-          numToLoad={numToLoad || 100}
-          relay={relay}
-          expandAll={this.state.expandAll}
-          setExpandAll={
-            showExpandAll
-              ? (expandAll: boolean) => this.setState({ expandAll })
-              : undefined
-          }
-        />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

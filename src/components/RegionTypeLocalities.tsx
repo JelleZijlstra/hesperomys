@@ -11,6 +11,7 @@ import {
 import graphql from "babel-plugin-relay/macro";
 
 import environment from "../relayEnvironment";
+import ExpandButtons from "./ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
@@ -45,6 +46,16 @@ class RegionTypeLocalities extends React.Component<
     return (
       <>
         {!hideTitle && <h3>{title || "Type localities"}</h3>}
+        <ExpandButtons
+          expandAll={this.state.expandAll}
+          setExpandAll={(expandAll: boolean) => this.setState({ expandAll })}
+          showChildren={this.state.showChildren}
+          setShowChildren={
+            numChildren > 0
+              ? (showChildren) => this.setState({ showChildren })
+              : undefined
+          }
+        />
         {this.state.showChildren && (
           <QueryRenderer<RegionTypeLocalitiesChildrenQuery>
             environment={environment}
@@ -104,18 +115,7 @@ class RegionTypeLocalities extends React.Component<
               )
           )}
         </ul>
-        <LoadMoreButton
-          numToLoad={numToLoad || 100}
-          relay={relay}
-          expandAll={this.state.expandAll}
-          setExpandAll={(expandAll: boolean) => this.setState({ expandAll })}
-          showChildren={this.state.showChildren}
-          setShowChildren={
-            numChildren > 0
-              ? (showChildren) => this.setState({ showChildren })
-              : undefined
-          }
-        />
+        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
   }

@@ -24,25 +24,24 @@ class ModelListEntry extends React.Component<
         : this.state.showChildren;
     return (
       <li>
+        {supportsChildren(model) && (
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() =>
+              this.setState((state) => {
+                return { showChildren: !showChildren };
+              })
+            }
+          >
+            {showChildren ? "▼" : "▶"}
+          </span>
+        )}{" "}
         {model.__typename === "Article" ? (
           <Reference article={model} />
         ) : (
           <ModelLink model={model} />
-        )}{" "}
-        {supportsChildren(model) && (
-          <>
-            <small
-              onClick={() =>
-                this.setState((state) => {
-                  return { showChildren: !showChildren };
-                })
-              }
-            >
-              {showChildren ? "hide" : "show"}
-            </small>
-            {showChildren && <ModelChildList model={model} />}
-          </>
         )}
+        {showChildren && <ModelChildList model={model} />}
       </li>
     );
   }
