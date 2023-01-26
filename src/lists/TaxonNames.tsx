@@ -31,6 +31,7 @@ interface TaxonNamesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
@@ -49,11 +50,12 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (!taxonInner.names || taxonInner.names.edges.length === 0) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
         {subtitle}
@@ -74,6 +76,15 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -171,6 +182,7 @@ interface TaxonNamesProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class TaxonNames extends React.Component<
@@ -202,7 +214,8 @@ class TaxonNames extends React.Component<
   }
 
   renderInner(taxon: Omit<TaxonNames_taxon, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -224,6 +237,7 @@ class TaxonNames extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

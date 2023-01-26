@@ -17,6 +17,7 @@ interface ArticleBiographiesProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class ArticleBiographies extends React.Component<
@@ -29,14 +30,15 @@ class ArticleBiographies extends React.Component<
   }
 
   render() {
-    const { article, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const { article, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
+      this.props;
     if (!article.biographies || article.biographies.edges.length === 0) {
       return null;
     }
     const showExpandAll = article.biographies.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Biographies"}</h3>}
         {subtitle}
@@ -60,6 +62,15 @@ class ArticleBiographies extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

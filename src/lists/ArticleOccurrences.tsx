@@ -17,6 +17,7 @@ interface ArticleOccurrencesProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class ArticleOccurrences extends React.Component<
@@ -29,14 +30,15 @@ class ArticleOccurrences extends React.Component<
   }
 
   render() {
-    const { article, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const { article, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
+      this.props;
     if (!article.occurrences || article.occurrences.edges.length === 0) {
       return null;
     }
     const showExpandAll = article.occurrences.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Occurrences"}</h3>}
         {subtitle}
@@ -60,6 +62,15 @@ class ArticleOccurrences extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

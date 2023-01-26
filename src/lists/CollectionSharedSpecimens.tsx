@@ -31,6 +31,7 @@ interface CollectionSharedSpecimensInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class CollectionSharedSpecimensInner extends React.Component<CollectionSharedSpecimensInnerProps> {
@@ -49,6 +50,7 @@ class CollectionSharedSpecimensInner extends React.Component<CollectionSharedSpe
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !collectionInner.sharedSpecimens ||
@@ -56,7 +58,7 @@ class CollectionSharedSpecimensInner extends React.Component<CollectionSharedSpe
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "SharedSpecimens"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class CollectionSharedSpecimensInner extends React.Component<CollectionSharedSpe
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface CollectionSharedSpecimensProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class CollectionSharedSpecimens extends React.Component<
@@ -208,7 +220,8 @@ class CollectionSharedSpecimens extends React.Component<
   renderInner(
     collection: Omit<CollectionSharedSpecimens_collection, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -232,6 +245,7 @@ class CollectionSharedSpecimens extends React.Component<
           this.setState({ showCollectionDetail: showDetail })
         }
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

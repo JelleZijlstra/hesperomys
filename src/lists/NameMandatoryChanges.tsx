@@ -31,6 +31,7 @@ interface NameMandatoryChangesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameMandatoryChangesInner extends React.Component<NameMandatoryChangesInnerProps> {
@@ -49,11 +50,12 @@ class NameMandatoryChangesInner extends React.Component<NameMandatoryChangesInne
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (!nameInner.mandatoryChanges || nameInner.mandatoryChanges.edges.length === 0) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "MandatoryChanges"}</h3>}
         {subtitle}
@@ -74,6 +76,15 @@ class NameMandatoryChangesInner extends React.Component<NameMandatoryChangesInne
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -172,6 +183,7 @@ interface NameMandatoryChangesProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameMandatoryChanges extends React.Component<
@@ -203,7 +215,8 @@ class NameMandatoryChanges extends React.Component<
   }
 
   renderInner(name: Omit<NameMandatoryChanges_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -225,6 +238,7 @@ class NameMandatoryChanges extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

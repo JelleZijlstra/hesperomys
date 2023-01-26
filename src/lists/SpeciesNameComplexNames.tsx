@@ -31,6 +31,7 @@ interface SpeciesNameComplexNamesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class SpeciesNameComplexNamesInner extends React.Component<SpeciesNameComplexNamesInnerProps> {
@@ -49,6 +50,7 @@ class SpeciesNameComplexNamesInner extends React.Component<SpeciesNameComplexNam
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !speciesNameComplexInner.names ||
@@ -56,7 +58,7 @@ class SpeciesNameComplexNamesInner extends React.Component<SpeciesNameComplexNam
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class SpeciesNameComplexNamesInner extends React.Component<SpeciesNameComplexNam
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface SpeciesNameComplexNamesProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class SpeciesNameComplexNames extends React.Component<
@@ -211,7 +223,8 @@ class SpeciesNameComplexNames extends React.Component<
       "oid" | " $refType"
     >
   ) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -235,6 +248,7 @@ class SpeciesNameComplexNames extends React.Component<
           this.setState({ showEtymologyDetail: showDetail })
         }
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

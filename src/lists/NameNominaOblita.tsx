@@ -31,6 +31,7 @@ interface NameNominaOblitaInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameNominaOblitaInner extends React.Component<NameNominaOblitaInnerProps> {
@@ -49,11 +50,12 @@ class NameNominaOblitaInner extends React.Component<NameNominaOblitaInnerProps> 
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (!nameInner.nominaOblita || nameInner.nominaOblita.edges.length === 0) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "NominaOblita"}</h3>}
         {subtitle}
@@ -74,6 +76,15 @@ class NameNominaOblitaInner extends React.Component<NameNominaOblitaInnerProps> 
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -172,6 +183,7 @@ interface NameNominaOblitaProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameNominaOblita extends React.Component<
@@ -203,7 +215,8 @@ class NameNominaOblita extends React.Component<
   }
 
   renderInner(name: Omit<NameNominaOblita_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -225,6 +238,7 @@ class NameNominaOblita extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

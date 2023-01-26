@@ -31,6 +31,7 @@ interface LocationTypeLocalitiesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class LocationTypeLocalitiesInner extends React.Component<LocationTypeLocalitiesInnerProps> {
@@ -49,6 +50,7 @@ class LocationTypeLocalitiesInner extends React.Component<LocationTypeLocalities
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !locationInner.typeLocalities ||
@@ -56,7 +58,7 @@ class LocationTypeLocalitiesInner extends React.Component<LocationTypeLocalities
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "TypeLocalities"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class LocationTypeLocalitiesInner extends React.Component<LocationTypeLocalities
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface LocationTypeLocalitiesProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class LocationTypeLocalities extends React.Component<
@@ -206,7 +218,8 @@ class LocationTypeLocalities extends React.Component<
   }
 
   renderInner(location: Omit<LocationTypeLocalities_location, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -230,6 +243,7 @@ class LocationTypeLocalities extends React.Component<
           this.setState({ showLocationDetail: showDetail })
         }
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

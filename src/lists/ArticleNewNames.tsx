@@ -31,6 +31,7 @@ interface ArticleNewNamesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticleNewNamesInner extends React.Component<ArticleNewNamesInnerProps> {
@@ -49,11 +50,12 @@ class ArticleNewNamesInner extends React.Component<ArticleNewNamesInnerProps> {
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (!articleInner.newNames || articleInner.newNames.edges.length === 0) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "NewNames"}</h3>}
         {subtitle}
@@ -74,6 +76,15 @@ class ArticleNewNamesInner extends React.Component<ArticleNewNamesInnerProps> {
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -172,6 +183,7 @@ interface ArticleNewNamesProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticleNewNames extends React.Component<
@@ -203,7 +215,8 @@ class ArticleNewNames extends React.Component<
   }
 
   renderInner(article: Omit<ArticleNewNames_article, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -225,6 +238,7 @@ class ArticleNewNames extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

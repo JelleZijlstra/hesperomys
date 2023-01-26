@@ -31,6 +31,7 @@ interface NameIncorrectSubsequentSpellingsInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameIncorrectSubsequentSpellingsInner extends React.Component<NameIncorrectSubsequentSpellingsInnerProps> {
@@ -49,6 +50,7 @@ class NameIncorrectSubsequentSpellingsInner extends React.Component<NameIncorrec
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !nameInner.incorrectSubsequentSpellings ||
@@ -56,7 +58,7 @@ class NameIncorrectSubsequentSpellingsInner extends React.Component<NameIncorrec
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "IncorrectSubsequentSpellings"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class NameIncorrectSubsequentSpellingsInner extends React.Component<NameIncorrec
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -177,6 +188,7 @@ interface NameIncorrectSubsequentSpellingsProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameIncorrectSubsequentSpellings extends React.Component<
@@ -208,7 +220,8 @@ class NameIncorrectSubsequentSpellings extends React.Component<
   }
 
   renderInner(name: Omit<NameIncorrectSubsequentSpellings_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -230,6 +243,7 @@ class NameIncorrectSubsequentSpellings extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

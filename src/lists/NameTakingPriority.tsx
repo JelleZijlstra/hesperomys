@@ -31,6 +31,7 @@ interface NameTakingPriorityInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameTakingPriorityInner extends React.Component<NameTakingPriorityInnerProps> {
@@ -49,11 +50,12 @@ class NameTakingPriorityInner extends React.Component<NameTakingPriorityInnerPro
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (!nameInner.takingPriority || nameInner.takingPriority.edges.length === 0) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "TakingPriority"}</h3>}
         {subtitle}
@@ -74,6 +76,15 @@ class NameTakingPriorityInner extends React.Component<NameTakingPriorityInnerPro
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -172,6 +183,7 @@ interface NameTakingPriorityProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameTakingPriority extends React.Component<
@@ -203,7 +215,8 @@ class NameTakingPriority extends React.Component<
   }
 
   renderInner(name: Omit<NameTakingPriority_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -225,6 +238,7 @@ class NameTakingPriority extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

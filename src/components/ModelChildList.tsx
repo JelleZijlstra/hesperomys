@@ -101,8 +101,13 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
                     hideTitle
                     hideClassification
                     showNameDetail
+                    wrapperTitle="Names"
                   />
-                  <TaxonChildren taxon={props.node} hideTitle />
+                  <TaxonChildren
+                    taxon={props.node}
+                    hideTitle
+                    wrapperTitle="Child taxa"
+                  />
                 </>
               );
             }}
@@ -154,12 +159,12 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
               return (
                 <>
                   <RegionChildren region={props.node} hideTitle />
-                  <ul>
-                    <li>
-                      <i>Locations</i>
-                    </li>
-                    <RegionLocations region={props.node} hideTitle hideChildren />
-                  </ul>
+                  <RegionLocations
+                    region={props.node}
+                    hideTitle
+                    hideChildren
+                    wrapperTitle="Locations"
+                  />
                 </>
               );
             }}
@@ -188,7 +193,12 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
               return (
                 <>
                   <PeriodChildren period={props.node} hideTitle />
-                  <PeriodLocations period={props.node} hideTitle hideChildren />
+                  <PeriodLocations
+                    period={props.node}
+                    hideTitle
+                    hideChildren
+                    wrapperTitle="Locations"
+                  />
                 </>
               );
             }}
@@ -221,6 +231,7 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
                     stratigraphicUnit={props.node}
                     hideTitle
                     hideChildren
+                    wrapperTitle="Locations"
                   />
                 </>
               );

@@ -25,6 +25,7 @@ interface RegionAssociatedPeopleProps {
   hideChildren?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class RegionAssociatedPeople extends React.Component<
@@ -37,8 +38,16 @@ class RegionAssociatedPeople extends React.Component<
   }
 
   render() {
-    const { region, relay, numToLoad, hideTitle, hideChildren, title, subtitle } =
-      this.props;
+    const {
+      region,
+      relay,
+      numToLoad,
+      hideTitle,
+      hideChildren,
+      title,
+      subtitle,
+      wrapperTitle,
+    } = this.props;
     const { oid, numChildren, associatedPeople } = region;
     if (
       !associatedPeople ||
@@ -49,7 +58,7 @@ class RegionAssociatedPeople extends React.Component<
     const showExpandAll = associatedPeople.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "AssociatedPeople"}</h3>}
         {subtitle}
@@ -127,6 +136,15 @@ class RegionAssociatedPeople extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

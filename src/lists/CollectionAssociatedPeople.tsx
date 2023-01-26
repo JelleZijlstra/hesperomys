@@ -17,6 +17,7 @@ interface CollectionAssociatedPeopleProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class CollectionAssociatedPeople extends React.Component<
@@ -29,7 +30,8 @@ class CollectionAssociatedPeople extends React.Component<
   }
 
   render() {
-    const { collection, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const { collection, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
+      this.props;
     if (
       !collection.associatedPeople ||
       collection.associatedPeople.edges.length === 0
@@ -39,7 +41,7 @@ class CollectionAssociatedPeople extends React.Component<
     const showExpandAll = collection.associatedPeople.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "AssociatedPeople"}</h3>}
         {subtitle}
@@ -63,6 +65,15 @@ class CollectionAssociatedPeople extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

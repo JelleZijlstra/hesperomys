@@ -31,6 +31,7 @@ interface NameSubsequentUsagesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameSubsequentUsagesInner extends React.Component<NameSubsequentUsagesInnerProps> {
@@ -49,11 +50,12 @@ class NameSubsequentUsagesInner extends React.Component<NameSubsequentUsagesInne
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (!nameInner.subsequentUsages || nameInner.subsequentUsages.edges.length === 0) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "SubsequentUsages"}</h3>}
         {subtitle}
@@ -74,6 +76,15 @@ class NameSubsequentUsagesInner extends React.Component<NameSubsequentUsagesInne
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -172,6 +183,7 @@ interface NameSubsequentUsagesProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameSubsequentUsages extends React.Component<
@@ -203,7 +215,8 @@ class NameSubsequentUsages extends React.Component<
   }
 
   renderInner(name: Omit<NameSubsequentUsages_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -225,6 +238,7 @@ class NameSubsequentUsages extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

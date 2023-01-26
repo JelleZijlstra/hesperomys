@@ -24,6 +24,7 @@ interface %(type_upper)s%(conn_upper)sProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 };
 
 class %(type_upper)s%(conn_upper)s extends React.Component<
@@ -35,12 +36,12 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
   }
 
   render() {
-    const { %(type_lower)s, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const { %(type_lower)s, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } = this.props;
     if (!%(type_lower)s.%(conn_lower)s || %(type_lower)s.%(conn_lower)s.edges.length === 0) {
       return null;
     }
     const showExpandAll = %(type_lower)s.%(conn_lower)s.edges.some(edge => edge && edge.node && supportsChildren(edge.node));
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
         {subtitle}
@@ -63,6 +64,13 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
         />
       </>
     );
+    if (wrapperTitle) {
+      return <div>
+        <i>{wrapperTitle}</i>
+        {inner}
+      </div>;
+    }
+    return inner;
   }
 }
 
@@ -139,6 +147,7 @@ interface %(type_upper)s%(conn_upper)sProps {
   hideChildren?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 };
 
 class %(type_upper)s%(conn_upper)s extends React.Component<
@@ -150,13 +159,13 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
   }
 
   render() {
-    const { %(type_lower)s, relay, numToLoad, hideTitle, hideChildren, title, subtitle } = this.props;
+    const { %(type_lower)s, relay, numToLoad, hideTitle, hideChildren, title, subtitle, wrapperTitle } = this.props;
     const { oid, numChildren, %(conn_lower)s } = %(type_lower)s;
     if (!%(conn_lower)s || (numChildren === 0 && %(conn_lower)s.edges.length === 0)) {
       return null;
     }
     const showExpandAll = %(conn_lower)s.edges.some(edge => edge && edge.node && supportsChildren(edge.node));
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
         {subtitle}
@@ -216,6 +225,13 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
         />
       </>
     );
+    if (wrapperTitle) {
+      return <div>
+        <i>{wrapperTitle}</i>
+        {inner}
+      </div>;
+    }
+    return inner;
   }
 }
 
@@ -299,20 +315,21 @@ interface %(type_upper)s%(conn_upper)sInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 };
 
 class %(type_upper)s%(conn_upper)sInner extends React.Component<
   %(type_upper)s%(conn_upper)sInnerProps
 > {
   render() {
-    const { %(type_lower)sInner, relay, numToLoad, hideTitle, title, subtitle, showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail, setShowDetail, hideClassification } = this.props;
+    const { %(type_lower)sInner, relay, numToLoad, hideTitle, title, subtitle, showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail, setShowDetail, hideClassification, wrapperTitle } = this.props;
     if (
       !%(type_lower)sInner.%(conn_lower)s ||
       %(type_lower)sInner.%(conn_lower)s.edges.length === 0
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
         {subtitle}
@@ -327,6 +344,13 @@ class %(type_upper)s%(conn_upper)sInner extends React.Component<
         />
       </>
     );
+    if (wrapperTitle) {
+      return <div>
+        <i>{wrapperTitle}</i>
+        {inner}
+      </div>;
+    }
+    return inner;
   }
 }
 
@@ -418,6 +442,7 @@ interface %(type_upper)s%(conn_upper)sProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 };
 
 class %(type_upper)s%(conn_upper)s extends React.Component<
@@ -443,7 +468,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
   }
 
   renderInner(%(type_lower)s: Omit<%(type_upper)s%(conn_upper)s_%(type_lower)s, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } = this.props;
     const { showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail } = this.state;
     return <%(type_upper)s%(conn_upper)sContainer
       %(type_lower)sInner={%(type_lower)s}
@@ -458,6 +483,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
       showNameDetail={showNameDetail}
       setShowDetail={%(set_show_detail)s}
       hideClassification={hideClassification}
+      wrapperTitle={wrapperTitle}
     />
   }
 

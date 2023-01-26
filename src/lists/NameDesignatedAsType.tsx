@@ -31,6 +31,7 @@ interface NameDesignatedAsTypeInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameDesignatedAsTypeInner extends React.Component<NameDesignatedAsTypeInnerProps> {
@@ -49,11 +50,12 @@ class NameDesignatedAsTypeInner extends React.Component<NameDesignatedAsTypeInne
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (!nameInner.designatedAsType || nameInner.designatedAsType.edges.length === 0) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "DesignatedAsType"}</h3>}
         {subtitle}
@@ -74,6 +76,15 @@ class NameDesignatedAsTypeInner extends React.Component<NameDesignatedAsTypeInne
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -172,6 +183,7 @@ interface NameDesignatedAsTypeProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameDesignatedAsType extends React.Component<
@@ -203,7 +215,8 @@ class NameDesignatedAsType extends React.Component<
   }
 
   renderInner(name: Omit<NameDesignatedAsType_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -225,6 +238,7 @@ class NameDesignatedAsType extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

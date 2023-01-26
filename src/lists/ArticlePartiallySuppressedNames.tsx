@@ -31,6 +31,7 @@ interface ArticlePartiallySuppressedNamesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticlePartiallySuppressedNamesInner extends React.Component<ArticlePartiallySuppressedNamesInnerProps> {
@@ -49,6 +50,7 @@ class ArticlePartiallySuppressedNamesInner extends React.Component<ArticlePartia
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !articleInner.partiallySuppressedNames ||
@@ -56,7 +58,7 @@ class ArticlePartiallySuppressedNamesInner extends React.Component<ArticlePartia
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "PartiallySuppressedNames"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class ArticlePartiallySuppressedNamesInner extends React.Component<ArticlePartia
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface ArticlePartiallySuppressedNamesProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticlePartiallySuppressedNames extends React.Component<
@@ -208,7 +220,8 @@ class ArticlePartiallySuppressedNames extends React.Component<
   renderInner(
     article: Omit<ArticlePartiallySuppressedNames_article, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -230,6 +243,7 @@ class ArticlePartiallySuppressedNames extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

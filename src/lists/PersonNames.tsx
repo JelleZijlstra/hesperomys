@@ -31,6 +31,7 @@ interface PersonNamesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class PersonNamesInner extends React.Component<PersonNamesInnerProps> {
@@ -49,11 +50,12 @@ class PersonNamesInner extends React.Component<PersonNamesInnerProps> {
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (!personInner.names || personInner.names.edges.length === 0) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
         {subtitle}
@@ -74,6 +76,15 @@ class PersonNamesInner extends React.Component<PersonNamesInnerProps> {
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -171,6 +182,7 @@ interface PersonNamesProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class PersonNames extends React.Component<
@@ -202,7 +214,8 @@ class PersonNames extends React.Component<
   }
 
   renderInner(person: Omit<PersonNames_person, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -224,6 +237,7 @@ class PersonNames extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

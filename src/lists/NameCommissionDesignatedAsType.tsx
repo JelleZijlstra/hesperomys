@@ -31,6 +31,7 @@ interface NameCommissionDesignatedAsTypeInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameCommissionDesignatedAsTypeInner extends React.Component<NameCommissionDesignatedAsTypeInnerProps> {
@@ -49,6 +50,7 @@ class NameCommissionDesignatedAsTypeInner extends React.Component<NameCommission
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !nameInner.commissionDesignatedAsType ||
@@ -56,7 +58,7 @@ class NameCommissionDesignatedAsTypeInner extends React.Component<NameCommission
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "CommissionDesignatedAsType"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class NameCommissionDesignatedAsTypeInner extends React.Component<NameCommission
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -177,6 +188,7 @@ interface NameCommissionDesignatedAsTypeProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameCommissionDesignatedAsType extends React.Component<
@@ -208,7 +220,8 @@ class NameCommissionDesignatedAsType extends React.Component<
   }
 
   renderInner(name: Omit<NameCommissionDesignatedAsType_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -230,6 +243,7 @@ class NameCommissionDesignatedAsType extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

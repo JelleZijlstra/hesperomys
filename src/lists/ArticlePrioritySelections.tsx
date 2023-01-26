@@ -31,6 +31,7 @@ interface ArticlePrioritySelectionsInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticlePrioritySelectionsInner extends React.Component<ArticlePrioritySelectionsInnerProps> {
@@ -49,6 +50,7 @@ class ArticlePrioritySelectionsInner extends React.Component<ArticlePrioritySele
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !articleInner.prioritySelections ||
@@ -56,7 +58,7 @@ class ArticlePrioritySelectionsInner extends React.Component<ArticlePrioritySele
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "PrioritySelections"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class ArticlePrioritySelectionsInner extends React.Component<ArticlePrioritySele
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface ArticlePrioritySelectionsProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticlePrioritySelections extends React.Component<
@@ -206,7 +218,8 @@ class ArticlePrioritySelections extends React.Component<
   }
 
   renderInner(article: Omit<ArticlePrioritySelections_article, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -228,6 +241,7 @@ class ArticlePrioritySelections extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

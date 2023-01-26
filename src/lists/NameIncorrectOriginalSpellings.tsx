@@ -31,6 +31,7 @@ interface NameIncorrectOriginalSpellingsInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameIncorrectOriginalSpellingsInner extends React.Component<NameIncorrectOriginalSpellingsInnerProps> {
@@ -49,6 +50,7 @@ class NameIncorrectOriginalSpellingsInner extends React.Component<NameIncorrectO
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !nameInner.incorrectOriginalSpellings ||
@@ -56,7 +58,7 @@ class NameIncorrectOriginalSpellingsInner extends React.Component<NameIncorrectO
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "IncorrectOriginalSpellings"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class NameIncorrectOriginalSpellingsInner extends React.Component<NameIncorrectO
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -177,6 +188,7 @@ interface NameIncorrectOriginalSpellingsProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameIncorrectOriginalSpellings extends React.Component<
@@ -208,7 +220,8 @@ class NameIncorrectOriginalSpellings extends React.Component<
   }
 
   renderInner(name: Omit<NameIncorrectOriginalSpellings_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -230,6 +243,7 @@ class NameIncorrectOriginalSpellings extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

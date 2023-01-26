@@ -31,6 +31,7 @@ interface CitationGroupNamesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class CitationGroupNamesInner extends React.Component<CitationGroupNamesInnerProps> {
@@ -49,11 +50,12 @@ class CitationGroupNamesInner extends React.Component<CitationGroupNamesInnerPro
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (!citationGroupInner.names || citationGroupInner.names.edges.length === 0) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
         {subtitle}
@@ -74,6 +76,15 @@ class CitationGroupNamesInner extends React.Component<CitationGroupNamesInnerPro
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -172,6 +183,7 @@ interface CitationGroupNamesProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class CitationGroupNames extends React.Component<
@@ -205,7 +217,8 @@ class CitationGroupNames extends React.Component<
   renderInner(
     citationGroup: Omit<CitationGroupNames_citationGroup, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -229,6 +242,7 @@ class CitationGroupNames extends React.Component<
           this.setState({ showCitationDetail: showDetail })
         }
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

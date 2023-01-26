@@ -31,6 +31,7 @@ interface NameSelectionsOfSpellingInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameSelectionsOfSpellingInner extends React.Component<NameSelectionsOfSpellingInnerProps> {
@@ -49,6 +50,7 @@ class NameSelectionsOfSpellingInner extends React.Component<NameSelectionsOfSpel
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !nameInner.selectionsOfSpelling ||
@@ -56,7 +58,7 @@ class NameSelectionsOfSpellingInner extends React.Component<NameSelectionsOfSpel
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "SelectionsOfSpelling"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class NameSelectionsOfSpellingInner extends React.Component<NameSelectionsOfSpel
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface NameSelectionsOfSpellingProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameSelectionsOfSpelling extends React.Component<
@@ -206,7 +218,8 @@ class NameSelectionsOfSpelling extends React.Component<
   }
 
   renderInner(name: Omit<NameSelectionsOfSpelling_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -228,6 +241,7 @@ class NameSelectionsOfSpelling extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

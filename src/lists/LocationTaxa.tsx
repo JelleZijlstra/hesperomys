@@ -17,6 +17,7 @@ interface LocationTaxaProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class LocationTaxa extends React.Component<LocationTaxaProps, { expandAll: boolean }> {
@@ -26,14 +27,15 @@ class LocationTaxa extends React.Component<LocationTaxaProps, { expandAll: boole
   }
 
   render() {
-    const { location, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const { location, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
+      this.props;
     if (!location.taxa || location.taxa.edges.length === 0) {
       return null;
     }
     const showExpandAll = location.taxa.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Taxa"}</h3>}
         {subtitle}
@@ -57,6 +59,15 @@ class LocationTaxa extends React.Component<LocationTaxaProps, { expandAll: boole
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

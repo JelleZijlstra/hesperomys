@@ -31,6 +31,7 @@ interface ArticleNeotypeDesignationsInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticleNeotypeDesignationsInner extends React.Component<ArticleNeotypeDesignationsInnerProps> {
@@ -49,6 +50,7 @@ class ArticleNeotypeDesignationsInner extends React.Component<ArticleNeotypeDesi
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !articleInner.neotypeDesignations ||
@@ -56,7 +58,7 @@ class ArticleNeotypeDesignationsInner extends React.Component<ArticleNeotypeDesi
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "NeotypeDesignations"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class ArticleNeotypeDesignationsInner extends React.Component<ArticleNeotypeDesi
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface ArticleNeotypeDesignationsProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticleNeotypeDesignations extends React.Component<
@@ -206,7 +218,8 @@ class ArticleNeotypeDesignations extends React.Component<
   }
 
   renderInner(article: Omit<ArticleNeotypeDesignations_article, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -228,6 +241,7 @@ class ArticleNeotypeDesignations extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

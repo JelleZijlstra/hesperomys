@@ -17,6 +17,7 @@ interface StratigraphicUnitChildrenProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class StratigraphicUnitChildren extends React.Component<
@@ -29,15 +30,22 @@ class StratigraphicUnitChildren extends React.Component<
   }
 
   render() {
-    const { stratigraphicUnit, relay, numToLoad, hideTitle, title, subtitle } =
-      this.props;
+    const {
+      stratigraphicUnit,
+      relay,
+      numToLoad,
+      hideTitle,
+      title,
+      subtitle,
+      wrapperTitle,
+    } = this.props;
     if (!stratigraphicUnit.children || stratigraphicUnit.children.edges.length === 0) {
       return null;
     }
     const showExpandAll = stratigraphicUnit.children.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Children"}</h3>}
         {subtitle}
@@ -65,6 +73,15 @@ class StratigraphicUnitChildren extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

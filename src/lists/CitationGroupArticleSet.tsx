@@ -17,6 +17,7 @@ interface CitationGroupArticleSetProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class CitationGroupArticleSet extends React.Component<
@@ -29,14 +30,22 @@ class CitationGroupArticleSet extends React.Component<
   }
 
   render() {
-    const { citationGroup, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const {
+      citationGroup,
+      relay,
+      numToLoad,
+      hideTitle,
+      title,
+      subtitle,
+      wrapperTitle,
+    } = this.props;
     if (!citationGroup.articleSet || citationGroup.articleSet.edges.length === 0) {
       return null;
     }
     const showExpandAll = citationGroup.articleSet.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "ArticleSet"}</h3>}
         {subtitle}
@@ -60,6 +69,15 @@ class CitationGroupArticleSet extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

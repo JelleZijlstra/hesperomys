@@ -17,6 +17,7 @@ interface TaxonChildrenProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class TaxonChildren extends React.Component<
@@ -29,14 +30,15 @@ class TaxonChildren extends React.Component<
   }
 
   render() {
-    const { taxon, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const { taxon, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
+      this.props;
     if (!taxon.children || taxon.children.edges.length === 0) {
       return null;
     }
     const showExpandAll = taxon.children.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Children"}</h3>}
         {subtitle}
@@ -64,6 +66,15 @@ class TaxonChildren extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

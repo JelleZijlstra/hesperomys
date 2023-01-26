@@ -17,6 +17,7 @@ interface PeriodNextForeignProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class PeriodNextForeign extends React.Component<
@@ -29,14 +30,15 @@ class PeriodNextForeign extends React.Component<
   }
 
   render() {
-    const { period, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const { period, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
+      this.props;
     if (!period.nextForeign || period.nextForeign.edges.length === 0) {
       return null;
     }
     const showExpandAll = period.nextForeign.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "NextForeign"}</h3>}
         {subtitle}
@@ -64,6 +66,15 @@ class PeriodNextForeign extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

@@ -31,6 +31,7 @@ interface ArticleTypeSpeciesDetailsInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticleTypeSpeciesDetailsInner extends React.Component<ArticleTypeSpeciesDetailsInnerProps> {
@@ -49,6 +50,7 @@ class ArticleTypeSpeciesDetailsInner extends React.Component<ArticleTypeSpeciesD
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !articleInner.typeSpeciesDetails ||
@@ -56,7 +58,7 @@ class ArticleTypeSpeciesDetailsInner extends React.Component<ArticleTypeSpeciesD
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "TypeSpeciesDetails"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class ArticleTypeSpeciesDetailsInner extends React.Component<ArticleTypeSpeciesD
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface ArticleTypeSpeciesDetailsProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticleTypeSpeciesDetails extends React.Component<
@@ -206,7 +218,8 @@ class ArticleTypeSpeciesDetails extends React.Component<
   }
 
   renderInner(article: Omit<ArticleTypeSpeciesDetails_article, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -228,6 +241,7 @@ class ArticleTypeSpeciesDetails extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

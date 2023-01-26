@@ -17,6 +17,7 @@ interface PeriodStratigraphicUnitsMaxProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class PeriodStratigraphicUnitsMax extends React.Component<
@@ -29,7 +30,8 @@ class PeriodStratigraphicUnitsMax extends React.Component<
   }
 
   render() {
-    const { period, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const { period, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
+      this.props;
     if (
       !period.stratigraphicUnitsMax ||
       period.stratigraphicUnitsMax.edges.length === 0
@@ -39,7 +41,7 @@ class PeriodStratigraphicUnitsMax extends React.Component<
     const showExpandAll = period.stratigraphicUnitsMax.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "StratigraphicUnitsMax"}</h3>}
         {subtitle}
@@ -67,6 +69,15 @@ class PeriodStratigraphicUnitsMax extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

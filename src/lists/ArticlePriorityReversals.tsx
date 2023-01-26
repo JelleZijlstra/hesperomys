@@ -31,6 +31,7 @@ interface ArticlePriorityReversalsInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticlePriorityReversalsInner extends React.Component<ArticlePriorityReversalsInnerProps> {
@@ -49,6 +50,7 @@ class ArticlePriorityReversalsInner extends React.Component<ArticlePriorityRever
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !articleInner.priorityReversals ||
@@ -56,7 +58,7 @@ class ArticlePriorityReversalsInner extends React.Component<ArticlePriorityRever
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "PriorityReversals"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class ArticlePriorityReversalsInner extends React.Component<ArticlePriorityRever
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface ArticlePriorityReversalsProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticlePriorityReversals extends React.Component<
@@ -206,7 +218,8 @@ class ArticlePriorityReversals extends React.Component<
   }
 
   renderInner(article: Omit<ArticlePriorityReversals_article, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -228,6 +241,7 @@ class ArticlePriorityReversals extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

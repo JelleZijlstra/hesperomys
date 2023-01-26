@@ -31,6 +31,7 @@ interface NameNominaNovaInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameNominaNovaInner extends React.Component<NameNominaNovaInnerProps> {
@@ -49,11 +50,12 @@ class NameNominaNovaInner extends React.Component<NameNominaNovaInnerProps> {
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (!nameInner.nominaNova || nameInner.nominaNova.edges.length === 0) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "NominaNova"}</h3>}
         {subtitle}
@@ -74,6 +76,15 @@ class NameNominaNovaInner extends React.Component<NameNominaNovaInnerProps> {
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -172,6 +183,7 @@ interface NameNominaNovaProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameNominaNova extends React.Component<
@@ -203,7 +215,8 @@ class NameNominaNova extends React.Component<
   }
 
   renderInner(name: Omit<NameNominaNova_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -225,6 +238,7 @@ class NameNominaNova extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

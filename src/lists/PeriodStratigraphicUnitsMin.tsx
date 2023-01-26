@@ -17,6 +17,7 @@ interface PeriodStratigraphicUnitsMinProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class PeriodStratigraphicUnitsMin extends React.Component<
@@ -29,7 +30,8 @@ class PeriodStratigraphicUnitsMin extends React.Component<
   }
 
   render() {
-    const { period, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const { period, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
+      this.props;
     if (
       !period.stratigraphicUnitsMin ||
       period.stratigraphicUnitsMin.edges.length === 0
@@ -39,7 +41,7 @@ class PeriodStratigraphicUnitsMin extends React.Component<
     const showExpandAll = period.stratigraphicUnitsMin.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "StratigraphicUnitsMin"}</h3>}
         {subtitle}
@@ -67,6 +69,15 @@ class PeriodStratigraphicUnitsMin extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

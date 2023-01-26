@@ -31,6 +31,7 @@ interface CollectionTypeSpecimensInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class CollectionTypeSpecimensInner extends React.Component<CollectionTypeSpecimensInnerProps> {
@@ -49,6 +50,7 @@ class CollectionTypeSpecimensInner extends React.Component<CollectionTypeSpecime
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !collectionInner.typeSpecimens ||
@@ -56,7 +58,7 @@ class CollectionTypeSpecimensInner extends React.Component<CollectionTypeSpecime
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "TypeSpecimens"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class CollectionTypeSpecimensInner extends React.Component<CollectionTypeSpecime
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface CollectionTypeSpecimensProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class CollectionTypeSpecimens extends React.Component<
@@ -208,7 +220,8 @@ class CollectionTypeSpecimens extends React.Component<
   renderInner(
     collection: Omit<CollectionTypeSpecimens_collection, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -232,6 +245,7 @@ class CollectionTypeSpecimens extends React.Component<
           this.setState({ showCollectionDetail: showDetail })
         }
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

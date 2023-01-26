@@ -17,6 +17,7 @@ interface TaxonOccurrencesProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class TaxonOccurrences extends React.Component<
@@ -29,14 +30,15 @@ class TaxonOccurrences extends React.Component<
   }
 
   render() {
-    const { taxon, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const { taxon, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
+      this.props;
     if (!taxon.occurrences || taxon.occurrences.edges.length === 0) {
       return null;
     }
     const showExpandAll = taxon.occurrences.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Occurrences"}</h3>}
         {subtitle}
@@ -60,6 +62,15 @@ class TaxonOccurrences extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

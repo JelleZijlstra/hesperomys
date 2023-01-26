@@ -17,6 +17,7 @@ interface NameCommentsProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class NameComments extends React.Component<NameCommentsProps, { expandAll: boolean }> {
@@ -26,14 +27,15 @@ class NameComments extends React.Component<NameCommentsProps, { expandAll: boole
   }
 
   render() {
-    const { name, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const { name, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
+      this.props;
     if (!name.comments || name.comments.edges.length === 0) {
       return null;
     }
     const showExpandAll = name.comments.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Comments"}</h3>}
         {subtitle}
@@ -57,6 +59,15 @@ class NameComments extends React.Component<NameCommentsProps, { expandAll: boole
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

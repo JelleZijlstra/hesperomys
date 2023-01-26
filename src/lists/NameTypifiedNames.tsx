@@ -31,6 +31,7 @@ interface NameTypifiedNamesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameTypifiedNamesInner extends React.Component<NameTypifiedNamesInnerProps> {
@@ -49,11 +50,12 @@ class NameTypifiedNamesInner extends React.Component<NameTypifiedNamesInnerProps
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (!nameInner.typifiedNames || nameInner.typifiedNames.edges.length === 0) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "TypifiedNames"}</h3>}
         {subtitle}
@@ -74,6 +76,15 @@ class NameTypifiedNamesInner extends React.Component<NameTypifiedNamesInnerProps
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -172,6 +183,7 @@ interface NameTypifiedNamesProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameTypifiedNames extends React.Component<
@@ -203,7 +215,8 @@ class NameTypifiedNames extends React.Component<
   }
 
   renderInner(name: Omit<NameTypifiedNames_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -225,6 +238,7 @@ class NameTypifiedNames extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

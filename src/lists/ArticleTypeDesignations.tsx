@@ -31,6 +31,7 @@ interface ArticleTypeDesignationsInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticleTypeDesignationsInner extends React.Component<ArticleTypeDesignationsInnerProps> {
@@ -49,6 +50,7 @@ class ArticleTypeDesignationsInner extends React.Component<ArticleTypeDesignatio
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !articleInner.typeDesignations ||
@@ -56,7 +58,7 @@ class ArticleTypeDesignationsInner extends React.Component<ArticleTypeDesignatio
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "TypeDesignations"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class ArticleTypeDesignationsInner extends React.Component<ArticleTypeDesignatio
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface ArticleTypeDesignationsProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticleTypeDesignations extends React.Component<
@@ -206,7 +218,8 @@ class ArticleTypeDesignations extends React.Component<
   }
 
   renderInner(article: Omit<ArticleTypeDesignations_article, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -228,6 +241,7 @@ class ArticleTypeDesignations extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

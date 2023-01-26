@@ -31,6 +31,7 @@ interface ArticleCitationDetailsInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticleCitationDetailsInner extends React.Component<ArticleCitationDetailsInnerProps> {
@@ -49,6 +50,7 @@ class ArticleCitationDetailsInner extends React.Component<ArticleCitationDetails
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !articleInner.citationDetails ||
@@ -56,7 +58,7 @@ class ArticleCitationDetailsInner extends React.Component<ArticleCitationDetails
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "CitationDetails"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class ArticleCitationDetailsInner extends React.Component<ArticleCitationDetails
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface ArticleCitationDetailsProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticleCitationDetails extends React.Component<
@@ -206,7 +218,8 @@ class ArticleCitationDetails extends React.Component<
   }
 
   renderInner(article: Omit<ArticleCitationDetails_article, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -228,6 +241,7 @@ class ArticleCitationDetails extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

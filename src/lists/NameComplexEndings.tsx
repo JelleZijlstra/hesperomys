@@ -17,6 +17,7 @@ interface NameComplexEndingsProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class NameComplexEndings extends React.Component<
@@ -29,14 +30,15 @@ class NameComplexEndings extends React.Component<
   }
 
   render() {
-    const { nameComplex, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const { nameComplex, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
+      this.props;
     if (!nameComplex.endings || nameComplex.endings.edges.length === 0) {
       return null;
     }
     const showExpandAll = nameComplex.endings.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Endings"}</h3>}
         {subtitle}
@@ -60,6 +62,15 @@ class NameComplexEndings extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

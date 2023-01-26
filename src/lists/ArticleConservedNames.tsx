@@ -31,6 +31,7 @@ interface ArticleConservedNamesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticleConservedNamesInner extends React.Component<ArticleConservedNamesInnerProps> {
@@ -49,6 +50,7 @@ class ArticleConservedNamesInner extends React.Component<ArticleConservedNamesIn
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !articleInner.conservedNames ||
@@ -56,7 +58,7 @@ class ArticleConservedNamesInner extends React.Component<ArticleConservedNamesIn
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "ConservedNames"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class ArticleConservedNamesInner extends React.Component<ArticleConservedNamesIn
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface ArticleConservedNamesProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticleConservedNames extends React.Component<
@@ -206,7 +218,8 @@ class ArticleConservedNames extends React.Component<
   }
 
   renderInner(article: Omit<ArticleConservedNames_article, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -228,6 +241,7 @@ class ArticleConservedNames extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

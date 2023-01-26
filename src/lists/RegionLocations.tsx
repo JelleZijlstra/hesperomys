@@ -25,6 +25,7 @@ interface RegionLocationsProps {
   hideChildren?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class RegionLocations extends React.Component<
@@ -37,8 +38,16 @@ class RegionLocations extends React.Component<
   }
 
   render() {
-    const { region, relay, numToLoad, hideTitle, hideChildren, title, subtitle } =
-      this.props;
+    const {
+      region,
+      relay,
+      numToLoad,
+      hideTitle,
+      hideChildren,
+      title,
+      subtitle,
+      wrapperTitle,
+    } = this.props;
     const { oid, numChildren, locations } = region;
     if (!locations || (numChildren === 0 && locations.edges.length === 0)) {
       return null;
@@ -46,7 +55,7 @@ class RegionLocations extends React.Component<
     const showExpandAll = locations.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Locations"}</h3>}
         {subtitle}
@@ -125,6 +134,15 @@ class RegionLocations extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

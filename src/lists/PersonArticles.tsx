@@ -17,6 +17,7 @@ interface PersonArticlesProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class PersonArticles extends React.Component<
@@ -29,14 +30,15 @@ class PersonArticles extends React.Component<
   }
 
   render() {
-    const { person, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const { person, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
+      this.props;
     if (!person.articles || person.articles.edges.length === 0) {
       return null;
     }
     const showExpandAll = person.articles.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Articles"}</h3>}
         {subtitle}
@@ -60,6 +62,15 @@ class PersonArticles extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

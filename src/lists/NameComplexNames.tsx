@@ -31,6 +31,7 @@ interface NameComplexNamesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameComplexNamesInner extends React.Component<NameComplexNamesInnerProps> {
@@ -49,11 +50,12 @@ class NameComplexNamesInner extends React.Component<NameComplexNamesInnerProps> 
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (!nameComplexInner.names || nameComplexInner.names.edges.length === 0) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Names"}</h3>}
         {subtitle}
@@ -74,6 +76,15 @@ class NameComplexNamesInner extends React.Component<NameComplexNamesInnerProps> 
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -172,6 +183,7 @@ interface NameComplexNamesProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameComplexNames extends React.Component<
@@ -203,7 +215,8 @@ class NameComplexNames extends React.Component<
   }
 
   renderInner(nameComplex: Omit<NameComplexNames_nameComplex, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -227,6 +240,7 @@ class NameComplexNames extends React.Component<
           this.setState({ showEtymologyDetail: showDetail })
         }
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

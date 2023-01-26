@@ -31,6 +31,7 @@ interface NameReversalsOfPriorityInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameReversalsOfPriorityInner extends React.Component<NameReversalsOfPriorityInnerProps> {
@@ -49,6 +50,7 @@ class NameReversalsOfPriorityInner extends React.Component<NameReversalsOfPriori
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !nameInner.reversalsOfPriority ||
@@ -56,7 +58,7 @@ class NameReversalsOfPriorityInner extends React.Component<NameReversalsOfPriori
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "ReversalsOfPriority"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class NameReversalsOfPriorityInner extends React.Component<NameReversalsOfPriori
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface NameReversalsOfPriorityProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class NameReversalsOfPriority extends React.Component<
@@ -206,7 +218,8 @@ class NameReversalsOfPriority extends React.Component<
   }
 
   renderInner(name: Omit<NameReversalsOfPriority_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -228,6 +241,7 @@ class NameReversalsOfPriority extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

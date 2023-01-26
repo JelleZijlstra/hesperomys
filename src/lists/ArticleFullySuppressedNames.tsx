@@ -31,6 +31,7 @@ interface ArticleFullySuppressedNamesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticleFullySuppressedNamesInner extends React.Component<ArticleFullySuppressedNamesInnerProps> {
@@ -49,6 +50,7 @@ class ArticleFullySuppressedNamesInner extends React.Component<ArticleFullySuppr
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !articleInner.fullySuppressedNames ||
@@ -56,7 +58,7 @@ class ArticleFullySuppressedNamesInner extends React.Component<ArticleFullySuppr
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "FullySuppressedNames"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class ArticleFullySuppressedNamesInner extends React.Component<ArticleFullySuppr
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface ArticleFullySuppressedNamesProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class ArticleFullySuppressedNames extends React.Component<
@@ -206,7 +218,8 @@ class ArticleFullySuppressedNames extends React.Component<
   }
 
   renderInner(article: Omit<ArticleFullySuppressedNames_article, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -228,6 +241,7 @@ class ArticleFullySuppressedNames extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }

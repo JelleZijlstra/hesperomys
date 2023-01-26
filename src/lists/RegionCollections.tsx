@@ -25,6 +25,7 @@ interface RegionCollectionsProps {
   hideChildren?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class RegionCollections extends React.Component<
@@ -37,8 +38,16 @@ class RegionCollections extends React.Component<
   }
 
   render() {
-    const { region, relay, numToLoad, hideTitle, hideChildren, title, subtitle } =
-      this.props;
+    const {
+      region,
+      relay,
+      numToLoad,
+      hideTitle,
+      hideChildren,
+      title,
+      subtitle,
+      wrapperTitle,
+    } = this.props;
     const { oid, numChildren, collections } = region;
     if (!collections || (numChildren === 0 && collections.edges.length === 0)) {
       return null;
@@ -46,7 +55,7 @@ class RegionCollections extends React.Component<
     const showExpandAll = collections.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "Collections"}</h3>}
         {subtitle}
@@ -125,6 +134,15 @@ class RegionCollections extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

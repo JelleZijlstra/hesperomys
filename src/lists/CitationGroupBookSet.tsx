@@ -17,6 +17,7 @@ interface CitationGroupBookSetProps {
   hideTitle?: boolean;
   numToLoad?: number;
   relay: RelayPaginationProp;
+  wrapperTitle?: string;
 }
 
 class CitationGroupBookSet extends React.Component<
@@ -29,14 +30,22 @@ class CitationGroupBookSet extends React.Component<
   }
 
   render() {
-    const { citationGroup, relay, numToLoad, hideTitle, title, subtitle } = this.props;
+    const {
+      citationGroup,
+      relay,
+      numToLoad,
+      hideTitle,
+      title,
+      subtitle,
+      wrapperTitle,
+    } = this.props;
     if (!citationGroup.bookSet || citationGroup.bookSet.edges.length === 0) {
       return null;
     }
     const showExpandAll = citationGroup.bookSet.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node)
     );
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "BookSet"}</h3>}
         {subtitle}
@@ -60,6 +69,15 @@ class CitationGroupBookSet extends React.Component<
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 

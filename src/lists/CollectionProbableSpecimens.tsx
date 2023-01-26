@@ -31,6 +31,7 @@ interface CollectionProbableSpecimensInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  wrapperTitle?: string;
 }
 
 class CollectionProbableSpecimensInner extends React.Component<CollectionProbableSpecimensInnerProps> {
@@ -49,6 +50,7 @@ class CollectionProbableSpecimensInner extends React.Component<CollectionProbabl
       showNameDetail,
       setShowDetail,
       hideClassification,
+      wrapperTitle,
     } = this.props;
     if (
       !collectionInner.probableSpecimens ||
@@ -56,7 +58,7 @@ class CollectionProbableSpecimensInner extends React.Component<CollectionProbabl
     ) {
       return null;
     }
-    return (
+    const inner = (
       <>
         {!hideTitle && <h3>{title || "ProbableSpecimens"}</h3>}
         {subtitle}
@@ -77,6 +79,15 @@ class CollectionProbableSpecimensInner extends React.Component<CollectionProbabl
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
       </>
     );
+    if (wrapperTitle) {
+      return (
+        <div>
+          <i>{wrapperTitle}</i>
+          {inner}
+        </div>
+      );
+    }
+    return inner;
   }
 }
 
@@ -175,6 +186,7 @@ interface CollectionProbableSpecimensProps {
   showCollectionDetail?: boolean;
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
+  wrapperTitle?: string;
 }
 
 class CollectionProbableSpecimens extends React.Component<
@@ -208,7 +220,8 @@ class CollectionProbableSpecimens extends React.Component<
   renderInner(
     collection: Omit<CollectionProbableSpecimens_collection, "oid" | " $refType">
   ) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
+      this.props;
     const {
       showLocationDetail,
       showCitationDetail,
@@ -232,6 +245,7 @@ class CollectionProbableSpecimens extends React.Component<
           this.setState({ showCollectionDetail: showDetail })
         }
         hideClassification={hideClassification}
+        wrapperTitle={wrapperTitle}
       />
     );
   }
