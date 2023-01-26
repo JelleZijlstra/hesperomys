@@ -222,7 +222,7 @@ class TaxonNames extends React.Component<
         showCollectionDetail={showCollectionDetail}
         showEtymologyDetail={showEtymologyDetail}
         showNameDetail={showNameDetail}
-        setShowDetail={(showDetail) => this.setState({ showNameDetail: showDetail })}
+        setShowDetail={undefined}
         hideClassification={hideClassification}
       />
     );

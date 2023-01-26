@@ -584,8 +584,6 @@ def kind_of_detail(type_name: str) -> str | None:
         return "showCitationDetail"
     elif type_name in ("NameComplex", "SpeciesNameComplex"):
         return "showEtymologyDetail"
-    elif type_name == "Taxon":
-        return "showNameDetail"
     else:
         return None
 

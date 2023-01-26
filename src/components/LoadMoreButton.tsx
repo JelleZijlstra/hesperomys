@@ -11,9 +11,7 @@ const DEFAULT_LOAD_MORE = 1000;
 export default class LoadMoreButton extends React.Component<LoadMoreButtonProps> {
   render() {
     const { relay } = this.props;
-    const hasMore = relay.hasMore();
-    const components: [string, JSX.Element][] = [];
-    if (!hasMore) {
+    if (!relay.hasMore()) {
       return null;
     }
     return <button onClick={() => this._loadMore()}>load more</button>;
