@@ -24,6 +24,7 @@ enum AgeClass {
   burrow
   bite_trace
   redirect
+  recently_extinct
 }
 
 type Altitude implements TypeTag {
@@ -638,12 +639,12 @@ type JustifiedEmendationOf implements NameTag {
   comment: String
 }
 
-type LSID implements TypeTag {
+type LSIDArticle implements ArticleTag {
   _Ignored: ID
   text: String
 }
 
-type LSIDArticle implements ArticleTag {
+type LSIDName implements TypeTag {
   _Ignored: ID
   text: String
 }
