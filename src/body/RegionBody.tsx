@@ -9,7 +9,6 @@ import RegionCitationGroups from "../lists/RegionCitationGroups";
 import RegionCollections from "../lists/RegionCollections";
 import RegionPeriods from "../lists/RegionPeriods";
 import RegionLocations from "../lists/RegionLocations";
-import RegionTypeLocalities from "../components/RegionTypeLocalities";
 
 class RegionBody extends React.Component<{
   region: RegionBody_region;
@@ -20,7 +19,6 @@ class RegionBody extends React.Component<{
       <>
         <RegionChildren region={region} title="Child regions" />
         <RegionLocations region={region} />
-        <RegionTypeLocalities region={region} />
         <RegionPeriods region={region} title="Stratigraphic units" />
         <RegionCollections region={region} />
         <RegionCitationGroups region={region} />
