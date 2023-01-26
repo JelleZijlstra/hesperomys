@@ -113,7 +113,7 @@ const GROUP_TO_TYPE = new Map([
 ]);
 
 function TypeSection({ name }: { name: NameBody_name }) {
-  const { group, typeSpecimen, collection, speciesTypeKind, genusTypeKind, type } =
+  const { group, typeSpecimen, collection, speciesTypeKind, genusTypeKind, nameType } =
     name;
   return (
     <>
@@ -125,7 +125,7 @@ function TypeSection({ name }: { name: NameBody_name }) {
           ["Kind of type specimen", speciesTypeKind],
           [
             GROUP_TO_TYPE.get(group) || "Type",
-            type ? <ModelLink model={type} /> : null,
+            nameType ? <ModelLink model={nameType} /> : null,
           ],
           ["Kind of type", genusTypeKind],
         ]}
@@ -271,7 +271,7 @@ export default createFragmentContainer(NameBody, {
       collection {
         ...ModelLink_model
       }
-      type {
+      nameType: type {
         ...ModelLink_model
       }
       genusTypeKind

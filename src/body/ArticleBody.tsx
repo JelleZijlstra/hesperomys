@@ -8,6 +8,7 @@ import ReactMarkdown from "react-markdown";
 import ModelLink from "../components/ModelLink";
 import Table from "../components/Table";
 import AuthorList from "../components/AuthorList";
+import Reference from "../reference/Reference";
 
 import ArticleNewNames from "../lists/ArticleNewNames";
 import ArticleArticleSet from "../lists/ArticleArticleSet";
@@ -123,6 +124,9 @@ class ArticleBody extends React.Component<{
     }
     return (
       <>
+        <p>
+          <Reference article={article} />
+        </p>
         <Table data={data} />
         <ArticleNewNames article={article} title="New names" />
         <ArticleArticleSet article={article} title="Child articles" />
@@ -223,6 +227,7 @@ export default createFragmentContainer(ArticleBody, {
       ...ArticleDefinitionDetails_article
       ...ArticleEtymologyDetails_article
       ...ArticleTypeSpeciesDetails_article
+      ...Reference_article
     }
   `,
 });

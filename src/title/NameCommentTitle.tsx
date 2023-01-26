@@ -10,11 +10,11 @@ class NameCommentTitle extends React.Component<{
   nameComment: NameCommentTitle_nameComment;
 }> {
   render() {
-    const { name } = this.props.nameComment;
+    const { commentName } = this.props.nameComment;
 
     return (
       <>
-        Comment on <NameTitle name={name} />
+        Comment on <NameTitle name={commentName} />
       </>
     );
   }
@@ -23,7 +23,7 @@ class NameCommentTitle extends React.Component<{
 export default createFragmentContainer(NameCommentTitle, {
   nameComment: graphql`
     fragment NameCommentTitle_nameComment on NameComment {
-      name {
+      commentName: name {
         ...NameTitle_name
       }
     }

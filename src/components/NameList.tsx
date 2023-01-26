@@ -118,11 +118,11 @@ class NameList extends React.Component<{
               </li>
             );
           }
-          if (name.type) {
+          if (name.nameType) {
             items.push(
               <li>
                 {name.group === "family" ? "Type genus" : "Type species"}:{" "}
-                <ModelLink model={name.type} />
+                <ModelLink model={name.nameType} />
               </li>
             );
           }
@@ -234,7 +234,7 @@ export default createFragmentContainer(NameList, {
           }
           typeSpecimen @include(if: $showNameDetail)
           speciesTypeKind @include(if: $showNameDetail)
-          type @include(if: $showNameDetail) {
+          nameType: type @include(if: $showNameDetail) {
             ...ModelLink_model
           }
           group @include(if: $showNameDetail)
