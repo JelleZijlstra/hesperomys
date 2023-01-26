@@ -57,9 +57,24 @@ const RANK_TO_GROUP = new Map([
   ["informal", "high"],
 ]);
 
+const AGE_TO_SYMBOL = new Map([
+  ["extant", ""],
+  ["holocene", "🦴"],
+  ["recently_extinct", "☠"],
+  ["fossil", "†"],
+  ["ichno", "👻"],
+  ["removed", "!"],
+  ["track", "👣"],
+  ["egg", "🥚"],
+  ["coprolite", "💩"],
+  ["burrow", "🕳️"],
+  ["bite_trace", "😋"],
+  ["redirect", "→"],
+]);
+
 class TaxonTitle extends React.Component<{ taxon: TaxonTitle_taxon }> {
   render() {
-    const { taxonRank, validName, baseName } = this.props.taxon;
+    const { taxonRank, validName, baseName, age } = this.props.taxon;
 
     const shouldParenthesize =
       baseName.group === "species" &&
@@ -68,6 +83,7 @@ class TaxonTitle extends React.Component<{ taxon: TaxonTitle_taxon }> {
 
     return (
       <>
+        {AGE_TO_SYMBOL.get(age) || ""}
         <MaybeItalics group={RANK_TO_GROUP.get(taxonRank) || "high"} name={validName} />
         {baseName.authorTags && (
           <>
@@ -87,6 +103,7 @@ class TaxonTitle extends React.Component<{ taxon: TaxonTitle_taxon }> {
 export default createFragmentContainer(TaxonTitle, {
   taxon: graphql`
     fragment TaxonTitle_taxon on Taxon {
+      age
       validName
       taxonRank: rank
       baseName {
