@@ -19,6 +19,9 @@ class PersonBody extends React.Component<{
   render() {
     const { person } = this.props;
     const data: [string, JSX.Element | string][] = [];
+    if (person.target) {
+      data.push(["Redirect target", <ModelLink model={person.target} />]);
+    }
     data.push([
       "Family name",
       <Link to={"/h/" + person.familyName}>{person.familyName}</Link>,
@@ -45,6 +48,7 @@ class PersonBody extends React.Component<{
       data.push(["Short description", person.bio]);
     }
     data.push(["Naming convention", person.namingConvention]);
+
     return (
       <>
         <Table data={data} />
@@ -106,6 +110,9 @@ export default createFragmentContainer(PersonBody, {
       death
       namingConvention
       bio
+      target {
+        ...ModelLink_model
+      }
       tags {
         __typename
         ... on Wiki {
