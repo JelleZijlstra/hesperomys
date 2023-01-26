@@ -76,7 +76,7 @@ function LocationExtra({ model }: { model: ModelLink_model }) {
   );
 }
 
-function NameCommentExtra({ model }: { model: ModelLink_model }) {
+function CommentExtra({ model }: { model: ModelLink_model }) {
   if (!model.date) {
     return null;
   }
@@ -105,7 +105,9 @@ function ModelExtra({ model }: { model: ModelLink_model }) {
     case "Collection":
       return model.city ? <>, {model.city}</> : null;
     case "NameComment":
-      return <NameCommentExtra model={model} />;
+      return <CommentExtra model={model} />;
+    case "ArticleComment":
+      return <CommentExtra model={model} />;
     default:
       return null;
   }
@@ -116,7 +118,7 @@ class ModelLink extends React.Component<{ model: ModelLink_model }> {
     const { model } = this.props;
     return (
       <>
-        {model.__typename === "NameComment" ? (
+        {model.__typename === "NameComment" || model.__typename === "ArticleComment" ? (
           <ReactMarkdown children={model.text || ""} />
         ) : (
           <ModelLinkNoExtra model={model} />
@@ -171,6 +173,10 @@ export default createFragmentContainer(ModelLink, {
         }
         date
         page
+        text
+      }
+      ... on ArticleComment {
+        date
         text
       }
     }

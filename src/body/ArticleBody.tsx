@@ -29,6 +29,7 @@ import ArticleCitationDetails from "../lists/ArticleCitationDetails";
 import ArticleDefinitionDetails from "../lists/ArticleDefinitionDetails";
 import ArticleEtymologyDetails from "../lists/ArticleEtymologyDetails";
 import ArticleTypeSpeciesDetails from "../lists/ArticleTypeSpeciesDetails";
+import ArticleComments from "../lists/ArticleComments";
 
 const TYPE_TO_STRING = new Map([
   ["ERROR", "unknown"],
@@ -156,6 +157,7 @@ class ArticleBody extends React.Component<{
         <ArticleDefinitionDetails article={article} title="Definition details" />
         <ArticleEtymologyDetails article={article} title="Etymology details" />
         <ArticleTypeSpeciesDetails article={article} title="Type species details" />
+        <ArticleComments article={article} title="Comments" />
       </>
     );
   }
@@ -227,6 +229,7 @@ export default createFragmentContainer(ArticleBody, {
       ...ArticleDefinitionDetails_article
       ...ArticleEtymologyDetails_article
       ...ArticleTypeSpeciesDetails_article
+      ...ArticleComments_article
       ...Reference_article
     }
   `,
