@@ -77,7 +77,7 @@ const Authors = ({ article }: ReferencePrefixProps) => {
 const ReferencePrefix = ({ article, skipLinks }: ReferencePrefixProps) => (
   <>
     <Authors article={article} />
-    {!skipLinks && article.year && article.year + ". "}
+    {!skipLinks && article.numericYear && `${article.numericYear}. `}
     {skipLinks ? (
       article.title ? (
         <InlineMarkdown source={article.title} />
@@ -110,7 +110,7 @@ export default createFragmentContainer(ReferencePrefix, {
           }
         }
       }
-      year
+      numericYear
       oid
       title
     }

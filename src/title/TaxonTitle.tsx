@@ -90,7 +90,7 @@ class TaxonTitle extends React.Component<{ taxon: TaxonTitle_taxon }> {
             {" "}
             {shouldParenthesize && "("}
             <TaxonomicAuthority authorTags={baseName.authorTags} />
-            {baseName.year && ", " + baseName.year}
+            {baseName.numericYear && `, ${baseName.numericYear}`}
             {shouldParenthesize && ")"}
           </>
         )}
@@ -112,7 +112,7 @@ export default createFragmentContainer(TaxonTitle, {
         authorTags {
           ...TaxonomicAuthority_authorTags
         }
-        year
+        numericYear
         status
       }
     }

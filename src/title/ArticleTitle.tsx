@@ -8,10 +8,10 @@ import TaxonomicAuthority from "../reference/TaxonomicAuthority";
 
 class ArticleTitle extends React.Component<{ article: ArticleTitle_article }> {
   render() {
-    const { authorTags, year } = this.props.article;
+    const { authorTags, numericYear } = this.props.article;
     return (
       <>
-        <TaxonomicAuthority authorTags={authorTags} /> ({year})
+        <TaxonomicAuthority authorTags={authorTags} /> ({numericYear})
       </>
     );
   }
@@ -23,7 +23,7 @@ export default createFragmentContainer(ArticleTitle, {
       authorTags {
         ...TaxonomicAuthority_authorTags
       }
-      year
+      numericYear
     }
   `,
 });

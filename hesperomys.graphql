@@ -44,6 +44,7 @@ type Article implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  numericYear: Int
   addmonth: String!
   addday: String!
   addyear: String!
@@ -424,7 +425,9 @@ enum DateSource {
   internal
   external
   doi_published_print
-  doi_published_electronically
+  doi_published_online
+  doi_published_other
+  doi_published
 }
 
 type DefinitionDetail implements TypeTag {
@@ -763,6 +766,7 @@ type Name implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  numericYear: Int
   group: Group!
   rootName: String!
   status: Status!

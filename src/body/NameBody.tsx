@@ -31,6 +31,7 @@ import NameDesignatedAsType from "../lists/NameDesignatedAsType";
 import NameCommissionDesignatedAsType from "../lists/NameCommissionDesignatedAsType";
 import NameComments from "../lists/NameComments";
 import ReactMarkdown from "react-markdown";
+import PublicationDate from "./PublicationDate";
 
 function NameSection({ name }: { name: NameBody_name }) {
   const {
@@ -58,7 +59,14 @@ function NameSection({ name }: { name: NameBody_name }) {
             ) : null,
           ],
           ["Authors", <AuthorList authorTags={name.authorTags} />],
-          ["Year", name.year],
+          ["Year", name.numericYear !== null ? String(name.numericYear) : null],
+          [
+            "Date",
+            name.year &&
+            (!name.numericYear || name.year !== String(name.numericYear)) ? (
+              <PublicationDate date={name.year} />
+            ) : null,
+          ],
           ["Page described", name.pageDescribed],
           [
             "Original citation",
@@ -100,7 +108,12 @@ function NomenclatureSection({ name }: { name: NameBody_name }) {
       <NameTags name={name} />
       <NameTypeTags
         name={name}
-        tagsToInclude={["EtymologyDetail", "NamedAfter", "TextualOriginalRank"]}
+        tagsToInclude={[
+          "EtymologyDetail",
+          "NamedAfter",
+          "TextualOriginalRank",
+          "LSIDName",
+        ]}
       />
     </>
   );
@@ -248,6 +261,7 @@ export default createFragmentContainer(NameBody, {
         ...AuthorList_authorTags
       }
       year
+      numericYear
       pageDescribed
       originalCitation {
         ...Reference_article

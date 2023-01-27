@@ -30,6 +30,8 @@ import ArticleDefinitionDetails from "../lists/ArticleDefinitionDetails";
 import ArticleEtymologyDetails from "../lists/ArticleEtymologyDetails";
 import ArticleTypeSpeciesDetails from "../lists/ArticleTypeSpeciesDetails";
 import ArticleComments from "../lists/ArticleComments";
+import PublicationDate from "./PublicationDate";
+import InlineMarkdown from "../components/InlineMarkdown";
 
 const TYPE_TO_STRING = new Map([
   ["ERROR", "unknown"],
@@ -47,6 +49,14 @@ const TYPE_TO_CG_LABEL = new Map([
   ["THESIS", "University"],
   ["JOURNAL", "Journal"],
 ]);
+const DATE_SOURCE_TO_STRING = new Map([
+  ["internal", "evidence in the work itself"],
+  ["external", "external evidence"],
+  ["doi_published_print", "print publication date for DOI"],
+  ["doi_published_online", "online publication date for DOI"],
+  ["doi_published_other", "other publication date for DOI"],
+  ["doi_published", "publication date for DOI"],
+]);
 
 class ArticleBody extends React.Component<{
   article: ArticleBody_article;
@@ -56,6 +66,7 @@ class ArticleBody extends React.Component<{
     const {
       articleType,
       authorTags,
+      numericYear,
       year,
       title,
       series,
@@ -76,7 +87,14 @@ class ArticleBody extends React.Component<{
     const data: [string, JSX.Element | null | string][] = [
       ["Type", TYPE_TO_STRING.get(articleType) || null],
       ["Authors", <AuthorList authorTags={authorTags} />],
-      ["Year of publication", year],
+    ];
+    if (numericYear) {
+      data.push(["Year of publication", String(numericYear)]);
+    }
+    if (year && (!numericYear || year !== String(numericYear))) {
+      data.push(["Date of publication", <PublicationDate date={year} />]);
+    }
+    data.push(
       ["Title", title ? <ReactMarkdown children={title} /> : null],
       ["Publisher", publisher],
       [
@@ -90,8 +108,8 @@ class ArticleBody extends React.Component<{
       ["End page", endPage],
       ["Number of pages", pages],
       ["Parent article", parent ? <ModelLink model={parent} /> : null],
-      ["URL", url ? <a href={url}>{url}</a> : null],
-    ];
+      ["URL", url ? <a href={url}>{url}</a> : null]
+    );
     if (doi) {
       const href = `https://dx.doi.org/${doi}`;
       data.push(["DOI", <a href={href}>{doi}</a>]);
@@ -114,6 +132,27 @@ class ArticleBody extends React.Component<{
         case "PMC":
           url = `https://www.ncbi.nlm.nih.gov/pmc/articles/PMC${tag.text}/`;
           break;
+        case "LSIDArticle":
+          const zooBankurl = `https://zoobank.org/References/${tag.text}`;
+          const label = `urn:lsid:zoobank.org:pub:${tag.text}`;
+          data.push(["LSID (ZooBank)", <a href={zooBankurl}>{label}</a>]);
+          break;
+        case "PublicationDate": {
+          const body = (
+            <>
+              <PublicationDate date={tag.date || ""} /> (
+              {DATE_SOURCE_TO_STRING.get(tag.dateSource || "")}
+              {tag.comment && (
+                <>
+                  ; <InlineMarkdown source={tag.comment} />
+                </>
+              )}
+              )
+            </>
+          );
+          data.push(["Evidence for date", body]);
+          break;
+        }
       }
       if (url !== null && "text" in tag) {
         data.push([tag.__typename, <a href={url}>{tag.text}</a>]);
@@ -171,6 +210,7 @@ export default createFragmentContainer(ArticleBody, {
         ...AuthorList_authorTags
       }
       year
+      numericYear
       title
       series
       volume
@@ -208,6 +248,14 @@ export default createFragmentContainer(ArticleBody, {
         }
         ... on PMC {
           text
+        }
+        ... on LSIDArticle {
+          text
+        }
+        ... on PublicationDate {
+          dateSource: source
+          date
+          comment
         }
       }
       ...ArticleNewNames_article

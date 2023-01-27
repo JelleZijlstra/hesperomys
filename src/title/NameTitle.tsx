@@ -9,7 +9,7 @@ import TaxonomicAuthority from "../reference/TaxonomicAuthority";
 
 class NameTitle extends React.Component<{ name: NameTitle_name }> {
   render() {
-    const { originalName, rootName, group, authorTags, year, pageDescribed } =
+    const { originalName, rootName, group, authorTags, numericYear, pageDescribed } =
       this.props.name;
     let name;
     if (originalName) {
@@ -24,7 +24,7 @@ class NameTitle extends React.Component<{ name: NameTitle_name }> {
       <>
         <MaybeItalics group={group} name={name} />{" "}
         <TaxonomicAuthority authorTags={authorTags} />
-        {year && ", " + year}
+        {numericYear && `, ${numericYear}`}
         {pageDescribed && ":" + pageDescribed}
       </>
     );
@@ -40,7 +40,7 @@ export default createFragmentContainer(NameTitle, {
       authorTags {
         ...TaxonomicAuthority_authorTags
       }
-      year
+      numericYear
       pageDescribed
     }
   `,

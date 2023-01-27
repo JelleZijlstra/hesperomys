@@ -145,6 +145,14 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       );
     case "TextualOriginalRank":
       return <>Original rank: {tag.text}</>;
+    case "LSIDName":
+      const url = `https://zoobank.org/NomenclaturalActs/${tag.text}`;
+      const label = `urn:lsid:zoobank.org:act:${tag.text}`;
+      return (
+        <>
+          LSID (ZooBank): <a href={url}>{label}</a>
+        </>
+      );
     default:
       return null;
   }
@@ -322,6 +330,9 @@ export default createFragmentContainer(NameTypeTags, {
           }
         }
         ... on TextualOriginalRank {
+          text
+        }
+        ... on LSIDName {
           text
         }
       }
