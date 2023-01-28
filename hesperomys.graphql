@@ -286,6 +286,8 @@ type CitationGroup implements Node & Model {
   numPatterns: Int!
   articleSet(before: String, after: String, first: Int, last: Int): ArticleConnection
   numArticleSet: Int!
+  issuedateSet(before: String, after: String, first: Int, last: Int): IssueDateConnection
+  numIssuedateSet: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
   numNames: Int!
   bookSet(before: String, after: String, first: Int, last: Int): BookConnection
@@ -375,6 +377,12 @@ type CollectionDetail implements TypeTag {
 type CollectionEdge {
   node: Collection
   cursor: String!
+}
+
+type CommentIssueDate implements IssueDateTag {
+  _Ignored: ID
+  text: String
+  source: Article!
 }
 
 enum CommentKind {
@@ -623,6 +631,37 @@ type Involved implements TypeTag {
   _Ignored: ID
   person: Person!
   comment: String
+}
+
+type IssueDate implements Node & Model {
+  id: ID!
+  oid: Int!
+  callSign: String!
+  pageTitle: String!
+  redirectUrl: String
+  citationGroup: CitationGroup!
+  series: String
+  volume: String!
+  issue: String
+  startPage: String!
+  endPage: String!
+  date: String!
+  tags: [IssueDateTag!]!
+  modelCls: ModelCls!
+}
+
+type IssueDateConnection {
+  pageInfo: PageInfo!
+  edges: [IssueDateEdge]!
+}
+
+type IssueDateEdge {
+  node: IssueDate
+  cursor: String!
+}
+
+interface IssueDateTag {
+  _Ignored: ID
 }
 
 type IssueRegex implements CitationGroupTag {
@@ -1345,6 +1384,8 @@ type Query {
   stratigraphicUnit(oid: Int): StratigraphicUnit
   locationByLabel(label: String): [Location]
   location(oid: Int): Location
+  issueDateByLabel(label: String): [IssueDate]
+  issueDate(oid: Int): IssueDate
   taxonByLabel(label: String): [Taxon]
   taxon(oid: Int): Taxon
   speciesNameComplexByLabel(label: String): [SpeciesNameComplex]
