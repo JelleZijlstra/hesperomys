@@ -104,7 +104,7 @@ const IssueDate = ({
                       <ModelLink model={tag.source} />
                     </small>
                   </li>
-                )
+                ),
             )}
           </ul>
         )}
@@ -167,7 +167,7 @@ const IssueDates = ({
                 hasIssue={hasIssue}
                 issueDate={issueDate}
               />
-            )
+            ),
         )}
       </table>
     </>

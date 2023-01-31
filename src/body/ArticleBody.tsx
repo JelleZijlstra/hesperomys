@@ -108,7 +108,7 @@ class ArticleBody extends React.Component<{
       ["End page", endPage],
       ["Number of pages", pages],
       ["Parent article", parent ? <ModelLink model={parent} /> : null],
-      ["URL", url ? <a href={url}>{url}</a> : null]
+      ["URL", url ? <a href={url}>{url}</a> : null],
     );
     if (doi) {
       const href = `https://dx.doi.org/${doi}`;
