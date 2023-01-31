@@ -173,7 +173,7 @@ const ArticleCommissionTypeDesignationsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticleCommissionTypeDesignationsProps {
@@ -220,7 +220,7 @@ class ArticleCommissionTypeDesignations extends React.Component<
   }
 
   renderInner(
-    article: Omit<ArticleCommissionTypeDesignations_article, "oid" | " $refType">
+    article: Omit<ArticleCommissionTypeDesignations_article, "oid" | " $refType">,
   ) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;

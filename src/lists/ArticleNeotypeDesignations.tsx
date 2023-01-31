@@ -171,7 +171,7 @@ const ArticleNeotypeDesignationsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticleNeotypeDesignationsProps {

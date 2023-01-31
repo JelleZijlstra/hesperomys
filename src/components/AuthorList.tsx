@@ -21,7 +21,7 @@ class AuthorList extends React.Component<{
               <li key={tag.person.oid}>
                 <ModelLink model={tag.person} />
               </li>
-            )
+            ),
         )}
       </ul>
     );

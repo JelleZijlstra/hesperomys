@@ -171,7 +171,7 @@ const CollectionProbableSpecimensContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface CollectionProbableSpecimensProps {
@@ -218,7 +218,7 @@ class CollectionProbableSpecimens extends React.Component<
   }
 
   renderInner(
-    collection: Omit<CollectionProbableSpecimens_collection, "oid" | " $refType">
+    collection: Omit<CollectionProbableSpecimens_collection, "oid" | " $refType">,
   ) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;

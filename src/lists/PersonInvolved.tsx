@@ -168,7 +168,7 @@ const PersonInvolvedContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface PersonInvolvedProps {

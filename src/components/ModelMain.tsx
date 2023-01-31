@@ -39,7 +39,7 @@ const MultiModel = function ({
               <li key={model.oid}>
                 <ModelLink model={model} />
               </li>
-            )
+            ),
         )}
       </ul>
     </>

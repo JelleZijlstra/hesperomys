@@ -53,7 +53,7 @@ class StratigraphicUnitLocations extends React.Component<
       return null;
     }
     const showExpandAll = locations.edges.some(
-      (edge) => edge && edge.node && supportsChildren(edge.node)
+      (edge) => edge && edge.node && supportsChildren(edge.node),
     );
     const inner = (
       <>
@@ -118,7 +118,7 @@ class StratigraphicUnitLocations extends React.Component<
                             hideTitle
                           />
                         </li>
-                      )
+                      ),
                   )}
                 </ul>
               );
@@ -135,7 +135,7 @@ class StratigraphicUnitLocations extends React.Component<
                   model={edge.node}
                   showChildren={this.state.expandAll}
                 />
-              )
+              ),
           )}
         </ul>
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
@@ -199,7 +199,7 @@ const StratigraphicUnitLocationsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 export default StratigraphicUnitLocationsContainer;

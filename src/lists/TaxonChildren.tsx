@@ -36,7 +36,7 @@ class TaxonChildren extends React.Component<
       return null;
     }
     const showExpandAll = taxon.children.edges.some(
-      (edge) => edge && edge.node && supportsChildren(edge.node)
+      (edge) => edge && edge.node && supportsChildren(edge.node),
     );
     const inner = (
       <>
@@ -60,7 +60,7 @@ class TaxonChildren extends React.Component<
                   model={edge.node}
                   showChildren={this.state.expandAll}
                 />
-              )
+              ),
           )}
         </ul>
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
@@ -118,5 +118,5 @@ export default createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );

@@ -171,7 +171,7 @@ const ArticleLectotypeDesignationsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticleLectotypeDesignationsProps {
@@ -218,7 +218,7 @@ class ArticleLectotypeDesignations extends React.Component<
   }
 
   renderInner(
-    article: Omit<ArticleLectotypeDesignations_article, "oid" | " $refType">
+    article: Omit<ArticleLectotypeDesignations_article, "oid" | " $refType">,
   ) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;

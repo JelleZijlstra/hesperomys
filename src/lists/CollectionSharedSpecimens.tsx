@@ -171,7 +171,7 @@ const CollectionSharedSpecimensContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface CollectionSharedSpecimensProps {
@@ -218,7 +218,7 @@ class CollectionSharedSpecimens extends React.Component<
   }
 
   renderInner(
-    collection: Omit<CollectionSharedSpecimens_collection, "oid" | " $refType">
+    collection: Omit<CollectionSharedSpecimens_collection, "oid" | " $refType">,
   ) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;

@@ -171,7 +171,7 @@ const ArticlePartiallySuppressedNamesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticlePartiallySuppressedNamesProps {
@@ -218,7 +218,7 @@ class ArticlePartiallySuppressedNames extends React.Component<
   }
 
   renderInner(
-    article: Omit<ArticlePartiallySuppressedNames_article, "oid" | " $refType">
+    article: Omit<ArticlePartiallySuppressedNames_article, "oid" | " $refType">,
   ) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;

@@ -168,7 +168,7 @@ const NameDesignatedAsTypeContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameDesignatedAsTypeProps {

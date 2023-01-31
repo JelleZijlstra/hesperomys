@@ -53,7 +53,7 @@ class RegionCitationGroups extends React.Component<
       return null;
     }
     const showExpandAll = citationGroups.edges.some(
-      (edge) => edge && edge.node && supportsChildren(edge.node)
+      (edge) => edge && edge.node && supportsChildren(edge.node),
     );
     const inner = (
       <>
@@ -107,7 +107,7 @@ class RegionCitationGroups extends React.Component<
                           <ModelLink model={edge.node} />
                           <RegionCitationGroupsContainer region={edge.node} hideTitle />
                         </li>
-                      )
+                      ),
                   )}
                 </ul>
               );
@@ -124,7 +124,7 @@ class RegionCitationGroups extends React.Component<
                   model={edge.node}
                   showChildren={this.state.expandAll}
                 />
-              )
+              ),
           )}
         </ul>
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
@@ -187,7 +187,7 @@ const RegionCitationGroupsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 export default RegionCitationGroupsContainer;

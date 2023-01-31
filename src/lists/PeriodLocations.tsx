@@ -53,7 +53,7 @@ class PeriodLocations extends React.Component<
       return null;
     }
     const showExpandAll = locations.edges.some(
-      (edge) => edge && edge.node && supportsChildren(edge.node)
+      (edge) => edge && edge.node && supportsChildren(edge.node),
     );
     const inner = (
       <>
@@ -111,7 +111,7 @@ class PeriodLocations extends React.Component<
                           <ModelLink model={edge.node} />
                           <PeriodLocationsContainer period={edge.node} hideTitle />
                         </li>
-                      )
+                      ),
                   )}
                 </ul>
               );
@@ -128,7 +128,7 @@ class PeriodLocations extends React.Component<
                   model={edge.node}
                   showChildren={this.state.expandAll}
                 />
-              )
+              ),
           )}
         </ul>
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
@@ -187,7 +187,7 @@ const PeriodLocationsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 export default PeriodLocationsContainer;

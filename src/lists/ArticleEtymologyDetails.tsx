@@ -171,7 +171,7 @@ const ArticleEtymologyDetailsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticleEtymologyDetailsProps {

@@ -171,7 +171,7 @@ const CollectionTypeSpecimensContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface CollectionTypeSpecimensProps {
@@ -218,7 +218,7 @@ class CollectionTypeSpecimens extends React.Component<
   }
 
   renderInner(
-    collection: Omit<CollectionTypeSpecimens_collection, "oid" | " $refType">
+    collection: Omit<CollectionTypeSpecimens_collection, "oid" | " $refType">,
   ) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;

@@ -171,7 +171,7 @@ const ArticleLocationDetailsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticleLocationDetailsProps {

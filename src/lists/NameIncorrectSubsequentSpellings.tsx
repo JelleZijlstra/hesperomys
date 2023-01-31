@@ -173,7 +173,7 @@ const NameIncorrectSubsequentSpellingsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameIncorrectSubsequentSpellingsProps {

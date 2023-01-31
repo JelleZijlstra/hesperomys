@@ -91,7 +91,7 @@ class NameList extends React.Component<{
         hideClassification
           ? []
           : [name.taxon.class_, name.taxon.order, name.taxon.family],
-        name
+        name,
       );
     });
     return this.renderTree(treeRoot);
@@ -115,7 +115,7 @@ class NameList extends React.Component<{
             items.push(
               <li>
                 Type locality: <ModelLink model={name.typeLocality} />
-              </li>
+              </li>,
             );
           }
           if (name.nameType) {
@@ -123,7 +123,7 @@ class NameList extends React.Component<{
               <li>
                 {name.group === "family" ? "Type genus" : "Type species"}:{" "}
                 <ModelLink model={name.nameType} />
-              </li>
+              </li>,
             );
           }
           if (name.typeSpecimen || name.speciesTypeKind) {
@@ -131,7 +131,7 @@ class NameList extends React.Component<{
               <li>
                 {name.speciesTypeKind ? toTitle(name.speciesTypeKind) : "Type"}
                 {name.typeSpecimen && ": " + name.typeSpecimen}
-              </li>
+              </li>,
             );
           }
           if (name.nomenclatureStatus && name.nomenclatureStatus !== "available") {
@@ -153,7 +153,7 @@ class NameList extends React.Component<{
                   items.push(
                     <li key={tag.text}>
                       <Detail text={tag.text} source={tag.source} />
-                    </li>
+                    </li>,
                   );
               }
             });

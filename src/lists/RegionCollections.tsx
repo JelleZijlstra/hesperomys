@@ -53,7 +53,7 @@ class RegionCollections extends React.Component<
       return null;
     }
     const showExpandAll = collections.edges.some(
-      (edge) => edge && edge.node && supportsChildren(edge.node)
+      (edge) => edge && edge.node && supportsChildren(edge.node),
     );
     const inner = (
       <>
@@ -111,7 +111,7 @@ class RegionCollections extends React.Component<
                           <ModelLink model={edge.node} />
                           <RegionCollectionsContainer region={edge.node} hideTitle />
                         </li>
-                      )
+                      ),
                   )}
                 </ul>
               );
@@ -128,7 +128,7 @@ class RegionCollections extends React.Component<
                   model={edge.node}
                   showChildren={this.state.expandAll}
                 />
-              )
+              ),
           )}
         </ul>
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
@@ -191,7 +191,7 @@ const RegionCollectionsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 export default RegionCollectionsContainer;

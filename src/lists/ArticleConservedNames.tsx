@@ -171,7 +171,7 @@ const ArticleConservedNamesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticleConservedNamesProps {

@@ -168,7 +168,7 @@ const NamePreoccupiedNamesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NamePreoccupiedNamesProps {

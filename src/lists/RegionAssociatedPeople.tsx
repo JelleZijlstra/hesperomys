@@ -56,7 +56,7 @@ class RegionAssociatedPeople extends React.Component<
       return null;
     }
     const showExpandAll = associatedPeople.edges.some(
-      (edge) => edge && edge.node && supportsChildren(edge.node)
+      (edge) => edge && edge.node && supportsChildren(edge.node),
     );
     const inner = (
       <>
@@ -113,7 +113,7 @@ class RegionAssociatedPeople extends React.Component<
                             hideTitle
                           />
                         </li>
-                      )
+                      ),
                   )}
                 </ul>
               );
@@ -130,7 +130,7 @@ class RegionAssociatedPeople extends React.Component<
                   model={edge.node}
                   showChildren={this.state.expandAll}
                 />
-              )
+              ),
           )}
         </ul>
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
@@ -193,7 +193,7 @@ const RegionAssociatedPeopleContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 export default RegionAssociatedPeopleContainer;

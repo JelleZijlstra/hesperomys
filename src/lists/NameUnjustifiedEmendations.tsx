@@ -171,7 +171,7 @@ const NameUnjustifiedEmendationsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameUnjustifiedEmendationsProps {

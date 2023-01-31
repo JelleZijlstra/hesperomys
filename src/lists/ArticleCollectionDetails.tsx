@@ -171,7 +171,7 @@ const ArticleCollectionDetailsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticleCollectionDetailsProps {

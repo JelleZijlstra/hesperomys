@@ -36,7 +36,7 @@ class TaxonOccurrences extends React.Component<
       return null;
     }
     const showExpandAll = taxon.occurrences.edges.some(
-      (edge) => edge && edge.node && supportsChildren(edge.node)
+      (edge) => edge && edge.node && supportsChildren(edge.node),
     );
     const inner = (
       <>
@@ -56,7 +56,7 @@ class TaxonOccurrences extends React.Component<
                   model={edge.node}
                   showChildren={this.state.expandAll}
                 />
-              )
+              ),
           )}
         </ul>
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
@@ -114,5 +114,5 @@ export default createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );

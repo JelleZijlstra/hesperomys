@@ -171,7 +171,7 @@ const ArticleCitationDetailsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticleCitationDetailsProps {

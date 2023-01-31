@@ -173,7 +173,7 @@ const NameCommissionDesignatedAsTypeContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameCommissionDesignatedAsTypeProps {

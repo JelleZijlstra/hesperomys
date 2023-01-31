@@ -23,7 +23,7 @@ import StratigraphicUnitChildren from "../lists/StratigraphicUnitChildren";
 import StratigraphicUnitLocations from "../lists/StratigraphicUnitLocations";
 
 export function supportsChildren(
-  model: Omit<ModelChildList_model, " $refType">
+  model: Omit<ModelChildList_model, " $refType">,
 ): boolean {
   switch (model.__typename) {
     case "Collection":
