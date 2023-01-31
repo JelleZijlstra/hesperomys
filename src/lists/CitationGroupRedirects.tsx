@@ -43,7 +43,7 @@ class CitationGroupRedirects extends React.Component<
       return null;
     }
     const showExpandAll = citationGroup.redirects.edges.some(
-      (edge) => edge && edge.node && supportsChildren(edge.node)
+      (edge) => edge && edge.node && supportsChildren(edge.node),
     );
     const inner = (
       <>
@@ -63,7 +63,7 @@ class CitationGroupRedirects extends React.Component<
                   model={edge.node}
                   showChildren={this.state.expandAll}
                 />
-              )
+              ),
           )}
         </ul>
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
@@ -126,5 +126,5 @@ export default createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );

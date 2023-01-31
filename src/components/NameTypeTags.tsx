@@ -160,7 +160,7 @@ class NameTypeTags extends React.Component<{
       return null;
     }
     const typeTags = name.typeTags.filter(
-      (tag) => tag && (!tagsToInclude || tagsToInclude.includes(tag.__typename))
+      (tag) => tag && (!tagsToInclude || tagsToInclude.includes(tag.__typename)),
     );
     if (typeTags.length === 0) {
       return null;
@@ -173,7 +173,7 @@ class NameTypeTags extends React.Component<{
               <li key={tag.__typename}>
                 <TypeTag tag={tag} />
               </li>
-            )
+            ),
         )}
       </ul>
     );

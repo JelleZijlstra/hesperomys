@@ -167,7 +167,7 @@ const PersonNamesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface PersonNamesProps {

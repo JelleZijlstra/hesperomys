@@ -168,7 +168,7 @@ const NameMandatoryChangesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameMandatoryChangesProps {

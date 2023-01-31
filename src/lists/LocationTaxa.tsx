@@ -33,7 +33,7 @@ class LocationTaxa extends React.Component<LocationTaxaProps, { expandAll: boole
       return null;
     }
     const showExpandAll = location.taxa.edges.some(
-      (edge) => edge && edge.node && supportsChildren(edge.node)
+      (edge) => edge && edge.node && supportsChildren(edge.node),
     );
     const inner = (
       <>
@@ -53,7 +53,7 @@ class LocationTaxa extends React.Component<LocationTaxaProps, { expandAll: boole
                   model={edge.node}
                   showChildren={this.state.expandAll}
                 />
-              )
+              ),
           )}
         </ul>
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
@@ -110,5 +110,5 @@ export default createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );

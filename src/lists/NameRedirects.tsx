@@ -168,7 +168,7 @@ const NameRedirectsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameRedirectsProps {

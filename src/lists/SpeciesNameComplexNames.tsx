@@ -171,7 +171,7 @@ const SpeciesNameComplexNamesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface SpeciesNameComplexNamesProps {
@@ -221,7 +221,7 @@ class SpeciesNameComplexNames extends React.Component<
     speciesNameComplex: Omit<
       SpeciesNameComplexNames_speciesNameComplex,
       "oid" | " $refType"
-    >
+    >,
   ) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;

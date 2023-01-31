@@ -168,7 +168,7 @@ const ArticleNewNamesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticleNewNamesProps {

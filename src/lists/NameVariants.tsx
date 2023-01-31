@@ -168,7 +168,7 @@ const NameVariantsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameVariantsProps {

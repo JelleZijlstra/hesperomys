@@ -171,7 +171,7 @@ const NameSelectionsOfSpellingContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameSelectionsOfSpellingProps {

@@ -171,7 +171,7 @@ const LocationTypeLocalitiesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface LocationTypeLocalitiesProps {

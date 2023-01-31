@@ -168,7 +168,7 @@ const NameNominaNovaContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameNominaNovaProps {

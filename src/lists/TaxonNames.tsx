@@ -167,7 +167,7 @@ const TaxonNamesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface TaxonNamesProps {

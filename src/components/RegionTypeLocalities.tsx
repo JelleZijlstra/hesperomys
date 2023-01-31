@@ -94,7 +94,7 @@ class RegionTypeLocalities extends React.Component<
                           <ModelLink model={edge.node} />
                           <RegionTypeLocalitiesContainer region={edge.node} hideTitle />
                         </li>
-                      )
+                      ),
                   )}
                 </ul>
               );
@@ -112,7 +112,7 @@ class RegionTypeLocalities extends React.Component<
                   model={edge.node}
                   showChildren={this.state.expandAll}
                 />
-              )
+              ),
           )}
         </ul>
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
@@ -166,7 +166,7 @@ const RegionTypeLocalitiesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 export default RegionTypeLocalitiesContainer;

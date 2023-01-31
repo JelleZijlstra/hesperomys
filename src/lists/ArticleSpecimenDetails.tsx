@@ -171,7 +171,7 @@ const ArticleSpecimenDetailsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticleSpecimenDetailsProps {

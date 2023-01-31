@@ -171,7 +171,7 @@ const NameReversalsOfPriorityContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameReversalsOfPriorityProps {

@@ -171,7 +171,7 @@ const ArticleFullySuppressedNamesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticleFullySuppressedNamesProps {

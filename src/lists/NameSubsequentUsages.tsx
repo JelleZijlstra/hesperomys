@@ -168,7 +168,7 @@ const NameSubsequentUsagesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameSubsequentUsagesProps {

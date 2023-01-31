@@ -171,7 +171,7 @@ const ArticleSpellingSelectionsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticleSpellingSelectionsProps {

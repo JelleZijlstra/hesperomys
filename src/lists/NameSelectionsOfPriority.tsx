@@ -171,7 +171,7 @@ const NameSelectionsOfPriorityContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameSelectionsOfPriorityProps {

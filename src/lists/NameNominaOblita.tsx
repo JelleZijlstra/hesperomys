@@ -168,7 +168,7 @@ const NameNominaOblitaContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameNominaOblitaProps {

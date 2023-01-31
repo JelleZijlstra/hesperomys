@@ -168,7 +168,7 @@ const PersonCollectedContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface PersonCollectedProps {

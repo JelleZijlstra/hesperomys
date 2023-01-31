@@ -171,7 +171,7 @@ const ArticlePrioritySelectionsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticlePrioritySelectionsProps {

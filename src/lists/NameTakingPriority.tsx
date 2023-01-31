@@ -168,7 +168,7 @@ const NameTakingPriorityContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameTakingPriorityProps {

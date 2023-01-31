@@ -33,7 +33,7 @@ class NameTaxonSet extends React.Component<NameTaxonSetProps, { expandAll: boole
       return null;
     }
     const showExpandAll = name.taxonSet.edges.some(
-      (edge) => edge && edge.node && supportsChildren(edge.node)
+      (edge) => edge && edge.node && supportsChildren(edge.node),
     );
     const inner = (
       <>
@@ -57,7 +57,7 @@ class NameTaxonSet extends React.Component<NameTaxonSetProps, { expandAll: boole
                   model={edge.node}
                   showChildren={this.state.expandAll}
                 />
-              )
+              ),
           )}
         </ul>
         <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
@@ -115,5 +115,5 @@ export default createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );

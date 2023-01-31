@@ -171,7 +171,7 @@ const ArticlePriorityReversalsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticlePriorityReversalsProps {

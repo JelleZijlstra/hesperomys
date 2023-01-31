@@ -168,7 +168,7 @@ const PersonPatronymsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface PersonPatronymsProps {

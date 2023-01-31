@@ -168,7 +168,7 @@ const CitationGroupNamesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface CitationGroupNamesProps {
@@ -215,7 +215,7 @@ class CitationGroupNames extends React.Component<
   }
 
   renderInner(
-    citationGroup: Omit<CitationGroupNames_citationGroup, "oid" | " $refType">
+    citationGroup: Omit<CitationGroupNames_citationGroup, "oid" | " $refType">,
   ) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;

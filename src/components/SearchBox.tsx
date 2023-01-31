@@ -48,7 +48,7 @@ const SearchBox = ({ modelCls }: { modelCls: SearchBox_modelCls }) => {
         </Menu>
       );
     },
-    [modelCls.callSign]
+    [modelCls.callSign],
   );
 
   return (

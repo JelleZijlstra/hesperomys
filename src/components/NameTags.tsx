@@ -203,7 +203,7 @@ class NameTags extends React.Component<{ name: NameTags_name }> {
                   </>
                 )}
               </React.Fragment>
-            )
+            ),
         )}
       </ul>
     );

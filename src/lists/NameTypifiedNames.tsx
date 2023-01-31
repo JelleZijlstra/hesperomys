@@ -168,7 +168,7 @@ const NameTypifiedNamesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameTypifiedNamesProps {

@@ -168,7 +168,7 @@ const NameComplexNamesContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface NameComplexNamesProps {

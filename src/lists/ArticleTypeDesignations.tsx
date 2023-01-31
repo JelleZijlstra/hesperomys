@@ -171,7 +171,7 @@ const ArticleTypeDesignationsContainer = createPaginationContainer(
         }
       }
     `,
-  }
+  },
 );
 
 interface ArticleTypeDesignationsProps {
