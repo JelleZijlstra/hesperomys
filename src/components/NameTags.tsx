@@ -193,7 +193,7 @@ class NameTags extends React.Component<{ name: NameTags_name }> {
         {name.tags.map(
           (tag) =>
             tag && (
-              <React.Fragment key={tag.__typename}>
+              <li key={tag.__typename}>
                 <Tag tag={tag} />
                 {(tag as any).comment && (
                   <>
@@ -202,7 +202,7 @@ class NameTags extends React.Component<{ name: NameTags_name }> {
                     {")"}
                   </>
                 )}
-              </React.Fragment>
+              </li>
             ),
         )}
       </ul>

@@ -684,6 +684,7 @@ type JustifiedEmendationOf implements NameTag {
 type LSIDArticle implements ArticleTag {
   _Ignored: ID
   text: String
+  presentInArticle: Boolean
 }
 
 type LSIDName implements TypeTag {
@@ -792,6 +793,10 @@ type MustHaveAfter implements CitationGroupTag {
 type MustHaveSeries implements CitationGroupTag {
   _Ignored: ID
   comment: String
+}
+
+type MustUseChildren implements ArticleTag {
+  _Ignored: ID
 }
 
 type NOW implements LocationTag {
@@ -1371,23 +1376,21 @@ type Query {
   citationGroup(oid: Int): CitationGroup
   citationGroupPatternByLabel(label: String): [CitationGroupPattern]
   citationGroupPattern(oid: Int): CitationGroupPattern
-  collectionByLabel(label: String): [Collection]
-  collection(oid: Int): Collection
   personByLabel(label: String): [Person]
   person(oid: Int): Person
   articleByLabel(label: String): [Article]
   article(oid: Int): Article
   articleComment(oid: Int): ArticleComment
+  issueDateByLabel(label: String): [IssueDate]
+  issueDate(oid: Int): IssueDate
+  collectionByLabel(label: String): [Collection]
+  collection(oid: Int): Collection
   periodByLabel(label: String): [Period]
   period(oid: Int): Period
   stratigraphicUnitByLabel(label: String): [StratigraphicUnit]
   stratigraphicUnit(oid: Int): StratigraphicUnit
   locationByLabel(label: String): [Location]
   location(oid: Int): Location
-  issueDateByLabel(label: String): [IssueDate]
-  issueDate(oid: Int): IssueDate
-  taxonByLabel(label: String): [Taxon]
-  taxon(oid: Int): Taxon
   speciesNameComplexByLabel(label: String): [SpeciesNameComplex]
   speciesNameComplex(oid: Int): SpeciesNameComplex
   nameComplexByLabel(label: String): [NameComplex]
@@ -1396,6 +1399,8 @@ type Query {
   nameEnding(oid: Int): NameEnding
   speciesNameEndingByLabel(label: String): [SpeciesNameEnding]
   speciesNameEnding(oid: Int): SpeciesNameEnding
+  taxonByLabel(label: String): [Taxon]
+  taxon(oid: Int): Taxon
   nameByLabel(label: String): [Name]
   name(oid: Int): Name
   nameComment(oid: Int): NameComment
