@@ -632,15 +632,24 @@ def write_component(
         "conn_upper": conn_upper,
         "conn_lower": conn_lower,
         "node_type_upper": field_type,
-        "set_expand_all": "(expandAll: boolean) => this.setState({ expandAll })"
-        if field_type
-        in ["Taxon", "Region", "Period", "Location", "Collection", "StratigraphicUnit"]
-        else "undefined",
+        "set_expand_all": (
+            "(expandAll: boolean) => this.setState({ expandAll })"
+            if field_type
+            in [
+                "Taxon",
+                "Region",
+                "Period",
+                "Location",
+                "Collection",
+                "StratigraphicUnit",
+            ]
+            else "undefined"
+        ),
         "set_show_detail": (
             f"showDetail => this.setState({{ {detail_field}: showDetail }})"
-        )
-        if detail_field
-        else "undefined",
+            if detail_field
+            else "undefined"
+        ),
     }
     if field_type in LIST_TYPES:
         text = LIST_TEMPLATE % args
