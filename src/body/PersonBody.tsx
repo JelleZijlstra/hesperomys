@@ -12,6 +12,7 @@ import PersonArticles from "../lists/PersonArticles";
 
 import ModelLink from "../components/ModelLink";
 import Table from "../components/Table";
+import Romanized from "../components/Romanized";
 
 class PersonBody extends React.Component<{
   person: PersonBody_person;
@@ -24,19 +25,21 @@ class PersonBody extends React.Component<{
     }
     data.push([
       "Family name",
-      <Link to={"/h/" + person.familyName}>{person.familyName}</Link>,
+      <Link to={"/h/" + person.familyName}>
+        <Romanized text={person.familyName} />
+      </Link>,
     ]);
     if (person.givenNames) {
-      data.push(["Given names", person.givenNames]);
+      data.push(["Given names", <Romanized text={person.givenNames} />]);
     }
     if (person.initials) {
-      data.push(["Initials", person.initials]);
+      data.push(["Initials", <Romanized text={person.initials} />]);
     }
     if (person.suffix) {
-      data.push(["Suffix", person.suffix]);
+      data.push(["Suffix", <Romanized text={person.suffix} />]);
     }
     if (person.tussenvoegsel) {
-      data.push(["Particle", person.tussenvoegsel]);
+      data.push(["Particle", <Romanized text={person.tussenvoegsel} />]);
     }
     if (person.birth) {
       data.push(["Year of birth", person.birth]);

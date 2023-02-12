@@ -3,6 +3,7 @@ import { TaxonomicAuthority_authorTags } from "./__generated__/TaxonomicAuthorit
 import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
+import Romanized from "../components/Romanized";
 
 const SingleTaxonomicAuthority = ({
   person,
@@ -12,14 +13,14 @@ const SingleTaxonomicAuthority = ({
   if (!person || !person.familyName) {
     return <></>;
   }
-  return (
-    <>
-      {person.tussenvoegsel &&
-        person.namingConvention === "dutch" &&
-        person.tussenvoegsel[0].toUpperCase() + person.tussenvoegsel.slice(1) + " "}
-      {person.familyName}
-    </>
-  );
+  const pieces = [];
+  if (person.tussenvoegsel && person.namingConvention === "dutch") {
+    pieces.push(
+      person.tussenvoegsel[0].toUpperCase() + person.tussenvoegsel.slice(1) + " ",
+    );
+  }
+  pieces.push(person.familyName);
+  return <Romanized text={pieces.join("")} />;
 };
 
 class TaxonomicAuthority extends React.Component<{
