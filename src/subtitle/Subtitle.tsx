@@ -10,25 +10,43 @@ import CitationGroupSubtitle from "./CitationGroupSubtitle";
 import NameSubtitle from "./NameSubtitle";
 import PeriodSubtitle from "./PeriodSubtitle";
 
-class Subtitle extends React.Component<{ model: Subtitle_model }> {
-  render() {
-    const { model } = this.props;
-    switch (model.__typename) {
-      case "Name":
-        return <NameSubtitle name={model} />;
-      case "Period":
-        return <PeriodSubtitle period={model} />;
-      case "Region":
-        return <RegionSubtitle region={model} />;
-      case "Collection":
-        return <CollectionSubtitle collection={model} />;
-      case "CitationGroup":
-        return <CitationGroupSubtitle citationGroup={model} />;
-      default:
-        return null;
-    }
+const modelSpecific = function (model: Subtitle_model) {
+  switch (model.__typename) {
+    case "Name":
+      return <NameSubtitle name={model} />;
+    case "Period":
+      return <PeriodSubtitle period={model} />;
+    case "Region":
+      return <RegionSubtitle region={model} />;
+    case "Collection":
+      return <CollectionSubtitle collection={model} />;
+    case "CitationGroup":
+      return <CitationGroupSubtitle citationGroup={model} />;
+    default:
+      return null;
   }
-}
+};
+
+const Subtitle = ({ model }: { model: Subtitle_model }) => {
+  const start = modelSpecific(model);
+  const href = model.modelCls.name
+    .replace(/([a-z])([A-Z])/, (match) => `${match[0]}-${match[1].toLowerCase()}`)
+    .toLowerCase();
+  const docslink = (
+    <>
+      Documentation: <a href={`/docs/${href}`}>{model.modelCls.name}</a>
+    </>
+  );
+  if (start) {
+    return (
+      <>
+        {start} – {docslink}
+      </>
+    );
+  } else {
+    return docslink;
+  }
+};
 
 export default createFragmentContainer(Subtitle, {
   model: graphql`
@@ -39,6 +57,9 @@ export default createFragmentContainer(Subtitle, {
       ...CollectionSubtitle_collection
       ...RegionSubtitle_region
       ...PeriodSubtitle_period
+      modelCls {
+        name
+      }
     }
   `,
 });

@@ -44,6 +44,7 @@ type Article implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   numericYear: Int
   addmonth: String!
   addday: String!
@@ -119,7 +120,6 @@ type Article implements Node & Model {
   numTypeSpeciesDetails: Int!
   biographies(before: String, after: String, first: Int, last: Int): PersonConnection
   numBiographies: Int!
-  modelCls: ModelCls!
 }
 
 type ArticleComment implements Node & Model {
@@ -128,11 +128,11 @@ type ArticleComment implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   article: Article!
   kind: ArticleCommentKind!
   date: Int!
   text: String!
-  modelCls: ModelCls!
 }
 
 type ArticleCommentConnection {
@@ -231,6 +231,7 @@ type Book implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   authorTags: [AuthorTag!]!
   year: String
   title: String!
@@ -244,7 +245,6 @@ type Book implements Node & Model {
   loc: String
   data: String
   category: String
-  modelCls: ModelCls!
 }
 
 type BookConnection {
@@ -278,6 +278,7 @@ type CitationGroup implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   name: String!
   region: Region
   deleted: Boolean!
@@ -297,7 +298,6 @@ type CitationGroup implements Node & Model {
   numNames: Int!
   bookSet(before: String, after: String, first: Int, last: Int): BookConnection
   numBookSet: Int!
-  modelCls: ModelCls!
 }
 
 type CitationGroupConnection {
@@ -316,9 +316,9 @@ type CitationGroupPattern implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   pattern: String!
   citationGroup: CitationGroup!
-  modelCls: ModelCls!
 }
 
 type CitationGroupPatternConnection {
@@ -351,6 +351,7 @@ type Collection implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   label: String!
   name: String!
   location: Region!
@@ -365,7 +366,6 @@ type Collection implements Node & Model {
   numProbableSpecimens: Int!
   sharedSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
   numSharedSpecimens: Int!
-  modelCls: ModelCls!
 }
 
 type CollectionConnection {
@@ -650,6 +650,7 @@ type IssueDate implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   citationGroup: CitationGroup!
   series: String
   volume: String!
@@ -658,7 +659,6 @@ type IssueDate implements Node & Model {
   endPage: String
   date: String!
   tags: [IssueDateTag!]!
-  modelCls: ModelCls!
 }
 
 type IssueDateConnection {
@@ -722,6 +722,7 @@ type Location implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   name: String!
   minPeriod: Period
   maxPeriod: Period
@@ -744,7 +745,6 @@ type Location implements Node & Model {
   numTypeLocalities: Int!
   taxa(before: String, after: String, first: Int, last: Int): OccurrenceConnection
   numTaxa: Int!
-  modelCls: ModelCls!
 }
 
 type LocationConnection {
@@ -789,6 +789,7 @@ interface Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
 }
 
 type ModelCls {
@@ -826,6 +827,7 @@ type Name implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   numericYear: Int
   group: Group!
   rootName: String!
@@ -896,7 +898,6 @@ type Name implements Node & Model {
   numDesignatedAsType: Int!
   commissionDesignatedAsType(before: String, after: String, first: Int, last: Int): NameConnection
   numCommissionDesignatedAsType: Int!
-  modelCls: ModelCls!
 }
 
 type NameComment implements Node & Model {
@@ -905,13 +906,13 @@ type NameComment implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   name: Name!
   kind: CommentKind!
   date: Int!
   text: String!
   source: Article
   page: String!
-  modelCls: ModelCls!
 }
 
 type NameCommentConnection {
@@ -930,6 +931,7 @@ type NameComplex implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   label: String!
   stem: String
   sourceLanguage: SourceLanguage!
@@ -942,7 +944,6 @@ type NameComplex implements Node & Model {
   numEndings: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
   numNames: Int!
-  modelCls: ModelCls!
 }
 
 type NameConnection {
@@ -961,10 +962,10 @@ type NameEnding implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   nameComplex: NameComplex!
   ending: String!
   comment: String!
-  modelCls: ModelCls!
 }
 
 type NameEndingConnection {
@@ -1140,12 +1141,12 @@ type Occurrence implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   taxon: Taxon!
   location: Location!
   comment: String!
   status: OccurrenceStatus!
   source: Article
-  modelCls: ModelCls!
 }
 
 type OccurrenceConnection {
@@ -1227,6 +1228,7 @@ type Period implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   locations(before: String, after: String, first: Int, last: Int): LocationConnection
   numLocations: Int!
   name: String!
@@ -1261,7 +1263,6 @@ type Period implements Node & Model {
   locationsMax(before: String, after: String, first: Int, last: Int): LocationConnection
   numLocationsMax: Int!
   hasLocations: Boolean
-  modelCls: ModelCls!
 }
 
 type PeriodConnection {
@@ -1310,6 +1311,7 @@ type Person implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   familyName: String!
   givenNames: String
   initials: String
@@ -1337,7 +1339,6 @@ type Person implements Node & Model {
   numBooks: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
   numNames: Int!
-  modelCls: ModelCls!
 }
 
 type PersonConnection {
@@ -1485,6 +1486,7 @@ type Region implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   name: String!
   comment: String
   parent: Region
@@ -1509,7 +1511,6 @@ type Region implements Node & Model {
   hasAssociatedPeople: Boolean
   associatedPeople(before: String, after: String, first: Int, last: Int): PersonConnection
   numAssociatedPeople: Int!
-  modelCls: ModelCls!
 }
 
 type RegionConnection {
@@ -1627,6 +1628,7 @@ type SpeciesNameComplex implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   label: String!
   stem: String
   kind: SpeciesNameKind!
@@ -1638,7 +1640,6 @@ type SpeciesNameComplex implements Node & Model {
   numEndings: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
   numNames: Int!
-  modelCls: ModelCls!
 }
 
 type SpeciesNameEnding implements Node & Model {
@@ -1647,11 +1648,11 @@ type SpeciesNameEnding implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   nameComplex: SpeciesNameComplex!
   ending: String!
   comment: String!
   fullNameOnly: Boolean!
-  modelCls: ModelCls!
 }
 
 type SpeciesNameEndingConnection {
@@ -1685,6 +1686,7 @@ type Specimen implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   taxon: Taxon!
   region: Region!
   taxonText: String!
@@ -1694,7 +1696,6 @@ type Specimen implements Node & Model {
   link: String!
   comments(before: String, after: String, first: Int, last: Int): SpecimenCommentConnection
   numComments: Int!
-  modelCls: ModelCls!
 }
 
 enum SpecimenAge {
@@ -1711,10 +1712,10 @@ type SpecimenComment implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   specimen: Specimen!
   date: Int!
   text: String!
-  modelCls: ModelCls!
 }
 
 type SpecimenCommentConnection {
@@ -1817,6 +1818,7 @@ type StratigraphicUnit implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   name: String!
   parent: StratigraphicUnit
   prev: StratigraphicUnit
@@ -1833,7 +1835,6 @@ type StratigraphicUnit implements Node & Model {
   locations(before: String, after: String, first: Int, last: Int): LocationConnection
   numLocations: Int!
   hasLocations: Boolean
-  modelCls: ModelCls!
 }
 
 type StratigraphicUnitConnection {
@@ -1879,6 +1880,7 @@ type Taxon implements Node & Model {
   callSign: String!
   pageTitle: String!
   redirectUrl: String
+  modelCls: ModelCls!
   rank: Rank!
   validName: String!
   age: AgeClass!
@@ -1898,7 +1900,6 @@ type Taxon implements Node & Model {
   class_: Taxon
   order: Taxon
   family: Taxon
-  modelCls: ModelCls!
 }
 
 type TaxonConnection {
