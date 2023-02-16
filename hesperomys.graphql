@@ -215,6 +215,11 @@ type BHLBibliography implements CitationGroupTag {
   text: String
 }
 
+type BiblioNote implements CitationGroupTag {
+  _Ignored: ID
+  text: String
+}
+
 type Biography implements PersonTag {
   _Ignored: ID
   article: Article!

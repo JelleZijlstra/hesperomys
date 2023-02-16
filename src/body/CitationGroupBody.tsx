@@ -17,7 +17,6 @@ const CitationGroupTags = ({
   citationGroup: CitationGroupBody_citationGroup;
 }) => {
   const data: [string, JSX.Element | null | string][] = [];
-  let showLink = false;
   citationGroup.tags.forEach((tag) => {
     switch (tag.__typename) {
       case "ISSN": {
@@ -42,15 +41,20 @@ const CitationGroupTags = ({
         break;
       case "Predecessor":
         data.push(["Previous name", <ModelLink model={tag.cg} />]);
-        showLink = true;
         break;
       case "YearRange":
         data.push(["Published during", `${tag.start}-${tag.end}`]);
-        showLink = true;
         break;
       case "DatingTools":
         data.push(["Comments on dating", tag.text]);
-        showLink = true;
+        break;
+      case "BiblioNote":
+        if (tag.text) {
+          data.push([
+            "Bibliographical discussion",
+            <a href={`/docs/biblio/${tag.text}`}>{tag.text}</a>,
+          ]);
+        }
         break;
     }
   });
@@ -60,12 +64,6 @@ const CitationGroupTags = ({
   return (
     <>
       <Table data={data} />
-
-      {showLink && (
-        <p>
-          <a href="/docs/tricky-journals">See note on "Tricky journals"</a>
-        </p>
-      )}
     </>
   );
 };
@@ -233,6 +231,9 @@ export default createFragmentContainer(CitationGroupBody, {
           end
         }
         ... on DatingTools {
+          text
+        }
+        ... on BiblioNote {
           text
         }
       }
