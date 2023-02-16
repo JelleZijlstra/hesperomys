@@ -6,7 +6,7 @@ import SiteBody from "./SiteBody";
 import Docs from "./Docs";
 
 export default function DocsMain() {
-  const { path } = useParams();
+  const { "0": path } = useParams() as any;
   useEffect(() => {
     document.title = "Hesperomys - " + path;
   }, [path]);

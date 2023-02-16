@@ -11,7 +11,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/docs/:path">
+        <Route path="/docs/*">
           <DocsMain />
         </Route>
         <Route path="/:callSign/:oid">
