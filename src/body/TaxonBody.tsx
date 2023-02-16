@@ -25,18 +25,24 @@ class TaxonBody extends React.Component<{
 }> {
   render() {
     const { taxon } = this.props;
-    const { taxonRank, validName, age, parent, baseName } = this.props.taxon;
+    const { taxonRank, validName, age, parent, baseName, tags } = this.props.taxon;
+    const data: [string, string | React.ReactElement | null][] = [
+      ["Name", validName],
+      ["Rank", RANK_TO_STRING.get(taxonRank) || taxonRank],
+      ["Age class", AGE_CLASS_TO_STRING.get(age) || age],
+      ["Base name", <ModelLink model={baseName} />],
+      ["Parent", parent ? <ModelLink model={parent} /> : null],
+    ];
+    tags.forEach((tag) => {
+      switch (tag.__typename) {
+        case "NominalGenus":
+          data.push(["Nominal genus", <ModelLink model={tag.genus} />]);
+          break;
+      }
+    });
     return (
       <>
-        <Table
-          data={[
-            ["Name", validName],
-            ["Rank", RANK_TO_STRING.get(taxonRank) || taxonRank],
-            ["Age class", AGE_CLASS_TO_STRING.get(age) || age],
-            ["Base name", <ModelLink model={baseName} />],
-            ["Parent", parent ? <ModelLink model={parent} /> : null],
-          ]}
-        />
+        <Table data={data} />
         <TaxonContext taxon={taxon} />
         <TaxonNames taxon={taxon} hideClassification showNameDetail />
         <TaxonChildren taxon={taxon} />
@@ -60,6 +66,15 @@ export default createFragmentContainer(TaxonBody, {
       ...TaxonContext_taxon
       ...TaxonChildren_taxon
       ...TaxonNames_taxon @arguments(showNameDetail: true)
+
+      tags {
+        __typename
+        ... on NominalGenus {
+          genus {
+            ...ModelLink_model
+          }
+        }
+      }
     }
   `,
 });

@@ -436,6 +436,12 @@ enum DateSource {
   doi_published_online
   doi_published_other
   doi_published
+  decision
+}
+
+type DatingTools implements CitationGroupTag {
+  _Ignored: ID
+  text: String
 }
 
 type DefinitionDetail implements TypeTag {
@@ -643,8 +649,8 @@ type IssueDate implements Node & Model {
   series: String
   volume: String!
   issue: String
-  startPage: String!
-  endPage: String!
+  startPage: String
+  endPage: String
   date: String!
   tags: [IssueDateTag!]!
   modelCls: ModelCls!
@@ -760,6 +766,11 @@ enum LocationStatus {
 
 interface LocationTag {
   _Ignored: ID
+}
+
+type MDD implements TaxonTag {
+  _Ignored: ID
+  id: String
 }
 
 type MandatoryChangeOf implements NameTag {
@@ -1106,6 +1117,11 @@ enum NomenclatureStatus {
   collective_group
   not_nominative_singular
   as_emended
+}
+
+type NominalGenus implements TaxonTag {
+  _Ignored: ID
+  genus: Name!
 }
 
 type NonOriginal implements ArticleTag {
@@ -1864,6 +1880,7 @@ type Taxon implements Node & Model {
   parent: Taxon
   data: String
   isPageRoot: Boolean!
+  tags: [TaxonTag!]!
   baseName: Name!
   children(before: String, after: String, first: Int, last: Int): TaxonConnection
   numChildren: Int!
@@ -1887,6 +1904,10 @@ type TaxonConnection {
 type TaxonEdge {
   node: Taxon
   cursor: String!
+}
+
+interface TaxonTag {
+  _Ignored: ID
 }
 
 type TextualOriginalRank implements TypeTag {

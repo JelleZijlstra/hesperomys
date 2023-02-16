@@ -48,6 +48,10 @@ const CitationGroupTags = ({
         data.push(["Published during", `${tag.start}-${tag.end}`]);
         showLink = true;
         break;
+      case "DatingTools":
+        data.push(["Comments on dating", tag.text]);
+        showLink = true;
+        break;
     }
   });
   if (!data) {
@@ -227,6 +231,9 @@ export default createFragmentContainer(CitationGroupBody, {
         ... on YearRange {
           start
           end
+        }
+        ... on DatingTools {
+          text
         }
       }
       issuedateSet(first: 1000) {
