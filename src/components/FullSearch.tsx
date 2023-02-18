@@ -18,7 +18,11 @@ function SingleResult({
     <div>
       <hr />
       <p>
-        {result.model && <ModelLink model={result.model} />}
+        {result.model && (
+          <>
+            {result.model.modelCls.name}: <ModelLink model={result.model} />
+          </>
+        )}
         {result.context && <> ({result.context})</>}
       </p>
       {result.highlight && <ReactMarkdown children={result.highlight} />}
@@ -38,6 +42,9 @@ function SearchResults({ query }: { query: string }) {
               node {
                 model {
                   ...ModelLink_model
+                  modelCls {
+                    name
+                  }
                 }
                 context
                 highlight
