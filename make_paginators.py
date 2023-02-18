@@ -59,7 +59,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
           )}
         </ul>
         <LoadMoreButton
-          numToLoad={numToLoad || 100}
+          numToLoad={numToLoad}
           relay={relay}
         />
       </>
@@ -220,7 +220,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
           )}
         </ul>
         <LoadMoreButton
-          numToLoad={numToLoad || 100}
+          numToLoad={numToLoad}
           relay={relay}
         />
       </>
@@ -339,7 +339,7 @@ class %(type_upper)s%(conn_upper)sInner extends React.Component<
         />
         <%(node_type_upper)sList connection={%(type_lower)sInner.%(conn_lower)s} hideClassification={hideClassification} />
         <LoadMoreButton
-          numToLoad={numToLoad || 100}
+          numToLoad={numToLoad}
           relay={relay}
         />
       </>
@@ -663,7 +663,7 @@ def write_component(
 
 if __name__ == "__main__":
     for type_name, conn_name, field_type in extract_connections(parse_graphql_schema()):
-        if field_type in ("Specimen", "SpecimenComment"):
+        if field_type in ("Specimen", "SpecimenComment", "SearchResult"):
             continue
         write_component(type_name, conn_name, field_type, force=True)
     subprocess.call(["pre-commit", "run", "--all", "prettier"])

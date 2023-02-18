@@ -73,7 +73,7 @@ class PersonInvolvedInner extends React.Component<PersonInvolvedInnerProps> {
           connection={personInner.involved}
           hideClassification={hideClassification}
         />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {

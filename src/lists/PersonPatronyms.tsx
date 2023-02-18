@@ -73,7 +73,7 @@ class PersonPatronymsInner extends React.Component<PersonPatronymsInnerProps> {
           connection={personInner.patronyms}
           hideClassification={hideClassification}
         />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {

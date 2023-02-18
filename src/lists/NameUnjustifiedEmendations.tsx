@@ -76,7 +76,7 @@ class NameUnjustifiedEmendationsInner extends React.Component<NameUnjustifiedEme
           connection={nameInner.unjustifiedEmendations}
           hideClassification={hideClassification}
         />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {

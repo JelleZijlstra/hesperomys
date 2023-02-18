@@ -2,7 +2,7 @@ import * as React from "react";
 import { RelayPaginationProp } from "react-relay";
 
 interface LoadMoreButtonProps {
-  numToLoad: number;
+  numToLoad?: number;
   relay: RelayPaginationProp;
 }
 
@@ -18,12 +18,12 @@ export default class LoadMoreButton extends React.Component<LoadMoreButtonProps>
   }
 
   _loadMore() {
-    const { relay } = this.props;
+    const { relay, numToLoad } = this.props;
     if (!relay.hasMore() || relay.isLoading()) {
       return;
     }
 
-    relay.loadMore(DEFAULT_LOAD_MORE, (error) => {
+    relay.loadMore(numToLoad || DEFAULT_LOAD_MORE, (error) => {
       if (error) {
         console.log(error);
       }

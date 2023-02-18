@@ -76,7 +76,7 @@ class ArticleTypeDesignationsInner extends React.Component<ArticleTypeDesignatio
           connection={articleInner.typeDesignations}
           hideClassification={hideClassification}
         />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {

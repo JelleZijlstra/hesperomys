@@ -73,7 +73,7 @@ class NameMandatoryChangesInner extends React.Component<NameMandatoryChangesInne
           connection={nameInner.mandatoryChanges}
           hideClassification={hideClassification}
         />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {

@@ -73,7 +73,7 @@ class NameNominaOblitaInner extends React.Component<NameNominaOblitaInnerProps> 
           connection={nameInner.nominaOblita}
           hideClassification={hideClassification}
         />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {

@@ -73,7 +73,7 @@ class NameTakingPriorityInner extends React.Component<NameTakingPriorityInnerPro
           connection={nameInner.takingPriority}
           hideClassification={hideClassification}
         />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {

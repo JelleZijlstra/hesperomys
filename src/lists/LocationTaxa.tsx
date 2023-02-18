@@ -56,7 +56,7 @@ class LocationTaxa extends React.Component<LocationTaxaProps, { expandAll: boole
               ),
           )}
         </ul>
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {

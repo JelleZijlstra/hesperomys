@@ -73,7 +73,7 @@ class NameTypifiedNamesInner extends React.Component<NameTypifiedNamesInnerProps
           connection={nameInner.typifiedNames}
           hideClassification={hideClassification}
         />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {

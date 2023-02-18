@@ -73,7 +73,7 @@ class NameVariantsInner extends React.Component<NameVariantsInnerProps> {
           connection={nameInner.variants}
           hideClassification={hideClassification}
         />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {

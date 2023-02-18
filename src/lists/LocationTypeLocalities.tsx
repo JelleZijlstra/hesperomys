@@ -76,7 +76,7 @@ class LocationTypeLocalitiesInner extends React.Component<LocationTypeLocalities
           connection={locationInner.typeLocalities}
           hideClassification={hideClassification}
         />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {

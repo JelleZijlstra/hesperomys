@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { PeriodStratigraphicUnitsMin_period } from "./__generated__/PeriodStratigraphicUnitsMin_period.graphql";
+import { CitationGroupIssuedateSet_citationGroup } from "./__generated__/CitationGroupIssuedateSet_citationGroup.graphql";
 
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
@@ -10,8 +10,8 @@ import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
 
-interface PeriodStratigraphicUnitsMinProps {
-  period: PeriodStratigraphicUnitsMin_period;
+interface CitationGroupIssuedateSetProps {
+  citationGroup: CitationGroupIssuedateSet_citationGroup;
   title?: string;
   subtitle?: JSX.Element;
   hideTitle?: boolean;
@@ -20,41 +20,41 @@ interface PeriodStratigraphicUnitsMinProps {
   wrapperTitle?: string;
 }
 
-class PeriodStratigraphicUnitsMin extends React.Component<
-  PeriodStratigraphicUnitsMinProps,
+class CitationGroupIssuedateSet extends React.Component<
+  CitationGroupIssuedateSetProps,
   { expandAll: boolean }
 > {
-  constructor(props: PeriodStratigraphicUnitsMinProps) {
+  constructor(props: CitationGroupIssuedateSetProps) {
     super(props);
     this.state = { expandAll: false };
   }
 
   render() {
-    const { period, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
-      this.props;
-    if (
-      !period.stratigraphicUnitsMin ||
-      period.stratigraphicUnitsMin.edges.length === 0
-    ) {
+    const {
+      citationGroup,
+      relay,
+      numToLoad,
+      hideTitle,
+      title,
+      subtitle,
+      wrapperTitle,
+    } = this.props;
+    if (!citationGroup.issuedateSet || citationGroup.issuedateSet.edges.length === 0) {
       return null;
     }
-    const showExpandAll = period.stratigraphicUnitsMin.edges.some(
+    const showExpandAll = citationGroup.issuedateSet.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node),
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "StratigraphicUnitsMin"}</h3>}
+        {!hideTitle && <h3>{title || "IssuedateSet"}</h3>}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
-          setExpandAll={
-            showExpandAll
-              ? (expandAll: boolean) => this.setState({ expandAll })
-              : undefined
-          }
+          setExpandAll={showExpandAll ? undefined : undefined}
         />
         <ul>
-          {period.stratigraphicUnitsMin.edges.map(
+          {citationGroup.issuedateSet.edges.map(
             (edge) =>
               edge &&
               edge.node && (
@@ -82,17 +82,17 @@ class PeriodStratigraphicUnitsMin extends React.Component<
 }
 
 export default createPaginationContainer(
-  PeriodStratigraphicUnitsMin,
+  CitationGroupIssuedateSet,
   {
-    period: graphql`
-      fragment PeriodStratigraphicUnitsMin_period on Period
+    citationGroup: graphql`
+      fragment CitationGroupIssuedateSet_citationGroup on CitationGroup
       @argumentDefinitions(
         count: { type: "Int", defaultValue: 50 }
         cursor: { type: "String", defaultValue: null }
       ) {
         oid
-        stratigraphicUnitsMin(first: $count, after: $cursor)
-          @connection(key: "PeriodStratigraphicUnitsMin_stratigraphicUnitsMin") {
+        issuedateSet(first: $count, after: $cursor)
+          @connection(key: "CitationGroupIssuedateSet_issuedateSet") {
           edges {
             node {
               oid
@@ -106,22 +106,22 @@ export default createPaginationContainer(
     `,
   },
   {
-    getConnectionFromProps: (props) => props.period.stratigraphicUnitsMin,
+    getConnectionFromProps: (props) => props.citationGroup.issuedateSet,
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {
         count,
         cursor,
-        oid: props.period.oid,
+        oid: props.citationGroup.oid,
       };
     },
     query: graphql`
-      query PeriodStratigraphicUnitsMinPaginationQuery(
+      query CitationGroupIssuedateSetPaginationQuery(
         $count: Int!
         $cursor: String
         $oid: Int!
       ) {
-        period(oid: $oid) {
-          ...PeriodStratigraphicUnitsMin_period
+        citationGroup(oid: $oid) {
+          ...CitationGroupIssuedateSet_citationGroup
             @arguments(count: $count, cursor: $cursor)
         }
       }

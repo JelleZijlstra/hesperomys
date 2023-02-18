@@ -76,7 +76,7 @@ class ArticleSpecimenDetailsInner extends React.Component<ArticleSpecimenDetails
           connection={articleInner.specimenDetails}
           hideClassification={hideClassification}
         />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {

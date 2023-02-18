@@ -73,7 +73,7 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
           connection={taxonInner.names}
           hideClassification={hideClassification}
         />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {

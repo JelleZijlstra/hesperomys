@@ -76,7 +76,7 @@ class ArticlePriorityReversalsInner extends React.Component<ArticlePriorityRever
           connection={articleInner.priorityReversals}
           hideClassification={hideClassification}
         />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {

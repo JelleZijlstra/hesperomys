@@ -76,7 +76,7 @@ class NameIncorrectSubsequentSpellingsInner extends React.Component<NameIncorrec
           connection={nameInner.incorrectSubsequentSpellings}
           hideClassification={hideClassification}
         />
-        <LoadMoreButton numToLoad={numToLoad || 100} relay={relay} />
+        <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
     );
     if (wrapperTitle) {
