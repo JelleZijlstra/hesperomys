@@ -1392,6 +1392,7 @@ type Query {
   byCallSign(callSign: String!, oid: String!): [Model]
   documentation(path: String!): String
   modelCls(callSign: String!): ModelCls!
+  search(query: String!, before: String, after: String, first: Int, last: Int): SearchResultConnection
   regionByLabel(label: String): [Region]
   region(oid: Int): Region
   citationGroupByLabel(label: String): [CitationGroup]
@@ -1557,6 +1558,22 @@ type ReversalOfPriority implements NameTag {
   over: Name!
   opinion: Article!
   comment: String
+}
+
+type SearchResult {
+  model: Model
+  context: String
+  highlight: String
+}
+
+type SearchResultConnection {
+  pageInfo: PageInfo!
+  edges: [SearchResultEdge]!
+}
+
+type SearchResultEdge {
+  node: SearchResult
+  cursor: String!
 }
 
 type SelectionOfPriority implements NameTag {
