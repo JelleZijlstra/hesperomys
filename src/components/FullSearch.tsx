@@ -5,7 +5,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import { FullSearchQuery } from "./__generated__/FullSearchQuery.graphql";
 import ModelLink from "./ModelLink";
-import InlineMarkdown from "./InlineMarkdown";
+import ReactMarkdown from "react-markdown";
 
 function SingleResult({
   result,
@@ -17,9 +17,11 @@ function SingleResult({
   return (
     <div>
       <hr />
-      {result.model && <ModelLink model={result.model} />}
-      {result.context && <p>{result.context}</p>}
-      {result.highlight && <InlineMarkdown source={result.highlight} />}
+      <p>
+        {result.model && <ModelLink model={result.model} />}
+        {result.context && <> ({result.context})</>}
+      </p>
+      {result.highlight && <ReactMarkdown children={result.highlight} />}
     </div>
   );
 }
