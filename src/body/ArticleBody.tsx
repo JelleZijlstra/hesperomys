@@ -168,6 +168,7 @@ class ArticleBody extends React.Component<{
           <Reference article={article} />
         </p>
         <Table data={data} />
+        <ArticleComments article={article} title="Comments" />
         <ArticleNewNames article={article} title="New names" />
         <ArticleArticleSet article={article} title="Child articles" />
         <ArticlePartiallySuppressedNames
@@ -196,7 +197,6 @@ class ArticleBody extends React.Component<{
         <ArticleDefinitionDetails article={article} title="Definition details" />
         <ArticleEtymologyDetails article={article} title="Etymology details" />
         <ArticleTypeSpeciesDetails article={article} title="Type species details" />
-        <ArticleComments article={article} title="Comments" />
       </>
     );
   }

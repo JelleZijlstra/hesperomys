@@ -6,6 +6,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import NameComplexNames from "../lists/NameComplexNames";
 import Table from "../components/Table";
+import InlineMarkdown from "../components/InlineMarkdown";
 
 class NameComplexBody extends React.Component<{
   nameComplex: NameComplexBody_nameComplex;
@@ -25,7 +26,12 @@ class NameComplexBody extends React.Component<{
                 -{nameComplex.stemRemove}+{nameComplex.stemAdd}
               </>,
             ],
-            ["Comment", nameComplex.comment],
+            [
+              "Comment",
+              nameComplex.comment ? (
+                <InlineMarkdown source={nameComplex.comment} />
+              ) : null,
+            ],
           ]}
         />
         <NameComplexNames nameComplex={nameComplex} />

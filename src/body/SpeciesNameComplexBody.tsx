@@ -6,6 +6,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import SpeciesNameComplexNames from "../lists/SpeciesNameComplexNames";
 import Table from "../components/Table";
+import InlineMarkdown from "../components/InlineMarkdown";
 
 class SpeciesNameComplexBody extends React.Component<{
   speciesNameComplex: SpeciesNameComplexBody_speciesNameComplex;
@@ -21,7 +22,12 @@ class SpeciesNameComplexBody extends React.Component<{
             ["Masculine ending", <>-{speciesNameComplex.masculineEnding}</>],
             ["Femine ending", <>-{speciesNameComplex.feminineEnding}</>],
             ["Neuter ending", <>-{speciesNameComplex.neuterEnding}</>],
-            ["Comment", speciesNameComplex.comment],
+            [
+              "Comment",
+              speciesNameComplex.comment ? (
+                <InlineMarkdown source={speciesNameComplex.comment} />
+              ) : null,
+            ],
           ]}
         />
         <SpeciesNameComplexNames speciesNameComplex={speciesNameComplex} />
