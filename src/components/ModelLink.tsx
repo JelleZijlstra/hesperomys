@@ -6,6 +6,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import Title from "../title/Title";
 import ModelLinkNoExtra from "./ModelLinkNoExtra";
+import OpenButton from "./OpenButton";
 import ReactMarkdown from "react-markdown";
 
 function PersonExtra({ model }: { model: ModelLink_model }) {
@@ -108,6 +109,8 @@ function ModelExtra({ model }: { model: ModelLink_model }) {
       return <CommentExtra model={model} />;
     case "ArticleComment":
       return <CommentExtra model={model} />;
+    case "Article":
+      return <OpenButton articleId={model.oid} />;
     default:
       return null;
   }
@@ -134,6 +137,7 @@ class ModelLink extends React.Component<{ model: ModelLink_model }> {
 export default createFragmentContainer(ModelLink, {
   model: graphql`
     fragment ModelLink_model on Model {
+      oid
       __typename
       ...ModelLinkNoExtra_model
       ... on Location {
