@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { SearchResults_query } from "./__generated__/SearchResults_query.graphql";
+import { SearchResults_queryRoot } from "./__generated__/SearchResults_queryRoot.graphql";
 
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
@@ -13,7 +13,7 @@ function SingleResult({
   result,
 }: {
   result: NonNullable<
-    NonNullable<NonNullable<SearchResults_query["search"]>["edges"][0]>["node"]
+    NonNullable<NonNullable<SearchResults_queryRoot["search"]>["edges"][0]>["node"]
   >;
 }) {
   return (
@@ -33,13 +33,13 @@ function SingleResult({
 }
 
 interface SearchResultProps {
-  query: SearchResults_query;
+  queryRoot: SearchResults_queryRoot;
   queryString: string;
   relay: RelayPaginationProp;
 }
 
-function SearchResults({ query, relay }: SearchResultProps) {
-  const edges = query.search?.edges || [];
+function SearchResults({ queryRoot, relay }: SearchResultProps) {
+  const edges = queryRoot.search?.edges || [];
   return (
     <>
       {edges.length === 0 && <p>No results found</p>}
@@ -55,8 +55,8 @@ function SearchResults({ query, relay }: SearchResultProps) {
 export default createPaginationContainer(
   SearchResults,
   {
-    query: graphql`
-      fragment SearchResults_query on Query
+    queryRoot: graphql`
+      fragment SearchResults_queryRoot on QueryRoot
       @argumentDefinitions(
         count: { type: "Int", defaultValue: 10 }
         cursor: { type: "String", defaultValue: null }
@@ -82,13 +82,13 @@ export default createPaginationContainer(
     `,
   },
   {
-    getConnectionFromProps: (props) => props.query.search,
+    getConnectionFromProps: (props) => props.queryRoot.search,
     getVariables({ queryString }, { count, cursor }, fragmentVariables) {
       return { count, cursor, queryString };
     },
     query: graphql`
       query SearchResultsQuery($count: Int!, $cursor: String, $queryString: String!) {
-        ...SearchResults_query
+        ...SearchResults_queryRoot
           @arguments(count: $count, cursor: $cursor, queryString: $queryString)
       }
     `,

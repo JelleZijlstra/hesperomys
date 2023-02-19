@@ -1,6 +1,6 @@
 schema {
-  query: Query
-  mutation: Mutation
+  query: QueryRoot
+  mutation: MutationRoot
 }
 
 type ActiveRegion implements PersonTag {
@@ -817,7 +817,7 @@ type MustUseChildren implements ArticleTag {
   _Ignored: ID
 }
 
-type Mutation {
+type MutationRoot {
   openArticle(articleId: Int!): OpenArticle
 }
 
@@ -1396,7 +1396,7 @@ type PublicationDate implements ArticleTag {
   comment: String
 }
 
-type Query {
+type QueryRoot {
   node(id: ID!): Node
   byCallSign(callSign: String!, oid: String!): [Model]
   documentation(path: String!): String

@@ -12,7 +12,7 @@ function SearchResultsRenderer({ queryString }: { queryString: string }) {
       environment={environment}
       query={graphql`
         query FullSearchQuery($queryString: String!) {
-          ...SearchResults_query @arguments(queryString: $queryString)
+          ...SearchResults_queryRoot @arguments(queryString: $queryString)
         }
       `}
       variables={{ queryString }}
@@ -23,7 +23,7 @@ function SearchResultsRenderer({ queryString }: { queryString: string }) {
         if (!props) {
           return <div>Loading...</div>;
         }
-        return <SearchResults query={props} queryString={queryString} />;
+        return <SearchResults queryRoot={props} queryString={queryString} />;
       }}
     />
   );
