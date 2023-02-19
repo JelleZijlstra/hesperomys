@@ -1,5 +1,6 @@
 schema {
   query: Query
+  mutation: Mutation
 }
 
 type ActiveRegion implements PersonTag {
@@ -816,6 +817,10 @@ type MustUseChildren implements ArticleTag {
   _Ignored: ID
 }
 
+type Mutation {
+  openArticle(articleId: Int!): OpenArticle
+}
+
 type NOW implements LocationTag {
   _Ignored: ID
   id: String
@@ -1173,6 +1178,10 @@ type OnlineRepository implements CitationGroupTag {
   _Ignored: ID
   url: String
   comment: String
+}
+
+type OpenArticle {
+  ok: Boolean
 }
 
 type Organ implements TypeTag {

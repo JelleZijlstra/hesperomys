@@ -39,9 +39,11 @@ interface SearchResultProps {
 }
 
 function SearchResults({ query, relay }: SearchResultProps) {
+  const edges = query.search?.edges || [];
   return (
     <>
-      {query.search?.edges.map(
+      {edges.length === 0 && <p>No results found</p>}
+      {edges.map(
         (edge) =>
           edge?.node?.model && <SingleResult key={edge.cursor} result={edge.node} />,
       )}
