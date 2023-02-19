@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SearchForm from "./SearchForm";
 
 export default function SiteHeader({
   children,
@@ -19,6 +20,7 @@ export default function SiteHeader({
         {children}
         {subtitle && <div className="page-subtitle">{subtitle}</div>}
       </div>
+      <SearchForm />
     </div>
   );
 }

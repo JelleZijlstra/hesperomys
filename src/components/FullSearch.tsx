@@ -30,7 +30,8 @@ function SearchResultsRenderer({ queryString }: { queryString: string }) {
 }
 
 export default function FullSearch() {
-  const [query, setQuery] = useState<string | null>(null);
+  const params = new URLSearchParams(window.location.search);
+  const [query, setQuery] = useState<string | null>(params.get("q"));
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -41,7 +42,7 @@ export default function FullSearch() {
   return (
     <>
       <form method="post" onSubmit={handleSubmit}>
-        <input name="query" />
+        <input name="query" defaultValue={query ?? undefined} />
         <button type="submit">Search</button>
       </form>
       {query && <SearchResultsRenderer queryString={query} />}
