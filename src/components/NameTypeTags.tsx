@@ -137,6 +137,15 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       );
     case "TypeSpeciesDetail":
       return <Detail text={tag.text} source={tag.source} />;
+    case "TypeSpecimenLink":
+      if (!tag.url) {
+        return null;
+      }
+      return (
+        <>
+          Collection database entry for type specimen: <a href={tag.url}>{tag.url}</a>
+        </>
+      );
     case "NamedAfter":
       return (
         <>
@@ -334,6 +343,9 @@ export default createFragmentContainer(NameTypeTags, {
         }
         ... on LSIDName {
           text
+        }
+        ... on TypeSpecimenLink {
+          url
         }
       }
     }

@@ -359,6 +359,7 @@ type Collection implements Node & Model {
   comment: String
   city: String
   removed: Boolean!
+  tags: [CollectionTag!]!
   typeSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
   numTypeSpecimens: Int!
   associatedPeople(before: String, after: String, first: Int, last: Int): PersonConnection
@@ -374,6 +375,12 @@ type CollectionConnection {
   edges: [CollectionEdge]!
 }
 
+type CollectionDatabase implements CollectionTag {
+  _Ignored: ID
+  citation: Article!
+  comment: String
+}
+
 type CollectionDetail implements TypeTag {
   _Ignored: ID
   text: String
@@ -383,6 +390,10 @@ type CollectionDetail implements TypeTag {
 type CollectionEdge {
   node: Collection
   cursor: String!
+}
+
+interface CollectionTag {
+  _Ignored: ID
 }
 
 type CommentIssueDate implements IssueDateTag {
@@ -1004,7 +1015,7 @@ enum NamingConvention {
   hungarian
   vietnamese
   german
-  western
+  general
   russian
   turkish
   chinese
@@ -1012,6 +1023,11 @@ enum NamingConvention {
   mongolian
   ukrainian
   other
+  english
+  english_peer
+  french
+  italian
+  portuguese
 }
 
 type NeedsTranslation implements ArticleTag {
@@ -1128,6 +1144,7 @@ enum NomenclatureStatus {
   collective_group
   not_nominative_singular
   as_emended
+  rejected_by_fiat
 }
 
 type NominalGenus implements TaxonTag {
@@ -1321,6 +1338,7 @@ type Person implements Node & Model {
   pageTitle: String!
   redirectUrl: String
   modelCls: ModelCls!
+  aliases(before: String, after: String, first: Int, last: Int): PersonConnection
   familyName: String!
   givenNames: String
   initials: String
@@ -1370,6 +1388,7 @@ enum PersonType {
   soft_redirect
   hard_redirect
   deleted
+  alias
 }
 
 type Predecessor implements CitationGroupTag {
@@ -1947,6 +1966,12 @@ type TextualOriginalRank implements TypeTag {
   text: String
 }
 
+type TypeCatalog implements CollectionTag {
+  _Ignored: ID
+  citation: Article!
+  coverage: String
+}
+
 type TypeDesignation implements TypeTag {
   _Ignored: ID
   source: Article!
@@ -1976,6 +2001,11 @@ type TypeSpeciesDetail implements TypeTag {
   _Ignored: ID
   text: String
   source: Article!
+}
+
+type TypeSpecimenLink implements TypeTag {
+  _Ignored: ID
+  url: String
 }
 
 interface TypeTag {
