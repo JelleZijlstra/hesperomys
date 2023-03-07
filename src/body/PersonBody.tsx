@@ -5,10 +5,11 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 import { Link } from "react-router-dom";
 
-import PersonCollected from "../lists/PersonCollected";
-import PersonPatronyms from "../lists/PersonPatronyms";
-import PersonNames from "../lists/PersonNames";
-import PersonArticles from "../lists/PersonArticles";
+import PersonCollectedAll from "../lists/PersonCollectedAll";
+import PersonPatronymsAll from "../lists/PersonPatronymsAll";
+import PersonNamesAll from "../lists/PersonNamesAll";
+import PersonArticlesAll from "../lists/PersonArticlesAll";
+import PersonInvolvedAll from "../lists/PersonInvolvedAll";
 import PersonAliases from "../lists/PersonAliases";
 
 import ModelLink from "../components/ModelLink";
@@ -94,10 +95,11 @@ class PersonBody extends React.Component<{
           </ul>
         )}
         <PersonAliases person={person} />
-        <PersonPatronyms person={person} />
-        <PersonCollected person={person} />
-        <PersonNames person={person} />
-        <PersonArticles person={person} />
+        <PersonPatronymsAll person={person} title="Patronyms" />
+        <PersonNamesAll person={person} title="New names" />
+        <PersonArticlesAll person={person} title="Bibliography" />
+        <PersonCollectedAll person={person} title="Type specimens collected" />
+        <PersonInvolvedAll person={person} title="Involvement with type specimens" />
       </>
     );
   }
@@ -143,10 +145,11 @@ export default createFragmentContainer(PersonBody, {
         }
       }
       ...PersonAliases_person
-      ...PersonPatronyms_person
-      ...PersonCollected_person
-      ...PersonNames_person
-      ...PersonArticles_person
+      ...PersonPatronymsAll_person
+      ...PersonCollectedAll_person
+      ...PersonInvolvedAll_person
+      ...PersonNamesAll_person
+      ...PersonArticlesAll_person
     }
   `,
 });

@@ -1366,6 +1366,18 @@ type Person implements Node & Model {
   numBooks: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
   numNames: Int!
+  patronymsAll(before: String, after: String, first: Int, last: Int): NameConnection
+  numPatronymsAll: Int!
+  collectedAll(before: String, after: String, first: Int, last: Int): NameConnection
+  numCollectedAll: Int!
+  involvedAll(before: String, after: String, first: Int, last: Int): NameConnection
+  numInvolvedAll: Int!
+  articlesAll(before: String, after: String, first: Int, last: Int): ArticleConnection
+  numArticlesAll: Int!
+  booksAll(before: String, after: String, first: Int, last: Int): BookConnection
+  numBooksAll: Int!
+  namesAll(before: String, after: String, first: Int, last: Int): NameConnection
+  numNamesAll: Int!
 }
 
 type PersonConnection {
