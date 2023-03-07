@@ -44,12 +44,13 @@ const SingleAuthor = ({
         person.tussenvoegsel + " "}
       {person.familyName}
       {addComma && ", "}
-      {person.givenNames ? initializeGiven(person.givenNames) : person.initials}
+      {person.initials}
+      {!person.initials && person.givenNames && initializeGiven(person.givenNames)}
       {person.tussenvoegsel &&
         person.namingConvention === "dutch" &&
         " " + person.tussenvoegsel}
       {person.suffix &&
-        (person.namingConvention === "ancient"
+        (person.namingConvention === "ancient" || person.namingConvention === "spanish"
           ? " " + person.suffix
           : ", " + person.suffix)}
     </>

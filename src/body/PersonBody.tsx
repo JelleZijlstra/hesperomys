@@ -9,6 +9,7 @@ import PersonCollected from "../lists/PersonCollected";
 import PersonPatronyms from "../lists/PersonPatronyms";
 import PersonNames from "../lists/PersonNames";
 import PersonArticles from "../lists/PersonArticles";
+import PersonAliases from "../lists/PersonAliases";
 
 import ModelLink from "../components/ModelLink";
 import Table from "../components/Table";
@@ -21,7 +22,7 @@ class PersonBody extends React.Component<{
     const { person } = this.props;
     const data: [string, JSX.Element | string][] = [];
     if (person.target) {
-      data.push(["Redirect target", <ModelLink model={person.target} />]);
+      data.push(["Canonical name", <ModelLink model={person.target} />]);
     }
     data.push([
       "Family name",
@@ -92,6 +93,7 @@ class PersonBody extends React.Component<{
             })}
           </ul>
         )}
+        <PersonAliases person={person} />
         <PersonPatronyms person={person} />
         <PersonCollected person={person} />
         <PersonNames person={person} />
@@ -140,6 +142,7 @@ export default createFragmentContainer(PersonBody, {
           }
         }
       }
+      ...PersonAliases_person
       ...PersonPatronyms_person
       ...PersonCollected_person
       ...PersonNames_person
