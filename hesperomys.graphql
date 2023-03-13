@@ -511,6 +511,11 @@ enum FillDataLevel {
   nothing_needed
 }
 
+type FindKind implements SpecimenTag {
+  _Ignored: ID
+  kind: KindOfFind
+}
+
 type FullIssue implements ArticleTag {
   _Ignored: ID
   comment: String
@@ -702,6 +707,12 @@ type JustifiedEmendationOf implements NameTag {
   name: Name!
   justification: EmendationJustification
   comment: String
+}
+
+enum KindOfFind {
+  bottle
+  picked_up
+  professional
 }
 
 type LSIDArticle implements ArticleTag {
@@ -1751,6 +1762,7 @@ type Specimen implements Node & Model {
   date: String!
   description: String!
   link: String!
+  tags: [SpecimenTag!]!
   comments(before: String, after: String, first: Int, last: Int): SpecimenCommentConnection
   numComments: Int!
 }
@@ -1858,6 +1870,10 @@ enum SpecimenOrgan {
   patella
 }
 
+interface SpecimenTag {
+  _Ignored: ID
+}
+
 enum Status {
   valid
   synonym
@@ -1962,6 +1978,12 @@ type Taxon implements Node & Model {
 type TaxonConnection {
   pageInfo: PageInfo!
   edges: [TaxonEdge]!
+}
+
+type TaxonCount implements SpecimenTag {
+  _Ignored: ID
+  count: Int
+  taxon: String
 }
 
 type TaxonEdge {
