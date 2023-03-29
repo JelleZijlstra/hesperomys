@@ -194,6 +194,7 @@ enum ArticleType {
   SUPPLEMENT
   JOURNAL
   REDIRECT
+  PART
 }
 
 type AsEmendedBy implements NameTag {
@@ -490,6 +491,11 @@ enum EmendationJustification {
   conserved_by_the_commission
 }
 
+type EnglishCommonName implements TaxonTag {
+  _Ignored: ID
+  name: String
+}
+
 type EtymologyDetail implements TypeTag {
   _Ignored: ID
   text: String
@@ -614,6 +620,12 @@ type IgnoreLint implements ArticleTag {
   comment: String
 }
 
+type IgnoreLintName implements TypeTag {
+  _Ignored: ID
+  label: String
+  comment: String
+}
+
 type IgnorePotentialCitations implements CitationGroupTag {
   _Ignored: ID
 }
@@ -709,6 +721,11 @@ type JustifiedEmendationOf implements NameTag {
   comment: String
 }
 
+type KeyReference implements TaxonTag {
+  _Ignored: ID
+  article: Article!
+}
+
 enum KindOfFind {
   bottle
   picked_up
@@ -718,7 +735,7 @@ enum KindOfFind {
 type LSIDArticle implements ArticleTag {
   _Ignored: ID
   text: String
-  presentInArticle: Boolean
+  presentInArticle: PresenceStatus
 }
 
 type LSIDName implements TypeTag {
@@ -1425,6 +1442,14 @@ type PreoccupiedBy implements NameTag {
   comment: String
 }
 
+enum PresenceStatus {
+  absent
+  to_be_determined
+  probably_absent
+  present
+  inferred
+}
+
 type ProbableRepository implements TypeTag {
   _Ignored: ID
   repository: Collection!
@@ -1597,6 +1622,11 @@ type Rejected implements NameTag {
   _Ignored: ID
   opinion: Article!
   comment: String
+}
+
+type RejectedLSIDName implements TypeTag {
+  _Ignored: ID
+  text: String
 }
 
 type Repository implements TypeTag {
@@ -1959,6 +1989,7 @@ type Taxon implements Node & Model {
   age: AgeClass!
   parent: Taxon
   data: String
+  comments: String
   isPageRoot: Boolean!
   tags: [TaxonTag!]!
   baseName: Name!
