@@ -85,6 +85,8 @@ type Article implements Node & Model {
   numNameComments: Int!
   occurrences(before: String, after: String, first: Int, last: Int): OccurrenceConnection
   numOccurrences: Int!
+  orderedNewNames(before: String, after: String, first: Int, last: Int): NameConnection
+  numOrderedNewNames: Int!
   partiallySuppressedNames(before: String, after: String, first: Int, last: Int): NameConnection
   numPartiallySuppressedNames: Int!
   fullySuppressedNames(before: String, after: String, first: Int, last: Int): NameConnection

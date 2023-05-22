@@ -46,20 +46,22 @@ class NameList extends React.Component<{
 }> {
   render() {
     const { connection, hideClassification } = this.props;
-    const names = connection.edges
+    const unorderedNames = connection.edges
       .map((edge) => edge && edge.node)
-      .filter((node) => !!node)
-      .sort((left, right) => {
-        const leftKey = sortKey(left);
-        const rightKey = sortKey(right);
-        if (leftKey < rightKey) {
-          return -1;
-        } else if (leftKey > rightKey) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+      .filter((node) => !!node);
+    const names = hideClassification
+      ? unorderedNames
+      : unorderedNames.sort((left, right) => {
+          const leftKey = sortKey(left);
+          const rightKey = sortKey(right);
+          if (leftKey < rightKey) {
+            return -1;
+          } else if (leftKey > rightKey) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
     const treeRoot: TreeNode = makeNode();
     const addName = (treeNode: TreeNode, parents: (Taxon | null)[], name: Name) => {
       if (parents.length === 0) {

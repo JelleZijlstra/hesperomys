@@ -10,7 +10,7 @@ import Table from "../components/Table";
 import AuthorList from "../components/AuthorList";
 import Reference from "../reference/Reference";
 
-import ArticleNewNames from "../lists/ArticleNewNames";
+import ArticleOrderedNewNames from "../lists/ArticleOrderedNewNames";
 import ArticleArticleSet from "../lists/ArticleArticleSet";
 import ArticlePartiallySuppressedNames from "../lists/ArticlePartiallySuppressedNames";
 import ArticleFullySuppressedNames from "../lists/ArticleFullySuppressedNames";
@@ -169,7 +169,11 @@ class ArticleBody extends React.Component<{
         </p>
         <Table data={data} />
         <ArticleComments article={article} title="Comments" />
-        <ArticleNewNames article={article} title="New names" />
+        <ArticleOrderedNewNames
+          article={article}
+          title="New names"
+          hideClassification
+        />
         <ArticleArticleSet article={article} title="Child articles" />
         <ArticlePartiallySuppressedNames
           article={article}
@@ -258,7 +262,7 @@ export default createFragmentContainer(ArticleBody, {
           comment
         }
       }
-      ...ArticleNewNames_article
+      ...ArticleOrderedNewNames_article
       ...ArticleArticleSet_article
       ...ArticlePartiallySuppressedNames_article
       ...ArticleFullySuppressedNames_article
