@@ -4,8 +4,8 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-import CitationGroupNames from "../lists/CitationGroupNames";
-import CitationGroupArticleSet from "../lists/CitationGroupArticleSet";
+import CitationGroupOrderedNames from "../lists/CitationGroupOrderedNames";
+import CitationGroupOrderedArticles from "../lists/CitationGroupOrderedArticles";
 import CitationGroupRedirects from "../lists/CitationGroupRedirects";
 import ModelLink from "../components/ModelLink";
 import Table from "../components/Table";
@@ -190,10 +190,14 @@ class CitationGroupBody extends React.Component<{
         )}
         <CitationGroupTags citationGroup={citationGroup} />
         <IssueDates citationGroup={citationGroup} />
-        <CitationGroupArticleSet citationGroup={citationGroup} title="Publications" />
-        <CitationGroupNames
+        <CitationGroupOrderedArticles
+          citationGroup={citationGroup}
+          title="Publications"
+        />
+        <CitationGroupOrderedNames
           citationGroup={citationGroup}
           title="Names published here"
+          hideClassification
         />
         <CitationGroupRedirects citationGroup={citationGroup} title="Aliases" />
       </>
@@ -260,8 +264,8 @@ export default createFragmentContainer(CitationGroupBody, {
         }
       }
       ...CitationGroupRedirects_citationGroup
-      ...CitationGroupArticleSet_citationGroup
-      ...CitationGroupNames_citationGroup
+      ...CitationGroupOrderedArticles_citationGroup
+      ...CitationGroupOrderedNames_citationGroup
     }
   `,
 });

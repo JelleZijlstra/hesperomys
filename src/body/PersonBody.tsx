@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 
 import PersonCollectedAll from "../lists/PersonCollectedAll";
 import PersonPatronymsAll from "../lists/PersonPatronymsAll";
-import PersonNamesAll from "../lists/PersonNamesAll";
-import PersonArticlesAll from "../lists/PersonArticlesAll";
+import PersonOrderedNames from "../lists/PersonOrderedNames";
+import PersonOrderedArticles from "../lists/PersonOrderedArticles";
 import PersonInvolvedAll from "../lists/PersonInvolvedAll";
 import PersonAliases from "../lists/PersonAliases";
 
@@ -96,8 +96,8 @@ class PersonBody extends React.Component<{
         )}
         <PersonAliases person={person} />
         <PersonPatronymsAll person={person} title="Patronyms" />
-        <PersonNamesAll person={person} title="New names" />
-        <PersonArticlesAll person={person} title="Bibliography" />
+        <PersonOrderedNames person={person} title="New names" hideClassification />
+        <PersonOrderedArticles person={person} title="Bibliography" />
         <PersonCollectedAll person={person} title="Type specimens collected" />
         <PersonInvolvedAll person={person} title="Involvement with type specimens" />
       </>
@@ -148,8 +148,8 @@ export default createFragmentContainer(PersonBody, {
       ...PersonPatronymsAll_person
       ...PersonCollectedAll_person
       ...PersonInvolvedAll_person
-      ...PersonNamesAll_person
-      ...PersonArticlesAll_person
+      ...PersonOrderedNames_person
+      ...PersonOrderedArticles_person
     }
   `,
 });
