@@ -1173,6 +1173,10 @@ enum NomenclatureStatus {
   not_nominative_singular
   as_emended
   rejected_by_fiat
+  unpublished_thesis
+  unpublished_electronic
+  unpublished_pending
+  unpublished_supplement
 }
 
 type NominalGenus implements TaxonTag {
@@ -1268,6 +1272,11 @@ type PageRegex implements CitationGroupTag {
   startPageRegex: String
   pagesRegex: String
   allowStandard: Boolean
+}
+
+type PartialTaxon implements TypeTag {
+  _Ignored: ID
+  taxon: Taxon!
 }
 
 type PartiallySuppressedBy implements NameTag {
@@ -1913,6 +1922,8 @@ enum Status {
   spurious
   removed
   redirect
+  composite
+  hybrid
 }
 
 type StratigraphicUnit implements Node & Model {
@@ -2031,6 +2042,11 @@ type TextualOriginalRank implements TypeTag {
   text: String
 }
 
+type TransliteratedFamilyName implements PersonTag {
+  _Ignored: ID
+  text: String
+}
+
 type TypeCatalog implements CollectionTag {
   _Ignored: ID
   citation: Article!
@@ -2075,6 +2091,11 @@ type TypeSpecimenLink implements TypeTag {
 
 interface TypeTag {
   _Ignored: ID
+}
+
+type UnavailableElectronic implements ArticleTag {
+  _Ignored: ID
+  comment: String
 }
 
 type UnjustifiedEmendationOf implements NameTag {
