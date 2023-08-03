@@ -853,9 +853,17 @@ type MustHaveAfter implements CitationGroupTag {
   year: String
 }
 
+type MustHavePreciseDate implements CitationGroupTag {
+  _Ignored: ID
+}
+
 type MustHaveSeries implements CitationGroupTag {
   _Ignored: ID
   comment: String
+}
+
+type MustHaveURL implements CitationGroupTag {
+  _Ignored: ID
 }
 
 type MustUseChildren implements ArticleTag {
@@ -936,6 +944,8 @@ type Name implements Node & Model {
   numIncorrectOriginalSpellings: Int!
   subsequentUsages(before: String, after: String, first: Int, last: Int): NameConnection
   numSubsequentUsages: Int!
+  nameCombinations(before: String, after: String, first: Int, last: Int): NameConnection
+  numNameCombinations: Int!
   selectionsOfPriority(before: String, after: String, first: Int, last: Int): NameConnection
   numSelectionsOfPriority: Int!
   selectionsOfSpelling(before: String, after: String, first: Int, last: Int): NameConnection
@@ -948,6 +958,12 @@ type Name implements Node & Model {
   numDesignatedAsType: Int!
   commissionDesignatedAsType(before: String, after: String, first: Int, last: Int): NameConnection
   numCommissionDesignatedAsType: Int!
+}
+
+type NameCombinationOf implements NameTag {
+  _Ignored: ID
+  name: Name!
+  comment: String
 }
 
 type NameComment implements Node & Model {
@@ -1183,6 +1199,7 @@ enum NomenclatureStatus {
   unpublished_electronic
   unpublished_pending
   unpublished_supplement
+  name_combination
 }
 
 type NominalGenus implements TaxonTag {
