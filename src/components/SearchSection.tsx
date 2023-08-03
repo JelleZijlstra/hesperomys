@@ -8,6 +8,24 @@ import { SearchSectionQuery } from "./__generated__/SearchSectionQuery.graphql";
 
 import SearchBox from "./SearchBox";
 import Table from "./Table";
+import { SearchBox_modelCls$key } from "./__generated__/SearchBox_modelCls.graphql";
+
+function buildRow(
+  name: string,
+  link: string,
+  callSign: string,
+  modelCls: SearchBox_modelCls$key,
+): [JSX.Element, JSX.Element] {
+  return [
+    <>
+      <Link to={`/docs/${link}`}>{name}</Link>{" "}
+      <small>
+        (<Link to={`/new/${callSign}`}>new</Link>)
+      </small>
+    </>,
+    <SearchBox modelCls={modelCls} />,
+  ];
+}
 
 export default function SearchSection() {
   return (
@@ -59,47 +77,27 @@ export default function SearchSection() {
           return <div>Loading...</div>;
         }
         const data: [JSX.Element, JSX.Element][] = [
-          [
-            <Link to="/docs/taxon">Taxon</Link>,
-            <SearchBox modelCls={props.taxonCls} />,
-          ],
-          [<Link to="/docs/name">Name</Link>, <SearchBox modelCls={props.nameCls} />],
-          [
-            <Link to="/docs/collection">Collection</Link>,
-            <SearchBox modelCls={props.collectionCls} />,
-          ],
-          [
-            <Link to="/docs/region">Region</Link>,
-            <SearchBox modelCls={props.regionCls} />,
-          ],
-          [
-            <Link to="/docs/location">Location</Link>,
-            <SearchBox modelCls={props.locationCls} />,
-          ],
-          [
-            <Link to="/docs/period">Period</Link>,
-            <SearchBox modelCls={props.periodCls} />,
-          ],
-          [
-            <Link to="/docs/stratigraphic-unit">Stratigraphic unit</Link>,
-            <SearchBox modelCls={props.stratigraphicUnitCls} />,
-          ],
-          [
-            <Link to="/docs/citation-group">Citation group</Link>,
-            <SearchBox modelCls={props.citationGroupCls} />,
-          ],
-          [
-            <Link to="/docs/name-complex">Name complex</Link>,
-            <SearchBox modelCls={props.nameComplexCls} />,
-          ],
-          [
-            <Link to="/docs/species-name-complex">Species name complex</Link>,
-            <SearchBox modelCls={props.speciesNameComplexCls} />,
-          ],
-          [
-            <Link to="/docs/person">Person</Link>,
-            <SearchBox modelCls={props.personCls} />,
-          ],
+          buildRow("Taxon", "taxon", "T", props.taxonCls),
+          buildRow("Name", "name", "N", props.nameCls),
+          buildRow("Collection", "collection", "C", props.collectionCls),
+          buildRow("Region", "region", "R", props.regionCls),
+          buildRow("Location", "location", "L", props.locationCls),
+          buildRow("Period", "period", "P", props.periodCls),
+          buildRow(
+            "Stratigraphic unit",
+            "stratigraphic-unit",
+            "S",
+            props.stratigraphicUnitCls,
+          ),
+          buildRow("Citation group", "citation-group", "CG", props.citationGroupCls),
+          buildRow("Name complex", "name-complex", "NC", props.nameComplexCls),
+          buildRow(
+            "Species name complex",
+            "species-name-complex",
+            "SC",
+            props.speciesNameComplexCls,
+          ),
+          buildRow("Person", "person", "H", props.personCls),
         ];
         return (
           <>

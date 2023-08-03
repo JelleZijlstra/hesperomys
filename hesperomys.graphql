@@ -842,6 +842,17 @@ type ModelCls {
   callSign: String!
   name: String!
   autocompletions(field: String): [String!]!
+  newest(first: Int, after: String, before: String, last: Int): ModelConnection!
+}
+
+type ModelConnection {
+  pageInfo: PageInfo!
+  edges: [ModelEdge]!
+}
+
+type ModelEdge {
+  node: Model
+  cursor: String!
 }
 
 type MustHave implements CitationGroupTag {
