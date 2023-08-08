@@ -270,6 +270,14 @@ interface BookTag {
   _Ignored: ID
 }
 
+type ChildRule implements CollectionTag {
+  _Ignored: ID
+  collection: Collection!
+  regex: String
+  taxon: Taxon!
+  age: AgeClass
+}
+
 type CitationDetail implements TypeTag {
   _Ignored: ID
   text: String
@@ -367,6 +375,9 @@ type Collection implements Node & Model {
   city: String
   removed: Boolean!
   tags: [CollectionTag!]!
+  parent: Collection
+  children(before: String, after: String, first: Int, last: Int): CollectionConnection
+  numChildren: Int!
   typeSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
   numTypeSpecimens: Int!
   associatedPeople(before: String, after: String, first: Int, last: Int): PersonConnection
@@ -526,6 +537,11 @@ enum FillDataLevel {
 type FindKind implements SpecimenTag {
   _Ignored: ID
   kind: KindOfFind
+}
+
+type FormerRepository implements TypeTag {
+  _Ignored: ID
+  repository: Collection!
 }
 
 type FullIssue implements ArticleTag {
@@ -878,6 +894,10 @@ type MustHaveURL implements CitationGroupTag {
 }
 
 type MustUseChildren implements ArticleTag {
+  _Ignored: ID
+}
+
+type MustUseChildrenCollection implements CollectionTag {
   _Ignored: ID
 }
 
@@ -1529,6 +1549,8 @@ type QueryRoot {
   articleComment(oid: Int): ArticleComment
   issueDateByLabel(label: String): [IssueDate]
   issueDate(oid: Int): IssueDate
+  taxonByLabel(label: String): [Taxon]
+  taxon(oid: Int): Taxon
   collectionByLabel(label: String): [Collection]
   collection(oid: Int): Collection
   periodByLabel(label: String): [Period]
@@ -1545,8 +1567,6 @@ type QueryRoot {
   nameEnding(oid: Int): NameEnding
   speciesNameEndingByLabel(label: String): [SpeciesNameEnding]
   speciesNameEnding(oid: Int): SpeciesNameEnding
-  taxonByLabel(label: String): [Taxon]
-  taxon(oid: Int): Taxon
   nameByLabel(label: String): [Name]
   name(oid: Int): Name
   nameComment(oid: Int): NameComment
@@ -1945,6 +1965,11 @@ enum SpecimenOrgan {
   scapulocoracoid
   carpometacarpal
   patella
+}
+
+type SpecimenRegex implements CollectionTag {
+  _Ignored: ID
+  regex: String
 }
 
 interface SpecimenTag {
