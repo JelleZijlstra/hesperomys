@@ -386,6 +386,8 @@ type Collection implements Node & Model {
   numProbableSpecimens: Int!
   sharedSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
   numSharedSpecimens: Int!
+  formerSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
+  numFormerSpecimens: Int!
 }
 
 type CollectionConnection {
@@ -887,6 +889,10 @@ type MustHavePreciseDate implements CitationGroupTag {
 type MustHaveSeries implements CitationGroupTag {
   _Ignored: ID
   comment: String
+}
+
+type MustHaveSpecimenLinks implements CollectionTag {
+  _Ignored: ID
 }
 
 type MustHaveURL implements CitationGroupTag {
