@@ -124,6 +124,12 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           Part of the type material is in <ModelLink model={tag.repository} />.
         </>
       );
+    case "FormerRepository":
+      return (
+        <>
+          The type material was formerly in <ModelLink model={tag.repository} />.
+        </>
+      );
     case "SpecimenDetail":
       return <Detail text={tag.text} source={tag.source} />;
     case "StratigraphyDetail":
@@ -305,6 +311,11 @@ export default createFragmentContainer(NameTypeTags, {
           reasoning
         }
         ... on Repository {
+          repository {
+            ...ModelLink_model
+          }
+        }
+        ... on FormerRepository {
           repository {
             ...ModelLink_model
           }

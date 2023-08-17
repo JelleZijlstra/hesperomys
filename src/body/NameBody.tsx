@@ -32,6 +32,7 @@ import NameCommissionDesignatedAsType from "../lists/NameCommissionDesignatedAsT
 import NameComments from "../lists/NameComments";
 import ReactMarkdown from "react-markdown";
 import PublicationDate from "./PublicationDate";
+import NameNameCombinations from "../lists/NameNameCombinations";
 
 function NameSection({ name }: { name: NameBody_name }) {
   const {
@@ -153,6 +154,7 @@ function TypeSection({ name }: { name: NameBody_name }) {
           "GenusCoelebs",
           "Host",
           "IncludedSpecies",
+          "FormerRepository",
           "Repository",
           "CollectionDetail",
           "CommmissionTypeDesignation",
@@ -230,6 +232,7 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
           title="Incorrect original spellings"
         />
         <NameJustifiedEmendations name={name} title="Justified emendations" />
+        <NameNameCombinations name={name} title="Name combinations" />
 
         <NameTakingPriority name={name} title="Taking the priority of this name" />
         <NameNominaOblita name={name} title="Nomina oblita" />
@@ -304,6 +307,7 @@ export default createFragmentContainer(NameBody, {
       ...NameTakingPriority_name
       ...NameNominaOblita_name
       ...NameMandatoryChanges_name
+      ...NameNameCombinations_name
       ...NameIncorrectOriginalSpellings_name
       ...NameSubsequentUsages_name
       ...NameSelectionsOfPriority_name

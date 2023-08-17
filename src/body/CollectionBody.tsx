@@ -4,7 +4,9 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import CollectionChildren from "../lists/CollectionChildren";
 import CollectionTypeSpecimens from "../lists/CollectionTypeSpecimens";
+import CollectionFormerSpecimens from "../lists/CollectionFormerSpecimens";
 import CollectionProbableSpecimens from "../lists/CollectionProbableSpecimens";
 import CollectionSharedSpecimens from "../lists/CollectionSharedSpecimens";
 import CollectionAssociatedPeople from "../lists/CollectionAssociatedPeople";
@@ -16,32 +18,39 @@ function SingleTag({ tag }: { tag: CollectionTag }) {
   switch (tag.__typename) {
     case "CollectionDatabase":
       return (
-        <>
+        <li key={`${tag.__typename}-${tag.citation.name}`}>
           Online collection database: <ModelLink model={tag.citation} />
           {tag.comment && ` (comment: ${tag.comment})`}
-        </>
+        </li>
       );
     case "TypeCatalog":
       return (
-        <>
+        <li key={`${tag.__typename}-${tag.citation.name}`}>
           Type catalog: <ModelLink model={tag.citation} />
           {tag.coverage && ` (coverage: ${tag.coverage})`}
-        </>
+        </li>
       );
   }
   return null;
 }
 
-function Tags({ collection: { tags } }: { collection: CollectionBody_collection }) {
+function Tags({
+  collection: { tags, parent },
+}: {
+  collection: CollectionBody_collection;
+}) {
   if (!tags || tags.length === 0) {
     return null;
   }
   return (
     <ul>
-      {tags.map((tag) => (
-        <li key={tag.__typename}>
-          <SingleTag tag={tag} />
+      {parent !== null && (
+        <li key="parent">
+          Parent collection: <ModelLink model={parent} />
         </li>
+      )}
+      {tags.map((tag) => (
+        <SingleTag tag={tag} />
       ))}
     </ul>
   );
@@ -55,6 +64,7 @@ class CollectionBody extends React.Component<{
     return (
       <>
         <Tags collection={collection} />
+        <CollectionChildren collection={collection} title="Subcollections" />
         <CollectionTypeSpecimens collection={collection} title="Type specimens" />
         <CollectionSharedSpecimens
           collection={collection}
@@ -64,6 +74,11 @@ class CollectionBody extends React.Component<{
               Part but not all of the type material for these names in this collection.
             </p>
           }
+        />
+        <CollectionFormerSpecimens
+          collection={collection}
+          title="Former type specimens"
+          subtitle={<p>These type specimens were formerly in this collection.</p>}
         />
         <CollectionProbableSpecimens
           collection={collection}
@@ -83,19 +98,27 @@ export default createFragmentContainer(CollectionBody, {
     fragment CollectionBody_collection on Collection {
       ...CollectionTypeSpecimens_collection
       ...CollectionSharedSpecimens_collection
+      ...CollectionFormerSpecimens_collection
       ...CollectionProbableSpecimens_collection
       ...CollectionAssociatedPeople_collection
+      ...CollectionChildren_collection
+      numChildren
+      parent {
+        ...ModelLink_model
+      }
       tags {
         __typename
         ... on CollectionDatabase {
           citation {
             ...ModelLink_model
+            name
           }
           comment
         }
         ... on TypeCatalog {
           citation {
             ...ModelLink_model
+            name
           }
           coverage
         }
