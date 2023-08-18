@@ -38,7 +38,7 @@ export default function NewMain() {
             </SiteHeader>
             <SiteBody>
               <p>
-                This page list objects that were most recently added to the database.
+                This page lists objects that were most recently added to the database.
               </p>
               <NewList modelCls={props.modelCls} />
             </SiteBody>
