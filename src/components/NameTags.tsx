@@ -123,22 +123,23 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
         </>
       );
     case "SelectionOfPriority":
-      if (!tag.source || !tag.over) {
+      if (!tag.optionalSource || !tag.over) {
         return null;
       }
       return (
         <>
           Selected to have priority over <ModelLink model={tag.over} /> by{" "}
-          <ModelLink model={tag.source} />
+          <ModelLink model={tag.optionalSource} />
         </>
       );
     case "SelectionOfSpelling":
-      if (!tag.source) {
+      if (!tag.optionalSource) {
         return null;
       }
       return (
         <>
-          Selected as the correct original spelling by <ModelLink model={tag.source} />
+          Selected as the correct original spelling by{" "}
+          <ModelLink model={tag.optionalSource} />
         </>
       );
     case "SubsequentUsageOf":
@@ -295,13 +296,13 @@ export default createFragmentContainer(NameTags, {
           over {
             ...ModelLink_model
           }
-          source {
+          optionalSource {
             ...ModelLink_model
           }
           comment
         }
         ... on SelectionOfSpelling {
-          source {
+          optionalSource {
             ...ModelLink_model
           }
           comment

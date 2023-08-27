@@ -5,6 +5,7 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
 import ModelLink from "./ModelLink";
+import InlineMarkdown from "./InlineMarkdown";
 
 type TypeTag_tag = Exclude<NameTypeTags_name["typeTags"][0], null>;
 
@@ -90,15 +91,41 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
     case "LectotypeDesignation":
       return (
         <>
-          Lectotype designated by <ModelLink model={tag.source} />: {tag.lectotype}.
-          {tag.comment && " Comment: " + tag.comment}
+          Lectotype
+          {tag.optionalSource ? (
+            <>
+              designated by <ModelLink model={tag.optionalSource} />
+            </>
+          ) : (
+            ""
+          )}
+          : {tag.lectotype}.
+          {tag.comment && (
+            <>
+              {" "}
+              Comment: <InlineMarkdown source={tag.comment} />
+            </>
+          )}
         </>
       );
     case "NeotypeDesignation":
       return (
         <>
-          Neotype designated by <ModelLink model={tag.source} />: {tag.neotype}.
-          {tag.comment && " Comment: " + tag.comment}
+          Neotype
+          {tag.optionalSource ? (
+            <>
+              designated by <ModelLink model={tag.optionalSource} />
+            </>
+          ) : (
+            ""
+          )}
+          : {tag.neotype}.
+          {tag.comment && (
+            <>
+              {" "}
+              Comment: <InlineMarkdown source={tag.comment} />
+            </>
+          )}
         </>
       );
     case "LocationDetail":
@@ -278,7 +305,7 @@ export default createFragmentContainer(NameTypeTags, {
           comment
         }
         ... on LectotypeDesignation {
-          source {
+          optionalSource {
             ...ModelLink_model
           }
           lectotype
@@ -292,7 +319,7 @@ export default createFragmentContainer(NameTypeTags, {
           }
         }
         ... on NeotypeDesignation {
-          source {
+          optionalSource {
             ...ModelLink_model
           }
           neotype

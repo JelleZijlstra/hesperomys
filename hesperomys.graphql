@@ -202,7 +202,7 @@ enum ArticleType {
 type AsEmendedBy implements NameTag {
   _Ignored: ID
   name: Name!
-  comment: String!
+  comment: String
 }
 
 type Author implements AuthorTag {
@@ -274,8 +274,8 @@ type ChildRule implements CollectionTag {
   _Ignored: ID
   collection: Collection!
   regex: String!
-  taxon: Taxon!
-  age: AgeClass!
+  taxon: Taxon
+  age: AgeClass
 }
 
 type CitationDetail implements TypeTag {
@@ -402,7 +402,7 @@ type CollectionConnection {
 type CollectionDatabase implements CollectionTag {
   _Ignored: ID
   citation: Article!
-  comment: String!
+  comment: String
 }
 
 type CollectionDetail implements TypeTag {
@@ -456,14 +456,14 @@ type CommissionTypeDesignation implements TypeTag {
 type ConditionalMustHaveSpecimenLinks implements CollectionTag {
   _Ignored: ID
   regex: String!
-  taxon: Taxon!
-  age: AgeClass!
+  taxon: Taxon
+  age: AgeClass
 }
 
 type Conserved implements NameTag {
   _Ignored: ID
   opinion: Article!
-  comment: String!
+  comment: String
 }
 
 type Coordinates implements TypeTag {
@@ -564,13 +564,13 @@ type FormerRepository implements TypeTag {
 
 type FullIssue implements ArticleTag {
   _Ignored: ID
-  comment: String!
+  comment: String
 }
 
 type FullySuppressedBy implements NameTag {
   _Ignored: ID
   opinion: Article!
-  comment: String!
+  comment: String
 }
 
 type FutureRepository implements TypeTag {
@@ -662,7 +662,7 @@ type ISSNOnline implements CitationGroupTag {
 type IgnoreLint implements ArticleTag {
   _Ignored: ID
   label: String!
-  comment: String!
+  comment: String
 }
 
 type IgnoreLintName implements TypeTag {
@@ -677,13 +677,13 @@ type IgnorePotentialCitations implements CitationGroupTag {
 
 type ImpreciseLocality implements TypeTag {
   _Ignored: ID
-  comment: String!
+  comment: String
 }
 
 type IncludedSpecies implements TypeTag {
   _Ignored: ID
   name: Name!
-  comment: String!
+  comment: String
 }
 
 type IncorrectGrammar implements TypeTag {
@@ -694,13 +694,13 @@ type IncorrectGrammar implements TypeTag {
 type IncorrectOriginalSpellingOf implements NameTag {
   _Ignored: ID
   name: Name!
-  comment: String!
+  comment: String
 }
 
 type IncorrectSubsequentSpellingOf implements NameTag {
   _Ignored: ID
   name: Name!
-  comment: String!
+  comment: String
 }
 
 type InitialsOnly implements ArticleTag {
@@ -715,7 +715,7 @@ type Institution implements PersonTag {
 type Involved implements TypeTag {
   _Ignored: ID
   person: Person!
-  comment: String!
+  comment: String
 }
 
 type IssueDate implements Node & Model {
@@ -763,7 +763,7 @@ type JustifiedEmendationOf implements NameTag {
   _Ignored: ID
   name: Name!
   justification: EmendationJustification!
-  comment: String!
+  comment: String
 }
 
 type KeyReference implements TaxonTag {
@@ -795,10 +795,10 @@ type Language implements BookTag {
 
 type LectotypeDesignation implements TypeTag {
   _Ignored: ID
-  source: Article
+  optionalSource: Article
   lectotype: String!
   valid: Boolean!
-  comment: String!
+  comment: String
 }
 
 type Location implements Node & Model {
@@ -866,7 +866,7 @@ type MDD implements TaxonTag {
 type MandatoryChangeOf implements NameTag {
   _Ignored: ID
   name: Name!
-  comment: String!
+  comment: String
 }
 
 interface Model {
@@ -909,7 +909,7 @@ type MustHavePreciseDate implements CitationGroupTag {
 
 type MustHaveSeries implements CitationGroupTag {
   _Ignored: ID
-  comment: String!
+  comment: String
 }
 
 type MustHaveSpecimenLinks implements CollectionTag {
@@ -1021,7 +1021,7 @@ type Name implements Node & Model {
 type NameCombinationOf implements NameTag {
   _Ignored: ID
   name: Name!
-  comment: String!
+  comment: String
 }
 
 type NameComment implements Node & Model {
@@ -1145,10 +1145,10 @@ type NeedsTranslation implements ArticleTag {
 
 type NeotypeDesignation implements TypeTag {
   _Ignored: ID
-  source: Article
+  optionalSource: Article
   neotype: String!
   valid: Boolean!
-  comment: String!
+  comment: String
 }
 
 type NoAge implements TypeTag {
@@ -1190,13 +1190,13 @@ interface Node {
 type NomenNovumFor implements NameTag {
   _Ignored: ID
   name: Name!
-  comment: String!
+  comment: String
 }
 
 type NomenOblitum implements NameTag {
   _Ignored: ID
   name: Name!
-  comment: String!
+  comment: String
 }
 
 type NomenclatureDetail implements TypeTag {
@@ -1267,7 +1267,7 @@ type NominalGenus implements TaxonTag {
 
 type NonOriginal implements ArticleTag {
   _Ignored: ID
-  comment: String!
+  comment: String
 }
 
 type Occurrence implements Node & Model {
@@ -1307,7 +1307,7 @@ enum OccurrenceStatus {
 type OnlineRepository implements CitationGroupTag {
   _Ignored: ID
   url: String!
-  comment: String!
+  comment: String
 }
 
 type OpenArticle {
@@ -1363,7 +1363,7 @@ type PartialTaxon implements TypeTag {
 type PartiallySuppressedBy implements NameTag {
   _Ignored: ID
   opinion: Article!
-  comment: String!
+  comment: String
 }
 
 type Period implements Node & Model {
@@ -1534,7 +1534,7 @@ type Predecessor implements CitationGroupTag {
 type PreoccupiedBy implements NameTag {
   _Ignored: ID
   name: Name!
-  comment: String!
+  comment: String
 }
 
 enum PresenceStatus {
@@ -1555,7 +1555,7 @@ type PublicationDate implements ArticleTag {
   _Ignored: ID
   source: DateSource!
   date: String!
-  comment: String!
+  comment: String
 }
 
 type QueryRoot {
@@ -1716,7 +1716,7 @@ enum RegionKind {
 type Rejected implements NameTag {
   _Ignored: ID
   opinion: Article!
-  comment: String!
+  comment: String
 }
 
 type RejectedLSIDName implements TypeTag {
@@ -1733,7 +1733,7 @@ type ReversalOfPriority implements NameTag {
   _Ignored: ID
   over: Name!
   opinion: Article!
-  comment: String!
+  comment: String
 }
 
 type SearchResult {
@@ -1755,14 +1755,14 @@ type SearchResultEdge {
 type SelectionOfPriority implements NameTag {
   _Ignored: ID
   over: Name!
-  source: Article!
-  comment: String!
+  optionalSource: Article
+  comment: String
 }
 
 type SelectionOfSpelling implements NameTag {
   _Ignored: ID
-  source: Article!
-  comment: String!
+  optionalSource: Article
+  comment: String
 }
 
 type SeriesRegex implements CitationGroupTag {
@@ -2075,13 +2075,13 @@ type StratigraphyDetail implements TypeTag {
 type SubsequentUsageOf implements NameTag {
   _Ignored: ID
   name: Name!
-  comment: String!
+  comment: String
 }
 
 type TakesPriorityOf implements NameTag {
   _Ignored: ID
   name: Name!
-  comment: String!
+  comment: String
 }
 
 type Taxon implements Node & Model {
@@ -2153,7 +2153,7 @@ type TypeDesignation implements TypeTag {
   _Ignored: ID
   source: Article!
   type: Name!
-  comment: String!
+  comment: String
 }
 
 type TypeLocality implements TypeTag {
@@ -2191,19 +2191,19 @@ interface TypeTag {
 
 type UnavailableElectronic implements ArticleTag {
   _Ignored: ID
-  comment: String!
+  comment: String
 }
 
 type UnjustifiedEmendationOf implements NameTag {
   _Ignored: ID
   name: Name!
-  comment: String!
+  comment: String
 }
 
 type VariantOf implements NameTag {
   _Ignored: ID
   name: Name!
-  comment: String!
+  comment: String
 }
 
 type VolumeRegex implements CitationGroupTag {
