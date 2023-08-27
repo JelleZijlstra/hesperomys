@@ -60,7 +60,11 @@ class LocationTypeLocalitiesInner extends React.Component<LocationTypeLocalities
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "TypeLocalities"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "TypeLocalities"} ({locationInner.numTypeLocalities})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const LocationTypeLocalitiesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numTypeLocalities
         typeLocalities(first: $count, after: $cursor)
           @connection(key: "LocationTypeLocalities_typeLocalities") {
           edges {

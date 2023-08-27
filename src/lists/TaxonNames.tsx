@@ -57,7 +57,11 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Names"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Names"} ({taxonInner.numNames})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const TaxonNamesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numNames
         names(first: $count, after: $cursor) @connection(key: "TaxonNames_names") {
           edges {
             node {

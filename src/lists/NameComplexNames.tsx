@@ -57,7 +57,11 @@ class NameComplexNamesInner extends React.Component<NameComplexNamesInnerProps> 
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Names"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Names"} ({nameComplexInner.numNames})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const NameComplexNamesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numNames
         names(first: $count, after: $cursor)
           @connection(key: "NameComplexNames_names") {
           edges {

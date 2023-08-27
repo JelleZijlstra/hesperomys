@@ -60,7 +60,11 @@ class ArticleEtymologyDetailsInner extends React.Component<ArticleEtymologyDetai
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "EtymologyDetails"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "EtymologyDetails"} ({articleInner.numEtymologyDetails})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const ArticleEtymologyDetailsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numEtymologyDetails
         etymologyDetails(first: $count, after: $cursor)
           @connection(key: "ArticleEtymologyDetails_etymologyDetails") {
           edges {

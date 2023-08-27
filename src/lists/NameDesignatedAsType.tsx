@@ -57,7 +57,11 @@ class NameDesignatedAsTypeInner extends React.Component<NameDesignatedAsTypeInne
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "DesignatedAsType"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "DesignatedAsType"} ({nameInner.numDesignatedAsType})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const NameDesignatedAsTypeContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numDesignatedAsType
         designatedAsType(first: $count, after: $cursor)
           @connection(key: "NameDesignatedAsType_designatedAsType") {
           edges {

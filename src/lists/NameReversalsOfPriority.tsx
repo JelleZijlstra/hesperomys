@@ -60,7 +60,11 @@ class NameReversalsOfPriorityInner extends React.Component<NameReversalsOfPriori
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "ReversalsOfPriority"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "ReversalsOfPriority"} ({nameInner.numReversalsOfPriority})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const NameReversalsOfPriorityContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numReversalsOfPriority
         reversalsOfPriority(first: $count, after: $cursor)
           @connection(key: "NameReversalsOfPriority_reversalsOfPriority") {
           edges {

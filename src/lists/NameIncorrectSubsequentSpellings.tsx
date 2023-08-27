@@ -60,7 +60,12 @@ class NameIncorrectSubsequentSpellingsInner extends React.Component<NameIncorrec
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "IncorrectSubsequentSpellings"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "IncorrectSubsequentSpellings"} (
+            {nameInner.numIncorrectSubsequentSpellings})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +111,7 @@ const NameIncorrectSubsequentSpellingsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numIncorrectSubsequentSpellings
         incorrectSubsequentSpellings(first: $count, after: $cursor)
           @connection(
             key: "NameIncorrectSubsequentSpellings_incorrectSubsequentSpellings"

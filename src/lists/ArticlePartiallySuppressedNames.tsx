@@ -60,7 +60,12 @@ class ArticlePartiallySuppressedNamesInner extends React.Component<ArticlePartia
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "PartiallySuppressedNames"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "PartiallySuppressedNames"} (
+            {articleInner.numPartiallySuppressedNames})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +111,7 @@ const ArticlePartiallySuppressedNamesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numPartiallySuppressedNames
         partiallySuppressedNames(first: $count, after: $cursor)
           @connection(key: "ArticlePartiallySuppressedNames_partiallySuppressedNames") {
           edges {

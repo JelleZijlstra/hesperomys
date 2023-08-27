@@ -40,7 +40,7 @@ class PersonArticles extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Articles"}</h3>}
+        {!hideTitle && <h3>{title || "Articles"} (person.numArticles)</h3>}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
@@ -84,6 +84,7 @@ export default createPaginationContainer(
         cursor: { type: "String", defaultValue: null }
       ) {
         oid
+        numArticles
         articles(first: $count, after: $cursor)
           @connection(key: "PersonArticles_articles") {
           edges {

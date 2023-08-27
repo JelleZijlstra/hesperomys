@@ -60,7 +60,11 @@ class ArticleFullySuppressedNamesInner extends React.Component<ArticleFullySuppr
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "FullySuppressedNames"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "FullySuppressedNames"} ({articleInner.numFullySuppressedNames})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const ArticleFullySuppressedNamesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numFullySuppressedNames
         fullySuppressedNames(first: $count, after: $cursor)
           @connection(key: "ArticleFullySuppressedNames_fullySuppressedNames") {
           edges {

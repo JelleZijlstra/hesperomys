@@ -57,7 +57,11 @@ class NameRedirectsInner extends React.Component<NameRedirectsInnerProps> {
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Redirects"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Redirects"} ({nameInner.numRedirects})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const NameRedirectsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numRedirects
         redirects(first: $count, after: $cursor)
           @connection(key: "NameRedirects_redirects") {
           edges {

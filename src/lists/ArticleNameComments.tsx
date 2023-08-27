@@ -40,7 +40,7 @@ class ArticleNameComments extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "NameComments"}</h3>}
+        {!hideTitle && <h3>{title || "NameComments"} (article.numNameComments)</h3>}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
@@ -84,6 +84,7 @@ export default createPaginationContainer(
         cursor: { type: "String", defaultValue: null }
       ) {
         oid
+        numNameComments
         nameComments(first: $count, after: $cursor)
           @connection(key: "ArticleNameComments_nameComments") {
           edges {

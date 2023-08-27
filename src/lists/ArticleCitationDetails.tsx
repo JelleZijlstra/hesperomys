@@ -60,7 +60,11 @@ class ArticleCitationDetailsInner extends React.Component<ArticleCitationDetails
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "CitationDetails"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "CitationDetails"} ({articleInner.numCitationDetails})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const ArticleCitationDetailsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numCitationDetails
         citationDetails(first: $count, after: $cursor)
           @connection(key: "ArticleCitationDetails_citationDetails") {
           edges {

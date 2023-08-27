@@ -60,7 +60,11 @@ class ArticlePrioritySelectionsInner extends React.Component<ArticlePrioritySele
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "PrioritySelections"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "PrioritySelections"} ({articleInner.numPrioritySelections})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const ArticlePrioritySelectionsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numPrioritySelections
         prioritySelections(first: $count, after: $cursor)
           @connection(key: "ArticlePrioritySelections_prioritySelections") {
           edges {

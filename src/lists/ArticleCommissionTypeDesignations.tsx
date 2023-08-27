@@ -60,7 +60,12 @@ class ArticleCommissionTypeDesignationsInner extends React.Component<ArticleComm
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "CommissionTypeDesignations"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "CommissionTypeDesignations"} (
+            {articleInner.numCommissionTypeDesignations})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +111,7 @@ const ArticleCommissionTypeDesignationsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numCommissionTypeDesignations
         commissionTypeDesignations(first: $count, after: $cursor)
           @connection(
             key: "ArticleCommissionTypeDesignations_commissionTypeDesignations"

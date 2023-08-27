@@ -57,7 +57,11 @@ class NameTakingPriorityInner extends React.Component<NameTakingPriorityInnerPro
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "TakingPriority"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "TakingPriority"} ({nameInner.numTakingPriority})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const NameTakingPriorityContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numTakingPriority
         takingPriority(first: $count, after: $cursor)
           @connection(key: "NameTakingPriority_takingPriority") {
           edges {

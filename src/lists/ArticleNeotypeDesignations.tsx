@@ -60,7 +60,11 @@ class ArticleNeotypeDesignationsInner extends React.Component<ArticleNeotypeDesi
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "NeotypeDesignations"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "NeotypeDesignations"} ({articleInner.numNeotypeDesignations})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const ArticleNeotypeDesignationsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numNeotypeDesignations
         neotypeDesignations(first: $count, after: $cursor)
           @connection(key: "ArticleNeotypeDesignations_neotypeDesignations") {
           edges {

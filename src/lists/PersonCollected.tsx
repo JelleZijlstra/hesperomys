@@ -57,7 +57,11 @@ class PersonCollectedInner extends React.Component<PersonCollectedInnerProps> {
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Collected"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Collected"} ({personInner.numCollected})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const PersonCollectedContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numCollected
         collected(first: $count, after: $cursor)
           @connection(key: "PersonCollected_collected") {
           edges {

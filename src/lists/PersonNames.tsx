@@ -57,7 +57,11 @@ class PersonNamesInner extends React.Component<PersonNamesInnerProps> {
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Names"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Names"} ({personInner.numNames})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const PersonNamesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numNames
         names(first: $count, after: $cursor) @connection(key: "PersonNames_names") {
           edges {
             node {

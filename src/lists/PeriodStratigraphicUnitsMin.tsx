@@ -43,7 +43,9 @@ class PeriodStratigraphicUnitsMin extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "StratigraphicUnitsMin"}</h3>}
+        {!hideTitle && (
+          <h3>{title || "StratigraphicUnitsMin"} (period.numStratigraphicUnitsMin)</h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
@@ -91,6 +93,7 @@ export default createPaginationContainer(
         cursor: { type: "String", defaultValue: null }
       ) {
         oid
+        numStratigraphicUnitsMin
         stratigraphicUnitsMin(first: $count, after: $cursor)
           @connection(key: "PeriodStratigraphicUnitsMin_stratigraphicUnitsMin") {
           edges {

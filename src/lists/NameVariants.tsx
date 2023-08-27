@@ -57,7 +57,11 @@ class NameVariantsInner extends React.Component<NameVariantsInnerProps> {
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Variants"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Variants"} ({nameInner.numVariants})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const NameVariantsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numVariants
         variants(first: $count, after: $cursor)
           @connection(key: "NameVariants_variants") {
           edges {

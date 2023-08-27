@@ -60,7 +60,11 @@ class NameSelectionsOfPriorityInner extends React.Component<NameSelectionsOfPrio
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "SelectionsOfPriority"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "SelectionsOfPriority"} ({nameInner.numSelectionsOfPriority})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const NameSelectionsOfPriorityContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numSelectionsOfPriority
         selectionsOfPriority(first: $count, after: $cursor)
           @connection(key: "NameSelectionsOfPriority_selectionsOfPriority") {
           edges {

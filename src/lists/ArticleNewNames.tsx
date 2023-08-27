@@ -57,7 +57,11 @@ class ArticleNewNamesInner extends React.Component<ArticleNewNamesInnerProps> {
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "NewNames"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "NewNames"} ({articleInner.numNewNames})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const ArticleNewNamesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numNewNames
         newNames(first: $count, after: $cursor)
           @connection(key: "ArticleNewNames_newNames") {
           edges {

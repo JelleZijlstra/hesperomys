@@ -57,7 +57,11 @@ class NameNameCombinationsInner extends React.Component<NameNameCombinationsInne
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "NameCombinations"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "NameCombinations"} ({nameInner.numNameCombinations})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const NameNameCombinationsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numNameCombinations
         nameCombinations(first: $count, after: $cursor)
           @connection(key: "NameNameCombinations_nameCombinations") {
           edges {

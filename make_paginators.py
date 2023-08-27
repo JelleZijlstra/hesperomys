@@ -43,7 +43,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
     const showExpandAll = %(type_lower)s.%(conn_lower)s.edges.some(edge => edge && edge.node && supportsChildren(edge.node));
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
+        {!hideTitle && <h3>{title || "%(conn_upper)s"} ({%(type_lower)s.num%(conn_upper)s})</h3>}
         {subtitle}
         <ExpandButtons
          expandAll={this.state.expandAll}
@@ -84,6 +84,7 @@ export default createPaginationContainer(
           cursor: { type: "String", defaultValue: null }
         ) {
         oid
+        num%(conn_upper)s
         %(conn_lower)s(first: $count, after: $cursor)
           @connection(key: "%(type_upper)s%(conn_upper)s_%(conn_lower)s") {
           edges {
@@ -167,7 +168,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
     const showExpandAll = %(conn_lower)s.edges.some(edge => edge && edge.node && supportsChildren(edge.node));
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
+        {!hideTitle && <h3>{title || "%(conn_upper)s"} ({numChildren})</h3>}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
@@ -331,7 +332,7 @@ class %(type_upper)s%(conn_upper)sInner extends React.Component<
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
+        {!hideTitle && <h3>{title || "%(conn_upper)s"} ({%(type_lower)sInner.num%(conn_upper)s})</h3>}
         {subtitle}
         <ExpandButtons
           showDetail={showLocationDetail || showCitationDetail || showCollectionDetail || showEtymologyDetail || showNameDetail}
@@ -369,6 +370,7 @@ const %(type_upper)s%(conn_upper)sContainer = createPaginationContainer(
           showNameDetail: { type: Boolean, defaultValue: false }
         ) {
         oid
+        num%(conn_upper)s
         %(conn_lower)s(first: $count, after: $cursor)
           @connection(key: "%(type_upper)s%(conn_upper)s_%(conn_lower)s") {
           edges {

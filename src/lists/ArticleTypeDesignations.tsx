@@ -60,7 +60,11 @@ class ArticleTypeDesignationsInner extends React.Component<ArticleTypeDesignatio
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "TypeDesignations"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "TypeDesignations"} ({articleInner.numTypeDesignations})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const ArticleTypeDesignationsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numTypeDesignations
         typeDesignations(first: $count, after: $cursor)
           @connection(key: "ArticleTypeDesignations_typeDesignations") {
           edges {

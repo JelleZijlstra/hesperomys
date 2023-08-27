@@ -57,7 +57,11 @@ class NameMandatoryChangesInner extends React.Component<NameMandatoryChangesInne
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "MandatoryChanges"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "MandatoryChanges"} ({nameInner.numMandatoryChanges})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const NameMandatoryChangesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numMandatoryChanges
         mandatoryChanges(first: $count, after: $cursor)
           @connection(key: "NameMandatoryChanges_mandatoryChanges") {
           edges {

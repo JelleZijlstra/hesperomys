@@ -40,7 +40,7 @@ class PeriodLocationsMin extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "LocationsMin"}</h3>}
+        {!hideTitle && <h3>{title || "LocationsMin"} (period.numLocationsMin)</h3>}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
@@ -88,6 +88,7 @@ export default createPaginationContainer(
         cursor: { type: "String", defaultValue: null }
       ) {
         oid
+        numLocationsMin
         locationsMin(first: $count, after: $cursor)
           @connection(key: "PeriodLocationsMin_locationsMin") {
           edges {

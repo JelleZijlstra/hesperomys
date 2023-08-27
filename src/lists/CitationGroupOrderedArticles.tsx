@@ -50,7 +50,9 @@ class CitationGroupOrderedArticles extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "OrderedArticles"}</h3>}
+        {!hideTitle && (
+          <h3>{title || "OrderedArticles"} (citationGroup.numOrderedArticles)</h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
@@ -94,6 +96,7 @@ export default createPaginationContainer(
         cursor: { type: "String", defaultValue: null }
       ) {
         oid
+        numOrderedArticles
         orderedArticles(first: $count, after: $cursor)
           @connection(key: "CitationGroupOrderedArticles_orderedArticles") {
           edges {

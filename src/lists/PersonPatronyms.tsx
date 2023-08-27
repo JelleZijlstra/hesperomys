@@ -57,7 +57,11 @@ class PersonPatronymsInner extends React.Component<PersonPatronymsInnerProps> {
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Patronyms"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Patronyms"} ({personInner.numPatronyms})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const PersonPatronymsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numPatronyms
         patronyms(first: $count, after: $cursor)
           @connection(key: "PersonPatronyms_patronyms") {
           edges {

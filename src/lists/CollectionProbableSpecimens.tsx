@@ -60,7 +60,11 @@ class CollectionProbableSpecimensInner extends React.Component<CollectionProbabl
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "ProbableSpecimens"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "ProbableSpecimens"} ({collectionInner.numProbableSpecimens})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const CollectionProbableSpecimensContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numProbableSpecimens
         probableSpecimens(first: $count, after: $cursor)
           @connection(key: "CollectionProbableSpecimens_probableSpecimens") {
           edges {

@@ -57,7 +57,11 @@ class NameTypifiedNamesInner extends React.Component<NameTypifiedNamesInnerProps
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "TypifiedNames"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "TypifiedNames"} ({nameInner.numTypifiedNames})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const NameTypifiedNamesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numTypifiedNames
         typifiedNames(first: $count, after: $cursor)
           @connection(key: "NameTypifiedNames_typifiedNames") {
           edges {

@@ -60,7 +60,11 @@ class CollectionFormerSpecimensInner extends React.Component<CollectionFormerSpe
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "FormerSpecimens"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "FormerSpecimens"} ({collectionInner.numFormerSpecimens})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const CollectionFormerSpecimensContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numFormerSpecimens
         formerSpecimens(first: $count, after: $cursor)
           @connection(key: "CollectionFormerSpecimens_formerSpecimens") {
           edges {

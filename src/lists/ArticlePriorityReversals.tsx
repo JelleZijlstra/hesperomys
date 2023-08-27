@@ -60,7 +60,11 @@ class ArticlePriorityReversalsInner extends React.Component<ArticlePriorityRever
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "PriorityReversals"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "PriorityReversals"} ({articleInner.numPriorityReversals})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const ArticlePriorityReversalsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numPriorityReversals
         priorityReversals(first: $count, after: $cursor)
           @connection(key: "ArticlePriorityReversals_priorityReversals") {
           edges {

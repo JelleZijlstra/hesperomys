@@ -60,7 +60,11 @@ class SpeciesNameComplexNamesInner extends React.Component<SpeciesNameComplexNam
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Names"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Names"} ({speciesNameComplexInner.numNames})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const SpeciesNameComplexNamesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numNames
         names(first: $count, after: $cursor)
           @connection(key: "SpeciesNameComplexNames_names") {
           edges {

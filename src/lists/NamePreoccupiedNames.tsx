@@ -57,7 +57,11 @@ class NamePreoccupiedNamesInner extends React.Component<NamePreoccupiedNamesInne
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "PreoccupiedNames"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "PreoccupiedNames"} ({nameInner.numPreoccupiedNames})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const NamePreoccupiedNamesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numPreoccupiedNames
         preoccupiedNames(first: $count, after: $cursor)
           @connection(key: "NamePreoccupiedNames_preoccupiedNames") {
           edges {

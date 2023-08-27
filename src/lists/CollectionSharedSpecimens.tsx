@@ -60,7 +60,11 @@ class CollectionSharedSpecimensInner extends React.Component<CollectionSharedSpe
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "SharedSpecimens"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "SharedSpecimens"} ({collectionInner.numSharedSpecimens})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const CollectionSharedSpecimensContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numSharedSpecimens
         sharedSpecimens(first: $count, after: $cursor)
           @connection(key: "CollectionSharedSpecimens_sharedSpecimens") {
           edges {

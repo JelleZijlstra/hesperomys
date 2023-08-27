@@ -57,7 +57,11 @@ class PersonInvolvedAllInner extends React.Component<PersonInvolvedAllInnerProps
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "InvolvedAll"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "InvolvedAll"} ({personInner.numInvolvedAll})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const PersonInvolvedAllContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numInvolvedAll
         involvedAll(first: $count, after: $cursor)
           @connection(key: "PersonInvolvedAll_involvedAll") {
           edges {

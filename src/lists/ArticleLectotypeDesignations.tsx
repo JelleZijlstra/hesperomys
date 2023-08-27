@@ -60,7 +60,11 @@ class ArticleLectotypeDesignationsInner extends React.Component<ArticleLectotype
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "LectotypeDesignations"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "LectotypeDesignations"} ({articleInner.numLectotypeDesignations})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const ArticleLectotypeDesignationsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numLectotypeDesignations
         lectotypeDesignations(first: $count, after: $cursor)
           @connection(key: "ArticleLectotypeDesignations_lectotypeDesignations") {
           edges {

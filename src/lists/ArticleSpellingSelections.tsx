@@ -60,7 +60,11 @@ class ArticleSpellingSelectionsInner extends React.Component<ArticleSpellingSele
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "SpellingSelections"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "SpellingSelections"} ({articleInner.numSpellingSelections})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const ArticleSpellingSelectionsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numSpellingSelections
         spellingSelections(first: $count, after: $cursor)
           @connection(key: "ArticleSpellingSelections_spellingSelections") {
           edges {

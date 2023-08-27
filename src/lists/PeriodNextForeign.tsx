@@ -40,7 +40,7 @@ class PeriodNextForeign extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "NextForeign"}</h3>}
+        {!hideTitle && <h3>{title || "NextForeign"} (period.numNextForeign)</h3>}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
@@ -88,6 +88,7 @@ export default createPaginationContainer(
         cursor: { type: "String", defaultValue: null }
       ) {
         oid
+        numNextForeign
         nextForeign(first: $count, after: $cursor)
           @connection(key: "PeriodNextForeign_nextForeign") {
           edges {

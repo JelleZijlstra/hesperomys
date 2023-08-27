@@ -57,7 +57,11 @@ class NameSubsequentUsagesInner extends React.Component<NameSubsequentUsagesInne
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "SubsequentUsages"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "SubsequentUsages"} ({nameInner.numSubsequentUsages})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const NameSubsequentUsagesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numSubsequentUsages
         subsequentUsages(first: $count, after: $cursor)
           @connection(key: "NameSubsequentUsages_subsequentUsages") {
           edges {

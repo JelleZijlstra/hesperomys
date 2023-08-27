@@ -60,7 +60,11 @@ class CollectionTypeSpecimensInner extends React.Component<CollectionTypeSpecime
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "TypeSpecimens"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "TypeSpecimens"} ({collectionInner.numTypeSpecimens})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const CollectionTypeSpecimensContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numTypeSpecimens
         typeSpecimens(first: $count, after: $cursor)
           @connection(key: "CollectionTypeSpecimens_typeSpecimens") {
           edges {

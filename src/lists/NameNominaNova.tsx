@@ -57,7 +57,11 @@ class NameNominaNovaInner extends React.Component<NameNominaNovaInnerProps> {
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "NominaNova"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "NominaNova"} ({nameInner.numNominaNova})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const NameNominaNovaContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numNominaNova
         nominaNova(first: $count, after: $cursor)
           @connection(key: "NameNominaNova_nominaNova") {
           edges {

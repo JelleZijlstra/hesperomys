@@ -60,7 +60,11 @@ class ArticleDefinitionDetailsInner extends React.Component<ArticleDefinitionDet
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "DefinitionDetails"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "DefinitionDetails"} ({articleInner.numDefinitionDetails})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const ArticleDefinitionDetailsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numDefinitionDetails
         definitionDetails(first: $count, after: $cursor)
           @connection(key: "ArticleDefinitionDetails_definitionDetails") {
           edges {

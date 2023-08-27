@@ -40,7 +40,7 @@ class CollectionChildren extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Children"}</h3>}
+        {!hideTitle && <h3>{title || "Children"} (collection.numChildren)</h3>}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
@@ -88,6 +88,7 @@ export default createPaginationContainer(
         cursor: { type: "String", defaultValue: null }
       ) {
         oid
+        numChildren
         children(first: $count, after: $cursor)
           @connection(key: "CollectionChildren_children") {
           edges {

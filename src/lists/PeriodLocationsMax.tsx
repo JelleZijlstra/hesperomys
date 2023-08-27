@@ -40,7 +40,7 @@ class PeriodLocationsMax extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "LocationsMax"}</h3>}
+        {!hideTitle && <h3>{title || "LocationsMax"} (period.numLocationsMax)</h3>}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
@@ -88,6 +88,7 @@ export default createPaginationContainer(
         cursor: { type: "String", defaultValue: null }
       ) {
         oid
+        numLocationsMax
         locationsMax(first: $count, after: $cursor)
           @connection(key: "PeriodLocationsMax_locationsMax") {
           edges {

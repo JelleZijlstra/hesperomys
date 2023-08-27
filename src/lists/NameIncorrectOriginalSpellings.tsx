@@ -60,7 +60,12 @@ class NameIncorrectOriginalSpellingsInner extends React.Component<NameIncorrectO
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "IncorrectOriginalSpellings"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "IncorrectOriginalSpellings"} (
+            {nameInner.numIncorrectOriginalSpellings})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +111,7 @@ const NameIncorrectOriginalSpellingsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numIncorrectOriginalSpellings
         incorrectOriginalSpellings(first: $count, after: $cursor)
           @connection(
             key: "NameIncorrectOriginalSpellings_incorrectOriginalSpellings"

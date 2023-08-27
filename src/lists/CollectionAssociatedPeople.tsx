@@ -43,7 +43,9 @@ class CollectionAssociatedPeople extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "AssociatedPeople"}</h3>}
+        {!hideTitle && (
+          <h3>{title || "AssociatedPeople"} (collection.numAssociatedPeople)</h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
@@ -87,6 +89,7 @@ export default createPaginationContainer(
         cursor: { type: "String", defaultValue: null }
       ) {
         oid
+        numAssociatedPeople
         associatedPeople(first: $count, after: $cursor)
           @connection(key: "CollectionAssociatedPeople_associatedPeople") {
           edges {

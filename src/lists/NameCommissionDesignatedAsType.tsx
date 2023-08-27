@@ -60,7 +60,12 @@ class NameCommissionDesignatedAsTypeInner extends React.Component<NameCommission
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "CommissionDesignatedAsType"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "CommissionDesignatedAsType"} (
+            {nameInner.numCommissionDesignatedAsType})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +111,7 @@ const NameCommissionDesignatedAsTypeContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numCommissionDesignatedAsType
         commissionDesignatedAsType(first: $count, after: $cursor)
           @connection(
             key: "NameCommissionDesignatedAsType_commissionDesignatedAsType"

@@ -40,7 +40,7 @@ class ArticleArticleSet extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "ArticleSet"}</h3>}
+        {!hideTitle && <h3>{title || "ArticleSet"} (article.numArticleSet)</h3>}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
@@ -84,6 +84,7 @@ export default createPaginationContainer(
         cursor: { type: "String", defaultValue: null }
       ) {
         oid
+        numArticleSet
         articleSet(first: $count, after: $cursor)
           @connection(key: "ArticleArticleSet_articleSet") {
           edges {

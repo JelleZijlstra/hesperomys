@@ -60,7 +60,11 @@ class CitationGroupOrderedNamesInner extends React.Component<CitationGroupOrdere
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "OrderedNames"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "OrderedNames"} ({citationGroupInner.numOrderedNames})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const CitationGroupOrderedNamesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numOrderedNames
         orderedNames(first: $count, after: $cursor)
           @connection(key: "CitationGroupOrderedNames_orderedNames") {
           edges {

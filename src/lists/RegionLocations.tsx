@@ -57,7 +57,11 @@ class RegionLocations extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Locations"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Locations"} ({numChildren})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}

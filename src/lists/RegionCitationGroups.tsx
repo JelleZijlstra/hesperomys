@@ -57,7 +57,11 @@ class RegionCitationGroups extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "CitationGroups"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "CitationGroups"} ({numChildren})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}

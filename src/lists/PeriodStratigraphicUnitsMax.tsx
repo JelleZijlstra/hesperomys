@@ -43,7 +43,9 @@ class PeriodStratigraphicUnitsMax extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "StratigraphicUnitsMax"}</h3>}
+        {!hideTitle && (
+          <h3>{title || "StratigraphicUnitsMax"} (period.numStratigraphicUnitsMax)</h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
@@ -91,6 +93,7 @@ export default createPaginationContainer(
         cursor: { type: "String", defaultValue: null }
       ) {
         oid
+        numStratigraphicUnitsMax
         stratigraphicUnitsMax(first: $count, after: $cursor)
           @connection(key: "PeriodStratigraphicUnitsMax_stratigraphicUnitsMax") {
           edges {

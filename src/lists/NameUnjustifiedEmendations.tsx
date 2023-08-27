@@ -60,7 +60,11 @@ class NameUnjustifiedEmendationsInner extends React.Component<NameUnjustifiedEme
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "UnjustifiedEmendations"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "UnjustifiedEmendations"} ({nameInner.numUnjustifiedEmendations})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const NameUnjustifiedEmendationsContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numUnjustifiedEmendations
         unjustifiedEmendations(first: $count, after: $cursor)
           @connection(key: "NameUnjustifiedEmendations_unjustifiedEmendations") {
           edges {

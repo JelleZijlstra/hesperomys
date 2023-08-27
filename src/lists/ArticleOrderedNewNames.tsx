@@ -60,7 +60,11 @@ class ArticleOrderedNewNamesInner extends React.Component<ArticleOrderedNewNames
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "OrderedNewNames"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "OrderedNewNames"} ({articleInner.numOrderedNewNames})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const ArticleOrderedNewNamesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numOrderedNewNames
         orderedNewNames(first: $count, after: $cursor)
           @connection(key: "ArticleOrderedNewNames_orderedNewNames") {
           edges {

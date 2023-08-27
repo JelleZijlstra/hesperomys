@@ -57,7 +57,11 @@ class CitationGroupNamesInner extends React.Component<CitationGroupNamesInnerPro
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Names"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Names"} ({citationGroupInner.numNames})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -103,6 +107,7 @@ const CitationGroupNamesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numNames
         names(first: $count, after: $cursor)
           @connection(key: "CitationGroupNames_names") {
           edges {

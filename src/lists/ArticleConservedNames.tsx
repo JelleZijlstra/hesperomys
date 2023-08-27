@@ -60,7 +60,11 @@ class ArticleConservedNamesInner extends React.Component<ArticleConservedNamesIn
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "ConservedNames"}</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "ConservedNames"} ({articleInner.numConservedNames})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           showDetail={
@@ -106,6 +110,7 @@ const ArticleConservedNamesContainer = createPaginationContainer(
         showNameDetail: { type: Boolean, defaultValue: false }
       ) {
         oid
+        numConservedNames
         conservedNames(first: $count, after: $cursor)
           @connection(key: "ArticleConservedNames_conservedNames") {
           edges {
