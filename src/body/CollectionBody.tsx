@@ -7,10 +7,12 @@ import graphql from "babel-plugin-relay/macro";
 import CollectionChildren from "../lists/CollectionChildren";
 import CollectionTypeSpecimens from "../lists/CollectionTypeSpecimens";
 import CollectionFormerSpecimens from "../lists/CollectionFormerSpecimens";
+import CollectionFutureSpecimens from "../lists/CollectionFutureSpecimens";
 import CollectionProbableSpecimens from "../lists/CollectionProbableSpecimens";
 import CollectionSharedSpecimens from "../lists/CollectionSharedSpecimens";
 import CollectionAssociatedPeople from "../lists/CollectionAssociatedPeople";
 import ModelLink from "../components/ModelLink";
+import CollectionExtraSpecimens from "../lists/CollectionExtraSpecimens";
 
 type CollectionTag = Exclude<CollectionBody_collection["tags"][0], null>;
 
@@ -80,6 +82,23 @@ class CollectionBody extends React.Component<{
           title="Former type specimens"
           subtitle={<p>These type specimens were formerly in this collection.</p>}
         />
+        <CollectionFutureSpecimens
+          collection={collection}
+          title="Future type specimens"
+          subtitle={
+            <p>
+              These type specimens are expected to be moved to this collection in the
+              future.
+            </p>
+          }
+        />
+        <CollectionExtraSpecimens
+          collection={collection}
+          title="Extra type specimens"
+          subtitle={
+            <p>Some material from these type specimens is in this collection.</p>
+          }
+        />
         <CollectionProbableSpecimens
           collection={collection}
           title="Probable type specimens"
@@ -99,6 +118,8 @@ export default createFragmentContainer(CollectionBody, {
       ...CollectionTypeSpecimens_collection
       ...CollectionSharedSpecimens_collection
       ...CollectionFormerSpecimens_collection
+      ...CollectionExtraSpecimens_collection
+      ...CollectionFutureSpecimens_collection
       ...CollectionProbableSpecimens_collection
       ...CollectionAssociatedPeople_collection
       ...CollectionChildren_collection

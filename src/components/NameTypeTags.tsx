@@ -157,6 +157,20 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           The type material was formerly in <ModelLink model={tag.repository} />.
         </>
       );
+    case "FutureRepository":
+      return (
+        <>
+          The type material is expected to be transferred to{" "}
+          <ModelLink model={tag.repository} />.
+        </>
+      );
+    case "ExtraRepository":
+      return (
+        <>
+          Additional material from the type specimen is in{" "}
+          <ModelLink model={tag.repository} />.
+        </>
+      );
     case "SpecimenDetail":
       return <Detail text={tag.text} source={tag.source} />;
     case "StratigraphyDetail":
@@ -343,6 +357,16 @@ export default createFragmentContainer(NameTypeTags, {
           }
         }
         ... on FormerRepository {
+          repository {
+            ...ModelLink_model
+          }
+        }
+        ... on FutureRepository {
+          repository {
+            ...ModelLink_model
+          }
+        }
+        ... on ExtraRepository {
           repository {
             ...ModelLink_model
           }
