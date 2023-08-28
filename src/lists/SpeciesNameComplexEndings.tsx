@@ -47,7 +47,11 @@ class SpeciesNameComplexEndings extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Endings"} (speciesNameComplex.numEndings)</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Endings"} ({speciesNameComplex.numEndings})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}

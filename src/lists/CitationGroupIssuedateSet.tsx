@@ -48,7 +48,9 @@ class CitationGroupIssuedateSet extends React.Component<
     const inner = (
       <>
         {!hideTitle && (
-          <h3>{title || "IssuedateSet"} (citationGroup.numIssuedateSet)</h3>
+          <h3>
+            {title || "IssuedateSet"} ({citationGroup.numIssuedateSet})
+          </h3>
         )}
         {subtitle}
         <ExpandButtons

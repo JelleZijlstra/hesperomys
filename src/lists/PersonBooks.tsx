@@ -37,7 +37,11 @@ class PersonBooks extends React.Component<PersonBooksProps, { expandAll: boolean
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Books"} (person.numBooks)</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Books"} ({person.numBooks})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}

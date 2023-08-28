@@ -40,7 +40,11 @@ class PeriodLocationsMax extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "LocationsMax"} (period.numLocationsMax)</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "LocationsMax"} ({period.numLocationsMax})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}

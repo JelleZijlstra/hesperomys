@@ -37,7 +37,11 @@ class NameComments extends React.Component<NameCommentsProps, { expandAll: boole
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Comments"} (name.numComments)</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Comments"} ({name.numComments})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}

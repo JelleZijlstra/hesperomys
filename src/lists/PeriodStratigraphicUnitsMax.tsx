@@ -44,7 +44,9 @@ class PeriodStratigraphicUnitsMax extends React.Component<
     const inner = (
       <>
         {!hideTitle && (
-          <h3>{title || "StratigraphicUnitsMax"} (period.numStratigraphicUnitsMax)</h3>
+          <h3>
+            {title || "StratigraphicUnitsMax"} ({period.numStratigraphicUnitsMax})
+          </h3>
         )}
         {subtitle}
         <ExpandButtons

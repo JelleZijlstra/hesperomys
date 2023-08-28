@@ -40,7 +40,11 @@ class PeriodChildrenMin extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "ChildrenMin"} (period.numChildrenMin)</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "ChildrenMin"} ({period.numChildrenMin})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}

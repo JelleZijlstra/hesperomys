@@ -40,7 +40,11 @@ class ArticleNameComments extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "NameComments"} (article.numNameComments)</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "NameComments"} ({article.numNameComments})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}

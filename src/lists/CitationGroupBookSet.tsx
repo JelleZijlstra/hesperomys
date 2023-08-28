@@ -47,7 +47,11 @@ class CitationGroupBookSet extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "BookSet"} (citationGroup.numBookSet)</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "BookSet"} ({citationGroup.numBookSet})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}

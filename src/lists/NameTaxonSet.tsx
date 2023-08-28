@@ -37,7 +37,11 @@ class NameTaxonSet extends React.Component<NameTaxonSetProps, { expandAll: boole
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "TaxonSet"} (name.numTaxonSet)</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "TaxonSet"} ({name.numTaxonSet})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}

@@ -51,7 +51,9 @@ class CitationGroupOrderedArticles extends React.Component<
     const inner = (
       <>
         {!hideTitle && (
-          <h3>{title || "OrderedArticles"} (citationGroup.numOrderedArticles)</h3>
+          <h3>
+            {title || "OrderedArticles"} ({citationGroup.numOrderedArticles})
+          </h3>
         )}
         {subtitle}
         <ExpandButtons

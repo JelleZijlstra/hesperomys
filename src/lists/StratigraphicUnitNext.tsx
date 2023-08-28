@@ -47,7 +47,11 @@ class StratigraphicUnitNext extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Next"} (stratigraphicUnit.numNext)</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Next"} ({stratigraphicUnit.numNext})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}

@@ -37,7 +37,11 @@ class LocationTaxa extends React.Component<LocationTaxaProps, { expandAll: boole
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "Taxa"} (location.numTaxa)</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "Taxa"} ({location.numTaxa})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}

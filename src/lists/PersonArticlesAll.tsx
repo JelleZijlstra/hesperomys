@@ -40,7 +40,11 @@ class PersonArticlesAll extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "ArticlesAll"} (person.numArticlesAll)</h3>}
+        {!hideTitle && (
+          <h3>
+            {title || "ArticlesAll"} ({person.numArticlesAll})
+          </h3>
+        )}
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}

@@ -41,7 +41,9 @@ class PersonOrderedArticles extends React.Component<
     const inner = (
       <>
         {!hideTitle && (
-          <h3>{title || "OrderedArticles"} (person.numOrderedArticles)</h3>
+          <h3>
+            {title || "OrderedArticles"} ({person.numOrderedArticles})
+          </h3>
         )}
         {subtitle}
         <ExpandButtons
