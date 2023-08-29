@@ -101,10 +101,15 @@ const IssueDate = ({
               (tag) =>
                 tag.__typename === "CommentIssueDate" && (
                   <li>
-                    {tag.text}{" "}
-                    <small>
-                      <ModelLink model={tag.source} />
-                    </small>
+                    {tag.text}
+                    {tag.optionalSource && (
+                      <>
+                        {" "}
+                        <small>
+                          <ModelLink model={tag.optionalSource} />
+                        </small>
+                      </>
+                    )}
                   </li>
                 ),
             )}
@@ -255,7 +260,7 @@ export default createFragmentContainer(CitationGroupBody, {
               __typename
               ... on CommentIssueDate {
                 text
-                source {
+                optionalSource {
                   ...ModelLink_model
                 }
               }
