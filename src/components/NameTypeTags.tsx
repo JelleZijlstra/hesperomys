@@ -194,6 +194,16 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           Collection database entry for type specimen: <a href={tag.url}>{tag.url}</a>
         </>
       );
+    case "TypeSpecimenLinkFor":
+      if (!tag.url) {
+        return null;
+      }
+      return (
+        <>
+          Collection database entry for type specimen {tag.specimen}:{" "}
+          <a href={tag.url}>{tag.url}</a>
+        </>
+      );
     case "NamedAfter":
       return (
         <>
@@ -409,6 +419,10 @@ export default createFragmentContainer(NameTypeTags, {
         }
         ... on TypeSpecimenLink {
           url
+        }
+        ... on TypeSpecimenLinkFor {
+          url
+          specimen
         }
       }
     }

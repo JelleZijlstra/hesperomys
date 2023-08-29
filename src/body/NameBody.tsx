@@ -165,6 +165,7 @@ function TypeSection({ name }: { name: NameBody_name }) {
           "NeotypeDesignation",
           "TypeDesignation",
           "TypeSpecimenLink",
+          "TypeSpecimenLinkFor",
         ]}
       />
     </>
