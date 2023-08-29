@@ -423,7 +423,7 @@ interface CollectionTag {
 type CommentIssueDate implements IssueDateTag {
   _Ignored: ID
   text: String!
-  source: Article!
+  optionalSource: Article
 }
 
 enum CommentKind {
@@ -2151,7 +2151,7 @@ type TypeCatalog implements CollectionTag {
 
 type TypeDesignation implements TypeTag {
   _Ignored: ID
-  source: Article!
+  optionalSource: Article
   type: Name!
   comment: String
 }
@@ -2183,6 +2183,12 @@ type TypeSpeciesDetail implements TypeTag {
 type TypeSpecimenLink implements TypeTag {
   _Ignored: ID
   url: String!
+}
+
+type TypeSpecimenLinkFor implements TypeTag {
+  _Ignored: ID
+  url: String!
+  specimen: String!
 }
 
 interface TypeTag {

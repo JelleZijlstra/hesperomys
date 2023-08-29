@@ -91,13 +91,11 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
     case "LectotypeDesignation":
       return (
         <>
-          Lectotype
+          Lectotype designated by{" "}
           {tag.optionalSource ? (
-            <>
-              designated by <ModelLink model={tag.optionalSource} />
-            </>
+            <ModelLink model={tag.optionalSource} />
           ) : (
-            ""
+            "(reference not seen)"
           )}
           : {tag.lectotype}.
           {tag.comment && (
@@ -111,13 +109,11 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
     case "NeotypeDesignation":
       return (
         <>
-          Neotype
+          Neotype designated by{" "}
           {tag.optionalSource ? (
-            <>
-              designated by <ModelLink model={tag.optionalSource} />
-            </>
+            <ModelLink model={tag.optionalSource} />
           ) : (
-            ""
+            "(reference not seen)"
           )}
           : {tag.neotype}.
           {tag.comment && (
@@ -178,8 +174,13 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
     case "TypeDesignation":
       return (
         <>
-          Type species designated by <ModelLink model={tag.source} />:{" "}
-          <ModelLink model={tag.type} />.{tag.comment && ` Comment: ${tag.comment}`}
+          Type species designated by{" "}
+          {tag.optionalSource ? (
+            <ModelLink model={tag.optionalSource} />
+          ) : (
+            "(reference not seen)"
+          )}
+          : <ModelLink model={tag.type} />.{tag.comment && ` Comment: ${tag.comment}`}
         </>
       );
     case "TypeSpeciesDetail":
@@ -381,7 +382,7 @@ export default createFragmentContainer(NameTypeTags, {
           text
         }
         ... on TypeDesignation {
-          source {
+          optionalSource {
             ...ModelLink_model
           }
           type {
