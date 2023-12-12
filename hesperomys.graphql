@@ -270,6 +270,18 @@ interface BookTag {
   _Ignored: ID
 }
 
+type Box implements SpecimenTag {
+  _Ignored: ID
+  type: BoxType!
+  taxon: String!
+  description: String!
+}
+
+enum BoxType {
+  default
+  separate
+}
+
 type ChildRule implements CollectionTag {
   _Ignored: ID
   collection: Collection!
@@ -830,6 +842,8 @@ type Location implements Node & Model {
   numTypeLocalities: Int!
   taxa(before: String, after: String, first: Int, last: Int): OccurrenceConnection
   numTaxa: Int!
+  specimenSet(before: String, after: String, first: Int, last: Int): SpecimenConnection
+  numSpecimenSet: Int!
 }
 
 type LocationConnection {
@@ -1526,6 +1540,11 @@ enum PersonType {
   alias
 }
 
+type PhyloCodeNumber implements TypeTag {
+  _Ignored: ID
+  number: Int!
+}
+
 type Predecessor implements CitationGroupTag {
   _Ignored: ID
   cg: CitationGroup!
@@ -1882,6 +1901,7 @@ type Specimen implements Node & Model {
   modelCls: ModelCls!
   taxon: Taxon!
   region: Region!
+  location: Location
   taxonText: String!
   locationText: String!
   date: String!
