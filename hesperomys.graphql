@@ -219,6 +219,11 @@ type BHLBibliography implements CitationGroupTag {
   text: String!
 }
 
+type Basal implements TaxonTag {
+  _Ignored: ID
+  comment: String
+}
+
 type BiblioNote implements CitationGroupTag {
   _Ignored: ID
   text: String!
@@ -688,6 +693,11 @@ type IgnorePotentialCitations implements CitationGroupTag {
 }
 
 type ImpreciseLocality implements TypeTag {
+  _Ignored: ID
+  comment: String
+}
+
+type IncertaeSedis implements TaxonTag {
   _Ignored: ID
   comment: String
 }
@@ -2018,6 +2028,23 @@ enum SpecimenOrgan {
   scapulocoracoid
   carpometacarpal
   patella
+  ilium
+  ischium
+  pubis
+  metacarpal
+  metatarsal
+  phalanx_manus
+  phalanx_pes
+  premaxilla
+  metapodial
+  tibiotarsus
+  furcula
+  phalanx
+  interclavicle
+  gastralia
+  prepubis
+  predentary
+  palate
 }
 
 type SpecimenRegex implements CollectionTag {
