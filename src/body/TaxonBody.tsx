@@ -7,6 +7,7 @@ import graphql from "babel-plugin-relay/macro";
 import ModelLink from "../components/ModelLink";
 import Table from "../components/Table";
 import TaxonContext from "../components/TaxonContext";
+import NamesMissingField from "../components/NamesMissingField";
 
 import TaxonChildren from "../lists/TaxonChildren";
 import TaxonNames from "../lists/TaxonNames";
@@ -46,6 +47,7 @@ class TaxonBody extends React.Component<{
         <TaxonContext taxon={taxon} />
         <TaxonNames taxon={taxon} hideClassification showNameDetail />
         <TaxonChildren taxon={taxon} />
+        <NamesMissingField taxon={taxon} />
       </>
     );
   }
@@ -66,6 +68,7 @@ export default createFragmentContainer(TaxonBody, {
       ...TaxonContext_taxon
       ...TaxonChildren_taxon
       ...TaxonNames_taxon @arguments(showNameDetail: true)
+      ...NamesMissingField_taxon
 
       tags {
         __typename
