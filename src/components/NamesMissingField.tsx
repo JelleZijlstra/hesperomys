@@ -10,6 +10,11 @@ import graphql from "babel-plugin-relay/macro";
 import { NamesMissingFieldQuery } from "./__generated__/NamesMissingFieldQuery.graphql";
 import NamesMissingFieldResults from "./NamesMissingFieldResults";
 
+import { Typeahead, Menu, MenuItem } from "react-bootstrap-typeahead";
+import List from "react-tiny-virtual-list";
+
+import "react-bootstrap-typeahead/css/Typeahead.css";
+
 function ResultsRenderer({ field, oid }: { field: string; oid: number }) {
   return (
     <QueryRenderer<NamesMissingFieldQuery>
@@ -32,13 +37,6 @@ function ResultsRenderer({ field, oid }: { field: string; oid: number }) {
     />
   );
 }
-
-import { Typeahead, Menu, MenuItem } from "react-bootstrap-typeahead";
-import List from "react-tiny-virtual-list";
-
-import { SearchBox_modelCls } from "./__generated__/SearchBox_modelCls.graphql";
-
-import "react-bootstrap-typeahead/css/Typeahead.css";
 
 const SearchBox = ({ setField }: { setField: (field: string) => void }) => {
   const renderMenu = useCallback(
@@ -106,13 +104,6 @@ const SearchBox = ({ setField }: { setField: (field: string) => void }) => {
 
 function NamesMissingField({ taxon }: { taxon: NamesMissingField_taxon }) {
   const [field, setField] = React.useState<string | null>(null);
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      setField(e.target.query.value);
-    },
-    [setField],
-  );
   return (
     <>
       <h3>Find missing data</h3>
