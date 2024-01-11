@@ -1374,8 +1374,8 @@ type PageInfo {
 
 type PageRegex implements CitationGroupTag {
   _Ignored: ID
-  startPageRegex: String!
-  pagesRegex: String!
+  startPageRegex: String
+  pagesRegex: String
   allowStandard: Boolean!
 }
 
@@ -2138,6 +2138,7 @@ type Taxon implements Node & Model {
   pageTitle: String!
   redirectUrl: String
   modelCls: ModelCls!
+  namesMissingField(field: String!, before: String, after: String, first: Int, last: Int): NameConnection
   rank: Rank!
   validName: String!
   age: AgeClass!
