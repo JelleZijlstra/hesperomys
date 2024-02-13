@@ -1,7 +1,8 @@
-from pathlib import Path
-import graphql.language.ast
 import subprocess
 from collections.abc import Iterable
+from pathlib import Path
+
+import graphql.language.ast
 
 TEMPLATE = """
 
