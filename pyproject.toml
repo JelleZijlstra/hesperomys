@@ -6,3 +6,26 @@ preview = true
 
 [tool.pycln]
 all = true
+
+[tool.ruff]
+select = [
+  "F",
+  "E",
+  "I",  # import sorting
+  "ANN",  # enforce type annotations
+  "C4",  # flake8-comprehensions
+  "B",  # bugbear
+  "SIM",  # simplify
+  "UP",  # pyupgrade
+  "PIE",
+  "PERF",
+]
+
+ignore = [
+  "B008",  # do not perform function calls in argument defaults
+  "ANN101",  # missing type annotation for self in method
+  "ANN102",  # missing type annotation for cls in classmethod
+]
+
+line-length = 300
+target-version = "py311"

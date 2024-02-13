@@ -53,7 +53,7 @@ def lcfirst(s: str) -> str:
     return s[0].lower() + s[1:]
 
 
-def create_file(typename: str, component: str):
+def create_file(typename: str, component: str) -> None:
     full_component = f"{typename}{component.title()}"
     filename = Path(f"src/{component}/{full_component}.tsx")
     if filename.exists():
