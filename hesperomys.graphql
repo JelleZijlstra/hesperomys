@@ -28,6 +28,11 @@ enum AgeClass {
   recently_extinct
 }
 
+type AlternativeURL implements ArticleTag {
+  _Ignored: ID
+  url: String!
+}
+
 type Altitude implements TypeTag {
   _Ignored: ID
   altitude: String!
@@ -214,6 +219,13 @@ interface AuthorTag {
   _Ignored: ID
 }
 
+type AuthorityPageLink implements TypeTag {
+  _Ignored: ID
+  url: String!
+  confirmed: Boolean!
+  page: String!
+}
+
 type BHLBibliography implements CitationGroupTag {
   _Ignored: ID
   text: String!
@@ -225,6 +237,11 @@ type Basal implements TaxonTag {
 }
 
 type BiblioNote implements CitationGroupTag {
+  _Ignored: ID
+  text: String!
+}
+
+type BiblioNoteArticle implements ArticleTag {
   _Ignored: ID
   text: String!
 }
@@ -333,6 +350,11 @@ type CitationGroup implements Node & Model {
   numOrderedArticles: Int!
 }
 
+type CitationGroupComment implements CitationGroupTag {
+  _Ignored: ID
+  text: String!
+}
+
 type CitationGroupConnection {
   pageInfo: PageInfo!
   edges: [CitationGroupEdge]!
@@ -411,6 +433,13 @@ type Collection implements Node & Model {
   numExtraSpecimens: Int!
 }
 
+type CollectionCode implements CollectionTag {
+  _Ignored: ID
+  label: String!
+  comment: String!
+  specimenRegex: String
+}
+
 type CollectionConnection {
   pageInfo: PageInfo!
   edges: [CollectionEdge]!
@@ -468,6 +497,12 @@ type CommissionTypeDesignation implements TypeTag {
   _Ignored: ID
   opinion: Article!
   type: Name!
+}
+
+type Condition implements NameTag {
+  _Ignored: ID
+  status: NomenclatureStatus!
+  comment: String
 }
 
 type ConditionalMustHaveSpecimenLinks implements CollectionTag {
@@ -624,7 +659,7 @@ type General implements LocationTag {
 
 type GenusCoelebs implements TypeTag {
   _Ignored: ID
-  comments: String!
+  comments: String
 }
 
 enum GrammaticalGender {
@@ -693,6 +728,11 @@ type IgnorePotentialCitations implements CitationGroupTag {
 }
 
 type ImpreciseLocality implements TypeTag {
+  _Ignored: ID
+  comment: String
+}
+
+type InPress implements ArticleTag {
   _Ignored: ID
   comment: String
 }
@@ -952,6 +992,10 @@ type MustUseChildrenCollection implements CollectionTag {
   _Ignored: ID
 }
 
+type MustUseTriplets implements CollectionTag {
+  _Ignored: ID
+}
+
 type MutationRoot {
   openArticle(articleId: Int!): OpenArticle
 }
@@ -994,6 +1038,7 @@ type Name implements Node & Model {
   speciesTypeKind: SpeciesGroupType
   typeTags: [TypeTag!]!
   originalRank: Rank
+  originalParent: Name
   data: String
   Definition: String
   tags: [NameTag!]!
@@ -1001,6 +1046,8 @@ type Name implements Node & Model {
   numRedirects: Int!
   typifiedNames(before: String, after: String, first: Int, last: Int): NameConnection
   numTypifiedNames: Int!
+  originalChildren(before: String, after: String, first: Int, last: Int): NameConnection
+  numOriginalChildren: Int!
   taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
   numTaxonSet: Int!
   comments(before: String, after: String, first: Int, last: Int): NameCommentConnection
@@ -1008,6 +1055,10 @@ type Name implements Node & Model {
   fillDataLevel: FillDataLevel
   preoccupiedNames(before: String, after: String, first: Int, last: Int): NameConnection
   numPreoccupiedNames: Int!
+  juniorPrimaryHomonyms(before: String, after: String, first: Int, last: Int): NameConnection
+  numJuniorPrimaryHomonyms: Int!
+  juniorSecondaryHomonyms(before: String, after: String, first: Int, last: Int): NameConnection
+  numJuniorSecondaryHomonyms: Int!
   unjustifiedEmendations(before: String, after: String, first: Int, last: Int): NameConnection
   numUnjustifiedEmendations: Int!
   incorrectSubsequentSpellings(before: String, after: String, first: Int, last: Int): NameConnection
@@ -1294,6 +1345,22 @@ type NonOriginal implements ArticleTag {
   comment: String
 }
 
+type NotPreoccupiedBy implements NameTag {
+  _Ignored: ID
+  name: Name!
+  comment: String
+}
+
+type NotUsedAsValid implements NameTag {
+  _Ignored: ID
+  comment: String
+}
+
+type ORCID implements PersonTag {
+  _Ignored: ID
+  text: String!
+}
+
 type Occurrence implements Node & Model {
   id: ID!
   oid: Int!
@@ -1326,6 +1393,11 @@ enum OccurrenceStatus {
   extirpated
   vagrant
   classification_dubious
+}
+
+type OnlineBio implements PersonTag {
+  _Ignored: ID
+  text: String!
 }
 
 type OnlineRepository implements CitationGroupTag {
@@ -1574,6 +1646,12 @@ enum PresenceStatus {
   inferred
 }
 
+type PrimaryHomonymOf implements NameTag {
+  _Ignored: ID
+  name: Name!
+  comment: String
+}
+
 type ProbableRepository implements TypeTag {
   _Ignored: ID
   repository: Collection!
@@ -1781,6 +1859,12 @@ type SearchResultEdge {
   cursor: String!
 }
 
+type SecondaryHomonymOf implements NameTag {
+  _Ignored: ID
+  name: Name!
+  comment: String
+}
+
 type SelectionOfPriority implements NameTag {
   _Ignored: ID
   over: Name!
@@ -1797,6 +1881,10 @@ type SelectionOfSpelling implements NameTag {
 type SeriesRegex implements CitationGroupTag {
   _Ignored: ID
   text: String!
+}
+
+type SkipExtraBHLBibliographies implements CitationGroupTag {
+  _Ignored: ID
 }
 
 enum SourceLanguage {
@@ -2243,6 +2331,11 @@ interface TypeTag {
   _Ignored: ID
 }
 
+type URLPattern implements CitationGroupTag {
+  _Ignored: ID
+  text: String!
+}
+
 type UnavailableElectronic implements ArticleTag {
   _Ignored: ID
   comment: String
@@ -2254,9 +2347,20 @@ type UnjustifiedEmendationOf implements NameTag {
   comment: String
 }
 
+type ValidUse implements NameTag {
+  _Ignored: ID
+  source: Article!
+  comment: String
+}
+
 type VariantOf implements NameTag {
   _Ignored: ID
   name: Name!
+  comment: String
+}
+
+type VarietyOrForm implements NameTag {
+  _Ignored: ID
   comment: String
 }
 
@@ -2273,7 +2377,7 @@ type Wiki implements PersonTag {
 type YearRange implements CitationGroupTag {
   _Ignored: ID
   start: String!
-  end: String!
+  end: String
 }
 
 type _RawCollector implements TypeTag {
