@@ -75,9 +75,9 @@ type Article implements Node & Model {
   ids: String
   bools: String
   kind: ArticleKind!
+  parent: Article
   tags: [ArticleTag!]!
   citationGroup: CitationGroup
-  parent: Article
   articleSet(before: String, after: String, first: Int, last: Int): ArticleConnection
   numArticleSet: Int!
   comments(before: String, after: String, first: Int, last: Int): ArticleCommentConnection
@@ -338,8 +338,8 @@ type CitationGroup implements Node & Model {
   numPatterns: Int!
   articleSet(before: String, after: String, first: Int, last: Int): ArticleConnection
   numArticleSet: Int!
-  issuedateSet(before: String, after: String, first: Int, last: Int): IssueDateConnection
-  numIssuedateSet: Int!
+  issueDateSet(before: String, after: String, first: Int, last: Int): IssueDateConnection
+  numIssueDateSet: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
   numNames: Int!
   bookSet(before: String, after: String, first: Int, last: Int): BookConnection
@@ -882,7 +882,7 @@ type Location implements Node & Model {
   longitude: String!
   locationDetail: String!
   ageDetail: String!
-  source: Article
+  source: Article!
   deleted: LocationStatus!
   tags: [LocationTag!]!
   parent: Location
@@ -1048,10 +1048,10 @@ type Name implements Node & Model {
   numTypifiedNames: Int!
   originalChildren(before: String, after: String, first: Int, last: Int): NameConnection
   numOriginalChildren: Int!
-  taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
-  numTaxonSet: Int!
   comments(before: String, after: String, first: Int, last: Int): NameCommentConnection
   numComments: Int!
+  taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
+  numTaxonSet: Int!
   fillDataLevel: FillDataLevel
   preoccupiedNames(before: String, after: String, first: Int, last: Int): NameConnection
   numPreoccupiedNames: Int!
@@ -1564,9 +1564,9 @@ type Person implements Node & Model {
   tags: [PersonTag!]!
   namingConvention: NamingConvention!
   type: PersonType!
+  target: Person
   bio: String
   olId: String
-  target: Person
   personSet(before: String, after: String, first: Int, last: Int): PersonConnection
   numPersonSet: Int!
   patronyms(before: String, after: String, first: Int, last: Int): NameConnection
@@ -1776,8 +1776,10 @@ type Region implements Node & Model {
   numCitationGroups: Int!
   collections(before: String, after: String, first: Int, last: Int): CollectionConnection
   numCollections: Int!
-  periods(before: String, after: String, first: Int, last: Int): StratigraphicUnitConnection
+  periods(before: String, after: String, first: Int, last: Int): PeriodConnection
   numPeriods: Int!
+  stratigraphicUnits(before: String, after: String, first: Int, last: Int): StratigraphicUnitConnection
+  numStratigraphicUnits: Int!
   locations(before: String, after: String, first: Int, last: Int): LocationConnection
   numLocations: Int!
   specimenSet(before: String, after: String, first: Int, last: Int): SpecimenConnection
@@ -2234,8 +2236,8 @@ type Taxon implements Node & Model {
   data: String
   comments: String
   isPageRoot: Boolean!
-  tags: [TaxonTag!]!
   baseName: Name!
+  tags: [TaxonTag!]!
   children(before: String, after: String, first: Int, last: Int): TaxonConnection
   numChildren: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
