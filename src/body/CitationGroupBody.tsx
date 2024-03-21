@@ -75,7 +75,7 @@ const IssueDate = ({
 }: {
   issueDate: Exclude<
     Exclude<
-      Exclude<CitationGroupBody_citationGroup["issuedateSet"], null>["edges"][0],
+      Exclude<CitationGroupBody_citationGroup["issueDateSet"], null>["edges"][0],
       null
     >["node"],
     null
@@ -125,10 +125,10 @@ const IssueDates = ({
 }: {
   citationGroup: CitationGroupBody_citationGroup;
 }) => {
-  if (!citationGroup.issuedateSet || citationGroup.issuedateSet.edges.length === 0) {
+  if (!citationGroup.issueDateSet || citationGroup.issueDateSet.edges.length === 0) {
     return null;
   }
-  const issueDates = citationGroup.issuedateSet.edges
+  const issueDates = citationGroup.issueDateSet.edges
     .map((edge) => edge?.node)
     .filter((date) => date !== null && date !== undefined);
   issueDates.sort((a, b) => {
@@ -246,7 +246,7 @@ export default createFragmentContainer(CitationGroupBody, {
           text
         }
       }
-      issuedateSet(first: 1000) {
+      issueDateSet(first: 1000) {
         edges {
           node {
             id

@@ -39,10 +39,10 @@ class CitationGroupIssuedateSet extends React.Component<
       subtitle,
       wrapperTitle,
     } = this.props;
-    if (!citationGroup.issuedateSet || citationGroup.issuedateSet.edges.length === 0) {
+    if (!citationGroup.issueDateSet || citationGroup.issueDateSet.edges.length === 0) {
       return null;
     }
-    const showExpandAll = citationGroup.issuedateSet.edges.some(
+    const showExpandAll = citationGroup.issueDateSet.edges.some(
       (edge) => edge && edge.node && supportsChildren(edge.node),
     );
     const inner = (
@@ -58,7 +58,7 @@ class CitationGroupIssuedateSet extends React.Component<
           setExpandAll={showExpandAll ? undefined : undefined}
         />
         <ul>
-          {citationGroup.issuedateSet.edges.map(
+          {citationGroup.issueDateSet.edges.map(
             (edge) =>
               edge &&
               edge.node && (
@@ -96,8 +96,8 @@ export default createPaginationContainer(
       ) {
         oid
         numIssuedateSet
-        issuedateSet(first: $count, after: $cursor)
-          @connection(key: "CitationGroupIssuedateSet_issuedateSet") {
+        issueDateSet(first: $count, after: $cursor)
+          @connection(key: "CitationGroupIssuedateSet_issueDateSet") {
           edges {
             node {
               oid
@@ -111,7 +111,7 @@ export default createPaginationContainer(
     `,
   },
   {
-    getConnectionFromProps: (props) => props.citationGroup.issuedateSet,
+    getConnectionFromProps: (props) => props.citationGroup.issueDateSet,
     getVariables(props, { count, cursor }, fragmentVariables) {
       return {
         count,
