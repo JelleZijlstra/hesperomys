@@ -748,6 +748,11 @@ type IncludedSpecies implements TypeTag {
   comment: String
 }
 
+type Incomplete implements ArticleTag {
+  _Ignored: ID
+  comment: String
+}
+
 type IncorrectGrammar implements TypeTag {
   _Ignored: ID
   text: String!
@@ -1111,7 +1116,7 @@ type NameComment implements Node & Model {
   date: Int!
   text: String!
   source: Article
-  page: String!
+  page: String
 }
 
 type NameCommentConnection {
@@ -1449,6 +1454,14 @@ type PageRegex implements CitationGroupTag {
   startPageRegex: String
   pagesRegex: String
   allowStandard: Boolean!
+}
+
+type PartLocation implements ArticleTag {
+  _Ignored: ID
+  parent: Article!
+  startPage: Int!
+  endPage: Int!
+  comment: String
 }
 
 type PartialTaxon implements TypeTag {
