@@ -668,5 +668,7 @@ if __name__ == "__main__":
     for type_name, conn_name, field_type in extract_connections(parse_graphql_schema()):
         if field_type in ("Specimen", "SpecimenComment", "SearchResult"):
             continue
+        if conn_name == "namesMissingField":
+            continue
         write_component(type_name, conn_name, field_type, force=True)
     subprocess.call(["pre-commit", "run", "--all", "prettier"])

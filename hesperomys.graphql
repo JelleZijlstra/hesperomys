@@ -231,6 +231,12 @@ type BHLBibliography implements CitationGroupTag {
   text: String!
 }
 
+type BHLYearRange implements CitationGroupTag {
+  _Ignored: ID
+  start: String
+  end: String
+}
+
 type Basal implements TaxonTag {
   _Ignored: ID
   comment: String
@@ -1803,6 +1809,7 @@ type Region implements Node & Model {
   hasPeriods: Boolean
   hasTypeLocalities: Boolean
   hasAssociatedPeople: Boolean
+  hasStratigraphicUnits: Boolean
   associatedPeople(before: String, after: String, first: Int, last: Int): PersonConnection
   numAssociatedPeople: Int!
 }
@@ -2242,6 +2249,7 @@ type Taxon implements Node & Model {
   redirectUrl: String
   modelCls: ModelCls!
   namesMissingField(field: String!, before: String, after: String, first: Int, last: Int): NameConnection
+  numNamesMissingField(field: String!): Int!
   rank: Rank!
   validName: String!
   age: AgeClass!
