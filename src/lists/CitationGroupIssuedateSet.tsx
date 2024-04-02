@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { CitationGroupIssuedateSet_citationGroup } from "./__generated__/CitationGroupIssuedateSet_citationGroup.graphql";
+import { CitationGroupIssueDateSet_citationGroup } from "./__generated__/CitationGroupIssueDateSet_citationGroup.graphql";
 
 import { createPaginationContainer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
@@ -10,8 +10,8 @@ import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
 
-interface CitationGroupIssuedateSetProps {
-  citationGroup: CitationGroupIssuedateSet_citationGroup;
+interface CitationGroupIssueDateSetProps {
+  citationGroup: CitationGroupIssueDateSet_citationGroup;
   title?: string;
   subtitle?: JSX.Element;
   hideTitle?: boolean;
@@ -20,11 +20,11 @@ interface CitationGroupIssuedateSetProps {
   wrapperTitle?: string;
 }
 
-class CitationGroupIssuedateSet extends React.Component<
-  CitationGroupIssuedateSetProps,
+class CitationGroupIssueDateSet extends React.Component<
+  CitationGroupIssueDateSetProps,
   { expandAll: boolean }
 > {
-  constructor(props: CitationGroupIssuedateSetProps) {
+  constructor(props: CitationGroupIssueDateSetProps) {
     super(props);
     this.state = { expandAll: false };
   }
@@ -49,7 +49,7 @@ class CitationGroupIssuedateSet extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "IssuedateSet"} ({citationGroup.numIssuedateSet})
+            {title || "IssueDateSet"} ({citationGroup.numIssueDateSet})
           </h3>
         )}
         {subtitle}
@@ -86,18 +86,18 @@ class CitationGroupIssuedateSet extends React.Component<
 }
 
 export default createPaginationContainer(
-  CitationGroupIssuedateSet,
+  CitationGroupIssueDateSet,
   {
     citationGroup: graphql`
-      fragment CitationGroupIssuedateSet_citationGroup on CitationGroup
+      fragment CitationGroupIssueDateSet_citationGroup on CitationGroup
       @argumentDefinitions(
         count: { type: "Int", defaultValue: 50 }
         cursor: { type: "String", defaultValue: null }
       ) {
         oid
-        numIssuedateSet
+        numIssueDateSet
         issueDateSet(first: $count, after: $cursor)
-          @connection(key: "CitationGroupIssuedateSet_issueDateSet") {
+          @connection(key: "CitationGroupIssueDateSet_issueDateSet") {
           edges {
             node {
               oid
@@ -120,13 +120,13 @@ export default createPaginationContainer(
       };
     },
     query: graphql`
-      query CitationGroupIssuedateSetPaginationQuery(
+      query CitationGroupIssueDateSetPaginationQuery(
         $count: Int!
         $cursor: String
         $oid: Int!
       ) {
         citationGroup(oid: $oid) {
-          ...CitationGroupIssuedateSet_citationGroup
+          ...CitationGroupIssueDateSet_citationGroup
             @arguments(count: $count, cursor: $cursor)
         }
       }
