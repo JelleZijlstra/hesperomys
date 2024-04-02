@@ -56,6 +56,11 @@ const CitationGroupTags = ({
           ]);
         }
         break;
+      case "CitationGroupComment":
+        if (tag.text) {
+          data.push(["Comment", tag.text]);
+        }
+        break;
     }
   });
   if (!data) {
@@ -243,6 +248,9 @@ export default createFragmentContainer(CitationGroupBody, {
           text
         }
         ... on BiblioNote {
+          text
+        }
+        ... on CitationGroupComment {
           text
         }
       }

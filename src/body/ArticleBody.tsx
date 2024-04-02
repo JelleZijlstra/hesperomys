@@ -85,7 +85,7 @@ class ArticleBody extends React.Component<{
       tags,
     } = article;
     const data: [string, JSX.Element | null | string][] = [
-      ["Type", TYPE_TO_STRING.get(articleType) || null],
+      ["Type", (articleType !== null && TYPE_TO_STRING.get(articleType)) || null],
       ["Authors", <AuthorList authorTags={authorTags} />],
     ];
     if (numericYear) {
@@ -98,7 +98,7 @@ class ArticleBody extends React.Component<{
       ["Title", title ? <ReactMarkdown children={title} /> : null],
       ["Publisher", publisher],
       [
-        TYPE_TO_CG_LABEL.get(articleType) || "Citation group",
+        (articleType !== null && TYPE_TO_CG_LABEL.get(articleType)) || "Citation group",
         citationGroup ? <ModelLink model={citationGroup} /> : null,
       ],
       ["Series", series],
