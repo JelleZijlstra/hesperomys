@@ -9,7 +9,7 @@ import Table from "../components/Table";
 import TaxonContext from "../components/TaxonContext";
 import NamesMissingField from "../components/NamesMissingField";
 
-import TaxonChildren from "../lists/TaxonChildren";
+import TaxonChildList from "../components/TaxonChildList";
 import TaxonNames from "../lists/TaxonNames";
 
 const RANK_TO_STRING = new Map([
@@ -46,7 +46,7 @@ class TaxonBody extends React.Component<{
         <Table data={data} />
         <TaxonContext taxon={taxon} />
         <TaxonNames taxon={taxon} hideClassification showNameDetail />
-        <TaxonChildren taxon={taxon} />
+        <TaxonChildList taxon={taxon} />
         <NamesMissingField taxon={taxon} />
       </>
     );
@@ -66,7 +66,7 @@ export default createFragmentContainer(TaxonBody, {
         ...ModelLink_model
       }
       ...TaxonContext_taxon
-      ...TaxonChildren_taxon
+      ...TaxonChildList_taxon
       ...TaxonNames_taxon @arguments(showNameDetail: true)
       ...NamesMissingField_taxon
 
