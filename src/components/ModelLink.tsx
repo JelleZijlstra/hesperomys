@@ -17,10 +17,10 @@ function PersonExtra({ model }: { model: ModelLink_model }) {
   if (model.bio) {
     parts.push(model.bio);
   }
-  if (model.personType) {
-    parts.push(model.personType);
+  if (parts.length > 0) {
+    return <> ({parts.join("; ")})</>;
   }
-  return <> ({parts.join("; ")})</>;
+  return null;
 }
 
 function NameExtra({ model }: { model: ModelLink_model }) {

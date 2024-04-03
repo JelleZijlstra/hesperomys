@@ -153,6 +153,17 @@ class ArticleBody extends React.Component<{
           data.push(["Evidence for date", body]);
           break;
         }
+        case "BiblioNoteArticle":
+          if (tag.text) {
+            data.push([
+              "Bibliographical discussion",
+              <a href={`/docs/biblio/${tag.text}`}>{tag.text}</a>,
+            ]);
+          }
+          break;
+        case "AlternativeURL":
+          data.push(["URL", <a href={tag.url}>{tag.url}</a>]);
+          break;
       }
       if (url !== null && "text" in tag) {
         data.push([tag.__typename, <a href={url}>{tag.text}</a>]);
@@ -194,13 +205,22 @@ class ArticleBody extends React.Component<{
           title="Lectotype designations"
         />
         <ArticleNeotypeDesignations article={article} title="Neotype designations" />
-        <ArticleSpecimenDetails article={article} title="Specimen details" />
-        <ArticleLocationDetails article={article} title="Location details" />
-        <ArticleCollectionDetails article={article} title="Collection details" />
-        <ArticleCitationDetails article={article} title="Citation details" />
-        <ArticleDefinitionDetails article={article} title="Definition details" />
-        <ArticleEtymologyDetails article={article} title="Etymology details" />
-        <ArticleTypeSpeciesDetails article={article} title="Type species details" />
+        <ArticleSpecimenDetails article={article} title="Names with specimen data" />
+        <ArticleLocationDetails article={article} title="Names with location data" />
+        <ArticleCollectionDetails
+          article={article}
+          title="Names with collection data"
+        />
+        <ArticleCitationDetails article={article} title="Names with citation data" />
+        <ArticleDefinitionDetails
+          article={article}
+          title="Names with definition data"
+        />
+        <ArticleEtymologyDetails article={article} title="Names with etymology data" />
+        <ArticleTypeSpeciesDetails
+          article={article}
+          title="Names with type species data"
+        />
       </>
     );
   }
@@ -260,6 +280,12 @@ export default createFragmentContainer(ArticleBody, {
           dateSource: source
           date
           comment
+        }
+        ... on BiblioNoteArticle {
+          text
+        }
+        ... on AlternativeURL {
+          url
         }
       }
       ...ArticleOrderedNewNames_article
