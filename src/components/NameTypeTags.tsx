@@ -223,8 +223,7 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
     case "AuthorityPageLink":
       return (
         <>
-          View original description on Biodiversity Heritage Library (page {tag.page}):{" "}
-          <a href={tag.url}>{tag.url}</a>
+          View original description (page {tag.page}): <a href={tag.url}>{tag.url}</a>
         </>
       );
     case "PhyloCodeNumber":

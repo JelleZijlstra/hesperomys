@@ -40,6 +40,18 @@ const sortKey = (name: Name | null) => {
   return [cls, order, family, name.taxon.validName, status, name.rootName];
 };
 
+const stringifySpeciesTypeKind = (kind?: string | null) => {
+  switch (kind) {
+    case null:
+    case undefined:
+      return "Type";
+    case "nonexistent":
+      return "No type specimen in existence";
+    default:
+      return toTitle(kind);
+  }
+};
+
 class NameList extends React.Component<{
   connection: NameList_connection;
   hideClassification?: boolean;
@@ -131,13 +143,13 @@ class NameList extends React.Component<{
           if (name.typeSpecimen || name.speciesTypeKind) {
             items.push(
               <li>
-                {name.speciesTypeKind ? toTitle(name.speciesTypeKind) : "Type"}
+                {stringifySpeciesTypeKind(name.speciesTypeKind)}
                 {name.typeSpecimen && ": " + name.typeSpecimen}
               </li>,
             );
           }
           if (name.nomenclatureStatus && name.nomenclatureStatus !== "available") {
-            items.push(<li>Status: {name.nomenclatureStatus}</li>);
+            items.push(<li>Status: {name.nomenclatureStatus.replace(/_/g, " ")}</li>);
           }
           if (name.typeTags) {
             name.typeTags.forEach((tag) => {

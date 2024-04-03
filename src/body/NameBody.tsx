@@ -102,7 +102,7 @@ function NomenclatureSection({ name }: { name: NameBody_name }) {
       <h3>Nomenclature</h3>
       <Table
         data={[
-          ["Status", nomenclatureStatus],
+          ["Status", nomenclatureStatus.replace(/_/g, " ")],
           ["Original rank", originalRank],
           ["Name complex", nameComplex ? <ModelLink model={nameComplex} /> : null],
           [
@@ -141,12 +141,15 @@ function TypeSection({ name }: { name: NameBody_name }) {
         data={[
           ["Type specimen", typeSpecimen],
           ["Collection", collection ? <ModelLink model={collection} /> : null],
-          ["Kind of type specimen", speciesTypeKind],
+          [
+            "Kind of type specimen",
+            speciesTypeKind ? speciesTypeKind.replace(/_/g, " ") : null,
+          ],
           [
             GROUP_TO_TYPE.get(group) || "Type",
             nameType ? <ModelLink model={nameType} /> : null,
           ],
-          ["Kind of type", genusTypeKind],
+          ["Kind of type", genusTypeKind ? genusTypeKind.replace(/_/g, " ") : null],
         ]}
       />
       <NameTypeTags
