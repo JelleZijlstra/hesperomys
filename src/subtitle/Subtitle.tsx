@@ -9,6 +9,7 @@ import CollectionSubtitle from "./CollectionSubtitle";
 import CitationGroupSubtitle from "./CitationGroupSubtitle";
 import NameSubtitle from "./NameSubtitle";
 import PeriodSubtitle from "./PeriodSubtitle";
+import LocationSubtitle from "./LocationSubtitle";
 
 const modelSpecific = function (model: Subtitle_model) {
   switch (model.__typename) {
@@ -22,6 +23,8 @@ const modelSpecific = function (model: Subtitle_model) {
       return <CollectionSubtitle collection={model} />;
     case "CitationGroup":
       return <CitationGroupSubtitle citationGroup={model} />;
+    case "Location":
+      return <LocationSubtitle location={model} />;
     default:
       return null;
   }
@@ -57,6 +60,7 @@ export default createFragmentContainer(Subtitle, {
       ...CollectionSubtitle_collection
       ...RegionSubtitle_region
       ...PeriodSubtitle_period
+      ...LocationSubtitle_location
       modelCls {
         name
       }
