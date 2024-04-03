@@ -10,6 +10,7 @@ import CitationGroupRedirects from "../lists/CitationGroupRedirects";
 import ModelLink from "../components/ModelLink";
 import Table from "../components/Table";
 import PublicationDate from "./PublicationDate";
+import InlineMarkdown from "../components/InlineMarkdown";
 
 const CitationGroupTags = ({
   citationGroup,
@@ -46,7 +47,7 @@ const CitationGroupTags = ({
         data.push(["Published during", `${tag.start}-${tag.end}`]);
         break;
       case "DatingTools":
-        data.push(["Comments on dating", tag.text]);
+        data.push(["Comments on dating", <InlineMarkdown source={tag.text} />]);
         break;
       case "BiblioNote":
         if (tag.text) {
@@ -58,7 +59,7 @@ const CitationGroupTags = ({
         break;
       case "CitationGroupComment":
         if (tag.text) {
-          data.push(["Comment", tag.text]);
+          data.push(["Comment", <InlineMarkdown source={tag.text} />]);
         }
         break;
     }
