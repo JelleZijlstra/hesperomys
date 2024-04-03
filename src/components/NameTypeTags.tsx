@@ -220,7 +220,17 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           LSID (ZooBank): <a href={url}>{label}</a>
         </>
       );
+    case "AuthorityPageLink":
+      return (
+        <>
+          View original description on Biodiversity Heritage Library (page {tag.page}):{" "}
+          <a href={tag.url}>{tag.url}</a>
+        </>
+      );
+    case "PhyloCodeNumber":
+      return <>PhyloCode registration number: {tag.number}</>;
     default:
+      console.log(tag.__typename);
       return null;
   }
 }
@@ -423,6 +433,13 @@ export default createFragmentContainer(NameTypeTags, {
         ... on TypeSpecimenLinkFor {
           url
           specimen
+        }
+        ... on AuthorityPageLink {
+          url
+          page
+        }
+        ... on PhyloCodeNumber {
+          number
         }
       }
     }

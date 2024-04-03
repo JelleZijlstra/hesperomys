@@ -10,7 +10,7 @@ class SpeciesNameComplexTitle extends React.Component<{
   render() {
     const { label } = this.props.speciesNameComplex;
 
-    return <>{label}</>;
+    return <>{label.replace(/_/, " ")}</>;
   }
 }
 

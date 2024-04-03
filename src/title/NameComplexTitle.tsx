@@ -10,7 +10,7 @@ class NameComplexTitle extends React.Component<{
   render() {
     const { label } = this.props.nameComplex;
 
-    return <>{label}</>;
+    return <>{label.replace(/_/, " ")}</>;
   }
 }
 

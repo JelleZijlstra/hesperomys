@@ -84,7 +84,12 @@ function NameSection({ name }: { name: NameBody_name }) {
       />
       <NameTypeTags
         name={name}
-        tagsToInclude={["CitationDetail", "DefinitionDetail"]}
+        tagsToInclude={[
+          "CitationDetail",
+          "DefinitionDetail",
+          "AuthorityPageLink",
+          "PhyloCodeNumber",
+        ]}
       />
     </>
   );
@@ -155,6 +160,8 @@ function TypeSection({ name }: { name: NameBody_name }) {
           "Host",
           "IncludedSpecies",
           "FormerRepository",
+          "ExtraRepository",
+          "FutureRepository",
           "Repository",
           "CollectionDetail",
           "CommmissionTypeDesignation",
