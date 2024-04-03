@@ -162,21 +162,22 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
 
   render() {
     const { %(type_lower)s, relay, numToLoad, hideTitle, hideChildren, title, subtitle, wrapperTitle } = this.props;
-    const { oid, numChildren, %(conn_lower)s } = %(type_lower)s;
-    if (!%(conn_lower)s || (numChildren === 0 && %(conn_lower)s.edges.length === 0)) {
+    const { oid, numChildren, chilren%(type_upper)s%(conn_upper)s, %(conn_lower)s } = %(type_lower)s;
+    const childrenHaveData = chilren%(type_upper)s%(conn_upper)s?.edges.some(edge => edge && edge.node && edge.node.has%(conn_upper)s);
+    if (!%(conn_lower)s || (!childrenHaveData && %(conn_lower)s.edges.length === 0)) {
       return null;
     }
     const showExpandAll = %(conn_lower)s.edges.some(edge => edge && edge.node && supportsChildren(edge.node));
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "%(conn_upper)s"} ({numChildren})</h3>}
+        {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
         {subtitle}
-        <ExpandButtons
+        {childrenHaveData && <ExpandButtons
           expandAll={this.state.expandAll}
           setExpandAll={showExpandAll ? %(set_expand_all)s : undefined}
           showChildren={this.state.showChildren}
           setShowChildren={numChildren > 0 && !hideChildren ? showChildren => this.setState({ showChildren }) : undefined}
-        />
+        />}
         {this.state.showChildren &&
         <QueryRenderer<%(type_upper)s%(conn_upper)sChildrenQuery>
           environment={environment}
@@ -248,6 +249,13 @@ const %(type_upper)s%(conn_upper)sContainer = createPaginationContainer(
         ) {
         oid
         numChildren
+        chilren%(type_upper)s%(conn_upper)s: children(first: 1000) {
+          edges {
+            node {
+              has%(conn_upper)s
+            }
+          }
+        }
         %(conn_lower)s(first: $count, after: $cursor)
           @connection(key: "%(type_upper)s%(conn_upper)s_%(conn_lower)s") {
           edges {

@@ -48,10 +48,14 @@ class RegionAssociatedPeople extends React.Component<
       subtitle,
       wrapperTitle,
     } = this.props;
-    const { oid, numChildren, associatedPeople } = region;
+    const { oid, numChildren, chilrenRegionAssociatedPeople, associatedPeople } =
+      region;
+    const childrenHaveData = chilrenRegionAssociatedPeople?.edges.some(
+      (edge) => edge && edge.node && edge.node.hasAssociatedPeople,
+    );
     if (
       !associatedPeople ||
-      (numChildren === 0 && associatedPeople.edges.length === 0)
+      (!childrenHaveData && associatedPeople.edges.length === 0)
     ) {
       return null;
     }
@@ -60,22 +64,20 @@ class RegionAssociatedPeople extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && (
-          <h3>
-            {title || "AssociatedPeople"} ({numChildren})
-          </h3>
-        )}
+        {!hideTitle && <h3>{title || "AssociatedPeople"}</h3>}
         {subtitle}
-        <ExpandButtons
-          expandAll={this.state.expandAll}
-          setExpandAll={showExpandAll ? undefined : undefined}
-          showChildren={this.state.showChildren}
-          setShowChildren={
-            numChildren > 0 && !hideChildren
-              ? (showChildren) => this.setState({ showChildren })
-              : undefined
-          }
-        />
+        {childrenHaveData && (
+          <ExpandButtons
+            expandAll={this.state.expandAll}
+            setExpandAll={showExpandAll ? undefined : undefined}
+            showChildren={this.state.showChildren}
+            setShowChildren={
+              numChildren > 0 && !hideChildren
+                ? (showChildren) => this.setState({ showChildren })
+                : undefined
+            }
+          />
+        )}
         {this.state.showChildren && (
           <QueryRenderer<RegionAssociatedPeopleChildrenQuery>
             environment={environment}
@@ -163,6 +165,13 @@ const RegionAssociatedPeopleContainer = createPaginationContainer(
       ) {
         oid
         numChildren
+        chilrenRegionAssociatedPeople: children(first: 1000) {
+          edges {
+            node {
+              hasAssociatedPeople
+            }
+          }
+        }
         associatedPeople(first: $count, after: $cursor)
           @connection(key: "RegionAssociatedPeople_associatedPeople") {
           edges {

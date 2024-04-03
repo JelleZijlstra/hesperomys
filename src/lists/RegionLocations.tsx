@@ -48,8 +48,11 @@ class RegionLocations extends React.Component<
       subtitle,
       wrapperTitle,
     } = this.props;
-    const { oid, numChildren, locations } = region;
-    if (!locations || (numChildren === 0 && locations.edges.length === 0)) {
+    const { oid, numChildren, chilrenRegionLocations, locations } = region;
+    const childrenHaveData = chilrenRegionLocations?.edges.some(
+      (edge) => edge && edge.node && edge.node.hasLocations,
+    );
+    if (!locations || (!childrenHaveData && locations.edges.length === 0)) {
       return null;
     }
     const showExpandAll = locations.edges.some(
@@ -57,26 +60,24 @@ class RegionLocations extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && (
-          <h3>
-            {title || "Locations"} ({numChildren})
-          </h3>
-        )}
+        {!hideTitle && <h3>{title || "Locations"}</h3>}
         {subtitle}
-        <ExpandButtons
-          expandAll={this.state.expandAll}
-          setExpandAll={
-            showExpandAll
-              ? (expandAll: boolean) => this.setState({ expandAll })
-              : undefined
-          }
-          showChildren={this.state.showChildren}
-          setShowChildren={
-            numChildren > 0 && !hideChildren
-              ? (showChildren) => this.setState({ showChildren })
-              : undefined
-          }
-        />
+        {childrenHaveData && (
+          <ExpandButtons
+            expandAll={this.state.expandAll}
+            setExpandAll={
+              showExpandAll
+                ? (expandAll: boolean) => this.setState({ expandAll })
+                : undefined
+            }
+            showChildren={this.state.showChildren}
+            setShowChildren={
+              numChildren > 0 && !hideChildren
+                ? (showChildren) => this.setState({ showChildren })
+                : undefined
+            }
+          />
+        )}
         {this.state.showChildren && (
           <QueryRenderer<RegionLocationsChildrenQuery>
             environment={environment}
@@ -161,6 +162,13 @@ const RegionLocationsContainer = createPaginationContainer(
       ) {
         oid
         numChildren
+        chilrenRegionLocations: children(first: 1000) {
+          edges {
+            node {
+              hasLocations
+            }
+          }
+        }
         locations(first: $count, after: $cursor)
           @connection(key: "RegionLocations_locations") {
           edges {

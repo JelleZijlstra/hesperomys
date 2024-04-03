@@ -48,8 +48,11 @@ class RegionCollections extends React.Component<
       subtitle,
       wrapperTitle,
     } = this.props;
-    const { oid, numChildren, collections } = region;
-    if (!collections || (numChildren === 0 && collections.edges.length === 0)) {
+    const { oid, numChildren, chilrenRegionCollections, collections } = region;
+    const childrenHaveData = chilrenRegionCollections?.edges.some(
+      (edge) => edge && edge.node && edge.node.hasCollections,
+    );
+    if (!collections || (!childrenHaveData && collections.edges.length === 0)) {
       return null;
     }
     const showExpandAll = collections.edges.some(
@@ -57,26 +60,24 @@ class RegionCollections extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && (
-          <h3>
-            {title || "Collections"} ({numChildren})
-          </h3>
-        )}
+        {!hideTitle && <h3>{title || "Collections"}</h3>}
         {subtitle}
-        <ExpandButtons
-          expandAll={this.state.expandAll}
-          setExpandAll={
-            showExpandAll
-              ? (expandAll: boolean) => this.setState({ expandAll })
-              : undefined
-          }
-          showChildren={this.state.showChildren}
-          setShowChildren={
-            numChildren > 0 && !hideChildren
-              ? (showChildren) => this.setState({ showChildren })
-              : undefined
-          }
-        />
+        {childrenHaveData && (
+          <ExpandButtons
+            expandAll={this.state.expandAll}
+            setExpandAll={
+              showExpandAll
+                ? (expandAll: boolean) => this.setState({ expandAll })
+                : undefined
+            }
+            showChildren={this.state.showChildren}
+            setShowChildren={
+              numChildren > 0 && !hideChildren
+                ? (showChildren) => this.setState({ showChildren })
+                : undefined
+            }
+          />
+        )}
         {this.state.showChildren && (
           <QueryRenderer<RegionCollectionsChildrenQuery>
             environment={environment}
@@ -161,6 +162,13 @@ const RegionCollectionsContainer = createPaginationContainer(
       ) {
         oid
         numChildren
+        chilrenRegionCollections: children(first: 1000) {
+          edges {
+            node {
+              hasCollections
+            }
+          }
+        }
         collections(first: $count, after: $cursor)
           @connection(key: "RegionCollections_collections") {
           edges {

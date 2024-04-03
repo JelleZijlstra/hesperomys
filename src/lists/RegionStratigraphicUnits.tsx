@@ -48,10 +48,14 @@ class RegionStratigraphicUnits extends React.Component<
       subtitle,
       wrapperTitle,
     } = this.props;
-    const { oid, numChildren, stratigraphicUnits } = region;
+    const { oid, numChildren, chilrenRegionStratigraphicUnits, stratigraphicUnits } =
+      region;
+    const childrenHaveData = chilrenRegionStratigraphicUnits?.edges.some(
+      (edge) => edge && edge.node && edge.node.hasStratigraphicUnits,
+    );
     if (
       !stratigraphicUnits ||
-      (numChildren === 0 && stratigraphicUnits.edges.length === 0)
+      (!childrenHaveData && stratigraphicUnits.edges.length === 0)
     ) {
       return null;
     }
@@ -60,26 +64,24 @@ class RegionStratigraphicUnits extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && (
-          <h3>
-            {title || "StratigraphicUnits"} ({numChildren})
-          </h3>
-        )}
+        {!hideTitle && <h3>{title || "StratigraphicUnits"}</h3>}
         {subtitle}
-        <ExpandButtons
-          expandAll={this.state.expandAll}
-          setExpandAll={
-            showExpandAll
-              ? (expandAll: boolean) => this.setState({ expandAll })
-              : undefined
-          }
-          showChildren={this.state.showChildren}
-          setShowChildren={
-            numChildren > 0 && !hideChildren
-              ? (showChildren) => this.setState({ showChildren })
-              : undefined
-          }
-        />
+        {childrenHaveData && (
+          <ExpandButtons
+            expandAll={this.state.expandAll}
+            setExpandAll={
+              showExpandAll
+                ? (expandAll: boolean) => this.setState({ expandAll })
+                : undefined
+            }
+            showChildren={this.state.showChildren}
+            setShowChildren={
+              numChildren > 0 && !hideChildren
+                ? (showChildren) => this.setState({ showChildren })
+                : undefined
+            }
+          />
+        )}
         {this.state.showChildren && (
           <QueryRenderer<RegionStratigraphicUnitsChildrenQuery>
             environment={environment}
@@ -167,6 +169,13 @@ const RegionStratigraphicUnitsContainer = createPaginationContainer(
       ) {
         oid
         numChildren
+        chilrenRegionStratigraphicUnits: children(first: 1000) {
+          edges {
+            node {
+              hasStratigraphicUnits
+            }
+          }
+        }
         stratigraphicUnits(first: $count, after: $cursor)
           @connection(key: "RegionStratigraphicUnits_stratigraphicUnits") {
           edges {

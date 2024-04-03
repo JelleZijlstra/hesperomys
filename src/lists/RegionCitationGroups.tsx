@@ -48,8 +48,11 @@ class RegionCitationGroups extends React.Component<
       subtitle,
       wrapperTitle,
     } = this.props;
-    const { oid, numChildren, citationGroups } = region;
-    if (!citationGroups || (numChildren === 0 && citationGroups.edges.length === 0)) {
+    const { oid, numChildren, chilrenRegionCitationGroups, citationGroups } = region;
+    const childrenHaveData = chilrenRegionCitationGroups?.edges.some(
+      (edge) => edge && edge.node && edge.node.hasCitationGroups,
+    );
+    if (!citationGroups || (!childrenHaveData && citationGroups.edges.length === 0)) {
       return null;
     }
     const showExpandAll = citationGroups.edges.some(
@@ -57,22 +60,20 @@ class RegionCitationGroups extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && (
-          <h3>
-            {title || "CitationGroups"} ({numChildren})
-          </h3>
-        )}
+        {!hideTitle && <h3>{title || "CitationGroups"}</h3>}
         {subtitle}
-        <ExpandButtons
-          expandAll={this.state.expandAll}
-          setExpandAll={showExpandAll ? undefined : undefined}
-          showChildren={this.state.showChildren}
-          setShowChildren={
-            numChildren > 0 && !hideChildren
-              ? (showChildren) => this.setState({ showChildren })
-              : undefined
-          }
-        />
+        {childrenHaveData && (
+          <ExpandButtons
+            expandAll={this.state.expandAll}
+            setExpandAll={showExpandAll ? undefined : undefined}
+            showChildren={this.state.showChildren}
+            setShowChildren={
+              numChildren > 0 && !hideChildren
+                ? (showChildren) => this.setState({ showChildren })
+                : undefined
+            }
+          />
+        )}
         {this.state.showChildren && (
           <QueryRenderer<RegionCitationGroupsChildrenQuery>
             environment={environment}
@@ -157,6 +158,13 @@ const RegionCitationGroupsContainer = createPaginationContainer(
       ) {
         oid
         numChildren
+        chilrenRegionCitationGroups: children(first: 1000) {
+          edges {
+            node {
+              hasCitationGroups
+            }
+          }
+        }
         citationGroups(first: $count, after: $cursor)
           @connection(key: "RegionCitationGroups_citationGroups") {
           edges {

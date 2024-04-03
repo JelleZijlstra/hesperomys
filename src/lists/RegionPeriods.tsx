@@ -48,8 +48,11 @@ class RegionPeriods extends React.Component<
       subtitle,
       wrapperTitle,
     } = this.props;
-    const { oid, numChildren, periods } = region;
-    if (!periods || (numChildren === 0 && periods.edges.length === 0)) {
+    const { oid, numChildren, chilrenRegionPeriods, periods } = region;
+    const childrenHaveData = chilrenRegionPeriods?.edges.some(
+      (edge) => edge && edge.node && edge.node.hasPeriods,
+    );
+    if (!periods || (!childrenHaveData && periods.edges.length === 0)) {
       return null;
     }
     const showExpandAll = periods.edges.some(
@@ -57,26 +60,24 @@ class RegionPeriods extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && (
-          <h3>
-            {title || "Periods"} ({numChildren})
-          </h3>
-        )}
+        {!hideTitle && <h3>{title || "Periods"}</h3>}
         {subtitle}
-        <ExpandButtons
-          expandAll={this.state.expandAll}
-          setExpandAll={
-            showExpandAll
-              ? (expandAll: boolean) => this.setState({ expandAll })
-              : undefined
-          }
-          showChildren={this.state.showChildren}
-          setShowChildren={
-            numChildren > 0 && !hideChildren
-              ? (showChildren) => this.setState({ showChildren })
-              : undefined
-          }
-        />
+        {childrenHaveData && (
+          <ExpandButtons
+            expandAll={this.state.expandAll}
+            setExpandAll={
+              showExpandAll
+                ? (expandAll: boolean) => this.setState({ expandAll })
+                : undefined
+            }
+            showChildren={this.state.showChildren}
+            setShowChildren={
+              numChildren > 0 && !hideChildren
+                ? (showChildren) => this.setState({ showChildren })
+                : undefined
+            }
+          />
+        )}
         {this.state.showChildren && (
           <QueryRenderer<RegionPeriodsChildrenQuery>
             environment={environment}
@@ -161,6 +162,13 @@ const RegionPeriodsContainer = createPaginationContainer(
       ) {
         oid
         numChildren
+        chilrenRegionPeriods: children(first: 1000) {
+          edges {
+            node {
+              hasPeriods
+            }
+          }
+        }
         periods(first: $count, after: $cursor)
           @connection(key: "RegionPeriods_periods") {
           edges {
