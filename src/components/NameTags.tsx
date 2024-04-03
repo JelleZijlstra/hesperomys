@@ -94,6 +94,24 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Preoccupied by <ModelLink model={tag.name} />
         </>
       );
+    case "PrimaryHomonymOf":
+      if (!tag.name) {
+        return null;
+      }
+      return (
+        <>
+          Primary homonym of <ModelLink model={tag.name} />
+        </>
+      );
+    case "SecondaryHomonymOf":
+      if (!tag.name) {
+        return null;
+      }
+      return (
+        <>
+          Secondary homonym of <ModelLink model={tag.name} />
+        </>
+      );
     case "PartiallySuppressedBy":
       if (!tag.opinion) {
         return null;
@@ -178,6 +196,30 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Spelling variant of <ModelLink model={tag.name} />
         </>
       );
+    case "NotPreoccupiedBy":
+      if (!tag.name) {
+        return null;
+      }
+      return (
+        <>
+          Not preoccupied by (but similar to) <ModelLink model={tag.name} />
+        </>
+      );
+    case "Condition":
+      return <>{tag.status.replace(/_/g, " ")}</>;
+    case "ValidUse":
+      if (!tag.source) {
+        return null;
+      }
+      return (
+        <>
+          Used as a valid taxon by <ModelLink model={tag.source} />
+        </>
+      );
+    case "VarietyOrForm":
+      return <>Originally described as a "variety" or "form"</>;
+    case "NotUsedAsValid":
+      return <>Not used as a valid taxon in the original description</>;
     default:
       return null;
   }
@@ -271,6 +313,24 @@ export default createFragmentContainer(NameTags, {
           }
           comment
         }
+        ... on PrimaryHomonymOf {
+          name {
+            ...ModelLink_model
+          }
+          comment
+        }
+        ... on SecondaryHomonymOf {
+          name {
+            ...ModelLink_model
+          }
+          comment
+        }
+        ... on NotPreoccupiedBy {
+          name {
+            ...ModelLink_model
+          }
+          comment
+        }
         ... on PartiallySuppressedBy {
           opinion {
             ...ModelLink_model
@@ -329,6 +389,22 @@ export default createFragmentContainer(NameTags, {
           name {
             ...ModelLink_model
           }
+          comment
+        }
+        ... on Condition {
+          status
+          comment
+        }
+        ... on ValidUse {
+          source {
+            ...ModelLink_model
+          }
+          comment
+        }
+        ... on VarietyOrForm {
+          comment
+        }
+        ... on NotUsedAsValid {
           comment
         }
       }

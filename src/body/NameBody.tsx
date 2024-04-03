@@ -33,6 +33,8 @@ import NameComments from "../lists/NameComments";
 import ReactMarkdown from "react-markdown";
 import PublicationDate from "./PublicationDate";
 import NameNameCombinations from "../lists/NameNameCombinations";
+import NameJuniorPrimaryHomonyms from "../lists/NameJuniorPrimaryHomonyms";
+import NameJuniorSecondaryHomonyms from "../lists/NameJuniorSecondaryHomonyms";
 
 function NameSection({ name }: { name: NameBody_name }) {
   const {
@@ -228,6 +230,8 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
         />
 
         <NamePreoccupiedNames name={name} title="Preoccupied names" />
+        <NameJuniorPrimaryHomonyms name={name} title="Junior primary homonyms" />
+        <NameJuniorSecondaryHomonyms name={name} title="Junior secondary homonyms" />
         <NameNominaNova name={name} title="NameNominaNova" />
         <NameSubsequentUsages name={name} title="Subsequent usages" />
 
@@ -311,6 +315,8 @@ export default createFragmentContainer(NameBody, {
       }
       ...NameTypifiedNames_name
       ...NamePreoccupiedNames_name
+      ...NameJuniorPrimaryHomonyms_name
+      ...NameJuniorSecondaryHomonyms_name
       ...NameUnjustifiedEmendations_name
       ...NameIncorrectSubsequentSpellings_name
       ...NameNominaNova_name
