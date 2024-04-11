@@ -4,7 +4,7 @@ import SiteHeader from "./SiteHeader";
 import SiteBody from "./SiteBody";
 import FullSearch from "./FullSearch";
 
-export default function HomeMain() {
+export default function SearchMain() {
   useEffect(() => {
     document.title = "Hesperomys - Search";
   }, []);

@@ -697,6 +697,11 @@ type Habitat implements TypeTag {
   text: String!
 }
 
+type HomonymData {
+  genera: [Name!]!
+  homonyms: [PossibleHomonym!]!
+}
+
 type Host implements TypeTag {
   _Ignored: ID
   name: String!
@@ -1224,6 +1229,12 @@ enum NamingConvention {
   portuguese
 }
 
+type NeedsPrioritySelection implements NameTag {
+  _Ignored: ID
+  over: Name!
+  reason: SelectionReason!
+}
+
 type NeedsTranslation implements ArticleTag {
   _Ignored: ID
   language: SourceLanguage!
@@ -1646,6 +1657,17 @@ type PhyloCodeNumber implements TypeTag {
   number: Int!
 }
 
+type PossibleHomonym {
+  name: Name!
+  exactNameMatch: Boolean!
+  fuzzyNameMatch: Boolean!
+  sameOriginalGenus: Boolean!
+  sameCurrentGenus: Boolean!
+  editDistance: Int
+  relatedGenus: Boolean!
+  isCurrentHomonym: Boolean!
+}
+
 type Predecessor implements CitationGroupTag {
   _Ignored: ID
   cg: CitationGroup!
@@ -1690,6 +1712,7 @@ type QueryRoot {
   documentation(path: String!): String
   modelCls(callSign: String!): ModelCls!
   search(query: String!, before: String, after: String, first: Int, last: Int): SearchResultConnection
+  speciesHomonyms(genusName: String!, rootName: String!): HomonymData
   regionByLabel(label: String): [Region]
   region(oid: Int): Region
   citationGroupByLabel(label: String): [CitationGroup]
@@ -1840,6 +1863,7 @@ enum RegionKind {
   prefecture
   territory
   supranational
+  sea
 }
 
 type Rejected implements NameTag {
@@ -1898,6 +1922,12 @@ type SelectionOfSpelling implements NameTag {
   _Ignored: ID
   optionalSource: Article
   comment: String
+}
+
+enum SelectionReason {
+  primary_homonymy
+  secondary_homonymy
+  synonymy
 }
 
 type SeriesRegex implements CitationGroupTag {

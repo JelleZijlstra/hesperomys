@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import HomeMain from "./components/HomeMain";
 import DocsMain from "./components/DocsMain";
+import HomonymFinder from "./components/HomonymFinder";
 import ModelMain from "./components/ModelMain";
 import NewMain from "./components/NewMain";
 import SearchMain from "./components/SearchMain";
@@ -18,6 +19,9 @@ function App() {
         </Route>
         <Route path="/search">
           <SearchMain />
+        </Route>
+        <Route path="/homonym-finder">
+          <HomonymFinder />
         </Route>
         <Route path="/new/:callSign">
           <NewMain />
