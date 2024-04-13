@@ -738,6 +738,12 @@ type IgnorePotentialCitations implements CitationGroupTag {
   _Ignored: ID
 }
 
+type IgnorePreoccupationBy implements NameTag {
+  _Ignored: ID
+  name: Name!
+  comment: String!
+}
+
 type ImpreciseLocality implements TypeTag {
   _Ignored: ID
   comment: String
@@ -1573,6 +1579,14 @@ enum PeriodSystem {
   aulma
   local_biostratigraphy
   aflma
+}
+
+type PermanentlyReplacedSecondaryHomonymOf implements NameTag {
+  _Ignored: ID
+  name: Name!
+  optionalSource: Article
+  isInUse: Boolean!
+  comment: String!
 }
 
 type Person implements Node & Model {
