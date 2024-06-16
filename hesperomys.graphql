@@ -231,6 +231,11 @@ type BHLBibliography implements CitationGroupTag {
   text: String!
 }
 
+type BHLWrongPageNumbers implements ArticleTag {
+  _Ignored: ID
+  comment: String
+}
+
 type BHLYearRange implements CitationGroupTag {
   _Ignored: ID
   start: String
@@ -429,6 +434,8 @@ type Collection implements Node & Model {
   numAssociatedPeople: Int!
   probableSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
   numProbableSpecimens: Int!
+  guessedSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
+  numGuessedSpecimens: Int!
   sharedSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
   numSharedSpecimens: Int!
   formerSpecimens(before: String, after: String, first: Int, last: Int): NameConnection
@@ -663,6 +670,11 @@ type General implements LocationTag {
   _Ignored: ID
 }
 
+type GeneralDOI implements ArticleTag {
+  _Ignored: ID
+  comment: String
+}
+
 type GenusCoelebs implements TypeTag {
   _Ignored: ID
   comments: String
@@ -679,6 +691,12 @@ enum Group {
   genus
   family
   high
+}
+
+type GuessedRepository implements TypeTag {
+  _Ignored: ID
+  repository: Collection!
+  score: Float!
 }
 
 type HDL implements ArticleTag {
@@ -728,7 +746,19 @@ type IgnoreLint implements ArticleTag {
   comment: String
 }
 
+type IgnoreLintCitationGroup implements CitationGroupTag {
+  _Ignored: ID
+  label: String!
+  comment: String
+}
+
 type IgnoreLintName implements TypeTag {
+  _Ignored: ID
+  label: String!
+  comment: String
+}
+
+type IgnoreLintTaxon implements TaxonTag {
   _Ignored: ID
   label: String!
   comment: String
@@ -1052,7 +1082,6 @@ type Name implements Node & Model {
   nameComplex: NameComplex
   speciesNameComplex: SpeciesNameComplex
   type: Name
-  verbatimType: String
   typeLocality: Location
   typeSpecimen: String
   collection: Collection
@@ -1479,12 +1508,8 @@ type PageRegex implements CitationGroupTag {
   allowStandard: Boolean!
 }
 
-type PartLocation implements ArticleTag {
+type PartialPage implements ArticleTag {
   _Ignored: ID
-  parent: Article!
-  startPage: Int!
-  endPage: Int!
-  comment: String
 }
 
 type PartialTaxon implements TypeTag {
@@ -1942,6 +1967,8 @@ enum SelectionReason {
   primary_homonymy
   secondary_homonymy
   synonymy
+  mixed_homonymy
+  reverse_mixed_homonymy
 }
 
 type SeriesRegex implements CitationGroupTag {
@@ -2070,7 +2097,7 @@ type Specimen implements Node & Model {
   locationText: String!
   date: String!
   description: String!
-  link: String!
+  link: String
   tags: [SpecimenTag!]!
   comments(before: String, after: String, first: Int, last: Int): SpecimenCommentConnection
   numComments: Int!
