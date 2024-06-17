@@ -171,6 +171,7 @@ function TypeSection({ name }: { name: NameBody_name }) {
           "CollectionDetail",
           "CommmissionTypeDesignation",
           "ProbableRepository",
+          "GuessedRepository",
           "SpecimenDetail",
           "Organ",
           "LectotypeDesignation",

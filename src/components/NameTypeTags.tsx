@@ -141,6 +141,14 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           {tag.reasoning && `Reasoning: ${tag.reasoning}`}
         </>
       );
+    case "GuessedRepository":
+      return (
+        <>
+          Type may be in <ModelLink model={tag.repository} /> (guessed by an algorithm
+          based on similar names; score: {tag.score.toFixed(3)}; higher scores indicate
+          more confidence).
+        </>
+      );
     case "Repository":
       return (
         <>
@@ -370,6 +378,12 @@ export default createFragmentContainer(NameTypeTags, {
             ...ModelLink_model
           }
           reasoning
+        }
+        ... on GuessedRepository {
+          repository {
+            ...ModelLink_model
+          }
+          score
         }
         ... on Repository {
           repository {

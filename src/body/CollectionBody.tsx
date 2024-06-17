@@ -8,6 +8,7 @@ import CollectionChildren from "../lists/CollectionChildren";
 import CollectionTypeSpecimens from "../lists/CollectionTypeSpecimens";
 import CollectionFormerSpecimens from "../lists/CollectionFormerSpecimens";
 import CollectionFutureSpecimens from "../lists/CollectionFutureSpecimens";
+import CollectionGuessedSpecimens from "../lists/CollectionGuessedSpecimens";
 import CollectionProbableSpecimens from "../lists/CollectionProbableSpecimens";
 import CollectionSharedSpecimens from "../lists/CollectionSharedSpecimens";
 import CollectionAssociatedPeople from "../lists/CollectionAssociatedPeople";
@@ -106,6 +107,16 @@ class CollectionBody extends React.Component<{
             <p>Type material for these names is likely to be in this collection.</p>
           }
         />
+        <CollectionGuessedSpecimens
+          collection={collection}
+          title="Possible type specimens"
+          subtitle={
+            <p>
+              An algorithm based on similar names guessed that the type material for
+              these names is likely to be in this collection.
+            </p>
+          }
+        />
         <CollectionAssociatedPeople collection={collection} title="Associated people" />
       </>
     );
@@ -121,6 +132,7 @@ export default createFragmentContainer(CollectionBody, {
       ...CollectionExtraSpecimens_collection
       ...CollectionFutureSpecimens_collection
       ...CollectionProbableSpecimens_collection
+      ...CollectionGuessedSpecimens_collection
       ...CollectionAssociatedPeople_collection
       ...CollectionChildren_collection
       numChildren
