@@ -25,6 +25,7 @@ ignore = [
   "B008",  # do not perform function calls in argument defaults
   "ANN101",  # missing type annotation for self in method
   "ANN102",  # missing type annotation for cls in classmethod
+  "SIM103",  # Sometimes I like if : return True else: return False
 ]
 
 line-length = 300
