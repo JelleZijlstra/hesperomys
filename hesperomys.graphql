@@ -28,6 +28,11 @@ enum AgeClass {
   recently_extinct
 }
 
+type AgeClassCE implements ClassificationEntryTag {
+  _Ignored: ID
+  age: AgeClass!
+}
+
 type AlternativeURL implements ArticleTag {
   _Ignored: ID
   url: String!
@@ -84,6 +89,8 @@ type Article implements Node & Model {
   numComments: Int!
   locations(before: String, after: String, first: Int, last: Int): LocationConnection
   numLocations: Int!
+  classificationEntries(before: String, after: String, first: Int, last: Int): ClassificationEntryConnection
+  numClassificationEntries: Int!
   newNames(before: String, after: String, first: Int, last: Int): NameConnection
   numNewNames: Int!
   nameComments(before: String, after: String, first: Int, last: Int): NameCommentConnection
@@ -406,6 +413,43 @@ type CitationGroupURL implements CitationGroupTag {
   text: String!
 }
 
+type ClassificationEntry implements Node & Model {
+  id: ID!
+  oid: Int!
+  callSign: String!
+  pageTitle: String!
+  redirectUrl: String
+  modelCls: ModelCls!
+  article: Article!
+  name: String!
+  rank: Rank!
+  parent: ClassificationEntry
+  page: String
+  mappedName: Name
+  authority: String
+  year: String
+  citation: String
+  typeLocality: String
+  rawData: String
+  tags: [ClassificationEntryTag!]!
+  children(before: String, after: String, first: Int, last: Int): ClassificationEntryConnection
+  numChildren: Int!
+}
+
+type ClassificationEntryConnection {
+  pageInfo: PageInfo!
+  edges: [ClassificationEntryEdge]!
+}
+
+type ClassificationEntryEdge {
+  node: ClassificationEntry
+  cursor: String!
+}
+
+interface ClassificationEntryTag {
+  _Ignored: ID
+}
+
 type CollectedBy implements TypeTag {
   _Ignored: ID
   person: Person!
@@ -479,6 +523,16 @@ interface CollectionTag {
   _Ignored: ID
 }
 
+type CommentFromDatabase implements ClassificationEntryTag {
+  _Ignored: ID
+  text: String!
+}
+
+type CommentFromSource implements ClassificationEntryTag {
+  _Ignored: ID
+  text: String!
+}
+
 type CommentIssueDate implements IssueDateTag {
   _Ignored: ID
   text: String!
@@ -512,6 +566,12 @@ type CommissionTypeDesignation implements TypeTag {
   type: Name!
 }
 
+type CommonName implements ClassificationEntryTag {
+  _Ignored: ID
+  name: String!
+  language: SourceLanguage!
+}
+
 type Condition implements NameTag {
   _Ignored: ID
   status: NomenclatureStatus!
@@ -535,6 +595,11 @@ type Coordinates implements TypeTag {
   _Ignored: ID
   latitude: String!
   longitude: String!
+}
+
+type CorrectedName implements ClassificationEntryTag {
+  _Ignored: ID
+  text: String!
 }
 
 type Date implements TypeTag {
@@ -752,6 +817,12 @@ type IgnoreLintCitationGroup implements CitationGroupTag {
   comment: String
 }
 
+type IgnoreLintClassificationEntry implements ClassificationEntryTag {
+  _Ignored: ID
+  label: String!
+  comment: String
+}
+
 type IgnoreLintName implements TypeTag {
   _Ignored: ID
   label: String!
@@ -815,6 +886,10 @@ type IncorrectSubsequentSpellingOf implements NameTag {
   _Ignored: ID
   name: Name!
   comment: String
+}
+
+type Informal implements ClassificationEntryTag {
+  _Ignored: ID
 }
 
 type InitialsOnly implements ArticleTag {
@@ -985,6 +1060,17 @@ type MandatoryChangeOf implements NameTag {
   comment: String
 }
 
+type MappedClassificationEntry implements NameTag {
+  _Ignored: ID
+  ce: ClassificationEntry!
+}
+
+type MisidentificationOf implements NameTag {
+  _Ignored: ID
+  name: Name!
+  comment: String
+}
+
 interface Model {
   oid: Int!
   callSign: String!
@@ -1101,6 +1187,8 @@ type Name implements Node & Model {
   numOriginalChildren: Int!
   comments(before: String, after: String, first: Int, last: Int): NameCommentConnection
   numComments: Int!
+  classificationEntries(before: String, after: String, first: Int, last: Int): ClassificationEntryConnection
+  numClassificationEntries: Int!
   taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
   numTaxonSet: Int!
   fillDataLevel: FillDataLevel
@@ -1128,6 +1216,8 @@ type Name implements Node & Model {
   numIncorrectOriginalSpellings: Int!
   subsequentUsages(before: String, after: String, first: Int, last: Int): NameConnection
   numSubsequentUsages: Int!
+  misidentifications(before: String, after: String, first: Int, last: Int): NameConnection
+  numMisidentifications: Int!
   nameCombinations(before: String, after: String, first: Int, last: Int): NameConnection
   numNameCombinations: Int!
   selectionsOfPriority(before: String, after: String, first: Int, last: Int): NameConnection
@@ -1311,6 +1401,10 @@ type NoOrgan implements TypeTag {
   _Ignored: ID
 }
 
+type NoOriginalParent implements TypeTag {
+  _Ignored: ID
+}
+
 type NoSpecimen implements TypeTag {
   _Ignored: ID
 }
@@ -1390,6 +1484,7 @@ enum NomenclatureStatus {
   unpublished_pending
   unpublished_supplement
   name_combination
+  misidentification
 }
 
 type NominalGenus implements TaxonTag {
@@ -1474,9 +1569,19 @@ type Organ implements TypeTag {
   condition: String
 }
 
+type OriginalCombination implements ClassificationEntryTag {
+  _Ignored: ID
+  text: String!
+}
+
 type OriginalLanguage implements BookTag {
   _Ignored: ID
   language: SourceLanguage!
+}
+
+type OriginalPageDescribed implements ClassificationEntryTag {
+  _Ignored: ID
+  text: String!
 }
 
 type PBDB implements LocationTag {
@@ -1501,11 +1606,22 @@ type PageInfo {
   endCursor: String
 }
 
+type PageLink implements ClassificationEntryTag {
+  _Ignored: ID
+  url: String!
+  page: String!
+}
+
 type PageRegex implements CitationGroupTag {
   _Ignored: ID
   startPageRegex: String
   pagesRegex: String
   allowStandard: Boolean!
+}
+
+type PartialClassification implements ArticleTag {
+  _Ignored: ID
+  comment: String
 }
 
 type PartialPage implements ArticleTag {
@@ -1775,6 +1891,8 @@ type QueryRoot {
   stratigraphicUnit(oid: Int): StratigraphicUnit
   locationByLabel(label: String): [Location]
   location(oid: Int): Location
+  classificationEntryByLabel(label: String): [ClassificationEntry]
+  classificationEntry(oid: Int): ClassificationEntry
   speciesNameComplexByLabel(label: String): [SpeciesNameComplex]
   speciesNameComplex(oid: Int): SpeciesNameComplex
   nameComplexByLabel(label: String): [NameComplex]
@@ -1814,6 +1932,7 @@ enum Rank {
   suborder
   order
   superorder
+  magnorder
   subcohort
   cohort
   supercohort
@@ -1980,6 +2099,12 @@ type SkipExtraBHLBibliographies implements CitationGroupTag {
   _Ignored: ID
 }
 
+type SourceDetail implements TypeTag {
+  _Ignored: ID
+  text: String!
+  source: Article!
+}
+
 enum SourceLanguage {
   latin
   greek
@@ -2039,10 +2164,23 @@ type SpeciesNameComplex implements Node & Model {
   feminineEnding: String!
   neuterEnding: String!
   comment: String
+  target: SpeciesNameComplex
+  children(before: String, after: String, first: Int, last: Int): SpeciesNameComplexConnection
+  numChildren: Int!
   endings(before: String, after: String, first: Int, last: Int): SpeciesNameEndingConnection
   numEndings: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
   numNames: Int!
+}
+
+type SpeciesNameComplexConnection {
+  pageInfo: PageInfo!
+  edges: [SpeciesNameComplexEdge]!
+}
+
+type SpeciesNameComplexEdge {
+  node: SpeciesNameComplex
+  cursor: String!
 }
 
 type SpeciesNameEnding implements Node & Model {
@@ -2368,9 +2506,18 @@ type TextualOriginalRank implements TypeTag {
   text: String!
 }
 
+type TextualRank implements ClassificationEntryTag {
+  _Ignored: ID
+  text: String!
+}
+
 type TransliteratedFamilyName implements PersonTag {
   _Ignored: ID
   text: String!
+}
+
+type TreatedAsDubious implements ClassificationEntryTag {
+  _Ignored: ID
 }
 
 type TypeCatalog implements CollectionTag {
@@ -2408,6 +2555,11 @@ type TypeSpeciesDetail implements TypeTag {
   _Ignored: ID
   text: String!
   source: Article!
+}
+
+type TypeSpecimenData implements ClassificationEntryTag {
+  _Ignored: ID
+  text: String!
 }
 
 type TypeSpecimenLink implements TypeTag {
