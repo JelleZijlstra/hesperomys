@@ -16,6 +16,7 @@ import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
+import { Context } from "../components/ModelLink";
 
 interface RegionStratigraphicUnitsProps {
   region: RegionStratigraphicUnits_region;
@@ -26,6 +27,7 @@ interface RegionStratigraphicUnitsProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class RegionStratigraphicUnits extends React.Component<
@@ -48,6 +50,7 @@ class RegionStratigraphicUnits extends React.Component<
       subtitle,
       wrapperTitle,
     } = this.props;
+    const context = this.props.context || "Region";
     const { oid, numChildren, chilrenRegionStratigraphicUnits, stratigraphicUnits } =
       region;
     const childrenHaveData = chilrenRegionStratigraphicUnits?.edges.some(
@@ -117,10 +120,11 @@ class RegionStratigraphicUnits extends React.Component<
                       edge.node &&
                       edge.node.hasStratigraphicUnits && (
                         <li>
-                          <ModelLink model={edge.node} />
+                          <ModelLink model={edge.node} context={context} />
                           <RegionStratigraphicUnitsContainer
                             region={edge.node}
                             hideTitle
+                            context={context}
                           />
                         </li>
                       ),

@@ -8,6 +8,7 @@ import graphql from "babel-plugin-relay/macro";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
+import { Context } from "../components/ModelLink";
 import { supportsChildren } from "../components/ModelChildList";
 
 interface PeriodStratigraphicUnitsMinProps {
@@ -18,6 +19,7 @@ interface PeriodStratigraphicUnitsMinProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class PeriodStratigraphicUnitsMin extends React.Component<
@@ -32,6 +34,7 @@ class PeriodStratigraphicUnitsMin extends React.Component<
   render() {
     const { period, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Period";
     if (
       !period.stratigraphicUnitsMin ||
       period.stratigraphicUnitsMin.edges.length === 0
@@ -66,6 +69,7 @@ class PeriodStratigraphicUnitsMin extends React.Component<
                   key={edge.node.oid}
                   model={edge.node}
                   showChildren={this.state.expandAll}
+                  context={context}
                 />
               ),
           )}

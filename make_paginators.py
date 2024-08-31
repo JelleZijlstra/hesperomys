@@ -16,6 +16,7 @@ import graphql from "babel-plugin-relay/macro";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
+import { Context } from "../components/ModelLink";
 import { supportsChildren } from "../components/ModelChildList";
 
 interface %(type_upper)s%(conn_upper)sProps {
@@ -26,6 +27,7 @@ interface %(type_upper)s%(conn_upper)sProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 };
 
 class %(type_upper)s%(conn_upper)s extends React.Component<
@@ -38,6 +40,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
 
   render() {
     const { %(type_lower)s, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } = this.props;
+    const context = this.props.context || "%(type_upper)s";
     if (!%(type_lower)s.%(conn_lower)s || %(type_lower)s.%(conn_lower)s.edges.length === 0) {
       return null;
     }
@@ -55,7 +58,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
             (edge) =>
               edge &&
               edge.node && (
-                <ModelListEntry key={edge.node.oid} model={edge.node} showChildren={this.state.expandAll} />
+                <ModelListEntry key={edge.node.oid} model={edge.node} showChildren={this.state.expandAll} context={context} />
               )
           )}
         </ul>
@@ -140,6 +143,7 @@ import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
+import { Context } from "../components/ModelLink";
 
 interface %(type_upper)s%(conn_upper)sProps {
   %(type_lower)s: %(type_upper)s%(conn_upper)s_%(type_lower)s;
@@ -150,6 +154,7 @@ interface %(type_upper)s%(conn_upper)sProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 };
 
 class %(type_upper)s%(conn_upper)s extends React.Component<
@@ -162,6 +167,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
 
   render() {
     const { %(type_lower)s, relay, numToLoad, hideTitle, hideChildren, title, subtitle, wrapperTitle } = this.props;
+    const context = this.props.context || "%(type_upper)s";
     const { oid, numChildren, chilren%(type_upper)s%(conn_upper)s, %(conn_lower)s } = %(type_lower)s;
     const childrenHaveData = chilren%(type_upper)s%(conn_upper)s?.edges.some(edge => edge && edge.node && edge.node.has%(conn_upper)s);
     if (!%(conn_lower)s || (!childrenHaveData && %(conn_lower)s.edges.length === 0)) {
@@ -207,8 +213,8 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
             const { edges } = props.%(type_lower)s.children;
             return <ul>
               {edges.map(edge => edge && edge.node && edge.node.has%(conn_upper)s && <li>
-                <ModelLink model={edge.node} />
-                <%(type_upper)s%(conn_upper)sContainer %(type_lower)s={edge.node} hideTitle />
+                <ModelLink model={edge.node} context={context} />
+                <%(type_upper)s%(conn_upper)sContainer %(type_lower)s={edge.node} hideTitle context={context} />
               </li>)}
             </ul>;
           }}

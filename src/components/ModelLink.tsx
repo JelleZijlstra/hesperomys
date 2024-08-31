@@ -95,25 +95,54 @@ function CommentExtra({ model }: { model: ModelLink_model }) {
   );
 }
 
-function ClassificationEntryExtra({ model }: { model: ModelLink_model }) {
+function isNumeric(str: string) {
+  return !isNaN(str as any);
+}
+
+function ClassificationEntryExtra({
+  model,
+  context,
+}: {
+  model: ModelLink_model;
+  context?: Context;
+}) {
   if (!model.article) {
     return null;
   }
   return (
     <>
       {" "}
-      in <ModelLinkNoExtra model={model.article} />
-      {model.page && `: ${model.page}`}
-      {model.mappedName && (
+      {context === "Article" ? (
+        model.page ? (
+          isNumeric(model.page) ? (
+            <>(p. {model.page})</>
+          ) : (
+            <>({model.page})</>
+          )
+        ) : null
+      ) : (
+        <>
+          in <ModelLinkNoExtra model={model.article} />
+          {model.page && `: ${model.page}`}
+        </>
+      )}
+      {context !== "Name" && model.mappedName && (
         <>
           , identified with <ModelLinkNoExtra model={model.mappedName} />
+          {model.mappedName.correctedOriginalName !==
+            model.mappedName.taxon.validName && (
+            <>
+              {" "}
+              (= <ModelLinkNoExtra model={model.mappedName.taxon} />)
+            </>
+          )}
         </>
       )}
     </>
   );
 }
 
-function ModelExtra({ model }: { model: ModelLink_model }) {
+function ModelExtra({ model, context }: { model: ModelLink_model; context?: Context }) {
   switch (model.__typename) {
     case "Name":
       return <NameExtra model={model} />;
@@ -130,15 +159,31 @@ function ModelExtra({ model }: { model: ModelLink_model }) {
     case "Article":
       return <OpenButton articleId={model.oid} />;
     case "ClassificationEntry":
-      return <ClassificationEntryExtra model={model} />;
+      return <ClassificationEntryExtra model={model} context={context} />;
     default:
       return null;
   }
 }
 
-class ModelLink extends React.Component<{ model: ModelLink_model }> {
+export type Context =
+  | "ClassificationEntry"
+  | "Article"
+  | "Name"
+  | "CitationGroup"
+  | "Taxon"
+  | "Collection"
+  | "Person"
+  | "Region"
+  | "Location"
+  | "Period"
+  | "NameComplex"
+  | "SpeciesNameComplex"
+  | "StratigraphicUnit"
+  | undefined;
+
+class ModelLink extends React.Component<{ model: ModelLink_model; context?: Context }> {
   render() {
-    const { model } = this.props;
+    const { model, context } = this.props;
     return (
       <>
         {model.__typename === "NameComment" || model.__typename === "ArticleComment" ? (
@@ -147,7 +192,7 @@ class ModelLink extends React.Component<{ model: ModelLink_model }> {
           <ModelLinkNoExtra model={model} />
         )}
         <small>
-          <ModelExtra model={model} />
+          <ModelExtra model={model} context={context} />
         </small>
       </>
     );
@@ -210,6 +255,11 @@ export default createFragmentContainer(ModelLink, {
         page
         mappedName {
           ...ModelLinkNoExtra_model
+          correctedOriginalName
+          taxon {
+            validName
+            ...ModelLinkNoExtra_model
+          }
         }
       }
     }

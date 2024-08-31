@@ -11,11 +11,8 @@ import NamesMissingField from "../components/NamesMissingField";
 
 import TaxonChildList from "../components/TaxonChildList";
 import TaxonNames from "../lists/TaxonNames";
+import { Rank } from "./Rank";
 
-const RANK_TO_STRING = new Map([
-  ["class_", "class"],
-  ["species_group", "species group"],
-]);
 const AGE_CLASS_TO_STRING = new Map([
   ["bite_trace", "bite trace"],
   ["ichno", "other trace fossil"],
@@ -29,7 +26,7 @@ class TaxonBody extends React.Component<{
     const { taxonRank, validName, age, parent, baseName, tags } = this.props.taxon;
     const data: [string, string | React.ReactElement | null][] = [
       ["Name", validName],
-      ["Rank", RANK_TO_STRING.get(taxonRank) || taxonRank],
+      ["Rank", <Rank rank={taxonRank} />],
       ["Age class", AGE_CLASS_TO_STRING.get(age) || age],
       ["Base name", <ModelLink model={baseName} />],
       ["Parent", parent ? <ModelLink model={parent} /> : null],

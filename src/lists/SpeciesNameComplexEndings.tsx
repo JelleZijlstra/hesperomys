@@ -8,6 +8,7 @@ import graphql from "babel-plugin-relay/macro";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
+import { Context } from "../components/ModelLink";
 import { supportsChildren } from "../components/ModelChildList";
 
 interface SpeciesNameComplexEndingsProps {
@@ -18,6 +19,7 @@ interface SpeciesNameComplexEndingsProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class SpeciesNameComplexEndings extends React.Component<
@@ -39,6 +41,7 @@ class SpeciesNameComplexEndings extends React.Component<
       subtitle,
       wrapperTitle,
     } = this.props;
+    const context = this.props.context || "SpeciesNameComplex";
     if (!speciesNameComplex.endings || speciesNameComplex.endings.edges.length === 0) {
       return null;
     }
@@ -66,6 +69,7 @@ class SpeciesNameComplexEndings extends React.Component<
                   key={edge.node.oid}
                   model={edge.node}
                   showChildren={this.state.expandAll}
+                  context={context}
                 />
               ),
           )}

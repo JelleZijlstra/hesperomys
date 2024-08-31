@@ -1,4 +1,5 @@
 import { ModelChildList_model } from "./__generated__/ModelChildList_model.graphql";
+import { ModelChildListClassificationEntryQuery } from "./__generated__/ModelChildListClassificationEntryQuery.graphql";
 import { ModelChildListCollectionQuery } from "./__generated__/ModelChildListCollectionQuery.graphql";
 import { ModelChildListTaxonQuery } from "./__generated__/ModelChildListTaxonQuery.graphql";
 import { ModelChildListLocationQuery } from "./__generated__/ModelChildListLocationQuery.graphql";
@@ -10,7 +11,7 @@ import React from "react";
 import environment from "../relayEnvironment";
 import { createFragmentContainer, QueryRenderer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
-
+import { Context } from "./ModelLink";
 import CollectionTypeSpecimens from "../lists/CollectionTypeSpecimens";
 import TaxonChildren from "../lists/TaxonChildren";
 import TaxonNames from "../lists/TaxonNames";
@@ -21,6 +22,7 @@ import PeriodChildren from "../lists/PeriodChildren";
 import PeriodLocations from "../lists/PeriodLocations";
 import StratigraphicUnitChildren from "../lists/StratigraphicUnitChildren";
 import StratigraphicUnitLocations from "../lists/StratigraphicUnitLocations";
+import ClassificationEntryChildren from "../lists/ClassificationEntryChildren";
 
 export function supportsChildren(
   model: Omit<ModelChildList_model, " $refType">,
@@ -38,12 +40,17 @@ export function supportsChildren(
       return !!model.numChildren || !!model.numLocations;
     case "StratigraphicUnit":
       return !!model.numChildren || !!model.numLocations;
+    case "ClassificationEntry":
+      return !!model.numChildren;
     default:
       return false;
   }
 }
 
-class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
+class ModelChildList extends React.Component<{
+  model: ModelChildList_model;
+  context?: Context;
+}> {
   render() {
     const { model } = this.props;
     const { id, __typename } = model;
@@ -107,6 +114,37 @@ class ModelChildList extends React.Component<{ model: ModelChildList_model }> {
                     taxon={props.node}
                     hideTitle
                     wrapperTitle="Child taxa"
+                  />
+                </>
+              );
+            }}
+          />
+        );
+      case "ClassificationEntry":
+        return (
+          <QueryRenderer<ModelChildListClassificationEntryQuery>
+            environment={environment}
+            query={graphql`
+              query ModelChildListClassificationEntryQuery($id: ID!) {
+                node(id: $id) {
+                  ...ClassificationEntryChildren_classificationEntry
+                }
+              }
+            `}
+            variables={{ id }}
+            render={({ error, props }) => {
+              if (error) {
+                return <div>Failed to load</div>;
+              }
+              if (!props || !props.node) {
+                return <div>Loading...</div>;
+              }
+              return (
+                <>
+                  <ClassificationEntryChildren
+                    classificationEntry={props.node}
+                    hideTitle
+                    wrapperTitle="Children"
                   />
                 </>
               );
@@ -272,6 +310,9 @@ export default createFragmentContainer(ModelChildList, {
       ... on StratigraphicUnit {
         numChildren
         numLocations
+      }
+      ... on ClassificationEntry {
+        numChildren
       }
     }
   `,

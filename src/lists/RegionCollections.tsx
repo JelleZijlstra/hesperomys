@@ -16,6 +16,7 @@ import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
+import { Context } from "../components/ModelLink";
 
 interface RegionCollectionsProps {
   region: RegionCollections_region;
@@ -26,6 +27,7 @@ interface RegionCollectionsProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class RegionCollections extends React.Component<
@@ -48,6 +50,7 @@ class RegionCollections extends React.Component<
       subtitle,
       wrapperTitle,
     } = this.props;
+    const context = this.props.context || "Region";
     const { oid, numChildren, chilrenRegionCollections, collections } = region;
     const childrenHaveData = chilrenRegionCollections?.edges.some(
       (edge) => edge && edge.node && edge.node.hasCollections,
@@ -113,8 +116,12 @@ class RegionCollections extends React.Component<
                       edge.node &&
                       edge.node.hasCollections && (
                         <li>
-                          <ModelLink model={edge.node} />
-                          <RegionCollectionsContainer region={edge.node} hideTitle />
+                          <ModelLink model={edge.node} context={context} />
+                          <RegionCollectionsContainer
+                            region={edge.node}
+                            hideTitle
+                            context={context}
+                          />
                         </li>
                       ),
                   )}

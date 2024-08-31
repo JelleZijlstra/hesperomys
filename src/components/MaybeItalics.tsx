@@ -1,6 +1,8 @@
 import React from "react";
 
 export const RANK_TO_GROUP = new Map([
+  ["variety", "species"],
+  ["infrasubspecific", "species"],
   ["subspecies", "species"],
   ["species", "species"],
   ["species_group", "species"],

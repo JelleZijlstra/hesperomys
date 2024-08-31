@@ -16,6 +16,7 @@ import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
+import { Context } from "../components/ModelLink";
 
 interface PeriodLocationsProps {
   period: PeriodLocations_period;
@@ -26,6 +27,7 @@ interface PeriodLocationsProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class PeriodLocations extends React.Component<
@@ -48,6 +50,7 @@ class PeriodLocations extends React.Component<
       subtitle,
       wrapperTitle,
     } = this.props;
+    const context = this.props.context || "Period";
     const { oid, numChildren, chilrenPeriodLocations, locations } = period;
     const childrenHaveData = chilrenPeriodLocations?.edges.some(
       (edge) => edge && edge.node && edge.node.hasLocations,
@@ -113,8 +116,12 @@ class PeriodLocations extends React.Component<
                       edge.node &&
                       edge.node.hasLocations && (
                         <li>
-                          <ModelLink model={edge.node} />
-                          <PeriodLocationsContainer period={edge.node} hideTitle />
+                          <ModelLink model={edge.node} context={context} />
+                          <PeriodLocationsContainer
+                            period={edge.node}
+                            hideTitle
+                            context={context}
+                          />
                         </li>
                       ),
                   )}

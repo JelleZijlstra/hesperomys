@@ -8,6 +8,7 @@ import graphql from "babel-plugin-relay/macro";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
+import { Context } from "../components/ModelLink";
 import { supportsChildren } from "../components/ModelChildList";
 
 interface ArticleClassificationEntriesProps {
@@ -18,6 +19,7 @@ interface ArticleClassificationEntriesProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class ArticleClassificationEntries extends React.Component<
@@ -32,6 +34,7 @@ class ArticleClassificationEntries extends React.Component<
   render() {
     const { article, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Article";
     if (
       !article.classificationEntries ||
       article.classificationEntries.edges.length === 0
@@ -62,6 +65,7 @@ class ArticleClassificationEntries extends React.Component<
                   key={edge.node.oid}
                   model={edge.node}
                   showChildren={this.state.expandAll}
+                  context={context}
                 />
               ),
           )}

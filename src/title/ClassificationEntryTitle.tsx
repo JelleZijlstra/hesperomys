@@ -5,6 +5,7 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
 import MaybeItalics, { RANK_TO_GROUP } from "../components/MaybeItalics";
+import { Rank } from "../body/Rank";
 
 class ClassificationEntryTitle extends React.Component<{
   classificationEntry: ClassificationEntryTitle_classificationEntry;
@@ -16,7 +17,7 @@ class ClassificationEntryTitle extends React.Component<{
 
     return (
       <>
-        <MaybeItalics group={group} name={ce.ceName} /> ({ce.ceRank})
+        <MaybeItalics group={group} name={ce.ceName} /> (<Rank rank={ce.ceRank} />)
       </>
     );
   }

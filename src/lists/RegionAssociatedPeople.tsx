@@ -16,6 +16,7 @@ import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
+import { Context } from "../components/ModelLink";
 
 interface RegionAssociatedPeopleProps {
   region: RegionAssociatedPeople_region;
@@ -26,6 +27,7 @@ interface RegionAssociatedPeopleProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class RegionAssociatedPeople extends React.Component<
@@ -48,6 +50,7 @@ class RegionAssociatedPeople extends React.Component<
       subtitle,
       wrapperTitle,
     } = this.props;
+    const context = this.props.context || "Region";
     const { oid, numChildren, chilrenRegionAssociatedPeople, associatedPeople } =
       region;
     const childrenHaveData = chilrenRegionAssociatedPeople?.edges.some(
@@ -113,10 +116,11 @@ class RegionAssociatedPeople extends React.Component<
                       edge.node &&
                       edge.node.hasAssociatedPeople && (
                         <li>
-                          <ModelLink model={edge.node} />
+                          <ModelLink model={edge.node} context={context} />
                           <RegionAssociatedPeopleContainer
                             region={edge.node}
                             hideTitle
+                            context={context}
                           />
                         </li>
                       ),

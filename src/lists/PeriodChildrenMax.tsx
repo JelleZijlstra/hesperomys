@@ -8,6 +8,7 @@ import graphql from "babel-plugin-relay/macro";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
+import { Context } from "../components/ModelLink";
 import { supportsChildren } from "../components/ModelChildList";
 
 interface PeriodChildrenMaxProps {
@@ -18,6 +19,7 @@ interface PeriodChildrenMaxProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class PeriodChildrenMax extends React.Component<
@@ -32,6 +34,7 @@ class PeriodChildrenMax extends React.Component<
   render() {
     const { period, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Period";
     if (!period.childrenMax || period.childrenMax.edges.length === 0) {
       return null;
     }
@@ -63,6 +66,7 @@ class PeriodChildrenMax extends React.Component<
                   key={edge.node.oid}
                   model={edge.node}
                   showChildren={this.state.expandAll}
+                  context={context}
                 />
               ),
           )}

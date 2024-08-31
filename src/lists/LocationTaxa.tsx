@@ -8,6 +8,7 @@ import graphql from "babel-plugin-relay/macro";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
+import { Context } from "../components/ModelLink";
 import { supportsChildren } from "../components/ModelChildList";
 
 interface LocationTaxaProps {
@@ -18,6 +19,7 @@ interface LocationTaxaProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class LocationTaxa extends React.Component<LocationTaxaProps, { expandAll: boolean }> {
@@ -29,6 +31,7 @@ class LocationTaxa extends React.Component<LocationTaxaProps, { expandAll: boole
   render() {
     const { location, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Location";
     if (!location.taxa || location.taxa.edges.length === 0) {
       return null;
     }
@@ -56,6 +59,7 @@ class LocationTaxa extends React.Component<LocationTaxaProps, { expandAll: boole
                   key={edge.node.oid}
                   model={edge.node}
                   showChildren={this.state.expandAll}
+                  context={context}
                 />
               ),
           )}

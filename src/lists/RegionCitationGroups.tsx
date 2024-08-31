@@ -16,6 +16,7 @@ import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
+import { Context } from "../components/ModelLink";
 
 interface RegionCitationGroupsProps {
   region: RegionCitationGroups_region;
@@ -26,6 +27,7 @@ interface RegionCitationGroupsProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class RegionCitationGroups extends React.Component<
@@ -48,6 +50,7 @@ class RegionCitationGroups extends React.Component<
       subtitle,
       wrapperTitle,
     } = this.props;
+    const context = this.props.context || "Region";
     const { oid, numChildren, chilrenRegionCitationGroups, citationGroups } = region;
     const childrenHaveData = chilrenRegionCitationGroups?.edges.some(
       (edge) => edge && edge.node && edge.node.hasCitationGroups,
@@ -109,8 +112,12 @@ class RegionCitationGroups extends React.Component<
                       edge.node &&
                       edge.node.hasCitationGroups && (
                         <li>
-                          <ModelLink model={edge.node} />
-                          <RegionCitationGroupsContainer region={edge.node} hideTitle />
+                          <ModelLink model={edge.node} context={context} />
+                          <RegionCitationGroupsContainer
+                            region={edge.node}
+                            hideTitle
+                            context={context}
+                          />
                         </li>
                       ),
                   )}

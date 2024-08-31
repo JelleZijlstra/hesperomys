@@ -8,6 +8,7 @@ import PeriodBody from "./PeriodBody";
 import RegionBody from "./RegionBody";
 import CitationGroupBody from "./CitationGroupBody";
 import CitationGroupPatternBody from "./CitationGroupPatternBody";
+import ClassificationEntryBody from "./ClassificationEntryBody";
 import ArticleBody from "./ArticleBody";
 import ArticleCommentBody from "./ArticleCommentBody";
 import CollectionBody from "./CollectionBody";
@@ -37,6 +38,8 @@ class Body extends React.Component<{ model: Body_model }> {
         return <CitationGroupBody citationGroup={model} />;
       case "CitationGroupPattern":
         return <CitationGroupPatternBody citationGroupPattern={model} />;
+      case "ClassificationEntry":
+        return <ClassificationEntryBody classificationEntry={model} />;
       case "Article":
         return <ArticleBody article={model} />;
       case "ArticleComment":
@@ -91,6 +94,7 @@ export default createFragmentContainer(Body, {
       ...RegionBody_region
       ...PeriodBody_period
       ...StratigraphicUnitBody_stratigraphicUnit
+      ...ClassificationEntryBody_classificationEntry
     }
   `,
 });

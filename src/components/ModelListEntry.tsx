@@ -4,20 +4,24 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-import ModelLink from "./ModelLink";
+import ModelLink, { Context } from "./ModelLink";
 import ModelChildList, { supportsChildren } from "./ModelChildList";
 import Reference from "../reference/Reference";
 
 class ModelListEntry extends React.Component<
-  { model: ModelListEntry_model; showChildren?: boolean },
+  { model: ModelListEntry_model; showChildren?: boolean; context?: Context },
   { showChildren: boolean | null }
 > {
-  constructor(props: { model: ModelListEntry_model; showChildren?: boolean }) {
+  constructor(props: {
+    model: ModelListEntry_model;
+    showChildren?: boolean;
+    context?: Context;
+  }) {
     super(props);
     this.state = { showChildren: null };
   }
   render() {
-    const { model } = this.props;
+    const { model, context } = this.props;
     const showChildren =
       this.state.showChildren === null
         ? this.props.showChildren
@@ -39,9 +43,9 @@ class ModelListEntry extends React.Component<
         {model.__typename === "Article" ? (
           <Reference article={model} />
         ) : (
-          <ModelLink model={model} />
+          <ModelLink model={model} context={context} />
         )}
-        {showChildren && <ModelChildList model={model} />}
+        {showChildren && <ModelChildList model={model} context={context} />}
       </li>
     );
   }

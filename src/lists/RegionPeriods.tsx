@@ -16,6 +16,7 @@ import LoadMoreButton from "../components/LoadMoreButton";
 import ModelLink from "../components/ModelLink";
 import ModelListEntry from "../components/ModelListEntry";
 import { supportsChildren } from "../components/ModelChildList";
+import { Context } from "../components/ModelLink";
 
 interface RegionPeriodsProps {
   region: RegionPeriods_region;
@@ -26,6 +27,7 @@ interface RegionPeriodsProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class RegionPeriods extends React.Component<
@@ -48,6 +50,7 @@ class RegionPeriods extends React.Component<
       subtitle,
       wrapperTitle,
     } = this.props;
+    const context = this.props.context || "Region";
     const { oid, numChildren, chilrenRegionPeriods, periods } = region;
     const childrenHaveData = chilrenRegionPeriods?.edges.some(
       (edge) => edge && edge.node && edge.node.hasPeriods,
@@ -113,8 +116,12 @@ class RegionPeriods extends React.Component<
                       edge.node &&
                       edge.node.hasPeriods && (
                         <li>
-                          <ModelLink model={edge.node} />
-                          <RegionPeriodsContainer region={edge.node} hideTitle />
+                          <ModelLink model={edge.node} context={context} />
+                          <RegionPeriodsContainer
+                            region={edge.node}
+                            hideTitle
+                            context={context}
+                          />
                         </li>
                       ),
                   )}

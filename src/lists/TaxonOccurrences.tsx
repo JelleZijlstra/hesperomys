@@ -8,6 +8,7 @@ import graphql from "babel-plugin-relay/macro";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
+import { Context } from "../components/ModelLink";
 import { supportsChildren } from "../components/ModelChildList";
 
 interface TaxonOccurrencesProps {
@@ -18,6 +19,7 @@ interface TaxonOccurrencesProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class TaxonOccurrences extends React.Component<
@@ -32,6 +34,7 @@ class TaxonOccurrences extends React.Component<
   render() {
     const { taxon, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Taxon";
     if (!taxon.occurrences || taxon.occurrences.edges.length === 0) {
       return null;
     }
@@ -59,6 +62,7 @@ class TaxonOccurrences extends React.Component<
                   key={edge.node.oid}
                   model={edge.node}
                   showChildren={this.state.expandAll}
+                  context={context}
                 />
               ),
           )}

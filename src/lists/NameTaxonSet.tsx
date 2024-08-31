@@ -8,6 +8,7 @@ import graphql from "babel-plugin-relay/macro";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import ModelListEntry from "../components/ModelListEntry";
+import { Context } from "../components/ModelLink";
 import { supportsChildren } from "../components/ModelChildList";
 
 interface NameTaxonSetProps {
@@ -18,6 +19,7 @@ interface NameTaxonSetProps {
   numToLoad?: number;
   relay: RelayPaginationProp;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameTaxonSet extends React.Component<NameTaxonSetProps, { expandAll: boolean }> {
@@ -29,6 +31,7 @@ class NameTaxonSet extends React.Component<NameTaxonSetProps, { expandAll: boole
   render() {
     const { name, relay, numToLoad, hideTitle, title, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Name";
     if (!name.taxonSet || name.taxonSet.edges.length === 0) {
       return null;
     }
@@ -60,6 +63,7 @@ class NameTaxonSet extends React.Component<NameTaxonSetProps, { expandAll: boole
                   key={edge.node.oid}
                   model={edge.node}
                   showChildren={this.state.expandAll}
+                  context={context}
                 />
               ),
           )}
