@@ -66,6 +66,9 @@ export default function SearchSection() {
           personCls: modelCls(callSign: "H") {
             ...SearchBox_modelCls
           }
+          classificationEntryCls: modelCls(callSign: "CE") {
+            ...SearchBox_modelCls
+          }
         }
       `}
       variables={{}}
@@ -98,6 +101,12 @@ export default function SearchSection() {
             props.speciesNameComplexCls,
           ),
           buildRow("Person", "person", "H", props.personCls),
+          buildRow(
+            "Classification entry",
+            "classification-entry",
+            "CE",
+            props.classificationEntryCls,
+          ),
         ];
         return (
           <>
