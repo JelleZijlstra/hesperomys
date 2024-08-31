@@ -95,6 +95,24 @@ function CommentExtra({ model }: { model: ModelLink_model }) {
   );
 }
 
+function ClassificationEntryExtra({ model }: { model: ModelLink_model }) {
+  if (!model.article) {
+    return null;
+  }
+  return (
+    <>
+      {" "}
+      in <ModelLinkNoExtra model={model.article} />
+      {model.page && `: ${model.page}`}
+      {model.mappedName && (
+        <>
+          , identified with <ModelLinkNoExtra model={model.mappedName} />
+        </>
+      )}
+    </>
+  );
+}
+
 function ModelExtra({ model }: { model: ModelLink_model }) {
   switch (model.__typename) {
     case "Name":
@@ -111,6 +129,8 @@ function ModelExtra({ model }: { model: ModelLink_model }) {
       return <CommentExtra model={model} />;
     case "Article":
       return <OpenButton articleId={model.oid} />;
+    case "ClassificationEntry":
+      return <ClassificationEntryExtra model={model} />;
     default:
       return null;
   }
@@ -182,6 +202,15 @@ export default createFragmentContainer(ModelLink, {
       ... on ArticleComment {
         date
         text
+      }
+      ... on ClassificationEntry {
+        article {
+          ...ModelLinkNoExtra_model
+        }
+        page
+        mappedName {
+          ...ModelLinkNoExtra_model
+        }
       }
     }
   `,

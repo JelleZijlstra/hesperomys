@@ -14,6 +14,7 @@ class Reference extends React.Component<{ article: Reference_article }> {
     const { article } = this.props;
     const { parent, type, oid, title, startPage, endPage } = article;
     switch (type) {
+      case "PART":
       case "CHAPTER": {
         const hasPages = !!startPage;
         return (

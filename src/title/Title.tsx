@@ -8,6 +8,7 @@ import ArticleTitle from "./ArticleTitle";
 import ArticleCommentTitle from "./ArticleCommentTitle";
 import CitationGroupTitle from "./CitationGroupTitle";
 import CitationGroupPatternTitle from "./CitationGroupPatternTitle";
+import ClassificationEntryTitle from "./ClassificationEntryTitle";
 import CollectionTitle from "./CollectionTitle";
 import LocationTitle from "./LocationTitle";
 import StratigraphicUnitTitle from "./StratigraphicUnitTitle";
@@ -35,6 +36,8 @@ class Title extends React.Component<{ model: Title_model }> {
         return <CitationGroupTitle citationGroup={model} />;
       case "CitationGroupPattern":
         return <CitationGroupPatternTitle citationGroupPattern={model} />;
+      case "ClassificationEntry":
+        return <ClassificationEntryTitle classificationEntry={model} />;
       case "Collection":
         return <CollectionTitle collection={model} />;
       case "Location":
@@ -77,6 +80,7 @@ export default createFragmentContainer(Title, {
       ...ArticleCommentTitle_articleComment
       ...CitationGroupTitle_citationGroup
       ...CitationGroupPatternTitle_citationGroupPattern
+      ...ClassificationEntryTitle_classificationEntry
       ...CollectionTitle_collection
       ...LocationTitle_location
       ...NameTitle_name

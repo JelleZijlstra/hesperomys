@@ -169,6 +169,24 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Subsequent usage of <ModelLink model={tag.name} />
         </>
       );
+    case "MisidentificationOf":
+      if (!tag.name) {
+        return null;
+      }
+      return (
+        <>
+          Misidentification of <ModelLink model={tag.name} />
+        </>
+      );
+    case "NameCombinationOf":
+      if (!tag.name) {
+        return null;
+      }
+      return (
+        <>
+          Name combination of <ModelLink model={tag.name} />
+        </>
+      );
     case "TakesPriorityOf":
       if (!tag.name) {
         return null;
@@ -368,6 +386,18 @@ export default createFragmentContainer(NameTags, {
           comment
         }
         ... on SubsequentUsageOf {
+          name {
+            ...ModelLink_model
+          }
+          comment
+        }
+        ... on NameCombinationOf {
+          name {
+            ...ModelLink_model
+          }
+          comment
+        }
+        ... on MisidentificationOf {
           name {
             ...ModelLink_model
           }

@@ -4,7 +4,7 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-import MaybeItalics from "../components/MaybeItalics";
+import MaybeItalics, { RANK_TO_GROUP } from "../components/MaybeItalics";
 import TaxonomicAuthority from "../reference/TaxonomicAuthority";
 
 const STATUS_TO_TEXT = new Map([
@@ -15,46 +15,8 @@ const STATUS_TO_TEXT = new Map([
   ["species_inquirenda", "dubious"],
   ["spurious", "spurious"],
   ["removed", "removed"],
-]);
-
-const RANK_TO_GROUP = new Map([
-  ["subspecies", "species"],
-  ["species", "species"],
-  ["species_group", "species"],
-  ["subgenus", "genus"],
-  ["genus", "genus"],
-  ["division", "high"],
-  ["infratribe", "family"],
-  ["subtribe", "family"],
-  ["tribe", "family"],
-  ["subfamily", "family"],
-  ["family", "family"],
-  ["superfamily", "family"],
-  ["hyperfamily", "family"],
-  ["parvorder", "high"],
-  ["infraorder", "high"],
-  ["suborder", "high"],
-  ["order", "high"],
-  ["superorder", "high"],
-  ["subcohort", "high"],
-  ["cohort", "high"],
-  ["supercohort", "high"],
-  ["infraclass", "high"],
-  ["subclass", "high"],
-  ["class_", "high"],
-  ["superclass", "high"],
-  ["infraphylum", "high"],
-  ["subphylum", "high"],
-  ["phylum", "high"],
-  ["superphylum", "high"],
-  ["infrakingdom", "high"],
-  ["subkingdom", "high"],
-  ["kingdom", "high"],
-  ["superkingdom", "high"],
-  ["domain", "high"],
-  ["root", "high"],
-  ["unranked", "high"],
-  ["informal", "high"],
+  ["composite", "composite"],
+  ["hybrid", "hybrid"],
 ]);
 
 const AGE_TO_SYMBOL = new Map([

@@ -175,6 +175,8 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           <ModelLink model={tag.repository} />.
         </>
       );
+    case "SourceDetail":
+      return <Detail text={tag.text} source={tag.source} />;
     case "SpecimenDetail":
       return <Detail text={tag.text} source={tag.source} />;
     case "StratigraphyDetail":
@@ -402,6 +404,12 @@ export default createFragmentContainer(NameTypeTags, {
         }
         ... on ExtraRepository {
           repository {
+            ...ModelLink_model
+          }
+        }
+        ... on SourceDetail {
+          text
+          source {
             ...ModelLink_model
           }
         }

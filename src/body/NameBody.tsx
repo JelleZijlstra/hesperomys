@@ -36,6 +36,7 @@ import PublicationDate from "./PublicationDate";
 import NameNameCombinations from "../lists/NameNameCombinations";
 import NameJuniorPrimaryHomonyms from "../lists/NameJuniorPrimaryHomonyms";
 import NameJuniorSecondaryHomonyms from "../lists/NameJuniorSecondaryHomonyms";
+import NameClassificationEntries from "../lists/NameClassificationEntries";
 
 function NameSection({ name }: { name: NameBody_name }) {
   const {
@@ -57,7 +58,7 @@ function NameSection({ name }: { name: NameBody_name }) {
             originalName ? <MaybeItalics name={originalName} group={group} /> : null,
           ],
           [
-            "Cleaned original name",
+            "Normalized original name",
             correctedOriginalName && originalName !== correctedOriginalName ? (
               <MaybeItalics name={correctedOriginalName} group={group} />
             ) : null,
@@ -89,6 +90,7 @@ function NameSection({ name }: { name: NameBody_name }) {
         name={name}
         tagsToInclude={[
           "CitationDetail",
+          "SourceDetail",
           "DefinitionDetail",
           "AuthorityPageLink",
           "PhyloCodeNumber",
@@ -137,6 +139,40 @@ const GROUP_TO_TYPE = new Map([
 function TypeSection({ name }: { name: NameBody_name }) {
   const { group, typeSpecimen, collection, speciesTypeKind, genusTypeKind, nameType } =
     name;
+  const typeTags = [
+    "Age",
+    "CollectedBy",
+    "Date",
+    "Gender",
+    "GenusCoelebs",
+    "Host",
+    "IncludedSpecies",
+    "FormerRepository",
+    "ExtraRepository",
+    "FutureRepository",
+    "Repository",
+    "CollectionDetail",
+    "CommmissionTypeDesignation",
+    "ProbableRepository",
+    "GuessedRepository",
+    "SpecimenDetail",
+    "Organ",
+    "LectotypeDesignation",
+    "NeotypeDesignation",
+    "TypeDesignation",
+    "TypeSpecimenLink",
+    "TypeSpecimenLinkFor",
+  ];
+  if (
+    !typeSpecimen &&
+    !collection &&
+    !speciesTypeKind &&
+    !nameType &&
+    !genusTypeKind &&
+    !hasAnyTypeTags(name, typeTags)
+  ) {
+    return null;
+  }
   return (
     <>
       <h3>{GROUP_TO_TYPE.get(group) || "Type"}</h3>
@@ -155,33 +191,7 @@ function TypeSection({ name }: { name: NameBody_name }) {
           ["Kind of type", genusTypeKind ? genusTypeKind.replace(/_/g, " ") : null],
         ]}
       />
-      <NameTypeTags
-        name={name}
-        tagsToInclude={[
-          "Age",
-          "CollectedBy",
-          "Date",
-          "Gender",
-          "GenusCoelebs",
-          "Host",
-          "IncludedSpecies",
-          "FormerRepository",
-          "ExtraRepository",
-          "FutureRepository",
-          "Repository",
-          "CollectionDetail",
-          "CommmissionTypeDesignation",
-          "ProbableRepository",
-          "GuessedRepository",
-          "SpecimenDetail",
-          "Organ",
-          "LectotypeDesignation",
-          "NeotypeDesignation",
-          "TypeDesignation",
-          "TypeSpecimenLink",
-          "TypeSpecimenLinkFor",
-        ]}
-      />
+      <NameTypeTags name={name} tagsToInclude={typeTags} />
     </>
   );
 }
@@ -191,6 +201,16 @@ function LocationSection({ name }: { name: NameBody_name }) {
     return null;
   }
   const { typeLocality } = name;
+  const locationTags = [
+    "Altitude",
+    "Coordinates",
+    "LocationDetail",
+    "Habitat",
+    "StratigraphyDetail",
+  ];
+  if (!typeLocality && !hasAnyTypeTags(name, locationTags)) {
+    return null;
+  }
   return (
     <>
       <h3>Type locality</h3>
@@ -199,18 +219,13 @@ function LocationSection({ name }: { name: NameBody_name }) {
           ["Type locality", typeLocality ? <ModelLink model={typeLocality} /> : null],
         ]}
       />
-      <NameTypeTags
-        name={name}
-        tagsToInclude={[
-          "Altitude",
-          "Coordinates",
-          "LocationDetail",
-          "Habitat",
-          "StratigraphyDetail",
-        ]}
-      />
+      <NameTypeTags name={name} tagsToInclude={locationTags} />
     </>
   );
+}
+
+function hasAnyTypeTags(name: NameBody_name, tags: string[]) {
+  return name.typeTags.some((tag) => tags.includes(tag.__typename));
 }
 
 class NameBody extends React.Component<{ name: NameBody_name }> {
@@ -224,6 +239,22 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
         <NomenclatureSection name={name} />
         <TypeSection name={name} />
         <LocationSection name={name} />
+
+        <NameClassificationEntries name={name} title="Inclusion in classifications" />
+        <NameNameCombinations name={name} title="Name combinations" />
+        <NameUnjustifiedEmendations name={name} title="Unjustified emendations" />
+        <NameIncorrectSubsequentSpellings
+          name={name}
+          title="Incorrect subsequent spellings"
+        />
+        <NameVariants name={name} title="Variants" />
+        <NameMandatoryChanges name={name} title="Mandatory changes" />
+        <NameIncorrectOriginalSpellings
+          name={name}
+          title="Incorrect original spellings"
+        />
+        <NameJustifiedEmendations name={name} title="Justified emendations" />
+
         <NameTypifiedNames name={name} title="Typified names" />
         <NameDesignatedAsType name={name} title="Type designations" />
         <NameCommissionDesignatedAsType
@@ -237,20 +268,6 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
         <NameNominaNova name={name} title="NameNominaNova" />
         <NameSubsequentUsages name={name} title="Subsequent usages" />
         <NameMisidentifications name={name} title="Misidentifications" />
-
-        <NameUnjustifiedEmendations name={name} title="Unjustified emendations" />
-        <NameIncorrectSubsequentSpellings
-          name={name}
-          title="Incorrect subsequent spellings"
-        />
-        <NameVariants name={name} title="Variants" />
-        <NameMandatoryChanges name={name} title="Mandatory changes" />
-        <NameIncorrectOriginalSpellings
-          name={name}
-          title="Incorrect original spellings"
-        />
-        <NameJustifiedEmendations name={name} title="Justified emendations" />
-        <NameNameCombinations name={name} title="Name combinations" />
 
         <NameTakingPriority name={name} title="Taking the priority of this name" />
         <NameNominaOblita name={name} title="Nomina oblita" />
@@ -270,6 +287,9 @@ export default createFragmentContainer(NameBody, {
   name: graphql`
     fragment NameBody_name on Name {
       ...NameTypeTags_name
+      typeTags {
+        __typename
+      }
 
       taxon {
         ...TaxonContext_taxon
@@ -316,6 +336,7 @@ export default createFragmentContainer(NameBody, {
       typeLocality {
         ...ModelLink_model
       }
+      ...NameClassificationEntries_name
       ...NameTypifiedNames_name
       ...NamePreoccupiedNames_name
       ...NameJuniorPrimaryHomonyms_name
