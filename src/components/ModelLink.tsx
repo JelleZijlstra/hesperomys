@@ -24,12 +24,18 @@ function PersonExtra({ model }: { model: ModelLink_model }) {
 }
 
 function NameExtra({ model, context }: { model: ModelLink_model; context?: Context }) {
-  if (!model.taxon || !model.status) {
+  if (!model.taxon || !model.status || !model.nomenclatureStatus) {
     return null;
   }
   const parts: [string, JSX.Element][] = [];
   if (model.status !== "valid") {
     parts.push(["status", <>{model.status.replace("_", " ")}</>]);
+  }
+  if (model.nomenclatureStatus !== "available") {
+    parts.push([
+      "nomenclatureStatus",
+      <>{model.nomenclatureStatus.replace(/_/g, " ")}</>,
+    ]);
   }
   if (context !== "Taxon" && model.correctedOriginalName !== model.taxon.validName) {
     parts.push([
@@ -224,6 +230,7 @@ export default createFragmentContainer(ModelLink, {
       }
       ... on Name {
         status
+        nomenclatureStatus
         correctedOriginalName
         taxon {
           validName
