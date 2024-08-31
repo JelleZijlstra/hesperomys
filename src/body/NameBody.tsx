@@ -16,6 +16,7 @@ import NameTypifiedNames from "../lists/NameTypifiedNames";
 import NamePreoccupiedNames from "../lists/NamePreoccupiedNames";
 import NameUnjustifiedEmendations from "../lists/NameUnjustifiedEmendations";
 import NameIncorrectSubsequentSpellings from "../lists/NameIncorrectSubsequentSpellings";
+import NameMisidentifications from "../lists/NameMisidentifications";
 import NameNominaNova from "../lists/NameNominaNova";
 import NameVariants from "../lists/NameVariants";
 import NameTakingPriority from "../lists/NameTakingPriority";
@@ -235,6 +236,7 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
         <NameJuniorSecondaryHomonyms name={name} title="Junior secondary homonyms" />
         <NameNominaNova name={name} title="NameNominaNova" />
         <NameSubsequentUsages name={name} title="Subsequent usages" />
+        <NameMisidentifications name={name} title="Misidentifications" />
 
         <NameUnjustifiedEmendations name={name} title="Unjustified emendations" />
         <NameIncorrectSubsequentSpellings
@@ -325,6 +327,7 @@ export default createFragmentContainer(NameBody, {
       ...NameTakingPriority_name
       ...NameNominaOblita_name
       ...NameMandatoryChanges_name
+      ...NameMisidentifications_name
       ...NameNameCombinations_name
       ...NameIncorrectOriginalSpellings_name
       ...NameSubsequentUsages_name
