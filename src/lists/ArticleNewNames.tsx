@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface ArticleNewNamesInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class ArticleNewNamesInner extends React.Component<ArticleNewNamesInnerProps> {
@@ -51,6 +53,7 @@ class ArticleNewNamesInner extends React.Component<ArticleNewNamesInnerProps> {
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (!articleInner.newNames || articleInner.newNames.edges.length === 0) {
       return null;
@@ -76,6 +79,7 @@ class ArticleNewNamesInner extends React.Component<ArticleNewNamesInnerProps> {
         <NameList
           connection={articleInner.newNames}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -189,6 +193,7 @@ interface ArticleNewNamesProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class ArticleNewNames extends React.Component<
@@ -222,6 +227,7 @@ class ArticleNewNames extends React.Component<
   renderInner(article: Omit<ArticleNewNames_article, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Article";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -244,6 +250,7 @@ class ArticleNewNames extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

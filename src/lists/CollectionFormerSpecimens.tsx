@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface CollectionFormerSpecimensInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class CollectionFormerSpecimensInner extends React.Component<CollectionFormerSpecimensInnerProps> {
@@ -51,6 +53,7 @@ class CollectionFormerSpecimensInner extends React.Component<CollectionFormerSpe
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (
       !collectionInner.formerSpecimens ||
@@ -79,6 +82,7 @@ class CollectionFormerSpecimensInner extends React.Component<CollectionFormerSpe
         <NameList
           connection={collectionInner.formerSpecimens}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -192,6 +196,7 @@ interface CollectionFormerSpecimensProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class CollectionFormerSpecimens extends React.Component<
@@ -227,6 +232,7 @@ class CollectionFormerSpecimens extends React.Component<
   ) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Collection";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -251,6 +257,7 @@ class CollectionFormerSpecimens extends React.Component<
         }
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

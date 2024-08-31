@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface SpeciesNameComplexNamesInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class SpeciesNameComplexNamesInner extends React.Component<SpeciesNameComplexNamesInnerProps> {
@@ -51,6 +53,7 @@ class SpeciesNameComplexNamesInner extends React.Component<SpeciesNameComplexNam
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (
       !speciesNameComplexInner.names ||
@@ -79,6 +82,7 @@ class SpeciesNameComplexNamesInner extends React.Component<SpeciesNameComplexNam
         <NameList
           connection={speciesNameComplexInner.names}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -192,6 +196,7 @@ interface SpeciesNameComplexNamesProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class SpeciesNameComplexNames extends React.Component<
@@ -230,6 +235,7 @@ class SpeciesNameComplexNames extends React.Component<
   ) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "SpeciesNameComplex";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -254,6 +260,7 @@ class SpeciesNameComplexNames extends React.Component<
         }
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface PersonNamesInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class PersonNamesInner extends React.Component<PersonNamesInnerProps> {
@@ -51,6 +53,7 @@ class PersonNamesInner extends React.Component<PersonNamesInnerProps> {
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (!personInner.names || personInner.names.edges.length === 0) {
       return null;
@@ -76,6 +79,7 @@ class PersonNamesInner extends React.Component<PersonNamesInnerProps> {
         <NameList
           connection={personInner.names}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -188,6 +192,7 @@ interface PersonNamesProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class PersonNames extends React.Component<
@@ -221,6 +226,7 @@ class PersonNames extends React.Component<
   renderInner(person: Omit<PersonNames_person, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Person";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -243,6 +249,7 @@ class PersonNames extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

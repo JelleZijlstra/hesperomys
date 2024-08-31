@@ -23,7 +23,7 @@ function PersonExtra({ model }: { model: ModelLink_model }) {
   return null;
 }
 
-function NameExtra({ model }: { model: ModelLink_model }) {
+function NameExtra({ model, context }: { model: ModelLink_model; context?: Context }) {
   if (!model.taxon || !model.status) {
     return null;
   }
@@ -31,7 +31,7 @@ function NameExtra({ model }: { model: ModelLink_model }) {
   if (model.status !== "valid") {
     parts.push(["status", <>{model.status.replace("_", " ")}</>]);
   }
-  if (model.correctedOriginalName !== model.taxon.validName) {
+  if (context !== "Taxon" && model.correctedOriginalName !== model.taxon.validName) {
     parts.push([
       "validName",
       <>
@@ -145,7 +145,7 @@ function ClassificationEntryExtra({
 function ModelExtra({ model, context }: { model: ModelLink_model; context?: Context }) {
   switch (model.__typename) {
     case "Name":
-      return <NameExtra model={model} />;
+      return <NameExtra model={model} context={context} />;
     case "Location":
       return <LocationExtra model={model} />;
     case "Person":

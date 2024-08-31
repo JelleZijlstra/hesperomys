@@ -312,6 +312,7 @@ import { %(type_upper)s%(conn_upper)sDetailQuery } from "./__generated__/%(type_
 import { createPaginationContainer, createFragmentContainer, QueryRenderer, RelayPaginationProp } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import %(node_type_upper)sList from "../components/%(node_type_upper)sList";
@@ -332,13 +333,14 @@ interface %(type_upper)s%(conn_upper)sInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 };
 
 class %(type_upper)s%(conn_upper)sInner extends React.Component<
   %(type_upper)s%(conn_upper)sInnerProps
 > {
   render() {
-    const { %(type_lower)sInner, relay, numToLoad, hideTitle, title, subtitle, showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail, setShowDetail, hideClassification, wrapperTitle } = this.props;
+    const { %(type_lower)sInner, relay, numToLoad, hideTitle, title, subtitle, showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail, setShowDetail, hideClassification, wrapperTitle, context } = this.props;
     if (
       !%(type_lower)sInner.%(conn_lower)s ||
       %(type_lower)sInner.%(conn_lower)s.edges.length === 0
@@ -353,7 +355,7 @@ class %(type_upper)s%(conn_upper)sInner extends React.Component<
           showDetail={showLocationDetail || showCitationDetail || showCollectionDetail || showEtymologyDetail || showNameDetail}
           setShowDetail={setShowDetail}
         />
-        <%(node_type_upper)sList connection={%(type_lower)sInner.%(conn_lower)s} hideClassification={hideClassification} />
+        <%(node_type_upper)sList connection={%(type_lower)sInner.%(conn_lower)s} hideClassification={hideClassification} context={context} />
         <LoadMoreButton
           numToLoad={numToLoad}
           relay={relay}
@@ -460,6 +462,7 @@ interface %(type_upper)s%(conn_upper)sProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 };
 
 class %(type_upper)s%(conn_upper)s extends React.Component<
@@ -486,6 +489,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
 
   renderInner(%(type_lower)s: Omit<%(type_upper)s%(conn_upper)s_%(type_lower)s, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } = this.props;
+    const context = this.props.context || "%(type_upper)s";
     const { showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail } = this.state;
     return <%(type_upper)s%(conn_upper)sContainer
       %(type_lower)sInner={%(type_lower)s}
@@ -501,6 +505,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
       setShowDetail={%(set_show_detail)s}
       hideClassification={hideClassification}
       wrapperTitle={wrapperTitle}
+      context={context}
     />
   }
 

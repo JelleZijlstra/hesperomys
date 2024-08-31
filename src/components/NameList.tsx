@@ -4,7 +4,7 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
-import ModelLink from "./ModelLink";
+import ModelLink, { Context } from "./ModelLink";
 import { Detail } from "./NameTypeTags";
 import { toTitle } from "../utils";
 
@@ -55,9 +55,10 @@ const stringifySpeciesTypeKind = (kind?: string | null) => {
 class NameList extends React.Component<{
   connection: NameList_connection;
   hideClassification?: boolean;
+  context?: Context;
 }> {
   render() {
-    const { connection, hideClassification } = this.props;
+    const { connection, hideClassification, context } = this.props;
     const unorderedNames = connection.edges
       .map((edge) => edge && edge.node)
       .filter((node) => !!node);
@@ -116,7 +117,7 @@ class NameList extends React.Component<{
       <ul>
         {Array.from(node.childGroups.values()).map((childGroup) => (
           <li key={childGroup.taxon.oid}>
-            <ModelLink model={childGroup.taxon} />
+            <ModelLink model={childGroup.taxon} context={this.props.context} />
             {this.renderTree(childGroup.node)}
           </li>
         ))}
@@ -174,7 +175,7 @@ class NameList extends React.Component<{
           }
           return (
             <li key={name.oid}>
-              <ModelLink model={name} />
+              <ModelLink model={name} context={this.props.context} />
               {items.length > 0 && <ul>{items}</ul>}
             </li>
           );

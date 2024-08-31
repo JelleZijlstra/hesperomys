@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface NamePreoccupiedNamesInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NamePreoccupiedNamesInner extends React.Component<NamePreoccupiedNamesInnerProps> {
@@ -51,6 +53,7 @@ class NamePreoccupiedNamesInner extends React.Component<NamePreoccupiedNamesInne
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (!nameInner.preoccupiedNames || nameInner.preoccupiedNames.edges.length === 0) {
       return null;
@@ -76,6 +79,7 @@ class NamePreoccupiedNamesInner extends React.Component<NamePreoccupiedNamesInne
         <NameList
           connection={nameInner.preoccupiedNames}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -189,6 +193,7 @@ interface NamePreoccupiedNamesProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NamePreoccupiedNames extends React.Component<
@@ -222,6 +227,7 @@ class NamePreoccupiedNames extends React.Component<
   renderInner(name: Omit<NamePreoccupiedNames_name, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Name";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -244,6 +250,7 @@ class NamePreoccupiedNames extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

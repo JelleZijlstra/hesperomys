@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface NameSelectionsOfPriorityInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameSelectionsOfPriorityInner extends React.Component<NameSelectionsOfPriorityInnerProps> {
@@ -51,6 +53,7 @@ class NameSelectionsOfPriorityInner extends React.Component<NameSelectionsOfPrio
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (
       !nameInner.selectionsOfPriority ||
@@ -79,6 +82,7 @@ class NameSelectionsOfPriorityInner extends React.Component<NameSelectionsOfPrio
         <NameList
           connection={nameInner.selectionsOfPriority}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -192,6 +196,7 @@ interface NameSelectionsOfPriorityProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameSelectionsOfPriority extends React.Component<
@@ -225,6 +230,7 @@ class NameSelectionsOfPriority extends React.Component<
   renderInner(name: Omit<NameSelectionsOfPriority_name, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Name";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -247,6 +253,7 @@ class NameSelectionsOfPriority extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

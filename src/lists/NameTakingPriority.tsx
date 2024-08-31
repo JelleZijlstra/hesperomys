@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface NameTakingPriorityInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameTakingPriorityInner extends React.Component<NameTakingPriorityInnerProps> {
@@ -51,6 +53,7 @@ class NameTakingPriorityInner extends React.Component<NameTakingPriorityInnerPro
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (!nameInner.takingPriority || nameInner.takingPriority.edges.length === 0) {
       return null;
@@ -76,6 +79,7 @@ class NameTakingPriorityInner extends React.Component<NameTakingPriorityInnerPro
         <NameList
           connection={nameInner.takingPriority}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -189,6 +193,7 @@ interface NameTakingPriorityProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameTakingPriority extends React.Component<
@@ -222,6 +227,7 @@ class NameTakingPriority extends React.Component<
   renderInner(name: Omit<NameTakingPriority_name, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Name";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -244,6 +250,7 @@ class NameTakingPriority extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

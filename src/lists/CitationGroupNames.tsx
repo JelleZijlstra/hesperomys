@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface CitationGroupNamesInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class CitationGroupNamesInner extends React.Component<CitationGroupNamesInnerProps> {
@@ -51,6 +53,7 @@ class CitationGroupNamesInner extends React.Component<CitationGroupNamesInnerPro
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (!citationGroupInner.names || citationGroupInner.names.edges.length === 0) {
       return null;
@@ -76,6 +79,7 @@ class CitationGroupNamesInner extends React.Component<CitationGroupNamesInnerPro
         <NameList
           connection={citationGroupInner.names}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -189,6 +193,7 @@ interface CitationGroupNamesProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class CitationGroupNames extends React.Component<
@@ -224,6 +229,7 @@ class CitationGroupNames extends React.Component<
   ) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "CitationGroup";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -248,6 +254,7 @@ class CitationGroupNames extends React.Component<
         }
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

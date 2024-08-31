@@ -12,6 +12,7 @@ import NamesMissingField from "../components/NamesMissingField";
 import TaxonChildList from "../components/TaxonChildList";
 import TaxonNames from "../lists/TaxonNames";
 import { Rank } from "./Rank";
+import MaybeItalicize, { RANK_TO_GROUP } from "../components/MaybeItalics";
 
 const AGE_CLASS_TO_STRING = new Map([
   ["bite_trace", "bite trace"],
@@ -24,8 +25,9 @@ class TaxonBody extends React.Component<{
   render() {
     const { taxon } = this.props;
     const { taxonRank, validName, age, parent, baseName, tags } = this.props.taxon;
+    const group = RANK_TO_GROUP.get(taxonRank) || "high";
     const data: [string, string | React.ReactElement | null][] = [
-      ["Name", validName],
+      ["Name", <MaybeItalicize group={group} name={validName} />],
       ["Rank", <Rank rank={taxonRank} />],
       ["Age class", AGE_CLASS_TO_STRING.get(age) || age],
       ["Base name", <ModelLink model={baseName} />],

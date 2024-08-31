@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface ArticleEtymologyDetailsInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class ArticleEtymologyDetailsInner extends React.Component<ArticleEtymologyDetailsInnerProps> {
@@ -51,6 +53,7 @@ class ArticleEtymologyDetailsInner extends React.Component<ArticleEtymologyDetai
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (
       !articleInner.etymologyDetails ||
@@ -79,6 +82,7 @@ class ArticleEtymologyDetailsInner extends React.Component<ArticleEtymologyDetai
         <NameList
           connection={articleInner.etymologyDetails}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -192,6 +196,7 @@ interface ArticleEtymologyDetailsProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class ArticleEtymologyDetails extends React.Component<
@@ -225,6 +230,7 @@ class ArticleEtymologyDetails extends React.Component<
   renderInner(article: Omit<ArticleEtymologyDetails_article, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Article";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -247,6 +253,7 @@ class ArticleEtymologyDetails extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

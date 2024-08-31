@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface NameIncorrectOriginalSpellingsInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameIncorrectOriginalSpellingsInner extends React.Component<NameIncorrectOriginalSpellingsInnerProps> {
@@ -51,6 +53,7 @@ class NameIncorrectOriginalSpellingsInner extends React.Component<NameIncorrectO
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (
       !nameInner.incorrectOriginalSpellings ||
@@ -80,6 +83,7 @@ class NameIncorrectOriginalSpellingsInner extends React.Component<NameIncorrectO
         <NameList
           connection={nameInner.incorrectOriginalSpellings}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -195,6 +199,7 @@ interface NameIncorrectOriginalSpellingsProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameIncorrectOriginalSpellings extends React.Component<
@@ -228,6 +233,7 @@ class NameIncorrectOriginalSpellings extends React.Component<
   renderInner(name: Omit<NameIncorrectOriginalSpellings_name, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Name";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -250,6 +256,7 @@ class NameIncorrectOriginalSpellings extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

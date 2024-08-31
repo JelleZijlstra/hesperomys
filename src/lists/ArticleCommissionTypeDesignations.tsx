@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface ArticleCommissionTypeDesignationsInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class ArticleCommissionTypeDesignationsInner extends React.Component<ArticleCommissionTypeDesignationsInnerProps> {
@@ -51,6 +53,7 @@ class ArticleCommissionTypeDesignationsInner extends React.Component<ArticleComm
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (
       !articleInner.commissionTypeDesignations ||
@@ -80,6 +83,7 @@ class ArticleCommissionTypeDesignationsInner extends React.Component<ArticleComm
         <NameList
           connection={articleInner.commissionTypeDesignations}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -195,6 +199,7 @@ interface ArticleCommissionTypeDesignationsProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class ArticleCommissionTypeDesignations extends React.Component<
@@ -230,6 +235,7 @@ class ArticleCommissionTypeDesignations extends React.Component<
   ) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Article";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -252,6 +258,7 @@ class ArticleCommissionTypeDesignations extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface NameComplexNamesInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameComplexNamesInner extends React.Component<NameComplexNamesInnerProps> {
@@ -51,6 +53,7 @@ class NameComplexNamesInner extends React.Component<NameComplexNamesInnerProps> 
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (!nameComplexInner.names || nameComplexInner.names.edges.length === 0) {
       return null;
@@ -76,6 +79,7 @@ class NameComplexNamesInner extends React.Component<NameComplexNamesInnerProps> 
         <NameList
           connection={nameComplexInner.names}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -189,6 +193,7 @@ interface NameComplexNamesProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameComplexNames extends React.Component<
@@ -222,6 +227,7 @@ class NameComplexNames extends React.Component<
   renderInner(nameComplex: Omit<NameComplexNames_nameComplex, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "NameComplex";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -246,6 +252,7 @@ class NameComplexNames extends React.Component<
         }
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

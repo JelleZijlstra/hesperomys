@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface NameJuniorSecondaryHomonymsInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameJuniorSecondaryHomonymsInner extends React.Component<NameJuniorSecondaryHomonymsInnerProps> {
@@ -51,6 +53,7 @@ class NameJuniorSecondaryHomonymsInner extends React.Component<NameJuniorSeconda
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (
       !nameInner.juniorSecondaryHomonyms ||
@@ -80,6 +83,7 @@ class NameJuniorSecondaryHomonymsInner extends React.Component<NameJuniorSeconda
         <NameList
           connection={nameInner.juniorSecondaryHomonyms}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -193,6 +197,7 @@ interface NameJuniorSecondaryHomonymsProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameJuniorSecondaryHomonyms extends React.Component<
@@ -226,6 +231,7 @@ class NameJuniorSecondaryHomonyms extends React.Component<
   renderInner(name: Omit<NameJuniorSecondaryHomonyms_name, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Name";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -248,6 +254,7 @@ class NameJuniorSecondaryHomonyms extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

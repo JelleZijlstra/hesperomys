@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface LocationTypeLocalitiesInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class LocationTypeLocalitiesInner extends React.Component<LocationTypeLocalitiesInnerProps> {
@@ -51,6 +53,7 @@ class LocationTypeLocalitiesInner extends React.Component<LocationTypeLocalities
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (
       !locationInner.typeLocalities ||
@@ -79,6 +82,7 @@ class LocationTypeLocalitiesInner extends React.Component<LocationTypeLocalities
         <NameList
           connection={locationInner.typeLocalities}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -192,6 +196,7 @@ interface LocationTypeLocalitiesProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class LocationTypeLocalities extends React.Component<
@@ -225,6 +230,7 @@ class LocationTypeLocalities extends React.Component<
   renderInner(location: Omit<LocationTypeLocalities_location, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Location";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -249,6 +255,7 @@ class LocationTypeLocalities extends React.Component<
         }
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface NameJuniorPrimaryHomonymsInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameJuniorPrimaryHomonymsInner extends React.Component<NameJuniorPrimaryHomonymsInnerProps> {
@@ -51,6 +53,7 @@ class NameJuniorPrimaryHomonymsInner extends React.Component<NameJuniorPrimaryHo
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (
       !nameInner.juniorPrimaryHomonyms ||
@@ -79,6 +82,7 @@ class NameJuniorPrimaryHomonymsInner extends React.Component<NameJuniorPrimaryHo
         <NameList
           connection={nameInner.juniorPrimaryHomonyms}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -192,6 +196,7 @@ interface NameJuniorPrimaryHomonymsProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameJuniorPrimaryHomonyms extends React.Component<
@@ -225,6 +230,7 @@ class NameJuniorPrimaryHomonyms extends React.Component<
   renderInner(name: Omit<NameJuniorPrimaryHomonyms_name, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Name";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -247,6 +253,7 @@ class NameJuniorPrimaryHomonyms extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

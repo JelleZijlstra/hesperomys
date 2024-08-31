@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface PersonInvolvedAllInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class PersonInvolvedAllInner extends React.Component<PersonInvolvedAllInnerProps> {
@@ -51,6 +53,7 @@ class PersonInvolvedAllInner extends React.Component<PersonInvolvedAllInnerProps
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (!personInner.involvedAll || personInner.involvedAll.edges.length === 0) {
       return null;
@@ -76,6 +79,7 @@ class PersonInvolvedAllInner extends React.Component<PersonInvolvedAllInnerProps
         <NameList
           connection={personInner.involvedAll}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -189,6 +193,7 @@ interface PersonInvolvedAllProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class PersonInvolvedAll extends React.Component<
@@ -222,6 +227,7 @@ class PersonInvolvedAll extends React.Component<
   renderInner(person: Omit<PersonInvolvedAll_person, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Person";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -244,6 +250,7 @@ class PersonInvolvedAll extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface TaxonNamesInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
@@ -51,6 +53,7 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (!taxonInner.names || taxonInner.names.edges.length === 0) {
       return null;
@@ -76,6 +79,7 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
         <NameList
           connection={taxonInner.names}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -188,6 +192,7 @@ interface TaxonNamesProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class TaxonNames extends React.Component<
@@ -221,6 +226,7 @@ class TaxonNames extends React.Component<
   renderInner(taxon: Omit<TaxonNames_taxon, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Taxon";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -243,6 +249,7 @@ class TaxonNames extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

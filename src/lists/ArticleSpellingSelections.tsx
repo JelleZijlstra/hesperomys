@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface ArticleSpellingSelectionsInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class ArticleSpellingSelectionsInner extends React.Component<ArticleSpellingSelectionsInnerProps> {
@@ -51,6 +53,7 @@ class ArticleSpellingSelectionsInner extends React.Component<ArticleSpellingSele
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (
       !articleInner.spellingSelections ||
@@ -79,6 +82,7 @@ class ArticleSpellingSelectionsInner extends React.Component<ArticleSpellingSele
         <NameList
           connection={articleInner.spellingSelections}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -192,6 +196,7 @@ interface ArticleSpellingSelectionsProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class ArticleSpellingSelections extends React.Component<
@@ -225,6 +230,7 @@ class ArticleSpellingSelections extends React.Component<
   renderInner(article: Omit<ArticleSpellingSelections_article, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Article";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -247,6 +253,7 @@ class ArticleSpellingSelections extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

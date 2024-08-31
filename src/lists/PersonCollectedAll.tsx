@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface PersonCollectedAllInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class PersonCollectedAllInner extends React.Component<PersonCollectedAllInnerProps> {
@@ -51,6 +53,7 @@ class PersonCollectedAllInner extends React.Component<PersonCollectedAllInnerPro
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (!personInner.collectedAll || personInner.collectedAll.edges.length === 0) {
       return null;
@@ -76,6 +79,7 @@ class PersonCollectedAllInner extends React.Component<PersonCollectedAllInnerPro
         <NameList
           connection={personInner.collectedAll}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -189,6 +193,7 @@ interface PersonCollectedAllProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class PersonCollectedAll extends React.Component<
@@ -222,6 +227,7 @@ class PersonCollectedAll extends React.Component<
   renderInner(person: Omit<PersonCollectedAll_person, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Person";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -244,6 +250,7 @@ class PersonCollectedAll extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

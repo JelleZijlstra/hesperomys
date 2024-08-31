@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface NameDesignatedAsTypeInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameDesignatedAsTypeInner extends React.Component<NameDesignatedAsTypeInnerProps> {
@@ -51,6 +53,7 @@ class NameDesignatedAsTypeInner extends React.Component<NameDesignatedAsTypeInne
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (!nameInner.designatedAsType || nameInner.designatedAsType.edges.length === 0) {
       return null;
@@ -76,6 +79,7 @@ class NameDesignatedAsTypeInner extends React.Component<NameDesignatedAsTypeInne
         <NameList
           connection={nameInner.designatedAsType}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -189,6 +193,7 @@ interface NameDesignatedAsTypeProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class NameDesignatedAsType extends React.Component<
@@ -222,6 +227,7 @@ class NameDesignatedAsType extends React.Component<
   renderInner(name: Omit<NameDesignatedAsType_name, "oid" | " $refType">) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Name";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -244,6 +250,7 @@ class NameDesignatedAsType extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }

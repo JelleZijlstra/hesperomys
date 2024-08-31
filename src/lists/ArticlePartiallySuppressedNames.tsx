@@ -12,6 +12,7 @@ import {
 } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 
+import { Context } from "../components/ModelLink";
 import ExpandButtons from "../components/ExpandButtons";
 import LoadMoreButton from "../components/LoadMoreButton";
 import NameList from "../components/NameList";
@@ -32,6 +33,7 @@ interface ArticlePartiallySuppressedNamesInnerProps {
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class ArticlePartiallySuppressedNamesInner extends React.Component<ArticlePartiallySuppressedNamesInnerProps> {
@@ -51,6 +53,7 @@ class ArticlePartiallySuppressedNamesInner extends React.Component<ArticlePartia
       setShowDetail,
       hideClassification,
       wrapperTitle,
+      context,
     } = this.props;
     if (
       !articleInner.partiallySuppressedNames ||
@@ -80,6 +83,7 @@ class ArticlePartiallySuppressedNamesInner extends React.Component<ArticlePartia
         <NameList
           connection={articleInner.partiallySuppressedNames}
           hideClassification={hideClassification}
+          context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
       </>
@@ -193,6 +197,7 @@ interface ArticlePartiallySuppressedNamesProps {
   showEtymologyDetail?: boolean;
   showNameDetail?: boolean;
   wrapperTitle?: string;
+  context?: Context;
 }
 
 class ArticlePartiallySuppressedNames extends React.Component<
@@ -228,6 +233,7 @@ class ArticlePartiallySuppressedNames extends React.Component<
   ) {
     const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
       this.props;
+    const context = this.props.context || "Article";
     const {
       showLocationDetail,
       showCitationDetail,
@@ -250,6 +256,7 @@ class ArticlePartiallySuppressedNames extends React.Component<
         setShowDetail={undefined}
         hideClassification={hideClassification}
         wrapperTitle={wrapperTitle}
+        context={context}
       />
     );
   }
