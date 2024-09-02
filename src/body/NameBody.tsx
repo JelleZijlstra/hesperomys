@@ -46,10 +46,20 @@ function NameSection({ name }: { name: NameBody_name }) {
     correctedOriginalName,
     originalCitation,
     citationGroup,
+    nomenclatureStatus,
   } = name;
   return (
     <>
       <h3>Name</h3>
+      {nomenclatureStatus === "name_combination" && (
+        <>
+          This is a name combination, a name that is formed by assigning an existing
+          name to a new genus or as a subspecies to a new species. The author and year
+          listed below represent the earliest usage of the name combination that has
+          been added to the database so far, but in many cases an earlier usage may
+          exist.
+        </>
+      )}
       <Table
         data={[
           ["Root name", <MaybeItalics name={rootName} group={group} />],
