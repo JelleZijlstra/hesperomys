@@ -115,6 +115,7 @@ class ArticleBody extends React.Component<{
       const href = `https://dx.doi.org/${doi}`;
       data.push(["DOI", <a href={href}>{doi}</a>]);
     }
+    let partialClassification: string | null = null;
     tags.forEach((tag) => {
       let url: string | null = null;
       switch (tag.__typename) {
@@ -165,6 +166,9 @@ class ArticleBody extends React.Component<{
         case "AlternativeURL":
           data.push(["URL", <a href={tag.url}>{tag.url}</a>]);
           break;
+        case "PartialClassification":
+          partialClassification = tag.comment;
+          break;
       }
       if (url !== null && "text" in tag) {
         data.push([tag.__typename, <a href={url}>{tag.text}</a>]);
@@ -189,6 +193,14 @@ class ArticleBody extends React.Component<{
         <ArticleClassificationEntries
           article={article}
           title="Classification entries"
+          subtitle={
+            partialClassification ? (
+              <>
+                Only part of the classification from this reference has been added to
+                the database. Comment: <InlineMarkdown source={partialClassification} />
+              </>
+            ) : undefined
+          }
         />
         <ArticleArticleSet article={article} title="Child articles" />
         <ArticlePartiallySuppressedNames
@@ -291,6 +303,9 @@ export default createFragmentContainer(ArticleBody, {
         }
         ... on AlternativeURL {
           url
+        }
+        ... on PartialClassification {
+          comment
         }
       }
       ...ArticleOrderedNewNames_article
