@@ -32,6 +32,7 @@ interface LocationTypeLocalitiesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
 }
@@ -52,6 +53,7 @@ class LocationTypeLocalitiesInner extends React.Component<LocationTypeLocalities
       showNameDetail,
       setShowDetail,
       hideClassification,
+      groupVariants,
       wrapperTitle,
       context,
     } = this.props;
@@ -82,6 +84,7 @@ class LocationTypeLocalitiesInner extends React.Component<LocationTypeLocalities
         <NameList
           connection={locationInner.typeLocalities}
           hideClassification={hideClassification}
+          groupVariants={groupVariants}
           context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
@@ -190,6 +193,7 @@ interface LocationTypeLocalitiesProps {
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
   showCollectionDetail?: boolean;
@@ -228,8 +232,15 @@ class LocationTypeLocalities extends React.Component<
   }
 
   renderInner(location: Omit<LocationTypeLocalities_location, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
-      this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      groupVariants,
+      subtitle,
+      wrapperTitle,
+    } = this.props;
     const context = this.props.context || "Location";
     const {
       showLocationDetail,
@@ -254,6 +265,7 @@ class LocationTypeLocalities extends React.Component<
           this.setState({ showLocationDetail: showDetail })
         }
         hideClassification={hideClassification}
+        groupVariants={groupVariants}
         wrapperTitle={wrapperTitle}
         context={context}
       />

@@ -32,6 +32,7 @@ interface NameComplexNamesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
 }
@@ -52,6 +53,7 @@ class NameComplexNamesInner extends React.Component<NameComplexNamesInnerProps> 
       showNameDetail,
       setShowDetail,
       hideClassification,
+      groupVariants,
       wrapperTitle,
       context,
     } = this.props;
@@ -79,6 +81,7 @@ class NameComplexNamesInner extends React.Component<NameComplexNamesInnerProps> 
         <NameList
           connection={nameComplexInner.names}
           hideClassification={hideClassification}
+          groupVariants={groupVariants}
           context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
@@ -187,6 +190,7 @@ interface NameComplexNamesProps {
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
   showCollectionDetail?: boolean;
@@ -225,8 +229,15 @@ class NameComplexNames extends React.Component<
   }
 
   renderInner(nameComplex: Omit<NameComplexNames_nameComplex, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
-      this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      groupVariants,
+      subtitle,
+      wrapperTitle,
+    } = this.props;
     const context = this.props.context || "NameComplex";
     const {
       showLocationDetail,
@@ -251,6 +262,7 @@ class NameComplexNames extends React.Component<
           this.setState({ showEtymologyDetail: showDetail })
         }
         hideClassification={hideClassification}
+        groupVariants={groupVariants}
         wrapperTitle={wrapperTitle}
         context={context}
       />

@@ -44,7 +44,13 @@ class TaxonBody extends React.Component<{
       <>
         <Table data={data} />
         <TaxonContext taxon={taxon} />
-        <TaxonNames taxon={taxon} hideClassification showNameDetail />
+        <TaxonNames
+          taxon={taxon}
+          hideClassification
+          showNameDetail
+          groupVariants
+          context="Taxon"
+        />
         <TaxonChildList taxon={taxon} />
         <NamesMissingField taxon={taxon} />
       </>

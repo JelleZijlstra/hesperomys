@@ -10,23 +10,31 @@ import { toTitle } from "../utils";
 
 type Name = Exclude<Exclude<NameList_connection["edges"][0], null>["node"], null>;
 type Taxon = Exclude<Name["taxon"]["class_"], null>;
+
+type NameGroup = {
+  baseName?: Name;
+  names: Name[];
+};
 type TreeNode = {
   directChildren: Name[];
-  childGroups: Map<string, { taxon: Taxon; node: TreeNode }>;
+  groups: Map<number, NameGroup>;
+  childNodes: Map<string, { taxon: Taxon; node: TreeNode }>;
 };
 
 const makeNode = () => {
-  return { directChildren: [], childGroups: new Map() };
+  return { directChildren: [], childNodes: new Map(), groups: new Map() };
 };
 
 const STATUS_TO_SORT_KEY = new Map([
   ["valid", 0],
   ["species_inquirenda", 1],
   ["nomen_dubium", 2],
-  ["synonym", 3],
-  ["dubious", 4],
-  ["spurious", 5],
-  ["removed", 6],
+  ["composite", 3],
+  ["hybrid", 4],
+  ["synonym", 9],
+  ["dubious", 10],
+  ["spurious", 11],
+  ["removed", 12],
 ]);
 
 const sortKey = (name: Name | null) => {
@@ -52,45 +60,134 @@ const stringifySpeciesTypeKind = (kind?: string | null) => {
   }
 };
 
+function NameRow({
+  name,
+  context,
+  childNames,
+}: {
+  name: Name;
+  context?: Context;
+  childNames?: Name[];
+}) {
+  const items = [];
+  if (name.verbatimCitation) {
+    items.push(<li>Raw citation: {name.verbatimCitation}</li>);
+  }
+  if (name.typeLocality) {
+    items.push(
+      <li>
+        Type locality: <ModelLink model={name.typeLocality} />
+      </li>,
+    );
+  }
+  if (name.nameType) {
+    items.push(
+      <li>
+        {name.group === "family" ? "Type genus" : "Type species"}:{" "}
+        <ModelLink model={name.nameType} />
+      </li>,
+    );
+  }
+  if (name.typeSpecimen || name.speciesTypeKind) {
+    items.push(
+      <li>
+        {stringifySpeciesTypeKind(name.speciesTypeKind)}
+        {name.typeSpecimen && ": " + name.typeSpecimen}
+      </li>,
+    );
+  }
+  if (name.typeTags) {
+    name.typeTags.forEach((tag) => {
+      if (!tag) {
+        return;
+      }
+      switch (tag.__typename) {
+        case "LocationDetail":
+        case "CitationDetail":
+        case "CollectionDetail":
+        case "EtymologyDetail":
+          if (!tag.text) {
+            return;
+          }
+          items.push(
+            <li key={tag.text}>
+              <Detail text={tag.text} source={tag.source} />
+            </li>,
+          );
+      }
+    });
+  }
+  return (
+    <li key={name.oid}>
+      <ModelLink model={name} context={context} />
+      {items.length > 0 && <ul>{items}</ul>}
+      {childNames && childNames.length > 0 && (
+        <ul>
+          {childNames.map((childName) => (
+            <NameRow key={childName.oid} name={childName} context={context} />
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
 class NameList extends React.Component<{
   connection: NameList_connection;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   context?: Context;
 }> {
   render() {
-    const { connection, hideClassification, context } = this.props;
+    const { connection, hideClassification, groupVariants } = this.props;
     const unorderedNames = connection.edges
       .map((edge) => edge && edge.node)
       .filter((node) => !!node);
-    const names = hideClassification
-      ? unorderedNames
-      : unorderedNames.sort((left, right) => {
-          const leftKey = sortKey(left);
-          const rightKey = sortKey(right);
-          if (leftKey < rightKey) {
-            return -1;
-          } else if (leftKey > rightKey) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
+    const names = unorderedNames.sort((left, right) => {
+      const leftKey = sortKey(left);
+      const rightKey = sortKey(right);
+      if (leftKey < rightKey) {
+        return -1;
+      } else if (leftKey > rightKey) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
     const treeRoot: TreeNode = makeNode();
     const addName = (treeNode: TreeNode, parents: (Taxon | null)[], name: Name) => {
       if (parents.length === 0) {
-        treeNode.directChildren.push(name);
+        if (groupVariants) {
+          const variantBase = name.variantBaseId;
+          const existing = treeNode.groups.get(variantBase);
+          if (existing) {
+            if (name.oid === variantBase) {
+              existing.baseName = name;
+            } else {
+              existing.names.push(name);
+            }
+          } else {
+            if (name.oid === variantBase) {
+              treeNode.groups.set(variantBase, { baseName: name, names: [] });
+            } else {
+              treeNode.groups.set(variantBase, { names: [name] });
+            }
+          }
+        } else {
+          treeNode.directChildren.push(name);
+        }
       } else if (parents[0] === null) {
         addName(treeNode, parents.slice(1), name);
       } else {
         const parent = parents[0];
         const remaining = parents.slice(1);
-        if (!treeNode.childGroups.has(parent.validName)) {
-          treeNode.childGroups.set(parent.validName, {
+        if (!treeNode.childNodes.has(parent.validName)) {
+          treeNode.childNodes.set(parent.validName, {
             taxon: parent,
             node: makeNode(),
           });
         }
-        const childGroup = treeNode.childGroups.get(parent.validName);
+        const childGroup = treeNode.childNodes.get(parent.validName);
         if (!childGroup) {
           return null; // should never happen
         }
@@ -115,71 +212,30 @@ class NameList extends React.Component<{
   renderTree(node: TreeNode) {
     return (
       <ul>
-        {Array.from(node.childGroups.values()).map((childGroup) => (
+        {Array.from(node.childNodes.values()).map((childGroup) => (
           <li key={childGroup.taxon.oid}>
             <ModelLink model={childGroup.taxon} context={this.props.context} />
             {this.renderTree(childGroup.node)}
           </li>
         ))}
-        {node.directChildren.map((name) => {
-          const items = [];
-          if (name.verbatimCitation) {
-            items.push(<li>Raw citation: {name.verbatimCitation}</li>);
-          }
-          if (name.typeLocality) {
-            items.push(
-              <li>
-                Type locality: <ModelLink model={name.typeLocality} />
-              </li>,
-            );
-          }
-          if (name.nameType) {
-            items.push(
-              <li>
-                {name.group === "family" ? "Type genus" : "Type species"}:{" "}
-                <ModelLink model={name.nameType} />
-              </li>,
-            );
-          }
-          if (name.typeSpecimen || name.speciesTypeKind) {
-            items.push(
-              <li>
-                {stringifySpeciesTypeKind(name.speciesTypeKind)}
-                {name.typeSpecimen && ": " + name.typeSpecimen}
-              </li>,
-            );
-          }
-          if (name.nomenclatureStatus && name.nomenclatureStatus !== "available") {
-            items.push(<li>Status: {name.nomenclatureStatus.replace(/_/g, " ")}</li>);
-          }
-          if (name.typeTags) {
-            name.typeTags.forEach((tag) => {
-              if (!tag) {
-                return;
-              }
-              switch (tag.__typename) {
-                case "LocationDetail":
-                case "CitationDetail":
-                case "CollectionDetail":
-                case "EtymologyDetail":
-                  if (!tag.text) {
-                    return;
-                  }
-                  items.push(
-                    <li key={tag.text}>
-                      <Detail text={tag.text} source={tag.source} />
-                    </li>,
-                  );
-              }
-            });
-          }
-          return (
-            <li key={name.oid}>
-              <ModelLink model={name} context={this.props.context} />
-              {items.length > 0 && <ul>{items}</ul>}
-            </li>
-          );
-        })}
+        {node.directChildren.map((name) => (
+          <NameRow key={name.oid} name={name} context={this.props.context} />
+        ))}
+        {node.groups.size > 0 &&
+          Array.from(node.groups.values()).map((group) =>
+            group.baseName ? (
+              <NameRow
+                key={group.baseName.oid}
+                name={group.baseName}
+                context={this.props.context}
+                childNames={group.names}
+              />
+            ) : (
+              group.names.map((name) => (
+                <NameRow key={name.oid} name={name} context={this.props.context} />
+              ))
+            ),
+          )}
       </ul>
     );
   }
@@ -201,6 +257,7 @@ export default createFragmentContainer(NameList, {
           oid
           status
           rootName
+          variantBaseId
           typeTags @include(if: $showLocationDetail) {
             __typename
             ... on LocationDetail {

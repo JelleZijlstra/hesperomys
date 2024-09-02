@@ -32,6 +32,7 @@ interface ArticlePriorityReversalsInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
 }
@@ -52,6 +53,7 @@ class ArticlePriorityReversalsInner extends React.Component<ArticlePriorityRever
       showNameDetail,
       setShowDetail,
       hideClassification,
+      groupVariants,
       wrapperTitle,
       context,
     } = this.props;
@@ -82,6 +84,7 @@ class ArticlePriorityReversalsInner extends React.Component<ArticlePriorityRever
         <NameList
           connection={articleInner.priorityReversals}
           hideClassification={hideClassification}
+          groupVariants={groupVariants}
           context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
@@ -190,6 +193,7 @@ interface ArticlePriorityReversalsProps {
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
   showCollectionDetail?: boolean;
@@ -228,8 +232,15 @@ class ArticlePriorityReversals extends React.Component<
   }
 
   renderInner(article: Omit<ArticlePriorityReversals_article, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
-      this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      groupVariants,
+      subtitle,
+      wrapperTitle,
+    } = this.props;
     const context = this.props.context || "Article";
     const {
       showLocationDetail,
@@ -252,6 +263,7 @@ class ArticlePriorityReversals extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        groupVariants={groupVariants}
         wrapperTitle={wrapperTitle}
         context={context}
       />

@@ -32,6 +32,7 @@ interface CitationGroupOrderedNamesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
 }
@@ -52,6 +53,7 @@ class CitationGroupOrderedNamesInner extends React.Component<CitationGroupOrdere
       showNameDetail,
       setShowDetail,
       hideClassification,
+      groupVariants,
       wrapperTitle,
       context,
     } = this.props;
@@ -82,6 +84,7 @@ class CitationGroupOrderedNamesInner extends React.Component<CitationGroupOrdere
         <NameList
           connection={citationGroupInner.orderedNames}
           hideClassification={hideClassification}
+          groupVariants={groupVariants}
           context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
@@ -190,6 +193,7 @@ interface CitationGroupOrderedNamesProps {
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
   showCollectionDetail?: boolean;
@@ -230,8 +234,15 @@ class CitationGroupOrderedNames extends React.Component<
   renderInner(
     citationGroup: Omit<CitationGroupOrderedNames_citationGroup, "oid" | " $refType">,
   ) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
-      this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      groupVariants,
+      subtitle,
+      wrapperTitle,
+    } = this.props;
     const context = this.props.context || "CitationGroup";
     const {
       showLocationDetail,
@@ -256,6 +267,7 @@ class CitationGroupOrderedNames extends React.Component<
           this.setState({ showCitationDetail: showDetail })
         }
         hideClassification={hideClassification}
+        groupVariants={groupVariants}
         wrapperTitle={wrapperTitle}
         context={context}
       />

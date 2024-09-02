@@ -32,6 +32,7 @@ interface CollectionTypeSpecimensInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
 }
@@ -52,6 +53,7 @@ class CollectionTypeSpecimensInner extends React.Component<CollectionTypeSpecime
       showNameDetail,
       setShowDetail,
       hideClassification,
+      groupVariants,
       wrapperTitle,
       context,
     } = this.props;
@@ -82,6 +84,7 @@ class CollectionTypeSpecimensInner extends React.Component<CollectionTypeSpecime
         <NameList
           connection={collectionInner.typeSpecimens}
           hideClassification={hideClassification}
+          groupVariants={groupVariants}
           context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
@@ -190,6 +193,7 @@ interface CollectionTypeSpecimensProps {
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
   showCollectionDetail?: boolean;
@@ -230,8 +234,15 @@ class CollectionTypeSpecimens extends React.Component<
   renderInner(
     collection: Omit<CollectionTypeSpecimens_collection, "oid" | " $refType">,
   ) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
-      this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      groupVariants,
+      subtitle,
+      wrapperTitle,
+    } = this.props;
     const context = this.props.context || "Collection";
     const {
       showLocationDetail,
@@ -256,6 +267,7 @@ class CollectionTypeSpecimens extends React.Component<
           this.setState({ showCollectionDetail: showDetail })
         }
         hideClassification={hideClassification}
+        groupVariants={groupVariants}
         wrapperTitle={wrapperTitle}
         context={context}
       />

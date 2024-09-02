@@ -32,6 +32,7 @@ interface NameCommissionDesignatedAsTypeInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
 }
@@ -52,6 +53,7 @@ class NameCommissionDesignatedAsTypeInner extends React.Component<NameCommission
       showNameDetail,
       setShowDetail,
       hideClassification,
+      groupVariants,
       wrapperTitle,
       context,
     } = this.props;
@@ -83,6 +85,7 @@ class NameCommissionDesignatedAsTypeInner extends React.Component<NameCommission
         <NameList
           connection={nameInner.commissionDesignatedAsType}
           hideClassification={hideClassification}
+          groupVariants={groupVariants}
           context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
@@ -193,6 +196,7 @@ interface NameCommissionDesignatedAsTypeProps {
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
   showCollectionDetail?: boolean;
@@ -231,8 +235,15 @@ class NameCommissionDesignatedAsType extends React.Component<
   }
 
   renderInner(name: Omit<NameCommissionDesignatedAsType_name, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
-      this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      groupVariants,
+      subtitle,
+      wrapperTitle,
+    } = this.props;
     const context = this.props.context || "Name";
     const {
       showLocationDetail,
@@ -255,6 +266,7 @@ class NameCommissionDesignatedAsType extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        groupVariants={groupVariants}
         wrapperTitle={wrapperTitle}
         context={context}
       />

@@ -345,7 +345,7 @@ type CitationGroup implements Node & Model {
   modelCls: ModelCls!
   name: String!
   region: Region
-  deleted: Boolean!
+  status: CitationGroupStatus!
   type: ArticleType!
   target: CitationGroup
   tags: [CitationGroupTag!]!
@@ -402,6 +402,13 @@ type CitationGroupPatternConnection {
 type CitationGroupPatternEdge {
   node: CitationGroupPattern
   cursor: String!
+}
+
+enum CitationGroupStatus {
+  normal
+  deleted
+  redirect
+  child
 }
 
 interface CitationGroupTag {
@@ -1151,6 +1158,7 @@ type Name implements Node & Model {
   redirectUrl: String
   modelCls: ModelCls!
   numericYear: Int
+  variantBaseId: Int!
   group: Group!
   rootName: String!
   status: Status!

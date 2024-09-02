@@ -332,6 +332,7 @@ interface %(type_upper)s%(conn_upper)sInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
 };
@@ -340,7 +341,7 @@ class %(type_upper)s%(conn_upper)sInner extends React.Component<
   %(type_upper)s%(conn_upper)sInnerProps
 > {
   render() {
-    const { %(type_lower)sInner, relay, numToLoad, hideTitle, title, subtitle, showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail, setShowDetail, hideClassification, wrapperTitle, context } = this.props;
+    const { %(type_lower)sInner, relay, numToLoad, hideTitle, title, subtitle, showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail, setShowDetail, hideClassification, groupVariants, wrapperTitle, context } = this.props;
     if (
       !%(type_lower)sInner.%(conn_lower)s ||
       %(type_lower)sInner.%(conn_lower)s.edges.length === 0
@@ -355,7 +356,7 @@ class %(type_upper)s%(conn_upper)sInner extends React.Component<
           showDetail={showLocationDetail || showCitationDetail || showCollectionDetail || showEtymologyDetail || showNameDetail}
           setShowDetail={setShowDetail}
         />
-        <%(node_type_upper)sList connection={%(type_lower)sInner.%(conn_lower)s} hideClassification={hideClassification} context={context} />
+        <%(node_type_upper)sList connection={%(type_lower)sInner.%(conn_lower)s} hideClassification={hideClassification} groupVariants={groupVariants} context={context} />
         <LoadMoreButton
           numToLoad={numToLoad}
           relay={relay}
@@ -456,6 +457,7 @@ interface %(type_upper)s%(conn_upper)sProps {
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
   showCollectionDetail?: boolean;
@@ -488,7 +490,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
   }
 
   renderInner(%(type_lower)s: Omit<%(type_upper)s%(conn_upper)s_%(type_lower)s, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } = this.props;
+    const { title, hideTitle, numToLoad, hideClassification, groupVariants, subtitle, wrapperTitle } = this.props;
     const context = this.props.context || "%(type_upper)s";
     const { showLocationDetail, showCitationDetail, showCollectionDetail, showEtymologyDetail, showNameDetail } = this.state;
     return <%(type_upper)s%(conn_upper)sContainer
@@ -504,6 +506,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
       showNameDetail={showNameDetail}
       setShowDetail={%(set_show_detail)s}
       hideClassification={hideClassification}
+      groupVariants={groupVariants}
       wrapperTitle={wrapperTitle}
       context={context}
     />

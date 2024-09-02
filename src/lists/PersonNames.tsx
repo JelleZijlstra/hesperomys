@@ -32,6 +32,7 @@ interface PersonNamesInnerProps {
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
 }
@@ -52,6 +53,7 @@ class PersonNamesInner extends React.Component<PersonNamesInnerProps> {
       showNameDetail,
       setShowDetail,
       hideClassification,
+      groupVariants,
       wrapperTitle,
       context,
     } = this.props;
@@ -79,6 +81,7 @@ class PersonNamesInner extends React.Component<PersonNamesInnerProps> {
         <NameList
           connection={personInner.names}
           hideClassification={hideClassification}
+          groupVariants={groupVariants}
           context={context}
         />
         <LoadMoreButton numToLoad={numToLoad} relay={relay} />
@@ -186,6 +189,7 @@ interface PersonNamesProps {
   hideTitle?: boolean;
   numToLoad?: number;
   hideClassification?: boolean;
+  groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
   showCollectionDetail?: boolean;
@@ -224,8 +228,15 @@ class PersonNames extends React.Component<
   }
 
   renderInner(person: Omit<PersonNames_person, "oid" | " $refType">) {
-    const { title, hideTitle, numToLoad, hideClassification, subtitle, wrapperTitle } =
-      this.props;
+    const {
+      title,
+      hideTitle,
+      numToLoad,
+      hideClassification,
+      groupVariants,
+      subtitle,
+      wrapperTitle,
+    } = this.props;
     const context = this.props.context || "Person";
     const {
       showLocationDetail,
@@ -248,6 +259,7 @@ class PersonNames extends React.Component<
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
         hideClassification={hideClassification}
+        groupVariants={groupVariants}
         wrapperTitle={wrapperTitle}
         context={context}
       />
