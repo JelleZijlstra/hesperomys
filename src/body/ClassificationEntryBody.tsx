@@ -83,7 +83,7 @@ class ClassificationEntryBody extends React.Component<{
     return (
       <>
         <InfoSection ce={this.props.classificationEntry} />
-        <h3>Classification context</h3>
+        <h3>Classification in context</h3>
         <ContextSection ce={this.props.classificationEntry} />
       </>
     );
