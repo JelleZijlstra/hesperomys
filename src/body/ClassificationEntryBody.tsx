@@ -80,7 +80,6 @@ class ClassificationEntryBody extends React.Component<{
   classificationEntry: ClassificationEntryBody_classificationEntry;
 }> {
   render() {
-    const { ceName } = this.props.classificationEntry;
     return (
       <>
         <InfoSection ce={this.props.classificationEntry} />
