@@ -32,7 +32,7 @@ import ArticleTypeSpeciesDetails from "../lists/ArticleTypeSpeciesDetails";
 import ArticleComments from "../lists/ArticleComments";
 import PublicationDate from "./PublicationDate";
 import InlineMarkdown from "../components/InlineMarkdown";
-import ArticleClassificationEntries from "../lists/ArticleClassificationEntries";
+import ArticleRootClassificationEntries from "../lists/ArticleRootClassificationEntries";
 
 const TYPE_TO_STRING = new Map([
   ["ERROR", "unknown"],
@@ -190,7 +190,7 @@ class ArticleBody extends React.Component<{
           title="New names"
           hideClassification
         />
-        <ArticleClassificationEntries
+        <ArticleRootClassificationEntries
           article={article}
           title="Classification entries"
           subtitle={
@@ -309,7 +309,7 @@ export default createFragmentContainer(ArticleBody, {
         }
       }
       ...ArticleOrderedNewNames_article
-      ...ArticleClassificationEntries_article
+      ...ArticleRootClassificationEntries_article
       ...ArticleArticleSet_article
       ...ArticlePartiallySuppressedNames_article
       ...ArticleFullySuppressedNames_article

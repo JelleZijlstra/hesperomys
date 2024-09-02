@@ -99,6 +99,8 @@ type Article implements Node & Model {
   numOccurrences: Int!
   orderedNewNames(before: String, after: String, first: Int, last: Int): NameConnection
   numOrderedNewNames: Int!
+  rootClassificationEntries(before: String, after: String, first: Int, last: Int): ClassificationEntryConnection
+  numRootClassificationEntries: Int!
   partiallySuppressedNames(before: String, after: String, first: Int, last: Int): NameConnection
   numPartiallySuppressedNames: Int!
   fullySuppressedNames(before: String, after: String, first: Int, last: Int): NameConnection
@@ -1195,10 +1197,10 @@ type Name implements Node & Model {
   numOriginalChildren: Int!
   comments(before: String, after: String, first: Int, last: Int): NameCommentConnection
   numComments: Int!
-  classificationEntries(before: String, after: String, first: Int, last: Int): ClassificationEntryConnection
-  numClassificationEntries: Int!
   taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
   numTaxonSet: Int!
+  classificationEntries(before: String, after: String, first: Int, last: Int): ClassificationEntryConnection
+  numClassificationEntries: Int!
   fillDataLevel: FillDataLevel
   preoccupiedNames(before: String, after: String, first: Int, last: Int): NameConnection
   numPreoccupiedNames: Int!
