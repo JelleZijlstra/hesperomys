@@ -20,10 +20,18 @@ class SimpleReference extends React.Component<{
           <>
             <ReferencePrefix article={article} skipLinks={skipLinks} />
             {citationGroup && citationGroup.name + " "}
-            {series && `(${series})`}
-            {volume && volume}
-            {issue && `(${issue})`}:
-            {startPage === endPage || !endPage ? startPage : `${startPage}–${endPage}`}
+            {startPage === "in press" ? (
+              "(in press)"
+            ) : (
+              <>
+                {series && `(${series})`}
+                {volume && volume}
+                {issue && `(${issue})`}:
+                {startPage === endPage || !endPage
+                  ? startPage
+                  : `${startPage}–${endPage}`}
+              </>
+            )}
             .
             <ReferenceSuffix article={article} skipLinks={skipLinks} />
           </>
