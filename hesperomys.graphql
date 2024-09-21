@@ -324,6 +324,12 @@ enum BoxType {
   separate
 }
 
+type CECondition implements ClassificationEntryTag {
+  _Ignored: ID
+  status: NomenclatureStatus!
+  comment: String
+}
+
 type ChildRule implements CollectionTag {
   _Ignored: ID
   collection: Collection!
@@ -880,6 +886,11 @@ type Incomplete implements ArticleTag {
   comment: String
 }
 
+type InconsistentlyBinominal implements ArticleTag {
+  _Ignored: ID
+  comment: String
+}
+
 type IncorrectGrammar implements TypeTag {
   _Ignored: ID
   text: String!
@@ -1197,10 +1208,10 @@ type Name implements Node & Model {
   numOriginalChildren: Int!
   comments(before: String, after: String, first: Int, last: Int): NameCommentConnection
   numComments: Int!
-  taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
-  numTaxonSet: Int!
   classificationEntries(before: String, after: String, first: Int, last: Int): ClassificationEntryConnection
   numClassificationEntries: Int!
+  taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
+  numTaxonSet: Int!
   fillDataLevel: FillDataLevel
   preoccupiedNames(before: String, after: String, first: Int, last: Int): NameConnection
   numPreoccupiedNames: Int!
@@ -1495,6 +1506,7 @@ enum NomenclatureStatus {
   unpublished_supplement
   name_combination
   misidentification
+  placed_on_index
 }
 
 type NominalGenus implements TaxonTag {
@@ -1822,6 +1834,12 @@ type PhyloCodeNumber implements TypeTag {
   number: Int!
 }
 
+type PlacedOnIndex implements ArticleTag {
+  _Ignored: ID
+  source: Article!
+  comment: String!
+}
+
 type PossibleHomonym {
   name: Name!
   exactNameMatch: Boolean!
@@ -1927,6 +1945,7 @@ enum Rank {
   species
   species_group
   subgenus
+  other_subgeneric
   genus
   division
   infratribe
@@ -1937,9 +1956,12 @@ enum Rank {
   family
   superfamily
   hyperfamily
+  other_family
+  unranked_family
   parvorder
   infraorder
   suborder
+  semiorder
   order
   superorder
   magnorder
@@ -1967,6 +1989,18 @@ enum Rank {
   form
   infrasubspecific
   synonym
+  aberratio
+  morph
+  natio
+  subvariety
+  other_species
+  informal_species
+  mutation
+  race
+  synonym_species
+  synonym_genus
+  synonym_family
+  synonym_high
 }
 
 type Region implements Node & Model {
@@ -2618,6 +2652,11 @@ type VariantOf implements NameTag {
 type VarietyOrForm implements NameTag {
   _Ignored: ID
   comment: String
+}
+
+type VerbatimName implements TypeTag {
+  _Ignored: ID
+  text: String!
 }
 
 type VolumeRegex implements CitationGroupTag {

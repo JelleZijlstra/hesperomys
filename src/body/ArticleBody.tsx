@@ -169,6 +169,24 @@ class ArticleBody extends React.Component<{
         case "PartialClassification":
           partialClassification = tag.comment;
           break;
+        case "InconsistentlyBinominal":
+          data.push([
+            "Inconsistently binominal",
+            tag.comment ? <InlineMarkdown source={tag.comment} /> : null,
+          ]);
+          break;
+        case "PlacedOnIndex":
+          data.push([
+            "Placed on the Official Index",
+            <>
+              {tag.indexSource && <ModelLink model={tag.indexSource} />}
+              <>
+                {" "}
+                <InlineMarkdown source={tag.indexComment} />
+              </>
+            </>,
+          ]);
+          break;
       }
       if (url !== null && "text" in tag) {
         data.push([tag.__typename, <a href={url}>{tag.text}</a>]);
@@ -306,6 +324,15 @@ export default createFragmentContainer(ArticleBody, {
         }
         ... on PartialClassification {
           comment
+        }
+        ... on InconsistentlyBinominal {
+          comment
+        }
+        ... on PlacedOnIndex {
+          indexSource: source {
+            ...ModelLink_model
+          }
+          indexComment: comment
         }
       }
       ...ArticleOrderedNewNames_article
