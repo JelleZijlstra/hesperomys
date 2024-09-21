@@ -44,7 +44,7 @@ const STATUS_TO_SORT_KEY = new Map([
   ["removed", 12],
 ]);
 
-const sortKey = (name: Name | null) => {
+const classificationSortKey = (name: Name) => {
   if (!name || !name.taxon) {
     return [];
   }
@@ -53,6 +53,20 @@ const sortKey = (name: Name | null) => {
   const family = name.taxon.family && name.taxon.family.validName;
   const status = STATUS_TO_SORT_KEY.get(name.status);
   return [cls, order, family, name.taxon.validName, status, name.rootName];
+};
+
+const pageSortKey = (name: Name) => {
+  const keys: (string | number | boolean)[] = [name.year || ""];
+  const numericPage = parseInt(name.pageDescribed || "", 10);
+  const isValid = !isNaN(numericPage);
+  keys.push(isValid);
+  if (isValid) {
+    keys.push(numericPage);
+  } else {
+    keys.push(name.pageDescribed || "");
+  }
+  keys.push(name.correctedOriginalName || name.rootName);
+  return keys;
 };
 
 const stringifySpeciesTypeKind = (kind?: string | null) => {
@@ -156,7 +170,7 @@ function OrderBySelector({
         [
           ["classification", "Classification"],
           ["name", "Name"],
-          ["page", "Page"],
+          ["page", "Year and page"],
         ] as [OrderBy, string][]
       ).map(([value, label]) => (
         <React.Fragment key={value}>
@@ -180,6 +194,7 @@ function OrderBySelector({
 function defaultOrderBy(context?: Context): OrderBy {
   switch (context) {
     case "Article":
+    case "CitationGroup":
       return "page";
     default:
       return "classification";
@@ -193,37 +208,37 @@ function getNameForSort(name: Name) {
   return name.rootName;
 }
 
+function sorted(unorderedNames: (Name | null)[], key: (name: Name) => any) {
+  return unorderedNames.sort((left, right) => {
+    if (!left) {
+      if (!right) {
+        return 0;
+      }
+      return 1;
+    }
+    if (!right) {
+      return -1;
+    }
+    const leftKey = key(left);
+    const rightKey = key(right);
+    if (leftKey < rightKey) {
+      return -1;
+    } else if (leftKey > rightKey) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+}
+
 function orderNames(unorderedNames: (Name | null)[], orderBy: OrderBy) {
   switch (orderBy) {
     case "classification":
-      return unorderedNames.sort((left, right) => {
-        const leftKey = sortKey(left);
-        const rightKey = sortKey(right);
-        if (leftKey < rightKey) {
-          return -1;
-        } else if (leftKey > rightKey) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+      return sorted(unorderedNames, classificationSortKey);
     case "name":
-      return unorderedNames.sort((left, right) => {
-        if (!left || !right) {
-          return 0;
-        }
-        const leftName = getNameForSort(left);
-        const rightName = getNameForSort(right);
-        if (leftName < rightName) {
-          return -1;
-        } else if (leftName > rightName) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+      return sorted(unorderedNames, getNameForSort);
     case "page":
-      return unorderedNames; // server uses this ordering
+      return sorted(unorderedNames, pageSortKey);
   }
 }
 
@@ -357,6 +372,8 @@ export default createFragmentContainer(NameList, {
           rootName
           correctedOriginalName
           variantBaseId
+          year
+          pageDescribed
           typeTags @include(if: $showLocationDetail) {
             __typename
             ... on LocationDetail {
