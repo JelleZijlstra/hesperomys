@@ -163,7 +163,14 @@ function OrderBySelector({
   // Otherwise things break if there is more than one OrderBySelector on the page
   const uniqueId = React.useMemo(() => Math.random().toString(), []);
   return (
-    <div style={{ float: "right", border: "solid 1px grey", padding: "10px" }}>
+    <div
+      style={{
+        float: "right",
+        border: "solid 1px grey",
+        padding: "10px",
+        clear: "both",
+      }}
+    >
       <legend>Order by: </legend>
       <br />
       {(
@@ -195,6 +202,7 @@ function defaultOrderBy(context?: Context): OrderBy {
   switch (context) {
     case "Article":
     case "CitationGroup":
+    case "Person":
       return "page";
     default:
       return "classification";
