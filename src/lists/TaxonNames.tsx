@@ -31,7 +31,6 @@ interface TaxonNamesInnerProps {
   showEtymologyDetail: boolean;
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
@@ -52,7 +51,6 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
       showEtymologyDetail,
       showNameDetail,
       setShowDetail,
-      hideClassification,
       groupVariants,
       wrapperTitle,
       context,
@@ -80,7 +78,6 @@ class TaxonNamesInner extends React.Component<TaxonNamesInnerProps> {
         />
         <NameList
           connection={taxonInner.names}
-          hideClassification={hideClassification}
           groupVariants={groupVariants}
           context={context}
         />
@@ -188,7 +185,6 @@ interface TaxonNamesProps {
   subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
@@ -228,15 +224,8 @@ class TaxonNames extends React.Component<
   }
 
   renderInner(taxon: Omit<TaxonNames_taxon, "oid" | " $refType">) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      groupVariants,
-      subtitle,
-      wrapperTitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, groupVariants, subtitle, wrapperTitle } =
+      this.props;
     const context = this.props.context || "Taxon";
     const {
       showLocationDetail,
@@ -258,7 +247,6 @@ class TaxonNames extends React.Component<
         showEtymologyDetail={showEtymologyDetail}
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
-        hideClassification={hideClassification}
         groupVariants={groupVariants}
         wrapperTitle={wrapperTitle}
         context={context}

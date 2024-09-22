@@ -31,7 +31,6 @@ interface SpeciesNameComplexNamesInnerProps {
   showEtymologyDetail: boolean;
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
@@ -52,7 +51,6 @@ class SpeciesNameComplexNamesInner extends React.Component<SpeciesNameComplexNam
       showEtymologyDetail,
       showNameDetail,
       setShowDetail,
-      hideClassification,
       groupVariants,
       wrapperTitle,
       context,
@@ -83,7 +81,6 @@ class SpeciesNameComplexNamesInner extends React.Component<SpeciesNameComplexNam
         />
         <NameList
           connection={speciesNameComplexInner.names}
-          hideClassification={hideClassification}
           groupVariants={groupVariants}
           context={context}
         />
@@ -192,7 +189,6 @@ interface SpeciesNameComplexNamesProps {
   subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
@@ -237,15 +233,8 @@ class SpeciesNameComplexNames extends React.Component<
       "oid" | " $refType"
     >,
   ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      groupVariants,
-      subtitle,
-      wrapperTitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, groupVariants, subtitle, wrapperTitle } =
+      this.props;
     const context = this.props.context || "SpeciesNameComplex";
     const {
       showLocationDetail,
@@ -269,7 +258,6 @@ class SpeciesNameComplexNames extends React.Component<
         setShowDetail={(showDetail) =>
           this.setState({ showEtymologyDetail: showDetail })
         }
-        hideClassification={hideClassification}
         groupVariants={groupVariants}
         wrapperTitle={wrapperTitle}
         context={context}

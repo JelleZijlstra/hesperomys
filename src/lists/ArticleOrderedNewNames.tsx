@@ -31,7 +31,6 @@ interface ArticleOrderedNewNamesInnerProps {
   showEtymologyDetail: boolean;
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
@@ -52,7 +51,6 @@ class ArticleOrderedNewNamesInner extends React.Component<ArticleOrderedNewNames
       showEtymologyDetail,
       showNameDetail,
       setShowDetail,
-      hideClassification,
       groupVariants,
       wrapperTitle,
       context,
@@ -83,7 +81,6 @@ class ArticleOrderedNewNamesInner extends React.Component<ArticleOrderedNewNames
         />
         <NameList
           connection={articleInner.orderedNewNames}
-          hideClassification={hideClassification}
           groupVariants={groupVariants}
           context={context}
         />
@@ -192,7 +189,6 @@ interface ArticleOrderedNewNamesProps {
   subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
@@ -232,15 +228,8 @@ class ArticleOrderedNewNames extends React.Component<
   }
 
   renderInner(article: Omit<ArticleOrderedNewNames_article, "oid" | " $refType">) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      groupVariants,
-      subtitle,
-      wrapperTitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, groupVariants, subtitle, wrapperTitle } =
+      this.props;
     const context = this.props.context || "Article";
     const {
       showLocationDetail,
@@ -262,7 +251,6 @@ class ArticleOrderedNewNames extends React.Component<
         showEtymologyDetail={showEtymologyDetail}
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
-        hideClassification={hideClassification}
         groupVariants={groupVariants}
         wrapperTitle={wrapperTitle}
         context={context}

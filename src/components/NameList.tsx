@@ -203,6 +203,7 @@ function defaultOrderBy(context?: Context): OrderBy {
     case "Article":
     case "CitationGroup":
     case "Person":
+    case "Taxon":
       return "page";
     default:
       return "classification";
@@ -211,12 +212,12 @@ function defaultOrderBy(context?: Context): OrderBy {
 
 function getNameForSort(name: Name) {
   if (name.correctedOriginalName) {
-    return name.correctedOriginalName;
+    return [name.correctedOriginalName];
   }
-  return name.rootName;
+  return [name.rootName];
 }
 
-function sorted(unorderedNames: (Name | null)[], key: (name: Name) => any) {
+function sorted(unorderedNames: (Name | null)[], key: (name: Name) => any[]) {
   return unorderedNames.sort((left, right) => {
     if (!left) {
       if (!right) {
@@ -229,11 +230,19 @@ function sorted(unorderedNames: (Name | null)[], key: (name: Name) => any) {
     }
     const leftKey = key(left);
     const rightKey = key(right);
-    if (leftKey < rightKey) {
+    console.log(leftKey, rightKey);
+    if (leftKey.length < rightKey.length) {
       return -1;
-    } else if (leftKey > rightKey) {
+    } else if (leftKey.length > rightKey.length) {
       return 1;
     } else {
+      for (var i = 0; i < leftKey.length; i++) {
+        if (leftKey[i] < rightKey[i]) {
+          return -1;
+        } else if (leftKey[i] > rightKey[i]) {
+          return 1;
+        }
+      }
       return 0;
     }
   });
@@ -252,12 +261,10 @@ function orderNames(unorderedNames: (Name | null)[], orderBy: OrderBy) {
 
 function NameList({
   connection,
-  hideClassification,
   groupVariants,
   context,
 }: {
   connection: NameList_connection;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   context?: Context;
 }) {
@@ -321,7 +328,9 @@ function NameList({
   });
   return (
     <>
-      <OrderBySelector orderBy={orderBy} setOrderBy={setOrderBy} />
+      {names.length > 3 && (
+        <OrderBySelector orderBy={orderBy} setOrderBy={setOrderBy} />
+      )}
       {renderTree(treeRoot, context)}
     </>
   );

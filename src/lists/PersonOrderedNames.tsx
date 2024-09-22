@@ -31,7 +31,6 @@ interface PersonOrderedNamesInnerProps {
   showEtymologyDetail: boolean;
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
@@ -52,7 +51,6 @@ class PersonOrderedNamesInner extends React.Component<PersonOrderedNamesInnerPro
       showEtymologyDetail,
       showNameDetail,
       setShowDetail,
-      hideClassification,
       groupVariants,
       wrapperTitle,
       context,
@@ -80,7 +78,6 @@ class PersonOrderedNamesInner extends React.Component<PersonOrderedNamesInnerPro
         />
         <NameList
           connection={personInner.orderedNames}
-          hideClassification={hideClassification}
           groupVariants={groupVariants}
           context={context}
         />
@@ -189,7 +186,6 @@ interface PersonOrderedNamesProps {
   subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
@@ -229,15 +225,8 @@ class PersonOrderedNames extends React.Component<
   }
 
   renderInner(person: Omit<PersonOrderedNames_person, "oid" | " $refType">) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      groupVariants,
-      subtitle,
-      wrapperTitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, groupVariants, subtitle, wrapperTitle } =
+      this.props;
     const context = this.props.context || "Person";
     const {
       showLocationDetail,
@@ -259,7 +248,6 @@ class PersonOrderedNames extends React.Component<
         showEtymologyDetail={showEtymologyDetail}
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
-        hideClassification={hideClassification}
         groupVariants={groupVariants}
         wrapperTitle={wrapperTitle}
         context={context}

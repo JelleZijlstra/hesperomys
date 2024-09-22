@@ -31,7 +31,6 @@ interface CitationGroupNamesInnerProps {
   showEtymologyDetail: boolean;
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
@@ -52,7 +51,6 @@ class CitationGroupNamesInner extends React.Component<CitationGroupNamesInnerPro
       showEtymologyDetail,
       showNameDetail,
       setShowDetail,
-      hideClassification,
       groupVariants,
       wrapperTitle,
       context,
@@ -80,7 +78,6 @@ class CitationGroupNamesInner extends React.Component<CitationGroupNamesInnerPro
         />
         <NameList
           connection={citationGroupInner.names}
-          hideClassification={hideClassification}
           groupVariants={groupVariants}
           context={context}
         />
@@ -189,7 +186,6 @@ interface CitationGroupNamesProps {
   subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
@@ -231,15 +227,8 @@ class CitationGroupNames extends React.Component<
   renderInner(
     citationGroup: Omit<CitationGroupNames_citationGroup, "oid" | " $refType">,
   ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      groupVariants,
-      subtitle,
-      wrapperTitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, groupVariants, subtitle, wrapperTitle } =
+      this.props;
     const context = this.props.context || "CitationGroup";
     const {
       showLocationDetail,
@@ -263,7 +252,6 @@ class CitationGroupNames extends React.Component<
         setShowDetail={(showDetail) =>
           this.setState({ showCitationDetail: showDetail })
         }
-        hideClassification={hideClassification}
         groupVariants={groupVariants}
         wrapperTitle={wrapperTitle}
         context={context}

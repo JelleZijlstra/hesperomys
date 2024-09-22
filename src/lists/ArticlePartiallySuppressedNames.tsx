@@ -31,7 +31,6 @@ interface ArticlePartiallySuppressedNamesInnerProps {
   showEtymologyDetail: boolean;
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
@@ -52,7 +51,6 @@ class ArticlePartiallySuppressedNamesInner extends React.Component<ArticlePartia
       showEtymologyDetail,
       showNameDetail,
       setShowDetail,
-      hideClassification,
       groupVariants,
       wrapperTitle,
       context,
@@ -84,7 +82,6 @@ class ArticlePartiallySuppressedNamesInner extends React.Component<ArticlePartia
         />
         <NameList
           connection={articleInner.partiallySuppressedNames}
-          hideClassification={hideClassification}
           groupVariants={groupVariants}
           context={context}
         />
@@ -193,7 +190,6 @@ interface ArticlePartiallySuppressedNamesProps {
   subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
@@ -235,15 +231,8 @@ class ArticlePartiallySuppressedNames extends React.Component<
   renderInner(
     article: Omit<ArticlePartiallySuppressedNames_article, "oid" | " $refType">,
   ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      groupVariants,
-      subtitle,
-      wrapperTitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, groupVariants, subtitle, wrapperTitle } =
+      this.props;
     const context = this.props.context || "Article";
     const {
       showLocationDetail,
@@ -265,7 +254,6 @@ class ArticlePartiallySuppressedNames extends React.Component<
         showEtymologyDetail={showEtymologyDetail}
         showNameDetail={showNameDetail}
         setShowDetail={undefined}
-        hideClassification={hideClassification}
         groupVariants={groupVariants}
         wrapperTitle={wrapperTitle}
         context={context}

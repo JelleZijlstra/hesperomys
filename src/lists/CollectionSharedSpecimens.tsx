@@ -31,7 +31,6 @@ interface CollectionSharedSpecimensInnerProps {
   showEtymologyDetail: boolean;
   showNameDetail: boolean;
   setShowDetail?: (showDetail: boolean) => void;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   wrapperTitle?: string;
   context?: Context;
@@ -52,7 +51,6 @@ class CollectionSharedSpecimensInner extends React.Component<CollectionSharedSpe
       showEtymologyDetail,
       showNameDetail,
       setShowDetail,
-      hideClassification,
       groupVariants,
       wrapperTitle,
       context,
@@ -83,7 +81,6 @@ class CollectionSharedSpecimensInner extends React.Component<CollectionSharedSpe
         />
         <NameList
           connection={collectionInner.sharedSpecimens}
-          hideClassification={hideClassification}
           groupVariants={groupVariants}
           context={context}
         />
@@ -192,7 +189,6 @@ interface CollectionSharedSpecimensProps {
   subtitle?: JSX.Element;
   hideTitle?: boolean;
   numToLoad?: number;
-  hideClassification?: boolean;
   groupVariants?: boolean;
   showLocationDetail?: boolean;
   showCitationDetail?: boolean;
@@ -234,15 +230,8 @@ class CollectionSharedSpecimens extends React.Component<
   renderInner(
     collection: Omit<CollectionSharedSpecimens_collection, "oid" | " $refType">,
   ) {
-    const {
-      title,
-      hideTitle,
-      numToLoad,
-      hideClassification,
-      groupVariants,
-      subtitle,
-      wrapperTitle,
-    } = this.props;
+    const { title, hideTitle, numToLoad, groupVariants, subtitle, wrapperTitle } =
+      this.props;
     const context = this.props.context || "Collection";
     const {
       showLocationDetail,
@@ -266,7 +255,6 @@ class CollectionSharedSpecimens extends React.Component<
         setShowDetail={(showDetail) =>
           this.setState({ showCollectionDetail: showDetail })
         }
-        hideClassification={hideClassification}
         groupVariants={groupVariants}
         wrapperTitle={wrapperTitle}
         context={context}

@@ -96,7 +96,7 @@ class PersonBody extends React.Component<{
         )}
         <PersonAliases person={person} />
         <PersonPatronymsAll person={person} title="Patronyms" />
-        <PersonOrderedNames person={person} title="New names" hideClassification />
+        <PersonOrderedNames person={person} title="New names" />
         <PersonOrderedArticles person={person} title="Bibliography" />
         <PersonCollectedAll person={person} title="Type specimens collected" />
         <PersonInvolvedAll person={person} title="Involvement with type specimens" />

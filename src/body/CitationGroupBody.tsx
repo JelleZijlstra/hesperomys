@@ -208,7 +208,6 @@ class CitationGroupBody extends React.Component<{
         <CitationGroupOrderedNames
           citationGroup={citationGroup}
           title="Names published here"
-          hideClassification
         />
         <CitationGroupRedirects citationGroup={citationGroup} title="Aliases" />
       </>

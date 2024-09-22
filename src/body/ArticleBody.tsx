@@ -203,11 +203,7 @@ class ArticleBody extends React.Component<{
         </p>
         <Table data={data} />
         <ArticleComments article={article} title="Comments" />
-        <ArticleOrderedNewNames
-          article={article}
-          title="New names"
-          hideClassification
-        />
+        <ArticleOrderedNewNames article={article} title="New names" />
         <ArticleRootClassificationEntries
           article={article}
           title="Classification entries"

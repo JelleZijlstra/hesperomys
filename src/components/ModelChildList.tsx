@@ -106,9 +106,9 @@ class ModelChildList extends React.Component<{
                   <TaxonNames
                     taxon={props.node}
                     hideTitle
-                    hideClassification
                     showNameDetail
                     wrapperTitle="Names"
+                    context="Taxon"
                   />
                   <TaxonChildren
                     taxon={props.node}
