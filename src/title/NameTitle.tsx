@@ -25,7 +25,7 @@ class NameTitle extends React.Component<{ name: NameTitle_name }> {
         <MaybeItalics group={group} name={name} />{" "}
         <TaxonomicAuthority authorTags={authorTags} />
         {numericYear && `, ${numericYear}`}
-        {pageDescribed && ":" + pageDescribed}
+        {pageDescribed && ":" + pageDescribed.replace(/@/g, "")}
       </>
     );
   }

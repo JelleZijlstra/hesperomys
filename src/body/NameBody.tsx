@@ -47,6 +47,7 @@ function NameSection({ name }: { name: NameBody_name }) {
     originalCitation,
     citationGroup,
     nomenclatureStatus,
+    pageDescribed,
   } = name;
   return (
     <>
@@ -82,7 +83,10 @@ function NameSection({ name }: { name: NameBody_name }) {
               <PublicationDate date={name.year} />
             ) : null,
           ],
-          ["Page described", name.pageDescribed],
+          [
+            "Page described",
+            pageDescribed !== null ? pageDescribed.replace(/@/g, "") : null,
+          ],
           [
             "Original citation",
             originalCitation ? <Reference article={originalCitation} /> : null,

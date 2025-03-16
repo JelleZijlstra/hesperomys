@@ -438,6 +438,7 @@ type ClassificationEntry implements Node & Model {
   article: Article!
   name: String!
   rank: Rank!
+  status: ClassificationEntryStatus!
   parent: ClassificationEntry
   page: String
   mappedName: Name
@@ -459,6 +460,12 @@ type ClassificationEntryConnection {
 type ClassificationEntryEdge {
   node: ClassificationEntry
   cursor: String!
+}
+
+enum ClassificationEntryStatus {
+  valid
+  removed
+  redirect
 }
 
 interface ClassificationEntryTag {
@@ -638,6 +645,12 @@ type DatingTools implements CitationGroupTag {
 }
 
 type DefinitionDetail implements TypeTag {
+  _Ignored: ID
+  text: String!
+  source: Article!
+}
+
+type DescriptionDetail implements TypeTag {
   _Ignored: ID
   text: String!
   source: Article!
@@ -847,6 +860,12 @@ type IgnoreLintName implements TypeTag {
 type IgnoreLintTaxon implements TaxonTag {
   _Ignored: ID
   label: String!
+  comment: String
+}
+
+type IgnorePotentialCitationFrom implements TypeTag {
+  _Ignored: ID
+  article: Article!
   comment: String
 }
 
@@ -1208,10 +1227,10 @@ type Name implements Node & Model {
   numOriginalChildren: Int!
   comments(before: String, after: String, first: Int, last: Int): NameCommentConnection
   numComments: Int!
-  taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
-  numTaxonSet: Int!
   classificationEntries(before: String, after: String, first: Int, last: Int): ClassificationEntryConnection
   numClassificationEntries: Int!
+  taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
+  numTaxonSet: Int!
   fillDataLevel: FillDataLevel
   preoccupiedNames(before: String, after: String, first: Int, last: Int): NameConnection
   numPreoccupiedNames: Int!
@@ -2003,6 +2022,12 @@ enum Rank {
   synonym_high
 }
 
+type RawPageRegex implements ArticleTag {
+  _Ignored: ID
+  regex: String!
+  comment: String
+}
+
 type Region implements Node & Model {
   id: ID!
   oid: Int!
@@ -2430,6 +2455,7 @@ enum Status {
   redirect
   composite
   hybrid
+  unavailable
 }
 
 type StratigraphicUnit implements Node & Model {
@@ -2479,6 +2505,12 @@ enum StratigraphicUnitRank {
 
 type StratigraphyDetail implements TypeTag {
   _Ignored: ID
+  text: String!
+}
+
+type StructuredData implements ClassificationEntryTag {
+  _Ignored: ID
+  label: String!
   text: String!
 }
 
@@ -2628,6 +2660,12 @@ type URLPattern implements CitationGroupTag {
 
 type UnavailableElectronic implements ArticleTag {
   _Ignored: ID
+  comment: String
+}
+
+type UnavailableVersionOf implements NameTag {
+  _Ignored: ID
+  name: Name!
   comment: String
 }
 
