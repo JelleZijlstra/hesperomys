@@ -26,7 +26,7 @@ class PeriodBody extends React.Component<{
       maxAge,
       minPeriod,
       maxPeriod,
-      comment,
+      periodComment,
     } = period as any;
     const data: [string, JSX.Element | string | null][] = [];
     if (parent) {
@@ -58,8 +58,8 @@ class PeriodBody extends React.Component<{
         </>,
       ]);
     }
-    if (comment) {
-      data.push(["Comment", comment]);
+    if (periodComment) {
+      data.push(["Comment", periodComment]);
     }
     return (
       <>
@@ -91,7 +91,7 @@ export default createFragmentContainer(PeriodBody, {
       maxPeriod {
         ...ModelLink_model
       }
-      comment
+      periodComment: comment
       parent {
         ...ModelLink_model
       }
