@@ -227,7 +227,7 @@ function TypeSection({ name }: { name: NameBody_name }) {
             GROUP_TO_TYPE.get(group) || "Type",
             nameType ? <ModelLink model={nameType} /> : null,
           ],
-          ["Kind of type", genusTypeKind ? genusTypeKind.replace(/_/g, " ") : null],
+          ["Mechanism", genusTypeKind ? genusTypeKind.replace(/_/g, " ") : null],
         ]}
       />
       <NameTypeTags name={name} tagsToInclude={typeTags} />

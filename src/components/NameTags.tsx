@@ -83,6 +83,12 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
       return (
         <>
           Nomen oblitum relative to <ModelLink model={tag.name} />
+          {(tag as any).pageLink && (
+            <>
+              {" "}
+              (<a href={(tag as any).pageLink}>view page</a>)
+            </>
+          )}
         </>
       );
     case "PreoccupiedBy":
@@ -149,6 +155,12 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           <>
             Selected to have priority over <ModelLink model={tag.overName} /> by{" "}
             <ModelLink model={tag.optionalSource} />
+            {(tag as any).pageLink && (
+              <>
+                {" "}
+                (<a href={(tag as any).pageLink}>view page</a>)
+              </>
+            )}
           </>
         );
       } else if (tag.overCe) {
@@ -156,6 +168,12 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           <>
             Selected to have priority over <ModelLink model={tag.overCe} /> by{" "}
             <ModelLink model={tag.optionalSource} />
+            {(tag as any).pageLink && (
+              <>
+                {" "}
+                (<a href={(tag as any).pageLink}>view page</a>)
+              </>
+            )}
           </>
         );
       } else {
@@ -169,6 +187,12 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
         <>
           Selected as the correct original spelling by{" "}
           <ModelLink model={tag.optionalSource} />
+          {(tag as any).pageLink && (
+            <>
+              {" "}
+              (<a href={(tag as any).pageLink}>view page</a>)
+            </>
+          )}
         </>
       );
     case "SubsequentUsageOf":
@@ -205,6 +229,12 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
       return (
         <>
           Takes the priority of <ModelLink model={tag.name} />
+          {(tag as any).pageLink && (
+            <>
+              {" "}
+              (<a href={(tag as any).pageLink}>view page</a>)
+            </>
+          )}
         </>
       );
     case "UnjustifiedEmendationOf":
@@ -296,6 +326,12 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
               {")"}
             </>
           )}
+          {(tag as any).pageLink && (
+            <>
+              {" "}
+              (<a href={(tag as any).pageLink}>view page</a>)
+            </>
+          )}
         </>
       );
     default:
@@ -365,6 +401,7 @@ export default createFragmentContainer(NameTags, {
             ...ModelLink_model
           }
           comment
+          pageLink
         }
         ... on Conserved {
           opinion {
@@ -414,6 +451,7 @@ export default createFragmentContainer(NameTags, {
             ...ModelLink_model
           }
           comment
+          pageLink
         }
         ... on PreoccupiedBy {
           name {
@@ -471,12 +509,14 @@ export default createFragmentContainer(NameTags, {
             ...ModelLink_model
           }
           comment
+          pageLink
         }
         ... on SelectionOfSpelling {
           optionalSource {
             ...ModelLink_model
           }
           comment
+          pageLink
         }
         ... on SubsequentUsageOf {
           name {
@@ -501,6 +541,7 @@ export default createFragmentContainer(NameTags, {
             ...ModelLink_model
           }
           comment
+          pageLink
         }
         ... on UnjustifiedEmendationOf {
           name {

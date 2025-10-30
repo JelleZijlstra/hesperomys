@@ -61,6 +61,12 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
         <>
           Type designated by the Commission as <ModelLink model={tag.type} /> in{" "}
           <ModelLink model={tag.opinion} />
+          {tag.pageLink && (
+            <>
+              {" "}
+              (<a href={tag.pageLink}>view page</a>)
+            </>
+          )}
         </>
       );
     case "Coordinates":
@@ -108,7 +114,22 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       return (
         <>
           Originally included species: <ModelLink model={tag.name} />
-          {tag.comment && " (comment: " + tag.comment + ")"}
+          {(tag.includedPage || tag.pageLink) && (
+            <>
+              {" ("}
+              {tag.includedPage && <>page {tag.includedPage}</>}
+              {tag.includedPage && tag.pageLink && "; "}
+              {tag.pageLink && <a href={tag.pageLink}>view page</a>}
+              {")"}
+            </>
+          )}
+          {!tag.includedPage &&
+            !tag.pageLink &&
+            tag.comment &&
+            ` (comment: ${tag.comment})`}
+          {tag.comment &&
+            (tag.includedPage || tag.pageLink) &&
+            ` (comment: ${tag.comment})`}
         </>
       );
     case "LectotypeDesignation":
@@ -121,6 +142,12 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
             "(reference not seen)"
           )}
           : {tag.lectotype}.
+          {tag.pageLink && (
+            <>
+              {" "}
+              (<a href={tag.pageLink}>view page</a>)
+            </>
+          )}
           {tag.comment && (
             <>
               {" "}
@@ -139,6 +166,12 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
             "(reference not seen)"
           )}
           : {tag.neotype}.
+          {tag.pageLink && (
+            <>
+              {" "}
+              (<a href={tag.pageLink}>view page</a>)
+            </>
+          )}
           {tag.comment && (
             <>
               {" "}
@@ -148,7 +181,17 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
         </>
       );
     case "LocationDetail":
-      return <Detail text={tag.text} source={tag.source} />;
+      return (
+        <>
+          <Detail text={tag.text} source={tag.source} />
+          {tag.pageLink && (
+            <>
+              {" "}
+              (<a href={tag.pageLink}>view page</a>)
+            </>
+          )}
+        </>
+      );
     case "Organ":
       return (
         <>
@@ -258,6 +301,12 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
             "(reference not seen)"
           )}
           : <ModelLink model={tag.type} />.{tag.comment && ` Comment: ${tag.comment}`}
+          {tag.pageLink && (
+            <>
+              {" "}
+              (<a href={tag.pageLink}>view page</a>)
+            </>
+          )}
         </>
       );
     case "TypeSpeciesDetail":
@@ -391,6 +440,7 @@ export default createFragmentContainer(NameTypeTags, {
           type {
             ...ModelLink_model
           }
+          pageLink
         }
         ... on Coordinates {
           latitude
@@ -440,6 +490,8 @@ export default createFragmentContainer(NameTypeTags, {
             ...ModelLink_model
           }
           comment
+          includedPage: page
+          pageLink
         }
         ... on LectotypeDesignation {
           optionalSource {
@@ -448,12 +500,14 @@ export default createFragmentContainer(NameTypeTags, {
           lectotype
           valid
           comment
+          pageLink
         }
         ... on LocationDetail {
           text
           source {
             ...ModelLink_model
           }
+          pageLink
         }
         ... on NeotypeDesignation {
           optionalSource {
@@ -462,6 +516,7 @@ export default createFragmentContainer(NameTypeTags, {
           neotype
           valid
           comment
+          pageLink
         }
         ... on Organ {
           organ
@@ -561,6 +616,7 @@ export default createFragmentContainer(NameTypeTags, {
             ...ModelLink_model
           }
           comment
+          pageLink
         }
         ... on TypeSpeciesDetail {
           text
