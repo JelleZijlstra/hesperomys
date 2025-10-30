@@ -48,7 +48,7 @@ class ArticleRootClassificationEntries extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "RootClassificationEntries"} (
+            {title || "Root classification entries"} (
             {article.numRootClassificationEntries})
           </h3>
         )}

@@ -65,7 +65,7 @@ class ArticlePrioritySelectionsInner extends React.Component<ArticlePrioritySele
       <>
         {!hideTitle && (
           <h3>
-            {title || "PrioritySelections"} ({articleInner.numPrioritySelections})
+            {title || "Priority selections"} ({articleInner.numPrioritySelections})
           </h3>
         )}
         {subtitle}

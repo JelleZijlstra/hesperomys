@@ -62,7 +62,7 @@ class NamePreoccupiedNamesInner extends React.Component<NamePreoccupiedNamesInne
       <>
         {!hideTitle && (
           <h3>
-            {title || "PreoccupiedNames"} ({nameInner.numPreoccupiedNames})
+            {title || "Preoccupied names"} ({nameInner.numPreoccupiedNames})
           </h3>
         )}
         {subtitle}

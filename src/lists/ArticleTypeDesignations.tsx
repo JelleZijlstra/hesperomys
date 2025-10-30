@@ -65,7 +65,7 @@ class ArticleTypeDesignationsInner extends React.Component<ArticleTypeDesignatio
       <>
         {!hideTitle && (
           <h3>
-            {title || "TypeDesignations"} ({articleInner.numTypeDesignations})
+            {title || "Type designations"} ({articleInner.numTypeDesignations})
           </h3>
         )}
         {subtitle}

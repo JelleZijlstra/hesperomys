@@ -45,7 +45,7 @@ class ArticleNameComments extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "NameComments"} ({article.numNameComments})
+            {title || "Name comments"} ({article.numNameComments})
           </h3>
         )}
         {subtitle}

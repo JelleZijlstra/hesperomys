@@ -45,7 +45,7 @@ class PeriodPrevForeign extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "PrevForeign"} ({period.numPrevForeign})
+            {title || "Prev foreign"} ({period.numPrevForeign})
           </h3>
         )}
         {subtitle}

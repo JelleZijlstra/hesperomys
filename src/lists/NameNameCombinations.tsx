@@ -62,7 +62,7 @@ class NameNameCombinationsInner extends React.Component<NameNameCombinationsInne
       <>
         {!hideTitle && (
           <h3>
-            {title || "NameCombinations"} ({nameInner.numNameCombinations})
+            {title || "Name combinations"} ({nameInner.numNameCombinations})
           </h3>
         )}
         {subtitle}

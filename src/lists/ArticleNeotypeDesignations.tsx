@@ -65,7 +65,7 @@ class ArticleNeotypeDesignationsInner extends React.Component<ArticleNeotypeDesi
       <>
         {!hideTitle && (
           <h3>
-            {title || "NeotypeDesignations"} ({articleInner.numNeotypeDesignations})
+            {title || "Neotype designations"} ({articleInner.numNeotypeDesignations})
           </h3>
         )}
         {subtitle}

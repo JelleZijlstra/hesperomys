@@ -45,7 +45,7 @@ class PeriodNextForeign extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "NextForeign"} ({period.numNextForeign})
+            {title || "Next foreign"} ({period.numNextForeign})
           </h3>
         )}
         {subtitle}

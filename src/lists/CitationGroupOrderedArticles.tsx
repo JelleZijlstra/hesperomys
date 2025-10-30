@@ -55,7 +55,7 @@ class CitationGroupOrderedArticles extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "OrderedArticles"} ({citationGroup.numOrderedArticles})
+            {title || "Ordered articles"} ({citationGroup.numOrderedArticles})
           </h3>
         )}
         {subtitle}

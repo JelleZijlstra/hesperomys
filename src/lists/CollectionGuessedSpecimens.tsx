@@ -65,7 +65,7 @@ class CollectionGuessedSpecimensInner extends React.Component<CollectionGuessedS
       <>
         {!hideTitle && (
           <h3>
-            {title || "GuessedSpecimens"} ({collectionInner.numGuessedSpecimens})
+            {title || "Guessed specimens"} ({collectionInner.numGuessedSpecimens})
           </h3>
         )}
         {subtitle}

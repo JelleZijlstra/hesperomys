@@ -62,7 +62,7 @@ class NameOriginalChildrenInner extends React.Component<NameOriginalChildrenInne
       <>
         {!hideTitle && (
           <h3>
-            {title || "OriginalChildren"} ({nameInner.numOriginalChildren})
+            {title || "Original children"} ({nameInner.numOriginalChildren})
           </h3>
         )}
         {subtitle}

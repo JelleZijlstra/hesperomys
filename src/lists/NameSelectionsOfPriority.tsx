@@ -65,7 +65,7 @@ class NameSelectionsOfPriorityInner extends React.Component<NameSelectionsOfPrio
       <>
         {!hideTitle && (
           <h3>
-            {title || "SelectionsOfPriority"} ({nameInner.numSelectionsOfPriority})
+            {title || "Selections of priority"} ({nameInner.numSelectionsOfPriority})
           </h3>
         )}
         {subtitle}

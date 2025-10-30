@@ -65,7 +65,7 @@ class ArticlePriorityReversalsInner extends React.Component<ArticlePriorityRever
       <>
         {!hideTitle && (
           <h3>
-            {title || "PriorityReversals"} ({articleInner.numPriorityReversals})
+            {title || "Priority reversals"} ({articleInner.numPriorityReversals})
           </h3>
         )}
         {subtitle}

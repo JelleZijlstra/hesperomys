@@ -52,7 +52,7 @@ class CitationGroupIssueDateSet extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "IssueDateSet"} ({citationGroup.numIssueDateSet})
+            {title || "Issue date set"} ({citationGroup.numIssueDateSet})
           </h3>
         )}
         {subtitle}

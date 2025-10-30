@@ -62,7 +62,7 @@ class NameNominaNovaInner extends React.Component<NameNominaNovaInnerProps> {
       <>
         {!hideTitle && (
           <h3>
-            {title || "NominaNova"} ({nameInner.numNominaNova})
+            {title || "Nomina nova"} ({nameInner.numNominaNova})
           </h3>
         )}
         {subtitle}

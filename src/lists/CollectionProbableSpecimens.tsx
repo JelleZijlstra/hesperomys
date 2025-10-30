@@ -65,7 +65,7 @@ class CollectionProbableSpecimensInner extends React.Component<CollectionProbabl
       <>
         {!hideTitle && (
           <h3>
-            {title || "ProbableSpecimens"} ({collectionInner.numProbableSpecimens})
+            {title || "Probable specimens"} ({collectionInner.numProbableSpecimens})
           </h3>
         )}
         {subtitle}

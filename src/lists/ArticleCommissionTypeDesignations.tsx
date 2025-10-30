@@ -65,7 +65,7 @@ class ArticleCommissionTypeDesignationsInner extends React.Component<ArticleComm
       <>
         {!hideTitle && (
           <h3>
-            {title || "CommissionTypeDesignations"} (
+            {title || "Commission type designations"} (
             {articleInner.numCommissionTypeDesignations})
           </h3>
         )}

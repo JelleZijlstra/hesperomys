@@ -48,7 +48,7 @@ class NameOrderedClassificationEntries extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "OrderedClassificationEntries"} (
+            {title || "Ordered classification entries"} (
             {name.numOrderedClassificationEntries})
           </h3>
         )}

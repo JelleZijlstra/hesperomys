@@ -65,7 +65,7 @@ class NameJuniorPrimaryHomonymsInner extends React.Component<NameJuniorPrimaryHo
       <>
         {!hideTitle && (
           <h3>
-            {title || "JuniorPrimaryHomonyms"} ({nameInner.numJuniorPrimaryHomonyms})
+            {title || "Junior primary homonyms"} ({nameInner.numJuniorPrimaryHomonyms})
           </h3>
         )}
         {subtitle}

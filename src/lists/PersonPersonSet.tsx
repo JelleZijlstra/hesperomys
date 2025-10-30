@@ -45,7 +45,7 @@ class PersonPersonSet extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "PersonSet"} ({person.numPersonSet})
+            {title || "Person set"} ({person.numPersonSet})
           </h3>
         )}
         {subtitle}

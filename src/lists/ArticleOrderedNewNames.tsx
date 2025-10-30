@@ -65,7 +65,7 @@ class ArticleOrderedNewNamesInner extends React.Component<ArticleOrderedNewNames
       <>
         {!hideTitle && (
           <h3>
-            {title || "OrderedNewNames"} ({articleInner.numOrderedNewNames})
+            {title || "Ordered new names"} ({articleInner.numOrderedNewNames})
           </h3>
         )}
         {subtitle}

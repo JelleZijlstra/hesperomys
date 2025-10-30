@@ -1,3 +1,4 @@
+import re
 import subprocess
 from collections.abc import Iterable
 from pathlib import Path
@@ -47,7 +48,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
     const showExpandAll = %(type_lower)s.%(conn_lower)s.edges.some(edge => edge && edge.node && supportsChildren(edge.node));
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "%(conn_upper)s"} ({%(type_lower)s.num%(conn_upper)s})</h3>}
+        {!hideTitle && <h3>{title || "%(title_label)s"} ({%(type_lower)s.num%(conn_upper)s})</h3>}
         {subtitle}
         <ExpandButtons
          expandAll={this.state.expandAll}
@@ -176,7 +177,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
     const showExpandAll = %(conn_lower)s.edges.some(edge => edge && edge.node && supportsChildren(edge.node));
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "%(conn_upper)s"}</h3>}
+        {!hideTitle && <h3>{title || "%(title_label)s"}</h3>}
         {subtitle}
         {childrenHaveData && <ExpandButtons
           expandAll={this.state.expandAll}
@@ -349,7 +350,7 @@ class %(type_upper)s%(conn_upper)sInner extends React.Component<
     }
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "%(conn_upper)s"} ({%(type_lower)sInner.num%(conn_upper)s})</h3>}
+        {!hideTitle && <h3>{title || "%(title_label)s"} ({%(type_lower)sInner.num%(conn_upper)s})</h3>}
         {subtitle}
         <ExpandButtons
           showDetail={showLocationDetail || showCitationDetail || showCollectionDetail || showEtymologyDetail || showNameDetail}
@@ -648,12 +649,19 @@ def write_component(
         print(f"{path} already exists; skipping")
         return None
     detail_field = kind_of_detail(type_name)
+    # Create a human-friendly default title from the connection name, e.g.
+    # "CitationGroups" -> "Citation groups", "StratigraphicUnitsMin" -> "Stratigraphic units min"
+    spaced = re.sub(r"([a-z])([A-Z])", r"\1 \2", conn_upper)
+    title_label = spaced.replace("_", " ").lower()
+    title_label = title_label[:1].upper() + title_label[1:]
+
     args = {
         "type_upper": type_upper,
         "type_lower": type_lower,
         "conn_upper": conn_upper,
         "conn_lower": conn_lower,
         "node_type_upper": field_type,
+        "title_label": title_label,
         "set_expand_all": (
             "(expandAll: boolean) => this.setState({ expandAll })"
             if field_type

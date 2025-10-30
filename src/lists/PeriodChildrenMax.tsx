@@ -45,7 +45,7 @@ class PeriodChildrenMax extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "ChildrenMax"} ({period.numChildrenMax})
+            {title || "Children max"} ({period.numChildrenMax})
           </h3>
         )}
         {subtitle}

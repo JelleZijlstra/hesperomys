@@ -62,7 +62,7 @@ class NameNominaOblitaInner extends React.Component<NameNominaOblitaInnerProps> 
       <>
         {!hideTitle && (
           <h3>
-            {title || "NominaOblita"} ({nameInner.numNominaOblita})
+            {title || "Nomina oblita"} ({nameInner.numNominaOblita})
           </h3>
         )}
         {subtitle}

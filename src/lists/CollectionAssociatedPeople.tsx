@@ -48,7 +48,7 @@ class CollectionAssociatedPeople extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "AssociatedPeople"} ({collection.numAssociatedPeople})
+            {title || "Associated people"} ({collection.numAssociatedPeople})
           </h3>
         )}
         {subtitle}

@@ -62,7 +62,7 @@ class PersonPatronymsAllInner extends React.Component<PersonPatronymsAllInnerPro
       <>
         {!hideTitle && (
           <h3>
-            {title || "PatronymsAll"} ({personInner.numPatronymsAll})
+            {title || "Patronyms all"} ({personInner.numPatronymsAll})
           </h3>
         )}
         {subtitle}

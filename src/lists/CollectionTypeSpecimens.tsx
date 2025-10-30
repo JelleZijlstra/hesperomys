@@ -65,7 +65,7 @@ class CollectionTypeSpecimensInner extends React.Component<CollectionTypeSpecime
       <>
         {!hideTitle && (
           <h3>
-            {title || "TypeSpecimens"} ({collectionInner.numTypeSpecimens})
+            {title || "Type specimens"} ({collectionInner.numTypeSpecimens})
           </h3>
         )}
         {subtitle}

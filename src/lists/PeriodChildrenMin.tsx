@@ -45,7 +45,7 @@ class PeriodChildrenMin extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "ChildrenMin"} ({period.numChildrenMin})
+            {title || "Children min"} ({period.numChildrenMin})
           </h3>
         )}
         {subtitle}

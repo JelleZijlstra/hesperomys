@@ -65,7 +65,7 @@ class NameIncorrectSubsequentSpellingsInner extends React.Component<NameIncorrec
       <>
         {!hideTitle && (
           <h3>
-            {title || "IncorrectSubsequentSpellings"} (
+            {title || "Incorrect subsequent spellings"} (
             {nameInner.numIncorrectSubsequentSpellings})
           </h3>
         )}

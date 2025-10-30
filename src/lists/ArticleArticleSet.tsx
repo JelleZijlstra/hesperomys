@@ -45,7 +45,7 @@ class ArticleArticleSet extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "ArticleSet"} ({article.numArticleSet})
+            {title || "Article set"} ({article.numArticleSet})
           </h3>
         )}
         {subtitle}

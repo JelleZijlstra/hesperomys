@@ -67,7 +67,7 @@ class RegionStratigraphicUnits extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "StratigraphicUnits"}</h3>}
+        {!hideTitle && <h3>{title || "Stratigraphic units"}</h3>}
         {subtitle}
         {childrenHaveData && (
           <ExpandButtons

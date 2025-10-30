@@ -62,7 +62,7 @@ class PersonInvolvedAllInner extends React.Component<PersonInvolvedAllInnerProps
       <>
         {!hideTitle && (
           <h3>
-            {title || "InvolvedAll"} ({personInner.numInvolvedAll})
+            {title || "Involved all"} ({personInner.numInvolvedAll})
           </h3>
         )}
         {subtitle}

@@ -65,7 +65,7 @@ class ArticleEtymologyDetailsInner extends React.Component<ArticleEtymologyDetai
       <>
         {!hideTitle && (
           <h3>
-            {title || "EtymologyDetails"} ({articleInner.numEtymologyDetails})
+            {title || "Etymology details"} ({articleInner.numEtymologyDetails})
           </h3>
         )}
         {subtitle}

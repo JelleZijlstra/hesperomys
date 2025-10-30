@@ -62,7 +62,7 @@ class PersonCollectedAllInner extends React.Component<PersonCollectedAllInnerPro
       <>
         {!hideTitle && (
           <h3>
-            {title || "CollectedAll"} ({personInner.numCollectedAll})
+            {title || "Collected all"} ({personInner.numCollectedAll})
           </h3>
         )}
         {subtitle}

@@ -62,7 +62,7 @@ class NameTakingPriorityInner extends React.Component<NameTakingPriorityInnerPro
       <>
         {!hideTitle && (
           <h3>
-            {title || "TakingPriority"} ({nameInner.numTakingPriority})
+            {title || "Taking priority"} ({nameInner.numTakingPriority})
           </h3>
         )}
         {subtitle}

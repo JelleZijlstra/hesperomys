@@ -45,7 +45,7 @@ class PersonOrderedArticles extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "OrderedArticles"} ({person.numOrderedArticles})
+            {title || "Ordered articles"} ({person.numOrderedArticles})
           </h3>
         )}
         {subtitle}

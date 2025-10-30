@@ -65,7 +65,7 @@ class ArticleDefinitionDetailsInner extends React.Component<ArticleDefinitionDet
       <>
         {!hideTitle && (
           <h3>
-            {title || "DefinitionDetails"} ({articleInner.numDefinitionDetails})
+            {title || "Definition details"} ({articleInner.numDefinitionDetails})
           </h3>
         )}
         {subtitle}

@@ -65,7 +65,7 @@ class CitationGroupOrderedNamesInner extends React.Component<CitationGroupOrdere
       <>
         {!hideTitle && (
           <h3>
-            {title || "OrderedNames"} ({citationGroupInner.numOrderedNames})
+            {title || "Ordered names"} ({citationGroupInner.numOrderedNames})
           </h3>
         )}
         {subtitle}

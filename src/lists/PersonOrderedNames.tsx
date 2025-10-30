@@ -62,7 +62,7 @@ class PersonOrderedNamesInner extends React.Component<PersonOrderedNamesInnerPro
       <>
         {!hideTitle && (
           <h3>
-            {title || "OrderedNames"} ({personInner.numOrderedNames})
+            {title || "Ordered names"} ({personInner.numOrderedNames})
           </h3>
         )}
         {subtitle}

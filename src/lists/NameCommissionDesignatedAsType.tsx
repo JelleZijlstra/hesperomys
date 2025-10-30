@@ -65,7 +65,7 @@ class NameCommissionDesignatedAsTypeInner extends React.Component<NameCommission
       <>
         {!hideTitle && (
           <h3>
-            {title || "CommissionDesignatedAsType"} (
+            {title || "Commission designated as type"} (
             {nameInner.numCommissionDesignatedAsType})
           </h3>
         )}

@@ -65,7 +65,7 @@ class ArticleConservedNamesInner extends React.Component<ArticleConservedNamesIn
       <>
         {!hideTitle && (
           <h3>
-            {title || "ConservedNames"} ({articleInner.numConservedNames})
+            {title || "Conserved names"} ({articleInner.numConservedNames})
           </h3>
         )}
         {subtitle}

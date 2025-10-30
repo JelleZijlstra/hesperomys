@@ -65,7 +65,7 @@ class NameReversalsOfPriorityInner extends React.Component<NameReversalsOfPriori
       <>
         {!hideTitle && (
           <h3>
-            {title || "ReversalsOfPriority"} ({nameInner.numReversalsOfPriority})
+            {title || "Reversals of priority"} ({nameInner.numReversalsOfPriority})
           </h3>
         )}
         {subtitle}

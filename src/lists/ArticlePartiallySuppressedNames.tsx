@@ -65,7 +65,7 @@ class ArticlePartiallySuppressedNamesInner extends React.Component<ArticlePartia
       <>
         {!hideTitle && (
           <h3>
-            {title || "PartiallySuppressedNames"} (
+            {title || "Partially suppressed names"} (
             {articleInner.numPartiallySuppressedNames})
           </h3>
         )}

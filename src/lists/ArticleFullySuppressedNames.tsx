@@ -65,7 +65,7 @@ class ArticleFullySuppressedNamesInner extends React.Component<ArticleFullySuppr
       <>
         {!hideTitle && (
           <h3>
-            {title || "FullySuppressedNames"} ({articleInner.numFullySuppressedNames})
+            {title || "Fully suppressed names"} ({articleInner.numFullySuppressedNames})
           </h3>
         )}
         {subtitle}

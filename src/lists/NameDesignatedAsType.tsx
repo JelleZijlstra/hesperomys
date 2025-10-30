@@ -62,7 +62,7 @@ class NameDesignatedAsTypeInner extends React.Component<NameDesignatedAsTypeInne
       <>
         {!hideTitle && (
           <h3>
-            {title || "DesignatedAsType"} ({nameInner.numDesignatedAsType})
+            {title || "Designated as type"} ({nameInner.numDesignatedAsType})
           </h3>
         )}
         {subtitle}

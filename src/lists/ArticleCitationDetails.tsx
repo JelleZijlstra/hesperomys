@@ -65,7 +65,7 @@ class ArticleCitationDetailsInner extends React.Component<ArticleCitationDetails
       <>
         {!hideTitle && (
           <h3>
-            {title || "CitationDetails"} ({articleInner.numCitationDetails})
+            {title || "Citation details"} ({articleInner.numCitationDetails})
           </h3>
         )}
         {subtitle}

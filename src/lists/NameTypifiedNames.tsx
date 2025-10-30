@@ -62,7 +62,7 @@ class NameTypifiedNamesInner extends React.Component<NameTypifiedNamesInnerProps
       <>
         {!hideTitle && (
           <h3>
-            {title || "TypifiedNames"} ({nameInner.numTypifiedNames})
+            {title || "Typified names"} ({nameInner.numTypifiedNames})
           </h3>
         )}
         {subtitle}

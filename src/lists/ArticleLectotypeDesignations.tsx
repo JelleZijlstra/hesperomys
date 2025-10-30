@@ -65,7 +65,8 @@ class ArticleLectotypeDesignationsInner extends React.Component<ArticleLectotype
       <>
         {!hideTitle && (
           <h3>
-            {title || "LectotypeDesignations"} ({articleInner.numLectotypeDesignations})
+            {title || "Lectotype designations"} ({articleInner.numLectotypeDesignations}
+            )
           </h3>
         )}
         {subtitle}

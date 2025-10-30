@@ -48,7 +48,7 @@ class ArticleClassificationEntries extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "ClassificationEntries"} ({article.numClassificationEntries})
+            {title || "Classification entries"} ({article.numClassificationEntries})
           </h3>
         )}
         {subtitle}

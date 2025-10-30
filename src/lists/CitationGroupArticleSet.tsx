@@ -52,7 +52,7 @@ class CitationGroupArticleSet extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "ArticleSet"} ({citationGroup.numArticleSet})
+            {title || "Article set"} ({citationGroup.numArticleSet})
           </h3>
         )}
         {subtitle}

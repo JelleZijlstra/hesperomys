@@ -62,7 +62,7 @@ class ArticleNewNamesInner extends React.Component<ArticleNewNamesInnerProps> {
       <>
         {!hideTitle && (
           <h3>
-            {title || "NewNames"} ({articleInner.numNewNames})
+            {title || "New names"} ({articleInner.numNewNames})
           </h3>
         )}
         {subtitle}

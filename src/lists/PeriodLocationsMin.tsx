@@ -45,7 +45,7 @@ class PeriodLocationsMin extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "LocationsMin"} ({period.numLocationsMin})
+            {title || "Locations min"} ({period.numLocationsMin})
           </h3>
         )}
         {subtitle}

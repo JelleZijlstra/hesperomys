@@ -65,7 +65,7 @@ class ArticleTypeSpeciesDetailsInner extends React.Component<ArticleTypeSpeciesD
       <>
         {!hideTitle && (
           <h3>
-            {title || "TypeSpeciesDetails"} ({articleInner.numTypeSpeciesDetails})
+            {title || "Type species details"} ({articleInner.numTypeSpeciesDetails})
           </h3>
         )}
         {subtitle}

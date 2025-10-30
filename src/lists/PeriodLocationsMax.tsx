@@ -45,7 +45,7 @@ class PeriodLocationsMax extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "LocationsMax"} ({period.numLocationsMax})
+            {title || "Locations max"} ({period.numLocationsMax})
           </h3>
         )}
         {subtitle}

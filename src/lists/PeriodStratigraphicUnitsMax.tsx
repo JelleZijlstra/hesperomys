@@ -48,7 +48,7 @@ class PeriodStratigraphicUnitsMax extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "StratigraphicUnitsMax"} ({period.numStratigraphicUnitsMax})
+            {title || "Stratigraphic units max"} ({period.numStratigraphicUnitsMax})
           </h3>
         )}
         {subtitle}

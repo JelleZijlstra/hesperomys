@@ -65,7 +65,7 @@ class NameUnjustifiedEmendationsInner extends React.Component<NameUnjustifiedEme
       <>
         {!hideTitle && (
           <h3>
-            {title || "UnjustifiedEmendations"} ({nameInner.numUnjustifiedEmendations})
+            {title || "Unjustified emendations"} ({nameInner.numUnjustifiedEmendations})
           </h3>
         )}
         {subtitle}

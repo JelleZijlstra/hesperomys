@@ -42,7 +42,7 @@ class NameTaxonSet extends React.Component<NameTaxonSetProps, { expandAll: boole
       <>
         {!hideTitle && (
           <h3>
-            {title || "TaxonSet"} ({name.numTaxonSet})
+            {title || "Taxon set"} ({name.numTaxonSet})
           </h3>
         )}
         {subtitle}

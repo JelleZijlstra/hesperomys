@@ -52,7 +52,7 @@ class CitationGroupBookSet extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "BookSet"} ({citationGroup.numBookSet})
+            {title || "Book set"} ({citationGroup.numBookSet})
           </h3>
         )}
         {subtitle}

@@ -62,7 +62,7 @@ class PersonNamesAllInner extends React.Component<PersonNamesAllInnerProps> {
       <>
         {!hideTitle && (
           <h3>
-            {title || "NamesAll"} ({personInner.numNamesAll})
+            {title || "Names all"} ({personInner.numNamesAll})
           </h3>
         )}
         {subtitle}

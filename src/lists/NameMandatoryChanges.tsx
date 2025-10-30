@@ -62,7 +62,7 @@ class NameMandatoryChangesInner extends React.Component<NameMandatoryChangesInne
       <>
         {!hideTitle && (
           <h3>
-            {title || "MandatoryChanges"} ({nameInner.numMandatoryChanges})
+            {title || "Mandatory changes"} ({nameInner.numMandatoryChanges})
           </h3>
         )}
         {subtitle}

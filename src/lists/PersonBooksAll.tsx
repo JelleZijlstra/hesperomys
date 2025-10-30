@@ -45,7 +45,7 @@ class PersonBooksAll extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "BooksAll"} ({person.numBooksAll})
+            {title || "Books all"} ({person.numBooksAll})
           </h3>
         )}
         {subtitle}

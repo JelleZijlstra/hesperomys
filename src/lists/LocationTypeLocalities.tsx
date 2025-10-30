@@ -65,7 +65,7 @@ class LocationTypeLocalitiesInner extends React.Component<LocationTypeLocalities
       <>
         {!hideTitle && (
           <h3>
-            {title || "TypeLocalities"} ({locationInner.numTypeLocalities})
+            {title || "Type localities"} ({locationInner.numTypeLocalities})
           </h3>
         )}
         {subtitle}

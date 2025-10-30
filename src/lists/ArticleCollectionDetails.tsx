@@ -65,7 +65,7 @@ class ArticleCollectionDetailsInner extends React.Component<ArticleCollectionDet
       <>
         {!hideTitle && (
           <h3>
-            {title || "CollectionDetails"} ({articleInner.numCollectionDetails})
+            {title || "Collection details"} ({articleInner.numCollectionDetails})
           </h3>
         )}
         {subtitle}

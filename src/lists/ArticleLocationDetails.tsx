@@ -65,7 +65,7 @@ class ArticleLocationDetailsInner extends React.Component<ArticleLocationDetails
       <>
         {!hideTitle && (
           <h3>
-            {title || "LocationDetails"} ({articleInner.numLocationDetails})
+            {title || "Location details"} ({articleInner.numLocationDetails})
           </h3>
         )}
         {subtitle}

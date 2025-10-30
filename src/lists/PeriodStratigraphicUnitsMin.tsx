@@ -48,7 +48,7 @@ class PeriodStratigraphicUnitsMin extends React.Component<
       <>
         {!hideTitle && (
           <h3>
-            {title || "StratigraphicUnitsMin"} ({period.numStratigraphicUnitsMin})
+            {title || "Stratigraphic units min"} ({period.numStratigraphicUnitsMin})
           </h3>
         )}
         {subtitle}

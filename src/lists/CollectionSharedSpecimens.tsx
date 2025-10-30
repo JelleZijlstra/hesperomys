@@ -65,7 +65,7 @@ class CollectionSharedSpecimensInner extends React.Component<CollectionSharedSpe
       <>
         {!hideTitle && (
           <h3>
-            {title || "SharedSpecimens"} ({collectionInner.numSharedSpecimens})
+            {title || "Shared specimens"} ({collectionInner.numSharedSpecimens})
           </h3>
         )}
         {subtitle}

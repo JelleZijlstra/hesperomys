@@ -65,7 +65,7 @@ class NameSelectionsOfSpellingInner extends React.Component<NameSelectionsOfSpel
       <>
         {!hideTitle && (
           <h3>
-            {title || "SelectionsOfSpelling"} ({nameInner.numSelectionsOfSpelling})
+            {title || "Selections of spelling"} ({nameInner.numSelectionsOfSpelling})
           </h3>
         )}
         {subtitle}

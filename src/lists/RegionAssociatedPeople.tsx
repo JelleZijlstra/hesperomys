@@ -67,7 +67,7 @@ class RegionAssociatedPeople extends React.Component<
     );
     const inner = (
       <>
-        {!hideTitle && <h3>{title || "AssociatedPeople"}</h3>}
+        {!hideTitle && <h3>{title || "Associated people"}</h3>}
         {subtitle}
         {childrenHaveData && (
           <ExpandButtons

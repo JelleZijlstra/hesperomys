@@ -62,7 +62,7 @@ class NameSubsequentUsagesInner extends React.Component<NameSubsequentUsagesInne
       <>
         {!hideTitle && (
           <h3>
-            {title || "SubsequentUsages"} ({nameInner.numSubsequentUsages})
+            {title || "Subsequent usages"} ({nameInner.numSubsequentUsages})
           </h3>
         )}
         {subtitle}
