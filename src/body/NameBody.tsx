@@ -34,6 +34,7 @@ import NameComments from "../lists/NameComments";
 import ReactMarkdown from "react-markdown";
 import PublicationDate from "./PublicationDate";
 import NameNameCombinations from "../lists/NameNameCombinations";
+import NameRerankings from "../lists/NameRerankings";
 import NameJuniorPrimaryHomonyms from "../lists/NameJuniorPrimaryHomonyms";
 import NameJuniorSecondaryHomonyms from "../lists/NameJuniorSecondaryHomonyms";
 import NameClassificationEntries from "../lists/NameClassificationEntries";
@@ -282,6 +283,7 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
 
         <NameClassificationEntries name={name} title="Inclusion in classifications" />
         <NameNameCombinations name={name} title="Name combinations" />
+        <NameRerankings name={name} title="Rerankings" />
         <NameUnjustifiedEmendations name={name} title="Unjustified emendations" />
         <NameIncorrectSubsequentSpellings
           name={name}
@@ -390,6 +392,7 @@ export default createFragmentContainer(NameBody, {
       ...NameMandatoryChanges_name
       ...NameMisidentifications_name
       ...NameNameCombinations_name
+      ...NameRerankings_name
       ...NameIncorrectOriginalSpellings_name
       ...NameSubsequentUsages_name
       ...NameSelectionsOfPriority_name
