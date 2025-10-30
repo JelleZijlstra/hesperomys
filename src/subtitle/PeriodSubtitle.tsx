@@ -32,9 +32,11 @@ class PeriodSubtitle extends React.Component<{
     } else {
       rankText = toTitle(rank);
     }
+    const systemText = SYSTEM_TO_TEXT.get(system) || null;
     return (
       <>
-        {rankText} ({SYSTEM_TO_TEXT.get(system)})
+        {rankText}
+        {systemText ? ` (${systemText})` : ""}
       </>
     );
   }
