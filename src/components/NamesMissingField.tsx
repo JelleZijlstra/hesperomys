@@ -2,7 +2,7 @@ import { NamesMissingField_taxon } from "./__generated__/NamesMissingField_taxon
 
 import { createFragmentContainer } from "react-relay";
 
-import React, { useCallback } from "react";
+import React from "react";
 import { QueryRenderer } from "react-relay";
 import environment from "../relayEnvironment";
 import graphql from "babel-plugin-relay/macro";
@@ -11,7 +11,6 @@ import { NamesMissingFieldQuery } from "./__generated__/NamesMissingFieldQuery.g
 import NamesMissingFieldResults from "./NamesMissingFieldResults";
 
 import { Typeahead, Menu, MenuItem } from "react-bootstrap-typeahead";
-import List from "react-tiny-virtual-list";
 
 import "react-bootstrap-typeahead/css/Typeahead.css";
 
@@ -39,39 +38,24 @@ function ResultsRenderer({ field, oid }: { field: string; oid: number }) {
 }
 
 const SearchBox = ({ setField }: { setField: (field: string) => void }) => {
-  const renderMenu = useCallback(
-    (results, menuProps) => {
-      const itemHeight = 32;
-      if (results.length === 0) {
-        return null;
-      }
-
-      return (
-        <Menu {...menuProps}>
-          <List
-            scrollToIndex={menuProps.activeIndex || 0}
-            scrollToAlignment={"auto" as any}
-            height={results.length < 5 ? results.length * itemHeight : 300}
-            itemCount={results.length}
-            itemSize={itemHeight}
-            renderItem={({ index, style }) => {
-              const item = results[index];
-              return (
-                <MenuItem
-                  key={item}
-                  option={item}
-                  position={index}
-                  style={style}
-                  onClick={() => setField(item)}
-                >
-                  {item}
-                </MenuItem>
-              );
-            }}
-          />
-        </Menu>
-      );
-    },
+  const renderMenu = React.useCallback(
+    (results: any[], menuProps: any, _state: any): React.ReactElement => (
+      <Menu {...menuProps}>
+        {results.map((opt: any, index: number) => {
+          const text = typeof opt === "string" ? opt : (opt?.label ?? String(opt));
+          return (
+            <MenuItem
+              key={text}
+              option={opt}
+              position={index}
+              onClick={() => setField(text)}
+            >
+              {text}
+            </MenuItem>
+          );
+        })}
+      </Menu>
+    ),
     [setField],
   );
 
@@ -95,9 +79,6 @@ const SearchBox = ({ setField }: { setField: (field: string) => void }) => {
       paginate={false}
       placeholder="Start typing a field"
       renderMenu={renderMenu}
-      filterBy={(option: string, props: { text: string }) =>
-        option.toLowerCase().startsWith(props.text.toLowerCase())
-      }
     />
   );
 };

@@ -142,7 +142,7 @@
 .rbt-menu {
   z-index: 10;
   background-color: #ffffff;
-  white-space: nowrap;
+  white-space: normal;
   box-shadow:
     0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -154,6 +154,7 @@
 .rbt-menu .dropdown-item,
 .rbt-menu .rbt-menu-item {
   padding: 8px 12px;
+  display: block;
 }
 
 .rbt-menu .dropdown-item.active,

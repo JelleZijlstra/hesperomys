@@ -1,8 +1,7 @@
-import React, { useCallback } from "react";
+import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 import { Typeahead, Menu, MenuItem } from "react-bootstrap-typeahead";
-import List from "react-tiny-virtual-list";
 
 import { SearchBox_modelCls } from "./__generated__/SearchBox_modelCls.graphql";
 
@@ -15,45 +14,28 @@ const SearchBox = ({
   modelCls: SearchBox_modelCls;
   placeholder?: string;
 }) => {
-  const renderMenu = useCallback(
-    (results, menuProps) => {
-      const itemHeight = 32;
-      if (results.length === 0) {
-        return null;
-      }
-
-      return (
-        <Menu {...menuProps}>
-          <List
-            scrollToIndex={menuProps.activeIndex || 0}
-            scrollToAlignment={"auto" as any}
-            height={results.length < 5 ? results.length * itemHeight : 300}
-            itemCount={results.length}
-            itemSize={itemHeight}
-            renderItem={({ index, style }) => {
-              const item = results[index];
-              const link = `/${modelCls.callSign}/${item.replace(" ", "_")}`;
-              return (
-                <MenuItem
-                  key={item}
-                  option={item}
-                  position={index}
-                  style={style}
-                  onClick={() => {
-                    const win = window.open(link, "_blank");
-                    if (win) {
-                      win.focus();
-                    }
-                  }}
-                >
-                  {item}
-                </MenuItem>
-              );
-            }}
-          />
-        </Menu>
-      );
-    },
+  const renderMenu = React.useCallback(
+    (results: any[], menuProps: any, _state: any): React.ReactElement => (
+      <Menu {...menuProps}>
+        {results.map((opt: any, index: number) => {
+          const text = typeof opt === "string" ? opt : (opt?.label ?? String(opt));
+          const link = `/${modelCls.callSign}/${text.replace(/\s+/g, "_")}`;
+          return (
+            <MenuItem
+              key={text}
+              option={opt}
+              position={index}
+              onClick={() => {
+                const win = window.open(link, "_blank");
+                if (win) win.focus();
+              }}
+            >
+              {text}
+            </MenuItem>
+          );
+        })}
+      </Menu>
+    ),
     [modelCls.callSign],
   );
 
@@ -65,9 +47,6 @@ const SearchBox = ({
       paginate={false}
       placeholder={placeholder ?? `Pick a ${modelCls.name}`}
       renderMenu={renderMenu}
-      filterBy={(option: string, props: { text: string }) =>
-        option.toLowerCase().startsWith(props.text.toLowerCase())
-      }
     />
   );
 };
