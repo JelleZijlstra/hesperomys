@@ -83,10 +83,10 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
       return (
         <>
           Nomen oblitum relative to <ModelLink model={tag.name} />
-          {(tag as any).pageLink && (
+          {tag.pageLink && (
             <>
               {" "}
-              (<a href={(tag as any).pageLink}>view page</a>)
+              (<a href={tag.pageLink}>view page</a>)
             </>
           )}
         </>
@@ -155,10 +155,10 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           <>
             Selected to have priority over <ModelLink model={tag.overName} /> by{" "}
             <ModelLink model={tag.optionalSource} />
-            {(tag as any).pageLink && (
+            {tag.pageLink && (
               <>
                 {" "}
-                (<a href={(tag as any).pageLink}>view page</a>)
+                (<a href={tag.pageLink}>view page</a>)
               </>
             )}
           </>
@@ -168,10 +168,10 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           <>
             Selected to have priority over <ModelLink model={tag.overCe} /> by{" "}
             <ModelLink model={tag.optionalSource} />
-            {(tag as any).pageLink && (
+            {tag.pageLink && (
               <>
                 {" "}
-                (<a href={(tag as any).pageLink}>view page</a>)
+                (<a href={tag.pageLink}>view page</a>)
               </>
             )}
           </>
@@ -187,10 +187,10 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
         <>
           Selected as the correct original spelling by{" "}
           <ModelLink model={tag.optionalSource} />
-          {(tag as any).pageLink && (
+          {tag.pageLink && (
             <>
               {" "}
-              (<a href={(tag as any).pageLink}>view page</a>)
+              (<a href={tag.pageLink}>view page</a>)
             </>
           )}
         </>
@@ -229,10 +229,10 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
       return (
         <>
           Takes the priority of <ModelLink model={tag.name} />
-          {(tag as any).pageLink && (
+          {tag.pageLink && (
             <>
               {" "}
-              (<a href={(tag as any).pageLink}>view page</a>)
+              (<a href={tag.pageLink}>view page</a>)
             </>
           )}
         </>
@@ -326,10 +326,10 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
               {")"}
             </>
           )}
-          {(tag as any).pageLink && (
+          {tag.pageLink && (
             <>
               {" "}
-              (<a href={(tag as any).pageLink}>view page</a>)
+              (<a href={tag.pageLink}>view page</a>)
             </>
           )}
         </>
@@ -352,10 +352,10 @@ class NameTags extends React.Component<{ name: NameTags_name }> {
             tag && (
               <li key={tag.__typename}>
                 <Tag tag={tag} />
-                {(tag as any).comment && (
+                {"comment" in tag && tag.comment && (
                   <>
                     {" (comment: "}
-                    <InlineMarkdown source={(tag as any).comment} />
+                    <InlineMarkdown source={tag.comment} />
                     {")"}
                   </>
                 )}

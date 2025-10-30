@@ -15,7 +15,7 @@ function InfoSection({ ce }: { ce: ClassificationEntryBody_classificationEntry }
   const group = RANK_TO_GROUP.get(rank) || "high";
   const sourceData: [string | JSX.Element, string | JSX.Element | null][] = [
     ["Name", <MaybeItalics group={group} name={ce.ceName} />],
-    ["Source", <Reference article={ce.article as any} />],
+    ["Source", <Reference article={ce.article} />],
     ["Authority as given", ce.authority],
     ["Year as given", ce.year],
     ["Citation as given", ce.citation],
@@ -28,7 +28,6 @@ function InfoSection({ ce }: { ce: ClassificationEntryBody_classificationEntry }
   }
   let textualRank: string | null = null;
   let pageLinkUrl: string | null = null;
-  let pageLinkPage: string | null = null;
   ce.tags.forEach((tag) => {
     switch (tag.__typename) {
       case "AgeClassCE":
@@ -48,14 +47,12 @@ function InfoSection({ ce }: { ce: ClassificationEntryBody_classificationEntry }
       case "CommentFromSource":
         sourceData.push(["Comment (source)", tag.text]);
         break;
-      case "CommonName": {
-        const commonName = (tag as any).commonName ?? (tag as any).name;
+      case "CommonName":
         sourceData.push([
           "Common name",
-          `${commonName} (${tag.language.replace(/_/g, " ")})`,
+          `${tag.commonName} (${tag.language.replace(/_/g, " ")})`,
         ]);
         break;
-      }
       case "CorrectedName":
         interpData.push(["Normalized name", tag.text]);
         break;
@@ -73,7 +70,6 @@ function InfoSection({ ce }: { ce: ClassificationEntryBody_classificationEntry }
         break;
       case "PageLink":
         pageLinkUrl = tag.url;
-        pageLinkPage = tag.page;
         break;
       case "ReferencedUsage":
         interpData.push([
@@ -87,10 +83,8 @@ function InfoSection({ ce }: { ce: ClassificationEntryBody_classificationEntry }
       case "TypeSpecimenData":
         sourceData.push(["Type specimen data", tag.text]);
         break;
-      default:
-        if ((tag as any).__typename === "TreatedAsDubious") {
-          sourceData.push(["Treated as dubious", "yes"]);
-        }
+      case "TreatedAsDubious":
+        sourceData.push(["Treated as dubious", "yes"]);
         break;
     }
   });
