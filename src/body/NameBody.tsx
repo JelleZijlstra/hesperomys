@@ -151,6 +151,7 @@ function DefinitionSection({ name }: { name: NameBody_name }) {
     "PhyloCodeNumber",
     "InternalSpecifier",
     "ExternalSpecifier",
+    "MustNotBePartOf",
     "MustNotInclude",
     "MustBePartOf",
     "MustBeExtinct",

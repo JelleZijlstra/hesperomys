@@ -185,6 +185,13 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           {tag.comment && ` (comment: ${tag.comment})`}
         </>
       );
+    case "MustNotBePartOf":
+      return (
+        <>
+          Must not be part of <ModelLink model={tag.name} />
+          {tag.comment && ` (comment: ${tag.comment})`}
+        </>
+      );
     case "MustBeExtinct":
       return <>Must be extinct{tag.comment ? ` (comment: ${tag.comment})` : ""}</>;
     case "ProbableRepository":
@@ -480,6 +487,12 @@ export default createFragmentContainer(NameTypeTags, {
           comment
         }
         ... on MustBePartOf {
+          name {
+            ...ModelLink_model
+          }
+          comment
+        }
+        ... on MustNotBePartOf {
           name {
             ...ModelLink_model
           }
