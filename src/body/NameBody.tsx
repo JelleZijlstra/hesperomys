@@ -178,6 +178,7 @@ function TypeSection({ name }: { name: NameBody_name }) {
   const typeTags = [
     "Age",
     "CollectedBy",
+    "Involved",
     "Date",
     "Gender",
     "GenusCoelebs",
@@ -192,6 +193,7 @@ function TypeSection({ name }: { name: NameBody_name }) {
     "ProbableRepository",
     "GuessedRepository",
     "SpecimenDetail",
+    "AdditionalTypeSpecimen",
     "Organ",
     "LectotypeDesignation",
     "NeotypeDesignation",

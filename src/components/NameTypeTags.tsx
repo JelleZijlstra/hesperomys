@@ -46,6 +46,13 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           Collected by <ModelLink model={tag.person} />
         </>
       );
+    case "Involved":
+      return (
+        <>
+          Involved: <ModelLink model={tag.person} />
+          {tag.comment && ` (comment: ${tag.comment})`}
+        </>
+      );
     case "CommissionTypeDesignation":
       if (!tag.opinion || !tag.type) {
         return null;
@@ -225,6 +232,13 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       return <Detail text={tag.text} source={tag.source} />;
     case "SpecimenDetail":
       return <Detail text={tag.text} source={tag.source} />;
+    case "AdditionalTypeSpecimen":
+      return (
+        <>
+          Additional specimen ({tag.kind.replace(/_/g, " ")}): {tag.text}
+          {tag.comment && ` (comment: ${tag.comment})`}
+        </>
+      );
     case "StratigraphyDetail":
       return <>Stratigraphy: {tag.text}</>;
     case "TypeDesignation":
@@ -351,6 +365,12 @@ export default createFragmentContainer(NameTypeTags, {
           source {
             ...ModelLink_model
           }
+        }
+        ... on Involved {
+          person {
+            ...ModelLink_model
+          }
+          comment
         }
         ... on CollectedBy {
           person {
@@ -511,6 +531,11 @@ export default createFragmentContainer(NameTypeTags, {
           source {
             ...ModelLink_model
           }
+        }
+        ... on AdditionalTypeSpecimen {
+          text
+          kind
+          comment
         }
         ... on StratigraphyDetail {
           text
