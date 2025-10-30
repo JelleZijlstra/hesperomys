@@ -73,6 +73,7 @@ class ArticleBody extends React.Component<{
       series,
       volume,
       issue,
+      articleNumber,
       startPage,
       endPage,
       url,
@@ -105,6 +106,7 @@ class ArticleBody extends React.Component<{
       ["Series", series],
       ["Volume", volume],
       ["Issue", issue],
+      ["Article number", articleNumber],
       ["Start page", startPage],
       ["End page", endPage],
       ["Number of pages", pages],
@@ -270,6 +272,7 @@ export default createFragmentContainer(ArticleBody, {
       series
       volume
       issue
+      articleNumber
       startPage
       endPage
       url

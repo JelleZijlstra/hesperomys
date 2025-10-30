@@ -13,7 +13,22 @@ class SimpleReference extends React.Component<{
 }> {
   render() {
     const { article, skipLinks } = this.props;
-    const { type, citationGroup, series, volume, issue, startPage, endPage } = article;
+    const {
+      type,
+      citationGroup,
+      series,
+      volume,
+      issue,
+      startPage,
+      endPage,
+      articleNumber,
+    } = article;
+    const hasSecondaryArticleNumber = !!(
+      citationGroup &&
+      citationGroup.tags &&
+      citationGroup.tags.some((t) => t && t.__typename === "ArticleNumberIsSecondary")
+    );
+    const showArticleNumber = !!articleNumber && !hasSecondaryArticleNumber;
     switch (type) {
       case "JOURNAL":
         return (
@@ -27,9 +42,11 @@ class SimpleReference extends React.Component<{
                 {series && `(${series})`}
                 {volume && volume}
                 {issue && `(${issue})`}:
-                {startPage === endPage || !endPage
-                  ? startPage
-                  : `${startPage}–${endPage}`}
+                {showArticleNumber
+                  ? articleNumber
+                  : startPage === endPage || !endPage
+                    ? startPage
+                    : `${startPage}–${endPage}`}
               </>
             )}
             .
@@ -75,12 +92,19 @@ export default createFragmentContainer(SimpleReference, {
       ...ReferenceSuffix_article
       citationGroup {
         name
+        tags {
+          __typename
+          ... on ArticleNumberIsSecondary {
+            _Ignored
+          }
+        }
       }
       series
       volume
       issue
       startPage
       endPage
+      articleNumber
       pages
       publisher
     }
