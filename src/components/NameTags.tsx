@@ -141,15 +141,26 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
         </>
       );
     case "SelectionOfPriority":
-      if (!tag.optionalSource || !tag.over) {
+      if (!tag.optionalSource) {
         return null;
       }
-      return (
-        <>
-          Selected to have priority over <ModelLink model={tag.over} /> by{" "}
-          <ModelLink model={tag.optionalSource} />
-        </>
-      );
+      if (tag.overName) {
+        return (
+          <>
+            Selected to have priority over <ModelLink model={tag.overName} /> by{" "}
+            <ModelLink model={tag.optionalSource} />
+          </>
+        );
+      } else if (tag.overCe) {
+        return (
+          <>
+            Selected to have priority over <ModelLink model={tag.overCe} /> by{" "}
+            <ModelLink model={tag.optionalSource} />
+          </>
+        );
+      } else {
+        return null;
+      }
     case "SelectionOfSpelling":
       if (!tag.optionalSource) {
         return null;
@@ -371,7 +382,10 @@ export default createFragmentContainer(NameTags, {
           comment
         }
         ... on SelectionOfPriority {
-          over {
+          overName {
+            ...ModelLink_model
+          }
+          overCe {
             ...ModelLink_model
           }
           optionalSource {
