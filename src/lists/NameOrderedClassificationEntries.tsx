@@ -55,7 +55,11 @@ class NameOrderedClassificationEntries extends React.Component<
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
-          setExpandAll={showExpandAll ? undefined : undefined}
+          setExpandAll={
+            showExpandAll
+              ? (expandAll: boolean) => this.setState({ expandAll })
+              : undefined
+          }
         />
         <ul>
           {name.orderedClassificationEntries.edges.map(

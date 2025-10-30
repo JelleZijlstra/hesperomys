@@ -61,7 +61,11 @@ class ClassificationEntryChildren extends React.Component<
         {subtitle}
         <ExpandButtons
           expandAll={this.state.expandAll}
-          setExpandAll={showExpandAll ? undefined : undefined}
+          setExpandAll={
+            showExpandAll
+              ? (expandAll: boolean) => this.setState({ expandAll })
+              : undefined
+          }
         />
         <ul>
           {classificationEntry.children.edges.map(

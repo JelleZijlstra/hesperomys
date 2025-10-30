@@ -51,7 +51,7 @@ class %(type_upper)s%(conn_upper)s extends React.Component<
         {subtitle}
         <ExpandButtons
          expandAll={this.state.expandAll}
-         setExpandAll={showExpandAll ? (%(set_expand_all)s) : undefined}
+         setExpandAll={showExpandAll ? %(set_expand_all)s : undefined}
         />
         <ul>
           {%(type_lower)s.%(conn_lower)s.edges.map(
@@ -664,6 +664,7 @@ def write_component(
                 "Location",
                 "Collection",
                 "StratigraphicUnit",
+                "ClassificationEntry",
             ]
             else "undefined"
         ),
