@@ -37,7 +37,7 @@ import NameNameCombinations from "../lists/NameNameCombinations";
 import NameRerankings from "../lists/NameRerankings";
 import NameJuniorPrimaryHomonyms from "../lists/NameJuniorPrimaryHomonyms";
 import NameJuniorSecondaryHomonyms from "../lists/NameJuniorSecondaryHomonyms";
-import NameClassificationEntries from "../lists/NameClassificationEntries";
+import NameOrderedClassificationEntries from "../lists/NameOrderedClassificationEntries";
 
 function NameSection({ name }: { name: NameBody_name }) {
   const {
@@ -281,7 +281,10 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
         <TypeSection name={name} />
         <LocationSection name={name} />
 
-        <NameClassificationEntries name={name} title="Inclusion in classifications" />
+        <NameOrderedClassificationEntries
+          name={name}
+          title="Inclusion in classifications"
+        />
         <NameNameCombinations name={name} title="Name combinations" />
         <NameRerankings name={name} title="Rerankings" />
         <NameUnjustifiedEmendations name={name} title="Unjustified emendations" />
@@ -378,7 +381,7 @@ export default createFragmentContainer(NameBody, {
       typeLocality {
         ...ModelLink_model
       }
-      ...NameClassificationEntries_name
+      ...NameOrderedClassificationEntries_name
       ...NameTypifiedNames_name
       ...NamePreoccupiedNames_name
       ...NameJuniorPrimaryHomonyms_name

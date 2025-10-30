@@ -1319,6 +1319,8 @@ type Name implements Node & Model {
   modelCls: ModelCls!
   numericYear: Int
   variantBaseId: Int!
+  orderedClassificationEntries(before: String, after: String, first: Int, last: Int): ClassificationEntryConnection
+  numOrderedClassificationEntries: Int!
   group: Group!
   rootName: String!
   status: Status!
