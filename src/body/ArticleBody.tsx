@@ -114,7 +114,7 @@ class ArticleBody extends React.Component<{
       ["URL", url ? <a href={url}>{url}</a> : null],
     );
     if (doi) {
-      const href = `https://dx.doi.org/${doi}`;
+      const href = `https://doi.org/${doi}`;
       data.push(["DOI", <a href={href}>{doi}</a>]);
     }
     let partialClassification: string | null = null;

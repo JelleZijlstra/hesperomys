@@ -22,7 +22,7 @@ export const ReferenceSuffix = ({
       {article.doi && (
         <>
           {" "}
-          doi:<a href={`https://dx.doi.org/${article.doi}`}>{article.doi}</a>.
+          doi:<a href={`https://doi.org/${article.doi}`}>{article.doi}</a>.
         </>
       )}
     </>
