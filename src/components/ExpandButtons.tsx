@@ -17,44 +17,47 @@ export default function ExpandButtons({
   showDetail,
   setShowDetail,
 }: ExpandButtonsProps) {
-  const components: [string, JSX.Element][] = [];
+  const buttons: JSX.Element[] = [];
   if (setExpandAll) {
-    components.push([
-      "expand-all",
-      <button onClick={() => setExpandAll(!expandAll)}>
-        {expandAll ? "unexpand all" : "expand all"}
+    buttons.push(
+      <button
+        key="expand-all"
+        className="btn btn-small"
+        onClick={() => setExpandAll(!expandAll)}
+        title={expandAll ? "Collapse all child lists" : "Expand all child lists"}
+      >
+        {expandAll ? "Collapse all" : "Expand all"}
       </button>,
-    ]);
+    );
   }
   if (setShowChildren) {
-    components.push([
-      "show-children",
-      <button onClick={() => setShowChildren(!showChildren)}>
-        {showChildren ? "hide children" : "show children"}
+    buttons.push(
+      <button
+        key="show-children"
+        className="btn btn-small"
+        onClick={() => setShowChildren(!showChildren)}
+        title={showChildren ? "Hide children" : "Show children"}
+      >
+        {showChildren ? "Hide children" : "Show children"}
       </button>,
-    ]);
+    );
   }
   if (setShowDetail) {
-    components.push([
-      "show-detail",
-      <button key="show-detail" onClick={() => setShowDetail(!showDetail)}>
-        {showDetail ? "hide detail" : "show detail"}
+    buttons.push(
+      <button
+        key="show-detail"
+        className="btn btn-small"
+        onClick={() => setShowDetail(!showDetail)}
+        title={showDetail ? "Hide extra detail" : "Show extra detail"}
+      >
+        {showDetail ? "Hide detail" : "Show detail"}
       </button>,
-    ]);
+    );
   }
-  if (components.length === 0) {
-    return null;
-  }
+  if (buttons.length === 0) return null;
   return (
-    <div>
-      <small>
-        {components.map(([key, component], i) => (
-          <React.Fragment key={key}>
-            {i > 0 && " or "}
-            {component}
-          </React.Fragment>
-        ))}
-      </small>
+    <div className="expand-buttons">
+      <small className="button-group">{buttons}</small>
     </div>
   );
 }

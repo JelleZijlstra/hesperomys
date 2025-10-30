@@ -393,3 +393,72 @@ ul {
 li {
   margin: 0.25rem 0;
 }
+
+/* Utility button styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #111827;
+  cursor: pointer;
+}
+
+.btn-small {
+  padding: 4px 8px;
+  font-size: 0.85rem;
+}
+
+.btn:hover {
+  background: #f9fafb;
+}
+
+.button-group .btn + .btn {
+  margin-left: 8px;
+}
+
+/* Tree toggle button for list items */
+.tree-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.tree-toggle:hover {
+  background: #f3f4f6;
+}
+
+[data-theme="dark"] .btn {
+  border-color: #374151;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .btn:hover {
+  background: #111827;
+}
+
+[data-theme="dark"] .tree-toggle {
+  border-color: #374151;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .tree-toggle:hover {
+  background: #111827;
+}
+
+.expand-buttons {
+  margin: 6px 0 10px;
+}

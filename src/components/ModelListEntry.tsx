@@ -29,16 +29,15 @@ class ModelListEntry extends React.Component<
     return (
       <li>
         {supportsChildren(model) && (
-          <span
-            style={{ cursor: "pointer" }}
-            onClick={() =>
-              this.setState((state) => {
-                return { showChildren: !showChildren };
-              })
-            }
+          <button
+            type="button"
+            className="tree-toggle"
+            aria-label={showChildren ? "Collapse" : "Expand"}
+            aria-expanded={!!showChildren}
+            onClick={() => this.setState((state) => ({ showChildren: !showChildren }))}
           >
             {showChildren ? "▼" : "▶"}
-          </span>
+          </button>
         )}{" "}
         {model.__typename === "Article" ? (
           <Reference article={model} />
