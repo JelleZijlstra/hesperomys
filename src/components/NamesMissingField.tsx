@@ -11,6 +11,7 @@ import { NamesMissingFieldQuery } from "./__generated__/NamesMissingFieldQuery.g
 import NamesMissingFieldResults from "./NamesMissingFieldResults";
 
 import { Typeahead, Menu, MenuItem } from "react-bootstrap-typeahead";
+import { FixedSizeList as List } from "react-window";
 
 import "react-bootstrap-typeahead/css/Typeahead.css";
 
@@ -39,23 +40,39 @@ function ResultsRenderer({ field, oid }: { field: string; oid: number }) {
 
 const SearchBox = ({ setField }: { setField: (field: string) => void }) => {
   const renderMenu = React.useCallback(
-    (results: any[], menuProps: any, _state: any): React.ReactElement => (
-      <Menu {...menuProps}>
-        {results.map((opt: any, index: number) => {
-          const text = typeof opt === "string" ? opt : (opt?.label ?? String(opt));
-          return (
-            <MenuItem
-              key={text}
-              option={opt}
-              position={index}
-              onClick={() => setField(text)}
-            >
-              {text}
-            </MenuItem>
-          );
-        })}
-      </Menu>
-    ),
+    (results: any[], menuProps: any, _state: any): React.ReactElement => {
+      const ITEM_HEIGHT = 32;
+      const VISIBLE = Math.min(results.length, 10);
+      const height = Math.max(ITEM_HEIGHT, VISIBLE * ITEM_HEIGHT);
+      const width = (menuProps && menuProps.style && menuProps.style.width) || 300;
+      return (
+        <Menu {...menuProps}>
+          <List
+            height={height}
+            itemCount={results.length}
+            itemSize={ITEM_HEIGHT}
+            width={width}
+          >
+            {({ index, style }) => {
+              const opt = results[index];
+              const text = typeof opt === "string" ? opt : (opt?.label ?? String(opt));
+              return (
+                <div style={style}>
+                  <MenuItem
+                    key={text}
+                    option={opt}
+                    position={index}
+                    onClick={() => setField(text)}
+                  >
+                    {text}
+                  </MenuItem>
+                </div>
+              );
+            }}
+          </List>
+        </Menu>
+      );
+    },
     [setField],
   );
 

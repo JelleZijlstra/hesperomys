@@ -2,6 +2,7 @@ import React from "react";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 import { Typeahead, Menu, MenuItem } from "react-bootstrap-typeahead";
+import { FixedSizeList as List } from "react-window";
 
 import { SearchBox_modelCls } from "./__generated__/SearchBox_modelCls.graphql";
 
@@ -15,27 +16,43 @@ const SearchBox = ({
   placeholder?: string;
 }) => {
   const renderMenu = React.useCallback(
-    (results: any[], menuProps: any, _state: any): React.ReactElement => (
-      <Menu {...menuProps}>
-        {results.map((opt: any, index: number) => {
-          const text = typeof opt === "string" ? opt : (opt?.label ?? String(opt));
-          const link = `/${modelCls.callSign}/${text.replace(/\s+/g, "_")}`;
-          return (
-            <MenuItem
-              key={text}
-              option={opt}
-              position={index}
-              onClick={() => {
-                const win = window.open(link, "_blank");
-                if (win) win.focus();
-              }}
-            >
-              {text}
-            </MenuItem>
-          );
-        })}
-      </Menu>
-    ),
+    (results: any[], menuProps: any, _state: any): React.ReactElement => {
+      const ITEM_HEIGHT = 32;
+      const VISIBLE = Math.min(results.length, 10);
+      const height = Math.max(ITEM_HEIGHT, VISIBLE * ITEM_HEIGHT);
+      const width = (menuProps && menuProps.style && menuProps.style.width) || 300;
+      return (
+        <Menu {...menuProps}>
+          <List
+            height={height}
+            itemCount={results.length}
+            itemSize={ITEM_HEIGHT}
+            width={width}
+          >
+            {({ index, style }) => {
+              const opt = results[index];
+              const text = typeof opt === "string" ? opt : (opt?.label ?? String(opt));
+              const link = `/${modelCls.callSign}/${text.replace(/\s+/g, "_")}`;
+              return (
+                <div style={style}>
+                  <MenuItem
+                    key={text}
+                    option={opt}
+                    position={index}
+                    onClick={() => {
+                      const win = window.open(link, "_blank");
+                      if (win) win.focus();
+                    }}
+                  >
+                    {text}
+                  </MenuItem>
+                </div>
+              );
+            }}
+          </List>
+        </Menu>
+      );
+    },
     [modelCls.callSign],
   );
 
