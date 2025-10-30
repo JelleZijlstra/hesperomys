@@ -8,6 +8,13 @@ type ActiveRegion implements PersonTag {
   region: Region!
 }
 
+type AdditionalTypeSpecimen implements TypeTag {
+  _Ignored: ID
+  text: String!
+  kind: TypeSpecimenKind!
+  comment: String
+}
+
 type Age implements TypeTag {
   _Ignored: ID
   age: SpecimenAge!
@@ -83,6 +90,7 @@ type Article implements Node & Model {
   parent: Article
   tags: [ArticleTag!]!
   citationGroup: CitationGroup
+  articleNumber: String
   articleSet(before: String, after: String, first: Int, last: Int): ArticleConnection
   numArticleSet: Int!
   comments(before: String, after: String, first: Int, last: Int): ArticleCommentConnection
@@ -194,6 +202,16 @@ enum ArticleKind {
   removed
   reference
   alternative_version
+}
+
+type ArticleNumberIsSecondary implements CitationGroupTag {
+  _Ignored: ID
+  comment: String
+}
+
+type ArticleNumberRegex implements CitationGroupTag {
+  _Ignored: ID
+  text: String!
 }
 
 interface ArticleTag {
@@ -586,6 +604,11 @@ type CommissionTypeDesignation implements TypeTag {
   _Ignored: ID
   opinion: Article!
   type: Name!
+  comment: String
+  page: String
+  verbatimCitation: String
+  citationGroup: CitationGroup
+  pageLink: String
 }
 
 type CommonName implements ClassificationEntryTag {
@@ -695,6 +718,12 @@ type Eurobats implements ArticleTag {
   text: String!
 }
 
+type ExternalSpecifier implements TypeTag {
+  _Ignored: ID
+  name: Name!
+  comment: String
+}
+
 type ExtraRepository implements TypeTag {
   _Ignored: ID
   repository: Collection!
@@ -771,6 +800,10 @@ type GeneralDOI implements ArticleTag {
 type GenusCoelebs implements TypeTag {
   _Ignored: ID
   comments: String
+}
+
+type GenusOnlyClassification implements ArticleTag {
+  _Ignored: ID
 }
 
 enum GrammaticalGender {
@@ -879,6 +912,24 @@ type IgnorePreoccupationBy implements NameTag {
   comment: String!
 }
 
+enum IgnoreReason {
+  not_interested
+  no_access
+  already_have
+  invalid
+}
+
+type IgnoredDoi implements Node & Model {
+  id: ID!
+  oid: Int!
+  callSign: String!
+  pageTitle: String!
+  redirectUrl: String
+  modelCls: ModelCls!
+  reason: IgnoreReason
+  doi: String!
+}
+
 type ImpreciseLocality implements TypeTag {
   _Ignored: ID
   comment: String
@@ -898,6 +949,9 @@ type IncludedSpecies implements TypeTag {
   _Ignored: ID
   name: Name!
   comment: String
+  page: String
+  pageLink: String
+  classificationEntry: ClassificationEntry
 }
 
 type Incomplete implements ArticleTag {
@@ -938,6 +992,27 @@ type InitialsOnly implements ArticleTag {
 type Institution implements PersonTag {
   _Ignored: ID
   institution: Collection!
+}
+
+type InternalSpecifier implements TypeTag {
+  _Ignored: ID
+  name: Name!
+  comment: String
+}
+
+type InterpretedTypeLocality implements TypeTag {
+  _Ignored: ID
+  text: String!
+}
+
+type InterpretedTypeSpecimen implements TypeTag {
+  _Ignored: ID
+  text: String!
+}
+
+type InterpretedTypeTaxon implements TypeTag {
+  _Ignored: ID
+  text: String!
 }
 
 type Involved implements TypeTag {
@@ -1005,10 +1080,21 @@ enum KindOfFind {
   professional
 }
 
+type KnownAlternativeYear implements ArticleTag {
+  _Ignored: ID
+  year: String!
+  comment: String
+}
+
 type LSIDArticle implements ArticleTag {
   _Ignored: ID
   text: String!
   presentInArticle: PresenceStatus!
+}
+
+type LSIDCE implements ClassificationEntryTag {
+  _Ignored: ID
+  text: String!
 }
 
 type LSIDName implements TypeTag {
@@ -1027,6 +1113,21 @@ type LectotypeDesignation implements TypeTag {
   lectotype: String!
   valid: Boolean!
   comment: String
+  page: String
+  verbatimCitation: String
+  citationGroup: CitationGroup
+  pageLink: String
+  year: String
+  term: LectotypeDesignationTerm
+  isExplicitChoice: Boolean
+  isAssumptionOfMonotypy: Boolean
+}
+
+enum LectotypeDesignationTerm {
+  lectotype
+  holotype
+  the_type
+  other
 }
 
 type Location implements Node & Model {
@@ -1071,6 +1172,10 @@ type LocationDetail implements TypeTag {
   _Ignored: ID
   text: String!
   source: Article!
+  comment: String
+  page: String
+  translation: String
+  pageLink: String
 }
 
 type LocationEdge {
@@ -1135,6 +1240,17 @@ type ModelEdge {
   cursor: String!
 }
 
+type MustBeExtinct implements TypeTag {
+  _Ignored: ID
+  comment: String
+}
+
+type MustBePartOf implements TypeTag {
+  _Ignored: ID
+  name: Name!
+  comment: String
+}
+
 type MustHave implements CitationGroupTag {
   _Ignored: ID
 }
@@ -1159,6 +1275,18 @@ type MustHaveSpecimenLinks implements CollectionTag {
 
 type MustHaveURL implements CitationGroupTag {
   _Ignored: ID
+}
+
+type MustNotBePartOf implements TypeTag {
+  _Ignored: ID
+  name: Name!
+  comment: String
+}
+
+type MustNotInclude implements TypeTag {
+  _Ignored: ID
+  name: Name!
+  comment: String
 }
 
 type MustUseChildren implements ArticleTag {
@@ -1217,7 +1345,6 @@ type Name implements Node & Model {
   originalRank: Rank
   originalParent: Name
   data: String
-  Definition: String
   tags: [NameTag!]!
   redirects(before: String, after: String, first: Int, last: Int): NameConnection
   numRedirects: Int!
@@ -1260,6 +1387,8 @@ type Name implements Node & Model {
   numMisidentifications: Int!
   nameCombinations(before: String, after: String, first: Int, last: Int): NameConnection
   numNameCombinations: Int!
+  rerankings(before: String, after: String, first: Int, last: Int): NameConnection
+  numRerankings: Int!
   selectionsOfPriority(before: String, after: String, first: Int, last: Int): NameConnection
   numSelectionsOfPriority: Int!
   selectionsOfSpelling(before: String, after: String, first: Int, last: Int): NameConnection
@@ -1411,34 +1540,45 @@ type NeotypeDesignation implements TypeTag {
   neotype: String!
   valid: Boolean!
   comment: String
+  page: String
+  verbatimCitation: String
+  citationGroup: CitationGroup
+  pageLink: String
 }
 
 type NoAge implements TypeTag {
   _Ignored: ID
+  source: Article!
 }
 
 type NoCollector implements TypeTag {
   _Ignored: ID
+  source: Article!
 }
 
 type NoDate implements TypeTag {
   _Ignored: ID
+  source: Article!
 }
 
 type NoEtymology implements TypeTag {
   _Ignored: ID
+  source: Article!
 }
 
 type NoGender implements TypeTag {
   _Ignored: ID
+  source: Article!
 }
 
 type NoLocation implements TypeTag {
   _Ignored: ID
+  source: Article!
 }
 
 type NoOrgan implements TypeTag {
   _Ignored: ID
+  source: Article!
 }
 
 type NoOriginalParent implements TypeTag {
@@ -1447,6 +1587,7 @@ type NoOriginalParent implements TypeTag {
 
 type NoSpecimen implements TypeTag {
   _Ignored: ID
+  source: Article!
 }
 
 interface Node {
@@ -1463,6 +1604,17 @@ type NomenOblitum implements NameTag {
   _Ignored: ID
   name: Name!
   comment: String
+  optionalSource: Article
+  page: String
+  verbatimCitation: String
+  citationGroup: CitationGroup
+  pageLink: String
+}
+
+type NomenclatureComments implements TypeTag {
+  _Ignored: ID
+  text: String!
+  record: String!
 }
 
 type NomenclatureDetail implements TypeTag {
@@ -1625,6 +1777,13 @@ type OriginalPageDescribed implements ClassificationEntryTag {
   text: String!
 }
 
+type OriginalTypification implements TypeTag {
+  _Ignored: ID
+  basis: SpeciesBasis!
+  source: Article!
+  comment: String
+}
+
 type PBDB implements LocationTag {
   _Ignored: ID
   id: String!
@@ -1660,6 +1819,14 @@ type PageRegex implements CitationGroupTag {
   allowStandard: Boolean!
 }
 
+type PartLocation implements ArticleTag {
+  _Ignored: ID
+  parent: Article!
+  startPage: Int!
+  endPage: Int!
+  comment: String
+}
+
 type PartialClassification implements ArticleTag {
   _Ignored: ID
   comment: String
@@ -1677,6 +1844,11 @@ type PartialTaxon implements TypeTag {
 type PartiallySuppressedBy implements NameTag {
   _Ignored: ID
   opinion: Article!
+  comment: String
+}
+
+type PendingRejection implements NameTag {
+  _Ignored: ID
   comment: String
 }
 
@@ -1768,7 +1940,12 @@ type PermanentlyReplacedSecondaryHomonymOf implements NameTag {
   name: Name!
   optionalSource: Article
   isInUse: Boolean!
-  comment: String!
+  comment: String
+  replacementName: Name
+  page: String
+  verbatimCitation: String
+  citationGroup: CitationGroup
+  pageLink: String
 }
 
 type Person implements Node & Model {
@@ -1851,6 +2028,24 @@ enum PersonType {
 type PhyloCodeNumber implements TypeTag {
   _Ignored: ID
   number: Int!
+}
+
+type PhylogeneticDefinition implements TypeTag {
+  _Ignored: ID
+  type: PhylogeneticDefinitionType!
+  source: Article!
+  comment: String
+}
+
+enum PhylogeneticDefinitionType {
+  minimum_clade
+  maximum_clade
+  apomorphy
+  minimum_crown_clade
+  maximum_crown_clade
+  maximum_total_clade
+  pan_clade
+  other
 }
 
 type PlacedOnIndex implements ArticleTag {
@@ -1951,6 +2146,8 @@ type QueryRoot {
   nameByLabel(label: String): [Name]
   name(oid: Int): Name
   nameComment(oid: Int): NameComment
+  ignoredDoiByLabel(label: String): [IgnoredDoi]
+  ignoredDoi(oid: Int): IgnoredDoi
   occurrence(oid: Int): Occurrence
   bookByLabel(label: String): [Book]
   book(oid: Int): Book
@@ -2025,6 +2222,12 @@ enum Rank {
 type RawPageRegex implements ArticleTag {
   _Ignored: ID
   regex: String!
+  comment: String
+}
+
+type ReferencedUsage implements ClassificationEntryTag {
+  _Ignored: ID
+  ce: ClassificationEntry!
   comment: String
 }
 
@@ -2109,6 +2312,12 @@ type Repository implements TypeTag {
   repository: Collection!
 }
 
+type RerankingOf implements NameTag {
+  _Ignored: ID
+  name: Name!
+  comment: String
+}
+
 type ReversalOfPriority implements NameTag {
   _Ignored: ID
   over: Name!
@@ -2140,15 +2349,24 @@ type SecondaryHomonymOf implements NameTag {
 
 type SelectionOfPriority implements NameTag {
   _Ignored: ID
-  over: Name!
+  over: Name
   optionalSource: Article
   comment: String
+  page: String
+  verbatimCitation: String
+  citationGroup: CitationGroup
+  pageLink: String
+  overCe: ClassificationEntry
 }
 
 type SelectionOfSpelling implements NameTag {
   _Ignored: ID
   optionalSource: Article
   comment: String
+  page: String
+  verbatimCitation: String
+  citationGroup: CitationGroup
+  pageLink: String
 }
 
 enum SelectionReason {
@@ -2209,6 +2427,14 @@ enum SourceLanguage {
   danish
   swedish
   finnish
+}
+
+enum SpeciesBasis {
+  explicit_holotype
+  implicit_holotype
+  explicit_syntypes
+  implicit_syntypes
+  unclear
 }
 
 enum SpeciesGroupType {
@@ -2524,6 +2750,12 @@ type TakesPriorityOf implements NameTag {
   _Ignored: ID
   name: Name!
   comment: String
+  optionalSource: Article
+  page: String
+  verbatimCitation: String
+  citationGroup: CitationGroup
+  pageLink: String
+  isInPrevailingUsage: Boolean
 }
 
 type Taxon implements Node & Model {
@@ -2592,6 +2824,11 @@ type TransliteratedFamilyName implements PersonTag {
   text: String!
 }
 
+type TreatAsEquivalentTo implements TypeTag {
+  _Ignored: ID
+  name: Name!
+}
+
 type TreatedAsDubious implements ClassificationEntryTag {
   _Ignored: ID
 }
@@ -2607,6 +2844,10 @@ type TypeDesignation implements TypeTag {
   optionalSource: Article
   type: Name!
   comment: String
+  page: String
+  verbatimCitation: String
+  citationGroup: CitationGroup
+  pageLink: String
 }
 
 type TypeLocality implements TypeTag {
@@ -2638,6 +2879,17 @@ type TypeSpecimenData implements ClassificationEntryTag {
   text: String!
 }
 
+enum TypeSpecimenKind {
+  holotype
+  lectotype
+  neotype
+  syntype
+  paratype
+  paralectotype
+  nontype
+  uncertain
+}
+
 type TypeSpecimenLink implements TypeTag {
   _Ignored: ID
   url: String!
@@ -2647,6 +2899,7 @@ type TypeSpecimenLinkFor implements TypeTag {
   _Ignored: ID
   url: String!
   specimen: String!
+  suffix: String
 }
 
 interface TypeTag {
