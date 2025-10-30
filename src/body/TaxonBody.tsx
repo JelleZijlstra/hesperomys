@@ -38,6 +38,16 @@ class TaxonBody extends React.Component<{
         case "NominalGenus":
           data.push(["Nominal genus", <ModelLink model={tag.genus} />]);
           break;
+        case "MDD":
+          if (taxonRank === "species") {
+            data.push([
+              "Links",
+              <a href={`https://www.mammaldiversity.org/taxon/${tag.id}/`}>
+                Mammal Diversity Database (#{tag.id})
+              </a>,
+            ]);
+          }
+          break;
       }
     });
     return (
@@ -75,6 +85,9 @@ export default createFragmentContainer(TaxonBody, {
           genus {
             ...ModelLink_model
           }
+        }
+        ... on MDD {
+          id
         }
       }
     }

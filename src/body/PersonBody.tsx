@@ -70,6 +70,12 @@ class PersonBody extends React.Component<{
                       <a href={tag.text}>{tag.text}</a>
                     </li>
                   ) : null;
+                case "ORCID":
+                  return tag.text ? (
+                    <li key={tag.text}>
+                      ORCID: <a href={`https://orcid.org/${tag.text}`}>{tag.text}</a>
+                    </li>
+                  ) : null;
                 case "ActiveRegion":
                   return (
                     <li key={tag.region.id}>
@@ -123,6 +129,9 @@ export default createFragmentContainer(PersonBody, {
       tags {
         __typename
         ... on Wiki {
+          text
+        }
+        ... on ORCID {
           text
         }
         ... on Biography {

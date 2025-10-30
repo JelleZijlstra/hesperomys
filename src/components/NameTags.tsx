@@ -249,6 +249,55 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
       return <>Originally described as a "variety" or "form"</>;
     case "NotUsedAsValid":
       return <>Not used as a valid taxon in the original description</>;
+    case "AsEmendedBy":
+      if (!tag.name) {
+        return null;
+      }
+      return (
+        <>
+          As emended by <ModelLink model={tag.name} />
+        </>
+      );
+    case "RerankingOf":
+      if (!tag.name) {
+        return null;
+      }
+      return (
+        <>
+          Reranking of <ModelLink model={tag.name} />
+        </>
+      );
+    case "UnavailableVersionOf":
+      if (!tag.name) {
+        return null;
+      }
+      return (
+        <>
+          Unavailable version of <ModelLink model={tag.name} />
+        </>
+      );
+    case "PermanentlyReplacedSecondaryHomonymOf":
+      if (!tag.name) {
+        return null;
+      }
+      return (
+        <>
+          Permanently replaced secondary homonym of <ModelLink model={tag.name} />
+          {tag.replacementName && (
+            <>
+              {"; replacement: "}
+              <ModelLink model={tag.replacementName} />
+            </>
+          )}
+          {tag.optionalSource && (
+            <>
+              {" ("}
+              <ModelLink model={tag.optionalSource} />
+              {")"}
+            </>
+          )}
+        </>
+      );
     default:
       return null;
   }
@@ -287,6 +336,36 @@ export default createFragmentContainer(NameTags, {
     fragment NameTags_name on Name {
       tags {
         __typename
+        ... on AsEmendedBy {
+          name {
+            ...ModelLink_model
+          }
+          comment
+        }
+        ... on RerankingOf {
+          name {
+            ...ModelLink_model
+          }
+          comment
+        }
+        ... on UnavailableVersionOf {
+          name {
+            ...ModelLink_model
+          }
+          comment
+        }
+        ... on PermanentlyReplacedSecondaryHomonymOf {
+          name {
+            ...ModelLink_model
+          }
+          replacementName {
+            ...ModelLink_model
+          }
+          optionalSource {
+            ...ModelLink_model
+          }
+          comment
+        }
         ... on Conserved {
           opinion {
             ...ModelLink_model
