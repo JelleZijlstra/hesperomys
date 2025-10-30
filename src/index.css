@@ -5,6 +5,108 @@ body {
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #fafafa;
+  color: #1f2937; /* gray-800 */
+  line-height: 1.6;
+}
+
+a {
+  color: #0b63ce;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+/* Dark mode: follow system preference unless user overrides via data-theme */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) body {
+    background-color: #0b1220;
+    color: #e5e7eb; /* gray-200 */
+  }
+  :root:not([data-theme="light"]) a {
+    color: #93c5fd; /* blue-300 */
+  }
+  :root:not([data-theme="light"]) a:hover {
+    color: #bfdbfe; /* blue-200 */
+  }
+  :root:not([data-theme="light"]) .rbt-menu {
+    background-color: #111827; /* gray-900 */
+    border-color: #374151; /* gray-700 */
+    color: #e5e7eb;
+  }
+  :root:not([data-theme="light"]) .rbt-menu .dropdown-item,
+  :root:not([data-theme="light"]) .rbt-menu .rbt-menu-item {
+    color: #e5e7eb;
+  }
+  :root:not([data-theme="light"]) .rbt-menu .dropdown-item.active,
+  :root:not([data-theme="light"]) .rbt-menu .dropdown-item:active,
+  :root:not([data-theme="light"]) .rbt-menu .rbt-menu-item.active,
+  :root:not([data-theme="light"]) .rbt-menu .rbt-menu-item:active {
+    background-color: #1f2937; /* gray-800 */
+    color: #f3f4f6;
+  }
+  :root:not([data-theme="light"]) .bordered th {
+    background-color: #111827;
+    color: #f3f4f6;
+    border-bottom-color: #374151;
+  }
+  :root:not([data-theme="light"]) .bordered td {
+    border-bottom-color: #374151;
+  }
+  :root:not([data-theme="light"]) .bordered tr:nth-child(even) td {
+    background-color: #0f172a;
+  }
+}
+
+/* Explicit dark-mode override */
+[data-theme="dark"] body {
+  background-color: #0b1220;
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] a {
+  color: #93c5fd;
+}
+
+[data-theme="dark"] a:hover {
+  color: #bfdbfe;
+}
+
+[data-theme="dark"] .rbt-menu {
+  background-color: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+[data-theme="dark"] .rbt-menu .dropdown-item,
+[data-theme="dark"] .rbt-menu .rbt-menu-item {
+  color: #e5e7eb;
+}
+[data-theme="dark"] .rbt-menu .dropdown-item.active,
+[data-theme="dark"] .rbt-menu .dropdown-item:active,
+[data-theme="dark"] .rbt-menu .rbt-menu-item.active,
+[data-theme="dark"] .rbt-menu .rbt-menu-item:active {
+  background-color: #1f2937;
+  color: #f3f4f6;
+}
+
+[data-theme="dark"] .bordered th {
+  background-color: #111827;
+  color: #f3f4f6;
+  border-bottom-color: #374151;
+}
+
+[data-theme="dark"] .bordered td {
+  border-bottom-color: #374151;
+}
+
+[data-theme="dark"] .bordered tr:nth-child(even) td {
+  background-color: #0f172a;
 }
 
 code {

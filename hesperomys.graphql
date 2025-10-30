@@ -1354,10 +1354,10 @@ type Name implements Node & Model {
   numOriginalChildren: Int!
   comments(before: String, after: String, first: Int, last: Int): NameCommentConnection
   numComments: Int!
-  taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
-  numTaxonSet: Int!
   classificationEntries(before: String, after: String, first: Int, last: Int): ClassificationEntryConnection
   numClassificationEntries: Int!
+  taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
+  numTaxonSet: Int!
   fillDataLevel: FillDataLevel
   preoccupiedNames(before: String, after: String, first: Int, last: Int): NameConnection
   numPreoccupiedNames: Int!

@@ -8,7 +8,13 @@ import { SearchBox_modelCls } from "./__generated__/SearchBox_modelCls.graphql";
 
 import "react-bootstrap-typeahead/css/Typeahead.css";
 
-const SearchBox = ({ modelCls }: { modelCls: SearchBox_modelCls }) => {
+const SearchBox = ({
+  modelCls,
+  placeholder,
+}: {
+  modelCls: SearchBox_modelCls;
+  placeholder?: string;
+}) => {
   const renderMenu = useCallback(
     (results, menuProps) => {
       const itemHeight = 32;
@@ -57,7 +63,7 @@ const SearchBox = ({ modelCls }: { modelCls: SearchBox_modelCls }) => {
       maxResults={10}
       options={[...modelCls.autocompletions]}
       paginate={false}
-      placeholder={`Pick a ${modelCls.name}`}
+      placeholder={placeholder ?? `Pick a ${modelCls.name}`}
       renderMenu={renderMenu}
       filterBy={(option: string, props: { text: string }) =>
         option.toLowerCase().startsWith(props.text.toLowerCase())

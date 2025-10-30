@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SearchForm from "./SearchForm";
+import HeaderNameSearch from "./HeaderNameSearch";
+import ThemeToggle from "./ThemeToggle";
 
 export default function SiteHeader({
   children,
@@ -20,7 +21,10 @@ export default function SiteHeader({
         {children}
         {subtitle && <div className="page-subtitle">{subtitle}</div>}
       </div>
-      <SearchForm />
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <ThemeToggle />
+        <HeaderNameSearch />
+      </div>
     </div>
   );
 }

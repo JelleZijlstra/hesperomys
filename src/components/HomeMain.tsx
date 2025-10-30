@@ -4,6 +4,7 @@ import Docs from "./Docs";
 import SiteHeader from "./SiteHeader";
 import SearchSection from "./SearchSection";
 import SiteBody from "./SiteBody";
+import HomeHero from "./HomeHero";
 
 export default function HomeMain() {
   useEffect(() => {
@@ -15,8 +16,8 @@ export default function HomeMain() {
         <>Home</>
       </SiteHeader>
       <SiteBody>
+        <HomeHero />
         <SearchSection />
-        <Docs path="home" />
       </SiteBody>
     </>
   );
