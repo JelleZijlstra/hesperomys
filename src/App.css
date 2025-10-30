@@ -38,7 +38,7 @@
 }
 
 .label {
-  padding-right: 2em;
+  padding-right: 1rem;
 }
 
 .header {
@@ -290,6 +290,43 @@
 
 .search-card .rbt-menu {
   border-radius: 6px;
+}
+
+/* Content pages: tidy table layout (react-bootstrap .table) */
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: top;
+}
+
+.table tr:nth-child(even) td {
+  background-color: #fcfcfd;
+}
+
+.table .label {
+  color: #6b7280; /* gray-500 */
+  width: 32%;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+/* Dark mode for content tables */
+[data-theme="dark"] .table td {
+  border-bottom-color: #374151; /* gray-700 */
+}
+
+[data-theme="dark"] .table tr:nth-child(even) td {
+  background-color: #0f172a;
+}
+
+[data-theme="dark"] .table .label {
+  color: #9ca3af; /* gray-400 */
 }
 
 /* Dark-mode variants */
