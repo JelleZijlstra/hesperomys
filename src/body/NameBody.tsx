@@ -105,9 +105,8 @@ function NameSection({ name }: { name: NameBody_name }) {
         tagsToInclude={[
           "CitationDetail",
           "SourceDetail",
-          "DefinitionDetail",
+          "DescriptionDetail",
           "AuthorityPageLink",
-          "PhyloCodeNumber",
         ]}
       />
     </>
@@ -135,11 +134,34 @@ function NomenclatureSection({ name }: { name: NameBody_name }) {
         name={name}
         tagsToInclude={[
           "EtymologyDetail",
+          "NomenclatureDetail",
           "NamedAfter",
           "TextualOriginalRank",
           "LSIDName",
         ]}
       />
+    </>
+  );
+}
+
+function DefinitionSection({ name }: { name: NameBody_name }) {
+  const definitionTags = [
+    "DefinitionDetail",
+    "PhylogeneticDefinition",
+    "PhyloCodeNumber",
+    "InternalSpecifier",
+    "ExternalSpecifier",
+    "MustNotInclude",
+    "MustBePartOf",
+    "MustBeExtinct",
+  ];
+  if (!hasAnyTypeTags(name, definitionTags)) {
+    return null;
+  }
+  return (
+    <>
+      <h3>Definition</h3>
+      <NameTypeTags name={name} tagsToInclude={definitionTags} />
     </>
   );
 }
@@ -251,6 +273,7 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
         <TaxonContext taxon={name.taxon} />
         <NameSection name={name} />
         <NomenclatureSection name={name} />
+        <DefinitionSection name={name} />
         <TypeSection name={name} />
         <LocationSection name={name} />
 

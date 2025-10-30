@@ -66,8 +66,24 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       return <>Date of collection: {tag.date}</>;
     case "DefinitionDetail":
       return <Detail text={tag.text} source={tag.source} />;
+    case "DescriptionDetail":
+      return (
+        <>
+          Description: <Detail text={tag.text} source={tag.source} />
+        </>
+      );
     case "EtymologyDetail":
-      return <Detail text={tag.text} source={tag.source} />;
+      return (
+        <>
+          Etymology: <Detail text={tag.text} source={tag.source} />
+        </>
+      );
+    case "NomenclatureDetail":
+      return (
+        <>
+          Nomenclature: <Detail text={tag.text} source={tag.source} />
+        </>
+      );
     case "Gender":
       return <>Gender of the type specimen: {tag.gender}</>;
     case "GenusCoelebs":
@@ -134,6 +150,36 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           {tag.condition && ` Condition: ${tag.condition}.`}
         </>
       );
+    case "InternalSpecifier":
+      return (
+        <>
+          Internal specifier: <ModelLink model={tag.name} />
+          {tag.comment && ` (comment: ${tag.comment})`}
+        </>
+      );
+    case "ExternalSpecifier":
+      return (
+        <>
+          External specifier: <ModelLink model={tag.name} />
+          {tag.comment && ` (comment: ${tag.comment})`}
+        </>
+      );
+    case "MustBePartOf":
+      return (
+        <>
+          Must be part of <ModelLink model={tag.name} />
+          {tag.comment && ` (comment: ${tag.comment})`}
+        </>
+      );
+    case "MustNotInclude":
+      return (
+        <>
+          Must not include <ModelLink model={tag.name} />
+          {tag.comment && ` (comment: ${tag.comment})`}
+        </>
+      );
+    case "MustBeExtinct":
+      return <>Must be extinct{tag.comment ? ` (comment: ${tag.comment})` : ""}</>;
     case "ProbableRepository":
       return (
         <>
@@ -195,6 +241,14 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       );
     case "TypeSpeciesDetail":
       return <Detail text={tag.text} source={tag.source} />;
+    case "PhylogeneticDefinition":
+      return (
+        <>
+          Phylogenetic definition ({tag.definitionType.replace(/_/g, " ")}):{" "}
+          <ModelLink model={tag.source} />
+          {tag.comment && ` (comment: ${tag.comment})`}
+        </>
+      );
     case "TypeSpecimenLink":
       if (!tag.url) {
         return null;
@@ -324,7 +378,19 @@ export default createFragmentContainer(NameTypeTags, {
             ...ModelLink_model
           }
         }
+        ... on DescriptionDetail {
+          text
+          source {
+            ...ModelLink_model
+          }
+        }
         ... on EtymologyDetail {
+          text
+          source {
+            ...ModelLink_model
+          }
+        }
+        ... on NomenclatureDetail {
           text
           source {
             ...ModelLink_model
@@ -381,6 +447,33 @@ export default createFragmentContainer(NameTypeTags, {
           }
           reasoning
         }
+        ... on InternalSpecifier {
+          name {
+            ...ModelLink_model
+          }
+          comment
+        }
+        ... on ExternalSpecifier {
+          name {
+            ...ModelLink_model
+          }
+          comment
+        }
+        ... on MustBePartOf {
+          name {
+            ...ModelLink_model
+          }
+          comment
+        }
+        ... on MustNotInclude {
+          name {
+            ...ModelLink_model
+          }
+          comment
+        }
+        ... on MustBeExtinct {
+          comment
+        }
         ... on GuessedRepository {
           repository {
             ...ModelLink_model
@@ -436,6 +529,13 @@ export default createFragmentContainer(NameTypeTags, {
           source {
             ...ModelLink_model
           }
+        }
+        ... on PhylogeneticDefinition {
+          definitionType: type
+          source {
+            ...ModelLink_model
+          }
+          comment
         }
         ... on NamedAfter {
           person {
