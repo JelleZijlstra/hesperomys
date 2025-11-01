@@ -274,6 +274,12 @@ type Basal implements TaxonTag {
   comment: String
 }
 
+type BatLit implements ArticleTag {
+  _Ignored: ID
+  zoteroId: String!
+  zenodoDoi: String
+}
+
 type BiblioNote implements CitationGroupTag {
   _Ignored: ID
   text: String!

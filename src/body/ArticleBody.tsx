@@ -121,6 +121,13 @@ class ArticleBody extends React.Component<{
     tags.forEach((tag) => {
       let url: string | null = null;
       switch (tag.__typename) {
+        case "BatLit": {
+          if (tag.zenodoDoi) {
+            const href = `https://doi.org/${tag.zenodoDoi}`;
+            data.push(["BatLit", <a href={href}>doi:{tag.zenodoDoi}</a>]);
+          }
+          break;
+        }
         case "ISBN":
           url = `https://en.wikipedia.org/wiki/Special:BookSources/${tag.text}`;
           break;
@@ -289,6 +296,9 @@ export default createFragmentContainer(ArticleBody, {
       }
       tags {
         __typename
+        ... on BatLit {
+          zenodoDoi
+        }
         ... on ISBN {
           text
         }
