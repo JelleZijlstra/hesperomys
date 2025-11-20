@@ -193,6 +193,14 @@ type ArticleISSN implements ArticleTag {
   text: String!
 }
 
+enum ArticleIdentifier {
+  doi
+  pmid
+  jstor
+  pmc
+  hdl
+}
+
 enum ArticleKind {
   electronic
   physical
@@ -834,6 +842,7 @@ type GuessedRepository implements TypeTag {
 type HDL implements ArticleTag {
   _Ignored: ID
   text: String!
+  urlappend: String
 }
 
 type HMW implements NameTag {
@@ -1215,6 +1224,13 @@ type MappedClassificationEntry implements NameTag {
   ce: ClassificationEntry!
 }
 
+type MayHaveIdentifier implements CitationGroupTag {
+  _Ignored: ID
+  identifier: ArticleIdentifier!
+  minYear: Int
+  maxYear: Int
+}
+
 type MisidentificationOf implements NameTag {
   _Ignored: ID
   name: Name!
@@ -1264,6 +1280,13 @@ type MustHave implements CitationGroupTag {
 type MustHaveAfter implements CitationGroupTag {
   _Ignored: ID
   year: String!
+}
+
+type MustHaveIdentifier implements CitationGroupTag {
+  _Ignored: ID
+  identifier: ArticleIdentifier!
+  minYear: Int
+  maxYear: Int
 }
 
 type MustHavePreciseDate implements CitationGroupTag {
@@ -2131,16 +2154,16 @@ type QueryRoot {
   articleComment(oid: Int): ArticleComment
   issueDateByLabel(label: String): [IssueDate]
   issueDate(oid: Int): IssueDate
-  taxonByLabel(label: String): [Taxon]
-  taxon(oid: Int): Taxon
-  collectionByLabel(label: String): [Collection]
-  collection(oid: Int): Collection
   periodByLabel(label: String): [Period]
   period(oid: Int): Period
   stratigraphicUnitByLabel(label: String): [StratigraphicUnit]
   stratigraphicUnit(oid: Int): StratigraphicUnit
   locationByLabel(label: String): [Location]
   location(oid: Int): Location
+  taxonByLabel(label: String): [Taxon]
+  taxon(oid: Int): Taxon
+  collectionByLabel(label: String): [Collection]
+  collection(oid: Int): Collection
   classificationEntryByLabel(label: String): [ClassificationEntry]
   classificationEntry(oid: Int): ClassificationEntry
   speciesNameComplexByLabel(label: String): [SpeciesNameComplex]
@@ -2254,14 +2277,14 @@ type Region implements Node & Model {
   numChildren: Int!
   citationGroups(before: String, after: String, first: Int, last: Int): CitationGroupConnection
   numCitationGroups: Int!
-  collections(before: String, after: String, first: Int, last: Int): CollectionConnection
-  numCollections: Int!
   periods(before: String, after: String, first: Int, last: Int): PeriodConnection
   numPeriods: Int!
   stratigraphicUnits(before: String, after: String, first: Int, last: Int): StratigraphicUnitConnection
   numStratigraphicUnits: Int!
   locations(before: String, after: String, first: Int, last: Int): LocationConnection
   numLocations: Int!
+  collections(before: String, after: String, first: Int, last: Int): CollectionConnection
+  numCollections: Int!
   specimenSet(before: String, after: String, first: Int, last: Int): SpecimenConnection
   numSpecimenSet: Int!
   hasCollections: Boolean
@@ -2308,6 +2331,11 @@ type Rejected implements NameTag {
   _Ignored: ID
   opinion: Article!
   comment: String
+}
+
+type RejectedDOI implements ArticleTag {
+  _Ignored: ID
+  doi: String!
 }
 
 type RejectedLSIDName implements TypeTag {
