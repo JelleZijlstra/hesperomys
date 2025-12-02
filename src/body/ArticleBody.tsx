@@ -131,9 +131,15 @@ class ArticleBody extends React.Component<{
         case "ISBN":
           url = `https://en.wikipedia.org/wiki/Special:BookSources/${tag.text}`;
           break;
-        case "HDL":
-          url = `https://hdl.handle.net/${tag.text}`;
+        case "HDL": {
+          const base = `https://hdl.handle.net/${tag.text}`;
+          if (tag.urlappend) {
+            url = `${base}?urlappend=${encodeURIComponent(tag.urlappend)}`;
+          } else {
+            url = base;
+          }
           break;
+        }
         case "JSTOR":
           url = `https://www.jstor.org/stable/${tag.text}`;
           break;
@@ -307,6 +313,7 @@ export default createFragmentContainer(ArticleBody, {
         }
         ... on HDL {
           text
+          urlappend
         }
         ... on JSTOR {
           text

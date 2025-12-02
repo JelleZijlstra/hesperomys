@@ -40,6 +40,12 @@ type AgeClassCE implements ClassificationEntryTag {
   age: AgeClass!
 }
 
+type AlternativeName implements CitationGroupTag {
+  _Ignored: ID
+  text: String!
+  comment: String
+}
+
 type AlternativeURL implements ArticleTag {
   _Ignored: ID
   url: String!
@@ -674,6 +680,7 @@ enum DateSource {
   doi_published_other
   doi_published
   decision
+  jstor
 }
 
 type DatingTools implements CitationGroupTag {
@@ -1385,10 +1392,10 @@ type Name implements Node & Model {
   numOriginalChildren: Int!
   comments(before: String, after: String, first: Int, last: Int): NameCommentConnection
   numComments: Int!
-  classificationEntries(before: String, after: String, first: Int, last: Int): ClassificationEntryConnection
-  numClassificationEntries: Int!
   taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
   numTaxonSet: Int!
+  classificationEntries(before: String, after: String, first: Int, last: Int): ClassificationEntryConnection
+  numClassificationEntries: Int!
   fillDataLevel: FillDataLevel
   preoccupiedNames(before: String, after: String, first: Int, last: Int): NameConnection
   numPreoccupiedNames: Int!

@@ -5,6 +5,10 @@ import HomeMain from "./components/HomeMain";
 import DocsMain from "./components/DocsMain";
 import HomonymFinder from "./components/HomonymFinder";
 import ModelMain from "./components/ModelMain";
+import GamesLanding from "./games/GamesLanding";
+import FamilyByGenus from "./games/FamilyByGenus";
+import GeneraByFamily from "./games/GeneraByFamily";
+import SpeciesByGenus from "./games/SpeciesByGenus";
 import NewMain from "./components/NewMain";
 import SearchMain from "./components/SearchMain";
 
@@ -22,6 +26,18 @@ function App() {
         </Route>
         <Route path="/homonym-finder">
           <HomonymFinder />
+        </Route>
+        <Route path="/games/family-by-genus">
+          <FamilyByGenus />
+        </Route>
+        <Route path="/games/species-by-genus">
+          <SpeciesByGenus />
+        </Route>
+        <Route path="/games/genera-by-family">
+          <GeneraByFamily />
+        </Route>
+        <Route path="/games" exact>
+          <GamesLanding />
         </Route>
         <Route path="/new/:callSign">
           <NewMain />

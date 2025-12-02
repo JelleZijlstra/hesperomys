@@ -1,0 +1,55 @@
+.games-landing-root {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+}
+
+.games-landing-card {
+  width: 100%;
+  max-width: 900px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  padding: 24px 24px 18px;
+}
+
+.games-landing-title {
+  margin: 0;
+}
+
+.games-landing-subtitle {
+  margin: 8px 0 20px;
+  color: #1f2937; /* darker for readability */
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.game-tile {
+  display: block;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px 16px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.game-tile:hover {
+  background: #eef2f7;
+}
+
+.game-tile-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.game-tile-desc {
+  color: #64748b;
+}

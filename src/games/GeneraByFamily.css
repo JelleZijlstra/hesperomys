@@ -1,0 +1,54 @@
+.genera-board {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.genera-chip {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  text-align: center;
+}
+
+.genera-chip.missing {
+  color: #64748b;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+}
+
+.genera-chip.found {
+  background: #ecfdf5;
+  border-color: #bbf7d0;
+  color: #0f172a; /* high contrast text */
+  font-weight: 600;
+}
+
+.game-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  color: #0f172a; /* dark, readable */
+  font-weight: 600;
+}
+
+.feedback {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-left: 4px solid #94a3b8;
+  background: #f1f5f9;
+  border-radius: 6px;
+  color: #0f172a;
+}
+
+.feedback-stream {
+  margin-top: 10px;
+  height: 120px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
