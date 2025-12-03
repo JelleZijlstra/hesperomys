@@ -2,31 +2,16 @@ import React, { useEffect, useMemo, useState } from "react";
 import "./GeneraByFamily.css";
 
 type FamilyRow = { family: string; genera: string[] };
-
-function shuffle<T>(arr: T[]): T[] {
-  const a = arr.slice();
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
+type TribeGroup = { name: string | null; genera: string[] };
+type SubfamilyGroup = {
+  name: string | null;
+  tribes: TribeGroup[];
+  unplaced_genera: string[];
+};
+type FamilyGrouped = { family: string; groups: SubfamilyGroup[] };
 
 function pick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function pickDifferent<T>(arr: T[], exclude?: (item: T) => boolean): T {
-  if (!arr.length) throw new Error("empty array");
-  if (!exclude) return pick(arr);
-  if (arr.length === 1) return arr[0];
-  let candidate: T = pick(arr);
-  let attempts = 0;
-  while (exclude(candidate) && attempts < 25) {
-    candidate = pick(arr);
-    attempts += 1;
-  }
-  return candidate;
 }
 
 export default function GeneraByFamily() {
@@ -44,6 +29,7 @@ export default function GeneraByFamily() {
   // No terminal done state; automatically advance to next family
   const [feedback, setFeedback] = useState<React.ReactNode | null>(null);
   const [feed, setFeed] = useState<React.ReactNode[]>([]);
+  const [grouped, setGrouped] = useState<Record<string, FamilyGrouped> | null>(null);
   const [seenFamilies, setSeenFamilies] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -55,15 +41,25 @@ export default function GeneraByFamily() {
       .then((r) => r.json())
       .then((data: FamilyRow[]) => setRowsAll(data))
       .catch((e) => console.error("Failed to load game data", e));
+    const url2 = dev
+      ? "http://localhost:8080/games/data/family_genera_grouped.json"
+      : "/games/data/family_genera_grouped.json";
+    fetch(url2)
+      .then((r) => r.json())
+      .then((rows: FamilyGrouped[]) => {
+        const map: Record<string, FamilyGrouped> = {};
+        for (const row of rows) map[row.family] = row;
+        setGrouped(map);
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
-    if (rows && !familyRow) {
-      const candidates = rows.filter((r) => !seenFamilies.has(r.family));
-      const next = candidates.length ? pick(candidates) : pick(rows);
-      startFamily(next);
-    }
-  }, [rows]);
+    if (!rows || familyRow) return;
+    const candidates = rows.filter((r) => !seenFamilies.has(r.family));
+    const next = candidates.length ? pick(candidates) : pick(rows);
+    startFamily(next);
+  }, [rows, familyRow, seenFamilies]);
 
   // When toggling hard mode, reset session and start fresh
   useEffect(() => {
@@ -71,7 +67,7 @@ export default function GeneraByFamily() {
     setSeenFamilies(new Set());
     startFamily(pick(rows));
     setFeed([]);
-  }, [hardMode]);
+  }, [hardMode, rows]);
 
   const total = familyRow?.genera.length ?? 0;
   const foundCount = found.size;
@@ -227,6 +223,7 @@ export default function GeneraByFamily() {
               <div className="prompt-label">Family</div>
               <div className="prompt-genus">{familyRow.family}</div>
             </div>
+
             <form className="controls" onSubmit={submit}>
               <input
                 className="answer-input"
@@ -263,19 +260,113 @@ export default function GeneraByFamily() {
               </div>
             </form>
 
-            <div className="genera-board">
-              {familyRow.genera.map((g, i) => {
-                const foundIt = found.has(g.toLowerCase());
-                return (
-                  <div
-                    key={g}
-                    className={"genera-chip" + (foundIt ? " found" : " missing")}
-                  >
-                    {foundIt ? <em>{g}</em> : masks[i] ? masks[i] : "___"}
+            {/* Subfamily / tribe structure (names revealed on completion). Hide if no structure. */}
+            {grouped &&
+              grouped[familyRow.family] &&
+              grouped[familyRow.family].groups.some(
+                (g) => (g.name && g.name.length > 0) || g.tribes.length > 0,
+              ) && (
+                <div className="taxon-viewport">
+                  <div className="taxon-structure">
+                    {grouped[familyRow.family].groups.map((sg, sidx) => {
+                      const subGenera = new Set<string>(
+                        [
+                          ...sg.unplaced_genera,
+                          ...sg.tribes.flatMap((t) => t.genera),
+                        ].map((g) => g.toLowerCase()),
+                      );
+                      const subFound = Array.from(subGenera).every((g) => found.has(g));
+                      return (
+                        <div key={sidx} className="subfamily-box">
+                          <div className="subfamily-header">
+                            {subFound && sg.name ? sg.name : ""}
+                          </div>
+                          <div className="tribe-grid">
+                            {sg.tribes.map((tg, tidx) => {
+                              const tribeAll = tg.genera.map((g) => g.toLowerCase());
+                              const tribeFound = tribeAll.every((g) => found.has(g));
+                              return (
+                                <div key={tidx} className="tribe-box">
+                                  <div className="tribe-header">
+                                    {tribeFound && tg.name ? tg.name : ""}
+                                  </div>
+                                  <div className="genera-row">
+                                    {tg.genera.map((g) => {
+                                      const f = found.has(g.toLowerCase());
+                                      const i = familyRow.genera.indexOf(g);
+                                      return (
+                                        <div
+                                          key={g}
+                                          className={
+                                            "genera-chip" + (f ? " found" : " missing")
+                                          }
+                                        >
+                                          {f ? (
+                                            <em>{g}</em>
+                                          ) : masks[i] ? (
+                                            masks[i]
+                                          ) : (
+                                            "___"
+                                          )}
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                            {sg.unplaced_genera.length > 0 && (
+                              <div className="tribe-box">
+                                <div className="genera-row">
+                                  {sg.unplaced_genera.map((g) => {
+                                    const f = found.has(g.toLowerCase());
+                                    const i = familyRow.genera.indexOf(g);
+                                    return (
+                                      <div
+                                        key={g}
+                                        className={
+                                          "genera-chip" + (f ? " found" : " missing")
+                                        }
+                                      >
+                                        {f ? <em>{g}</em> : masks[i] ? masks[i] : "___"}
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              )}
+
+            {/* If no subfamily/tribe structure, show flat genera board */}
+            {!(
+              grouped &&
+              grouped[familyRow.family] &&
+              grouped[familyRow.family].groups.some(
+                (g) => (g.name && g.name.length > 0) || g.tribes.length > 0,
+              )
+            ) && (
+              <div className="taxon-viewport">
+                <div className="genera-board">
+                  {familyRow.genera.map((g, i) => {
+                    const foundIt = found.has(g.toLowerCase());
+                    return (
+                      <div
+                        key={g}
+                        className={"genera-chip" + (foundIt ? " found" : " missing")}
+                      >
+                        {foundIt ? <em>{g}</em> : masks[i] ? masks[i] : "___"}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {feedback && (
               <div className="feedback" aria-live="polite">
