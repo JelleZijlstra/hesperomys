@@ -15,6 +15,7 @@ Usage:
     --src src \
     --out SCHEMA_FIELDS_NOT_DISPLAYED.md
 """
+
 from __future__ import annotations
 
 import argparse
