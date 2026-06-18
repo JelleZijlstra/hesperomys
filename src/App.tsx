@@ -11,12 +11,15 @@ import GeneraByFamily from "./games/GeneraByFamily";
 import SpeciesByGenus from "./games/SpeciesByGenus";
 import NewMain from "./components/NewMain";
 import SearchMain from "./components/SearchMain";
+import CanonicalRedirect from "./components/CanonicalRedirect";
 
 import "./App.css";
 
 function App() {
   return (
     <Router>
+      {/* Normalize URLs to no trailing slash (except root) */}
+      <CanonicalRedirect />
       <Switch>
         <Route path="/docs/*">
           <DocsMain />
