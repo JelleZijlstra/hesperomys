@@ -9,28 +9,227 @@ type SubfamilyGroup = {
   unplaced_genera: string[];
 };
 type FamilyGrouped = { family: string; groups: SubfamilyGroup[] };
+type ModeKey = "normal" | "hard";
+type Progress = {
+  queue: string[];
+  retry: string[];
+  completed: string[];
+  flawless: string[];
+  currentFamily: string | null;
+  found: string[];
+  masks: string[];
+  currentFlawed: boolean;
+  pass: number;
+  finished: boolean;
+};
+type StoredState = {
+  version: 2;
+  hardMode: boolean;
+  normal?: Progress;
+  hard?: Progress;
+};
+
+const STORAGE_KEY = "hesperomys.generaByFamily.v2";
 
 function pick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+function shuffle<T>(arr: T[]): T[] {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function normalize(s: string) {
+  return s.trim().toLowerCase();
+}
+
+function getModeKey(hardMode: boolean): ModeKey {
+  return hardMode ? "hard" : "normal";
+}
+
+function readStoredState(): StoredState | null {
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (parsed && parsed.version === 2) return parsed as StoredState;
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+function initialHardMode(): boolean {
+  return readStoredState()?.hardMode ?? false;
+}
+
+function writeStoredState(next: StoredState) {
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+  } catch {
+    // Losing saved game state is better than blocking play.
+  }
+}
+
+function uniqueValid(values: string[], valid: Set<string>): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const value of values) {
+    if (valid.has(value) && !seen.has(value)) {
+      seen.add(value);
+      out.push(value);
+    }
+  }
+  return out;
+}
+
+function addUnique(values: string[], value: string): string[] {
+  return values.includes(value) ? values : [...values, value];
+}
+
+function removeValue(values: string[], value: string): string[] {
+  return values.filter((item) => item !== value);
+}
+
+function emptyMasks(row: FamilyRow): string[] {
+  return row.genera.map(() => "");
+}
+
+function makeRowMap(rows: FamilyRow[]): Map<string, FamilyRow> {
+  const map = new Map<string, FamilyRow>();
+  for (const row of rows) map.set(row.family, row);
+  return map;
+}
+
+function freshProgress(rows: FamilyRow[]): Progress {
+  return {
+    queue: shuffle(rows.map((row) => row.family)),
+    retry: [],
+    completed: [],
+    flawless: [],
+    currentFamily: null,
+    found: [],
+    masks: [],
+    currentFlawed: false,
+    pass: 1,
+    finished: false,
+  };
+}
+
+function advanceToNextFamily(progress: Progress, rows: FamilyRow[]): Progress {
+  const rowByFamily = makeRowMap(rows);
+  const validFamilies = new Set(rowByFamily.keys());
+  const flawless = uniqueValid(progress.flawless, validFamilies);
+  const flawlessSet = new Set(flawless);
+  const remainingFamilies = rows
+    .map((row) => row.family)
+    .filter((family) => !flawlessSet.has(family));
+
+  if (remainingFamilies.length === 0) {
+    return {
+      ...progress,
+      queue: [],
+      retry: [],
+      flawless,
+      currentFamily: null,
+      found: [],
+      masks: [],
+      currentFlawed: false,
+      finished: true,
+    };
+  }
+
+  let queue = uniqueValid(progress.queue, validFamilies).filter(
+    (family) => !flawlessSet.has(family),
+  );
+  let retry = uniqueValid(progress.retry, validFamilies).filter(
+    (family) => !flawlessSet.has(family),
+  );
+  let pass = progress.pass;
+
+  if (queue.length === 0) {
+    if (retry.length > 0) {
+      queue = shuffle(retry);
+      retry = [];
+      pass += 1;
+    } else {
+      queue = shuffle(remainingFamilies);
+      pass += 1;
+    }
+  }
+
+  const [currentFamily, ...rest] = queue;
+  const row = rowByFamily.get(currentFamily);
+  if (!row) return advanceToNextFamily({ ...progress, queue: rest }, rows);
+  return {
+    ...progress,
+    queue: rest,
+    retry,
+    flawless,
+    currentFamily,
+    found: [],
+    masks: emptyMasks(row),
+    currentFlawed: false,
+    pass,
+    finished: false,
+  };
+}
+
+function sanitizeProgress(saved: Progress | undefined, rows: FamilyRow[]): Progress {
+  const validFamilies = new Set(rows.map((row) => row.family));
+  if (!saved) return advanceToNextFamily(freshProgress(rows), rows);
+
+  const rowByFamily = makeRowMap(rows);
+  const currentRow =
+    saved.currentFamily && validFamilies.has(saved.currentFamily)
+      ? rowByFamily.get(saved.currentFamily)
+      : null;
+  const found = currentRow
+    ? uniqueValid(
+        saved.found,
+        new Set(currentRow.genera.map((genus) => genus.toLowerCase())),
+      )
+    : [];
+  const masks = currentRow ? currentRow.genera.map((_, i) => saved.masks[i] ?? "") : [];
+  const progress: Progress = {
+    queue: uniqueValid(saved.queue, validFamilies),
+    retry: uniqueValid(saved.retry, validFamilies),
+    completed: uniqueValid(saved.completed, validFamilies),
+    flawless: uniqueValid(saved.flawless, validFamilies),
+    currentFamily: currentRow ? currentRow.family : null,
+    found,
+    masks,
+    currentFlawed: saved.currentFlawed,
+    pass: Math.max(saved.pass || 1, 1),
+    finished: saved.finished,
+  };
+  if (progress.currentFamily) return progress;
+  if (progress.finished && progress.flawless.length === rows.length) return progress;
+  return advanceToNextFamily(progress, rows);
+}
+
 export default function GeneraByFamily() {
   const [rowsAll, setRowsAll] = useState<FamilyRow[] | null>(null);
-  const [hardMode, setHardMode] = useState(false);
+  const [hardMode, setHardMode] = useState(initialHardMode);
   const rows = useMemo(() => {
     if (!rowsAll) return null;
     const filtered = hardMode ? rowsAll.filter((r) => r.genera.length > 10) : rowsAll;
     return filtered.length ? filtered : rowsAll;
   }, [rowsAll, hardMode]);
-  const [familyRow, setFamilyRow] = useState<FamilyRow | null>(null);
-  const [found, setFound] = useState<Set<string>>(new Set());
-  const [masks, setMasks] = useState<string[]>([]);
+  const [progress, setProgress] = useState<Progress | null>(null);
+  const [progressMode, setProgressMode] = useState<ModeKey>(() =>
+    getModeKey(initialHardMode()),
+  );
   const [answer, setAnswer] = useState("");
-  // No terminal done state; automatically advance to next family
   const [feedback, setFeedback] = useState<React.ReactNode | null>(null);
   const [feed, setFeed] = useState<React.ReactNode[]>([]);
   const [grouped, setGrouped] = useState<Record<string, FamilyGrouped> | null>(null);
-  const [seenFamilies, setSeenFamilies] = useState<Set<string>>(new Set());
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   useEffect(() => {
     const dev = window.location.port === "3000";
@@ -55,20 +254,43 @@ export default function GeneraByFamily() {
   }, []);
 
   useEffect(() => {
-    if (!rows || familyRow) return;
-    const candidates = rows.filter((r) => !seenFamilies.has(r.family));
-    const next = candidates.length ? pick(candidates) : pick(rows);
-    startFamily(next);
-  }, [rows, familyRow, seenFamilies]);
-
-  // When toggling hard mode, reset session and start fresh
-  useEffect(() => {
     if (!rows) return;
-    setSeenFamilies(new Set());
-    startFamily(pick(rows));
+    const stored = readStoredState();
+    const modeKey = getModeKey(hardMode);
+    setProgressMode(modeKey);
+    setProgress(sanitizeProgress(stored?.[modeKey], rows));
+    setAnswer("");
+    setFeedback(null);
     setFeed([]);
   }, [hardMode, rows]);
 
+  useEffect(() => {
+    if (!progress) return;
+    const modeKey = getModeKey(hardMode);
+    if (progressMode !== modeKey) return;
+    const stored = readStoredState() ?? { version: 2, hardMode, normal: undefined };
+    writeStoredState({
+      ...stored,
+      version: 2,
+      hardMode,
+      [modeKey]: progress,
+    });
+  }, [hardMode, progress, progressMode]);
+
+  const rowByFamily = useMemo(() => {
+    return makeRowMap(rows ?? []);
+  }, [rows]);
+  const familyRow = progress?.currentFamily
+    ? (rowByFamily.get(progress.currentFamily) ?? null)
+    : null;
+  const found = useMemo(() => new Set(progress?.found ?? []), [progress]);
+  const masks = progress?.masks ?? [];
+  const totalFamilies = rows?.length ?? 0;
+  const completedFamilies = progress?.completed.length ?? 0;
+  const flawlessFamilies = progress?.flawless.length ?? 0;
+  const remainingThisPass =
+    (progress?.queue.length ?? 0) + (progress?.currentFamily ? 1 : 0);
+  const retryFamilies = progress?.retry.length ?? 0;
   const total = familyRow?.genera.length ?? 0;
   const foundCount = found.size;
   const missing = useMemo(() => {
@@ -76,20 +298,25 @@ export default function GeneraByFamily() {
     return familyRow.genera.filter((g) => !found.has(g.toLowerCase()));
   }, [familyRow, found]);
 
-  function normalize(s: string) {
-    return s.trim().toLowerCase();
-  }
-
-  function startFamily(row: FamilyRow) {
-    setFamilyRow(row);
-    setFound(new Set());
+  function resetCurrentMode() {
+    if (!rows) return;
+    const next = advanceToNextFamily(freshProgress(rows), rows);
+    const stored = readStoredState() ?? { version: 2, hardMode };
+    const modeKey = getModeKey(hardMode);
+    writeStoredState({
+      ...stored,
+      version: 2,
+      hardMode,
+      [modeKey]: next,
+    });
+    setProgress(next);
     setAnswer("");
     setFeedback(null);
-    setMasks(row.genera.map(() => ""));
+    setFeed([]);
   }
 
   function revealHint() {
-    if (!familyRow) return;
+    if (!familyRow || !progress) return;
     const missIdxs = familyRow.genera
       .map((g, i) => ({ g, i }))
       .filter(({ g }) => !found.has(g.toLowerCase()));
@@ -108,22 +335,27 @@ export default function GeneraByFamily() {
         break;
       }
     }
-    const updated = masks.slice();
+    const updated = progress.masks.slice();
     updated[i] = next.join("");
-    setMasks(updated);
+    setProgress({
+      ...progress,
+      masks: updated,
+      currentFlawed: true,
+    });
   }
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!familyRow) return;
+    if (!familyRow || !progress) return;
     const ans = normalize(answer);
     if (!ans) return;
     const idx = familyRow.genera.findIndex((g) => normalize(g) === ans);
     if (idx >= 0) {
       if (!found.has(ans)) {
-        const nf = new Set(found);
-        nf.add(ans);
-        setFound(nf);
+        setProgress({
+          ...progress,
+          found: addUnique(progress.found, ans),
+        });
         setFeedback(
           <>
             <span role="img" aria-label="correct">
@@ -151,72 +383,199 @@ export default function GeneraByFamily() {
           No match for <em>{answer}</em>
         </>,
       );
+      setProgress({
+        ...progress,
+        currentFlawed: true,
+      });
     }
     setAnswer("");
+  }
+
+  function skipFamily() {
+    if (!rows || !familyRow || !progress) return;
+    const nextProgress = advanceToNextFamily(
+      {
+        ...progress,
+        retry: addUnique(progress.retry, familyRow.family),
+        currentFamily: null,
+        found: [],
+        masks: [],
+        currentFlawed: false,
+      },
+      rows,
+    );
+    const msg = <>Skipped {familyRow.family}; it will return in the next pass.</>;
+    setFeedback(null);
+    setFeed((prev) => [msg, ...prev].slice(0, 10));
+    setAnswer("");
+    setProgress(nextProgress);
   }
 
   useEffect(() => {
     if (
       rows &&
       familyRow &&
-      found.size === familyRow.genera.length &&
+      progress &&
+      progress.found.length === familyRow.genera.length &&
       familyRow.genera.length > 0
     ) {
+      const clean = !progress.currentFlawed;
       const msg = (
         <>
           <span role="img" aria-label="trophy">
             🏆
           </span>{" "}
-          Completed {familyRow.family}! ({found.size}/{familyRow.genera.length})
+          Completed {familyRow.family}! ({progress.found.length}/
+          {familyRow.genera.length}
+          {clean ? ", flawless" : ", retry later"})
         </>
       );
       setFeedback(<>{msg} Loading next family…</>);
       setFeed((prev) => [msg, ...prev].slice(0, 10));
       // Brief pause to show completion, then move on
       const t = setTimeout(() => {
-        // Mark this family as seen only upon completion
-        setSeenFamilies((prev) => {
-          const ns = new Set(prev);
-          ns.add(familyRow.family);
-          return ns;
+        setProgress((current) => {
+          if (!current || current.currentFamily !== familyRow.family) return current;
+          const completed = addUnique(current.completed, familyRow.family);
+          const flawless = clean
+            ? addUnique(current.flawless, familyRow.family)
+            : current.flawless;
+          const retry = clean
+            ? removeValue(current.retry, familyRow.family)
+            : addUnique(current.retry, familyRow.family);
+          return advanceToNextFamily(
+            {
+              ...current,
+              completed,
+              flawless,
+              retry,
+              currentFamily: null,
+              found: [],
+              masks: [],
+              currentFlawed: false,
+            },
+            rows,
+          );
         });
-        // Prefer families not yet seen this session (and not the one just completed)
-        const unseen = rows.filter(
-          (r) => r.family !== familyRow.family && !seenFamilies.has(r.family),
-        );
-        if (unseen.length === 0) {
-          // All seen: reset session tracking and pick any family at random
-          setSeenFamilies(new Set());
-          startFamily(pick(rows));
-        } else {
-          startFamily(pick(unseen));
-        }
+        setAnswer("");
+        setFeedback(null);
       }, 800);
       return () => clearTimeout(t);
     }
-  }, [found, familyRow, rows, seenFamilies]);
+  }, [progress, familyRow, rows]);
+
+  useEffect(() => {
+    if (progress?.finished) {
+      setFeedback(
+        <>
+          All {totalFamilies} families have been completed flawlessly. Open progress to
+          start over.
+        </>,
+      );
+    }
+  }, [progress?.finished, totalFamilies]);
+
+  function renderSettingsModal() {
+    if (!isSettingsOpen) return null;
+    return (
+      <div className="game-modal-backdrop" onClick={() => setIsSettingsOpen(false)}>
+        <div
+          className="game-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="genera-progress-title"
+          onClick={(event) => event.stopPropagation()}
+        >
+          <div className="game-modal-header">
+            <h3 id="genera-progress-title">Progress</h3>
+            <button
+              className="btn icon-btn"
+              type="button"
+              aria-label="Close progress"
+              onClick={() => setIsSettingsOpen(false)}
+            >
+              ×
+            </button>
+          </div>
+          <div className="progress-grid">
+            <div className="progress-stat">
+              <div className="progress-label">Finished</div>
+              <div className="progress-value">
+                {completedFamilies} / {totalFamilies}
+              </div>
+            </div>
+            <div className="progress-stat">
+              <div className="progress-label">Flawless</div>
+              <div className="progress-value">
+                {flawlessFamilies} / {totalFamilies}
+              </div>
+            </div>
+            <div className="progress-stat">
+              <div className="progress-label">Pass</div>
+              <div className="progress-value">{progress?.pass ?? 1}</div>
+            </div>
+            <div className="progress-stat">
+              <div className="progress-label">This pass</div>
+              <div className="progress-value">{remainingThisPass} left</div>
+            </div>
+            <div className="progress-stat">
+              <div className="progress-label">Retry next</div>
+              <div className="progress-value">{retryFamilies}</div>
+            </div>
+          </div>
+          <label className="game-toggle modal-toggle">
+            <input
+              type="checkbox"
+              checked={hardMode}
+              onChange={(e) => setHardMode(e.target.checked)}
+            />
+            Hard mode (only families with more than 10 genera)
+          </label>
+          <div className="modal-actions">
+            <button className="btn danger" type="button" onClick={resetCurrentMode}>
+              Clear progress
+            </button>
+            <button
+              className="btn primary"
+              type="button"
+              onClick={() => setIsSettingsOpen(false)}
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="game-root">
       <div className="game-card">
         <div className="game-header">
           <h2 className="game-title">Genera by Family</h2>
-          <div className="score-pill" title="Found / Total">
-            {foundCount} / {total}
+          <div className="header-actions">
+            <div className="score-pill" title="Found / Total">
+              {foundCount} / {total}
+            </div>
+            <button
+              className="btn compact"
+              type="button"
+              onClick={() => setIsSettingsOpen(true)}
+            >
+              Progress
+            </button>
           </div>
         </div>
         <p className="game-subtitle">Name all genera in the given mammal family.</p>
-        <label className="game-toggle">
-          <input
-            type="checkbox"
-            checked={hardMode}
-            onChange={(e) => setHardMode(e.target.checked)}
-          />
-          Hard mode (only families with more than 10 genera)
-        </label>
 
         {!familyRow ? (
-          <p className="loading">Loading…</p>
+          progress?.finished ? (
+            <div className="completion-panel">
+              All {totalFamilies} families have been completed flawlessly.
+            </div>
+          ) : (
+            <p className="loading">Loading…</p>
+          )
         ) : (
           <>
             <div className="prompt">
@@ -245,17 +604,8 @@ export default function GeneraByFamily() {
                 >
                   Hint
                 </button>
-                <button
-                  className="btn"
-                  type="button"
-                  onClick={() => {
-                    if (!rows) return;
-                    const unseen = rows.filter((r) => !seenFamilies.has(r.family));
-                    const next = unseen.length ? pick(unseen) : pick(rows);
-                    startFamily(next);
-                  }}
-                >
-                  New Family
+                <button className="btn" type="button" onClick={skipFamily}>
+                  Skip
                 </button>
               </div>
             </form>
@@ -386,6 +736,7 @@ export default function GeneraByFamily() {
           </>
         )}
       </div>
+      {renderSettingsModal()}
     </div>
   );
 }
