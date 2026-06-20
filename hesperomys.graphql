@@ -3,6 +3,11 @@ schema {
   mutation: MutationRoot
 }
 
+type AbbreviatedTitle implements CitationGroupTag {
+  _Ignored: ID
+  text: String!
+}
+
 type ActiveRegion implements PersonTag {
   _Ignored: ID
   region: Region!
@@ -404,6 +409,8 @@ type CitationGroup implements Node & Model {
   numArticleSet: Int!
   issueDateSet(before: String, after: String, first: Int, last: Int): IssueDateConnection
   numIssueDateSet: Int!
+  itemFileSet(before: String, after: String, first: Int, last: Int): ItemFileConnection
+  numItemFileSet: Int!
   names(before: String, after: String, first: Int, last: Int): NameConnection
   numNames: Int!
   bookSet(before: String, after: String, first: Int, last: Int): BookConnection
@@ -873,6 +880,21 @@ type Host implements TypeTag {
   name: String!
 }
 
+type IFAdditionalVolume implements ItemFileTag {
+  _Ignored: ID
+  text: String!
+}
+
+type IFAlternativeUrl implements ItemFileTag {
+  _Ignored: ID
+  url: String!
+}
+
+type IFComment implements ItemFileTag {
+  _Ignored: ID
+  text: String!
+}
+
 type ISBN implements ArticleTag {
   _Ignored: ID
   text: String!
@@ -1079,6 +1101,39 @@ type IssueRegex implements CitationGroupTag {
   text: String!
 }
 
+type ItemFile implements Node & Model {
+  id: ID!
+  oid: Int!
+  callSign: String!
+  pageTitle: String!
+  redirectUrl: String
+  modelCls: ModelCls!
+  filename: String!
+  title: String
+  citationGroup: CitationGroup!
+  series: String
+  volume: String
+  issue: String
+  startPage: String
+  endPage: String
+  url: String
+  tags: [ItemFileTag!]!
+}
+
+type ItemFileConnection {
+  pageInfo: PageInfo!
+  edges: [ItemFileEdge]!
+}
+
+type ItemFileEdge {
+  node: ItemFile
+  cursor: String!
+}
+
+interface ItemFileTag {
+  _Ignored: ID
+}
+
 type JSTOR implements ArticleTag {
   _Ignored: ID
   text: String!
@@ -1198,6 +1253,7 @@ type LocationDetail implements TypeTag {
   page: String
   translation: String
   pageLink: String
+  classificationEntry: ClassificationEntry
 }
 
 type LocationEdge {
@@ -1392,10 +1448,10 @@ type Name implements Node & Model {
   numOriginalChildren: Int!
   comments(before: String, after: String, first: Int, last: Int): NameCommentConnection
   numComments: Int!
-  taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
-  numTaxonSet: Int!
   classificationEntries(before: String, after: String, first: Int, last: Int): ClassificationEntryConnection
   numClassificationEntries: Int!
+  taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
+  numTaxonSet: Int!
   fillDataLevel: FillDataLevel
   preoccupiedNames(before: String, after: String, first: Int, last: Int): NameConnection
   numPreoccupiedNames: Int!
@@ -2173,6 +2229,8 @@ type QueryRoot {
   collection(oid: Int): Collection
   classificationEntryByLabel(label: String): [ClassificationEntry]
   classificationEntry(oid: Int): ClassificationEntry
+  itemFileByLabel(label: String): [ItemFile]
+  itemFile(oid: Int): ItemFile
   speciesNameComplexByLabel(label: String): [SpeciesNameComplex]
   speciesNameComplex(oid: Int): SpeciesNameComplex
   nameComplexByLabel(label: String): [NameComplex]
@@ -2618,6 +2676,7 @@ type SpecimenDetail implements TypeTag {
   _Ignored: ID
   text: String!
   source: Article!
+  classificationEntry: ClassificationEntry
 }
 
 type SpecimenEdge {
@@ -2781,6 +2840,15 @@ type StructuredData implements ClassificationEntryTag {
   _Ignored: ID
   label: String!
   text: String!
+}
+
+type StructuredVerbatimCitation implements TypeTag {
+  _Ignored: ID
+  volume: String
+  issue: String
+  startPage: String
+  endPage: String
+  series: String
 }
 
 type SubsequentUsageOf implements NameTag {
