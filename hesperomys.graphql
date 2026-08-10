@@ -1312,6 +1312,7 @@ type ModelCls {
   callSign: String!
   name: String!
   autocompletions(field: String): [String!]!
+  autocomplete(query: String!, field: String, limit: Int): [String!]!
   newest(first: Int, after: String, before: String, last: Int): ModelConnection!
 }
 

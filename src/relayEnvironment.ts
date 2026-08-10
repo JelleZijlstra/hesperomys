@@ -1,10 +1,16 @@
 import { Environment, Network, RecordSource, Store } from "relay-runtime";
 
-function fetchQuery(operation: any, variables: any) {
-  const url = window.location.hostname.endsWith("hesperomys.com")
+export function getGraphQLUrl() {
+  if (process.env.REACT_APP_GRAPHQL_URL) {
+    return process.env.REACT_APP_GRAPHQL_URL;
+  }
+  return window.location.hostname.endsWith("hesperomys.com")
     ? "/graphql"
     : "http://localhost:8080/graphql";
-  return fetch(url, {
+}
+
+function fetchQuery(operation: any, variables: any) {
+  return fetch(getGraphQLUrl(), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

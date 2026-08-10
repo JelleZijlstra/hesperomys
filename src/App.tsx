@@ -1,57 +1,60 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import HomeMain from "./components/HomeMain";
-import DocsMain from "./components/DocsMain";
-import HomonymFinder from "./components/HomonymFinder";
-import ModelMain from "./components/ModelMain";
-import GamesLanding from "./games/GamesLanding";
-import FamilyByGenus from "./games/FamilyByGenus";
-import GeneraByFamily from "./games/GeneraByFamily";
-import SpeciesByGenus from "./games/SpeciesByGenus";
-import NewMain from "./components/NewMain";
-import SearchMain from "./components/SearchMain";
 import CanonicalRedirect from "./components/CanonicalRedirect";
 
 import "./App.css";
+
+const DocsMain = lazy(() => import("./components/DocsMain"));
+const HomonymFinder = lazy(() => import("./components/HomonymFinder"));
+const ModelMain = lazy(() => import("./components/ModelMain"));
+const GamesLanding = lazy(() => import("./games/GamesLanding"));
+const FamilyByGenus = lazy(() => import("./games/FamilyByGenus"));
+const GeneraByFamily = lazy(() => import("./games/GeneraByFamily"));
+const SpeciesByGenus = lazy(() => import("./games/SpeciesByGenus"));
+const NewMain = lazy(() => import("./components/NewMain"));
+const SearchMain = lazy(() => import("./components/SearchMain"));
 
 function App() {
   return (
     <Router>
       {/* Normalize URLs to no trailing slash (except root) */}
       <CanonicalRedirect />
-      <Switch>
-        <Route path="/docs/*">
-          <DocsMain />
-        </Route>
-        <Route path="/search">
-          <SearchMain />
-        </Route>
-        <Route path="/homonym-finder">
-          <HomonymFinder />
-        </Route>
-        <Route path="/games/family-by-genus">
-          <FamilyByGenus />
-        </Route>
-        <Route path="/games/species-by-genus">
-          <SpeciesByGenus />
-        </Route>
-        <Route path="/games/genera-by-family">
-          <GeneraByFamily />
-        </Route>
-        <Route path="/games" exact>
-          <GamesLanding />
-        </Route>
-        <Route path="/new/:callSign">
-          <NewMain />
-        </Route>
-        <Route path="/:callSign/:oid">
-          <ModelMain />
-        </Route>
-        <Route path="/" exact>
-          <HomeMain />
-        </Route>
-      </Switch>
+      <Suspense fallback={<div className="route-loading">Loading...</div>}>
+        <Switch>
+          <Route path="/docs/*">
+            <DocsMain />
+          </Route>
+          <Route path="/search">
+            <SearchMain />
+          </Route>
+          <Route path="/homonym-finder">
+            <HomonymFinder />
+          </Route>
+          <Route path="/games/family-by-genus">
+            <FamilyByGenus />
+          </Route>
+          <Route path="/games/species-by-genus">
+            <SpeciesByGenus />
+          </Route>
+          <Route path="/games/genera-by-family">
+            <GeneraByFamily />
+          </Route>
+          <Route path="/games" exact>
+            <GamesLanding />
+          </Route>
+          <Route path="/new/:callSign">
+            <NewMain />
+          </Route>
+          <Route path="/:callSign/:oid">
+            <ModelMain />
+          </Route>
+          <Route path="/" exact>
+            <HomeMain />
+          </Route>
+        </Switch>
+      </Suspense>
     </Router>
   );
 }
