@@ -40,7 +40,6 @@ class OccurrenceRecordBody extends React.Component<{
       ["Page", record.page],
       ["Basis", words(record.basis)],
       ["Status", words(record.occurrenceRecordStatus)],
-      ["Raw source data", record.rawData],
     ];
 
     record.occurrenceRecordTags.forEach((tag) => {
@@ -170,7 +169,6 @@ export default createFragmentContainer(OccurrenceRecordBody, {
       page
       basis
       occurrenceRecordStatus: status
-      rawData
       occurrenceRecordTags: tags {
         __typename
         ... on CommentFromDatabaseOR {

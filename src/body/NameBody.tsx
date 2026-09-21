@@ -79,7 +79,7 @@ function NameSection({ name }: { name: NameBody_name }) {
           ["Authors", <AuthorList authorTags={name.authorTags} />],
           ["Year", name.numericYear !== null ? String(name.numericYear) : null],
           [
-            "DateN",
+            "Date of publication",
             name.year &&
             (!name.numericYear || name.year !== String(name.numericYear)) ? (
               <PublicationDate date={name.year} />
@@ -317,7 +317,7 @@ class NameBody extends React.Component<{ name: NameBody_name }> {
         <NamePreoccupiedNames name={name} title="Preoccupied names" />
         <NameJuniorPrimaryHomonyms name={name} title="Junior primary homonyms" />
         <NameJuniorSecondaryHomonyms name={name} title="Junior secondary homonyms" />
-        <NameNominaNova name={name} title="NameNominaNova" />
+        <NameNominaNova name={name} title="Replacement names" />
         <NameSubsequentUsages name={name} title="Subsequent usages" />
         <NameMisidentifications name={name} title="Misidentifications" />
 

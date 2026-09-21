@@ -9,7 +9,7 @@ export function getGraphQLUrl() {
     : "http://localhost:8080/graphql";
 }
 
-function fetchQuery(operation: any, variables: any) {
+export function fetchQuery(operation: any, variables: any) {
   return fetch(getGraphQLUrl(), {
     method: "POST",
     headers: {
@@ -19,8 +19,18 @@ function fetchQuery(operation: any, variables: any) {
       query: operation.text,
       variables,
     }),
-  }).then((response) => {
-    return response.json();
+  }).then(async (response) => {
+    if (!response.ok) {
+      throw new Error(`The server returned HTTP ${response.status}.`);
+    }
+    const result = await response.json();
+    // Relay can otherwise turn a failed nullable model into a misleading 404.
+    if (result.errors && result.errors.length > 0) {
+      throw new Error(
+        result.errors.map((error: { message: string }) => error.message).join("; "),
+      );
+    }
+    return result;
   });
 }
 

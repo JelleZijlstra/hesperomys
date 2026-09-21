@@ -482,3 +482,46 @@ li {
 .expand-buttons {
   margin: 6px 0 10px;
 }
+
+.page-status {
+  max-width: 42rem;
+  margin: 3rem auto;
+  padding: 2rem;
+  border: 1px solid rgba(127, 127, 127, 0.3);
+  border-radius: 12px;
+}
+
+.page-status h1 {
+  margin: 0 0 1rem;
+  font-size: 2rem;
+}
+
+.page-status-code {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.page-status-path {
+  overflow-wrap: anywhere;
+}
+
+.page-status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.page-status-actions button {
+  padding: 0.5rem 1rem;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}

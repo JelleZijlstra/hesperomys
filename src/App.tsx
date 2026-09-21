@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import HomeMain from "./components/HomeMain";
 import CanonicalRedirect from "./components/CanonicalRedirect";
+import PageStatus from "./components/PageStatus";
 
 import "./App.css";
 
@@ -55,11 +56,14 @@ function App() {
           <Route path="/new/:callSign">
             <NewMain />
           </Route>
-          <Route path="/:callSign/:oid">
+          <Route path="/:callSign/:oid" exact>
             <ModelMain />
           </Route>
           <Route path="/" exact>
             <HomeMain />
+          </Route>
+          <Route>
+            <PageStatus kind="not-found" />
           </Route>
         </Switch>
       </Suspense>

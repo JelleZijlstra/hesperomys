@@ -125,9 +125,6 @@ class LocationBody extends React.Component<{
             </a>,
           ]);
           break;
-        case "CoordinatesFromPLSSL":
-          data.push(["Coordinate source", `PLSS ${tag.plssId}`]);
-          break;
         case "CoordinatesFromNameL":
           data.push([
             "Coordinate source",
@@ -152,7 +149,14 @@ class LocationBody extends React.Component<{
         case "PLSSL":
           data.push([
             "PLSS description",
-            tag.plssComment ? `${tag.plssText} (${tag.plssComment})` : tag.plssText,
+            <>
+              {location.plssMapUrl ? (
+                <a href={location.plssMapUrl}>{tag.plssText}</a>
+              ) : (
+                tag.plssText
+              )}
+              {tag.plssComment && <> ({tag.plssComment})</>}
+            </>,
           ]);
           break;
       }
@@ -202,6 +206,7 @@ export default createFragmentContainer(LocationBody, {
       latitude
       longitude
       openstreetmapUrl
+      plssMapUrl
       locationDetail
       ageDetail
       comment
@@ -233,9 +238,6 @@ export default createFragmentContainer(LocationBody, {
           osmId
           category
         }
-        ... on CoordinatesFromPLSSL {
-          plssId
-        }
         ... on CoordinatesFromNameL {
           name {
             ...ModelLink_model
@@ -260,7 +262,6 @@ export default createFragmentContainer(LocationBody, {
         }
         ... on PLSSL {
           plssText: text
-          plssId
           plssComment: comment
         }
       }

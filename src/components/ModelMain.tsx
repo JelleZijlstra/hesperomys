@@ -12,6 +12,7 @@ import SiteHeader from "./SiteHeader";
 import Body from "../body/Body";
 import ModelLink from "./ModelLink";
 import SiteBody from "./SiteBody";
+import PageStatus from "./PageStatus";
 
 const MultiModel = function ({
   models,
@@ -67,20 +68,20 @@ export default function ModelMain() {
       variables={{ oid, callSign }}
       render={({ error, props }) => {
         if (error) {
-          return <div>Error!</div>;
+          return <PageStatus kind="error" />;
         }
         if (!props) {
-          return <div>Loading...</div>;
+          return <div className="route-loading">Loading...</div>;
         }
         if (!props.models || props.models.length === 0) {
-          return <div>Not found</div>;
+          return <PageStatus kind="not-found" />;
         }
         if (props.models.length > 1) {
           return <MultiModel models={props.models} callSign={callSign} oid={oid} />;
         }
         const [model] = props.models;
         if (model === null) {
-          return <div>Not found</div>;
+          return <PageStatus kind="not-found" />;
         }
         if (model.redirectUrl) {
           window.location.assign(`${model.redirectUrl}${window.location.search}`);

@@ -70,7 +70,7 @@ class Body extends React.Component<{ model: Body_model }> {
       case "Person":
         return <PersonBody person={model} />;
       default:
-        return <>(unimplemented for {model.__typename})</>;
+        return <p>Details for this record are not available on the website yet.</p>;
     }
   }
 }

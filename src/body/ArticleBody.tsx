@@ -120,6 +120,7 @@ class ArticleBody extends React.Component<{
     let partialClassification: string | null = null;
     articleTags.forEach((tag) => {
       let url: string | null = null;
+      let identifierLabel: string | null = null;
       switch (tag.__typename) {
         case "BatLitA": {
           if (tag.zenodoDoi) {
@@ -129,9 +130,11 @@ class ArticleBody extends React.Component<{
           break;
         }
         case "ISBNA":
+          identifierLabel = "ISBN";
           url = `https://en.wikipedia.org/wiki/Special:BookSources/${tag.text}`;
           break;
         case "HDLA": {
+          identifierLabel = "Handle";
           const base = `https://hdl.handle.net/${tag.text}`;
           if (tag.urlappend) {
             url = `${base}?urlappend=${encodeURIComponent(tag.urlappend)}`;
@@ -141,12 +144,15 @@ class ArticleBody extends React.Component<{
           break;
         }
         case "JSTORA":
+          identifierLabel = "JSTOR";
           url = `https://www.jstor.org/stable/${tag.text}`;
           break;
         case "PMIDA":
+          identifierLabel = "PubMed ID";
           url = `https://pubmed.ncbi.nlm.nih.gov/${tag.text}/`;
           break;
         case "PMCA":
+          identifierLabel = "PubMed Central ID";
           url = `https://www.ncbi.nlm.nih.gov/pmc/articles/PMC${tag.text}/`;
           break;
         case "LSIDA":
@@ -216,8 +222,8 @@ class ArticleBody extends React.Component<{
           ]);
           break;
       }
-      if (url !== null && "text" in tag) {
-        data.push([tag.__typename, <a href={url}>{tag.text}</a>]);
+      if (url !== null && identifierLabel !== null && "text" in tag) {
+        data.push([identifierLabel, <a href={url}>{tag.text}</a>]);
       }
     });
     if (path && new URLSearchParams(window.location.search).get("showPath")) {

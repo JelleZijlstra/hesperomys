@@ -713,7 +713,7 @@ type CoordinatesFromNameL implements LocationTag {
 type CoordinatesFromNominatimL implements LocationTag {
   _Ignored: ID
   osmType: String!
-  osmId: Int!
+  osmId: ID!
   category: String!
   useBoundingBox: Boolean!
 }
@@ -1371,6 +1371,7 @@ type Location implements Node & Model {
   modelCls: ModelCls!
   regionPath: [Region!]!
   openstreetmapUrl: String
+  plssMapUrl: String
   name: String!
   minPeriod: Period
   maxPeriod: Period
@@ -2114,7 +2115,7 @@ type OpenArticle {
 type OpenStreetMapR implements RegionTag {
   _Ignored: ID
   osmType: String!
-  osmId: Int!
+  osmId: ID!
   category: String!
 }
 
