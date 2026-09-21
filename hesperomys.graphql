@@ -382,6 +382,17 @@ type CEConditionCE implements ClassificationEntryTag {
   comment: String
 }
 
+enum Calendar {
+  gregorian
+  julian
+  french_republican
+}
+
+type CalendarID implements IssueDateTag {
+  _Ignored: ID
+  calendar: Calendar!
+}
+
 type ChildRuleC implements CollectionTag {
   _Ignored: ID
   collection: Collection!
@@ -1215,6 +1226,7 @@ type IssueDate implements Node & Model {
   pageTitle: String!
   redirectUrl: String
   modelCls: ModelCls!
+  gregorianDate: String
   citationGroup: CitationGroup!
   series: String
   volume: String!
@@ -1637,10 +1649,10 @@ type Name implements Node & Model {
   numOriginalChildren: Int!
   comments(before: String, after: String, first: Int, last: Int): NameCommentConnection
   numComments: Int!
-  taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
-  numTaxonSet: Int!
   classificationEntries(before: String, after: String, first: Int, last: Int): ClassificationEntryConnection
   numClassificationEntries: Int!
+  taxonSet(before: String, after: String, first: Int, last: Int): TaxonConnection
+  numTaxonSet: Int!
   fillDataLevel: FillDataLevel
   preoccupiedNames(before: String, after: String, first: Int, last: Int): NameConnection
   numPreoccupiedNames: Int!
@@ -2480,6 +2492,13 @@ type PublicationDateA implements ArticleTag {
   source: DateSource!
   date: String!
   comment: String
+  calendar: Calendar
+}
+
+type PublishedBeforeA implements ArticleTag {
+  _Ignored: ID
+  article: Article!
+  comment: String!
 }
 
 type QueryRoot {
@@ -2526,6 +2545,7 @@ type QueryRoot {
   speciesNameEnding(oid: Int): SpeciesNameEnding
   nameByLabel(label: String): [Name]
   name(oid: Int): Name
+  nameCommentByLabel(label: String): [NameComment]
   nameComment(oid: Int): NameComment
   ignoredDoiByLabel(label: String): [IgnoredDoi]
   ignoredDoi(oid: Int): IgnoredDoi
@@ -3199,6 +3219,7 @@ type StructuredVerbatimCitationN implements TypeTag {
   startPage: String
   endPage: String
   series: String
+  url: String
 }
 
 type SubsequentUsageOfN implements NameTag {

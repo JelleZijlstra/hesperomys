@@ -64,6 +64,7 @@ class PersonBody extends React.Component<{
                 return null;
               }
               switch (tag.__typename) {
+                case "OnlineBioH":
                 case "WikiH":
                   return tag.text ? (
                     <li key={tag.text}>
@@ -128,6 +129,9 @@ export default createFragmentContainer(PersonBody, {
       }
       personTags: tags {
         __typename
+        ... on OnlineBioH {
+          text
+        }
         ... on WikiH {
           text
         }

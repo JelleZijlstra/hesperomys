@@ -7,6 +7,7 @@ import graphql from "babel-plugin-relay/macro";
 import ModelLink from "./ModelLink";
 import InlineMarkdown from "./InlineMarkdown";
 import CoordinatesLink from "./CoordinatesLink";
+import TypeLocalityLink from "./TypeLocalityLink";
 
 type TypeTag_tag = Exclude<NameTypeTags_name["typeTags"][0], null>;
 
@@ -29,6 +30,34 @@ export function Detail({ text, source }: { text: string | null; source: any }) {
 
 function TypeTag({ tag }: { tag: TypeTag_tag }) {
   switch (tag.__typename) {
+    case "PartialTypeLocalityN":
+      return (
+        <>
+          Part of the type locality: <TypeLocalityLink location={tag.location} />
+        </>
+      );
+    case "StructuredVerbatimCitationN": {
+      const parts = [
+        tag.series && `series ${tag.series}`,
+        tag.volume && `volume ${tag.volume}`,
+        tag.issue && `issue ${tag.issue}`,
+        tag.startPage &&
+          `page${tag.endPage ? "s" : ""} ${tag.startPage}${
+            tag.endPage ? `–${tag.endPage}` : ""
+          }`,
+      ].filter(Boolean);
+      return (
+        <>
+          Citation as given: {parts.join(", ")}
+          {tag.citationUrl && (
+            <>
+              {parts.length > 0 && "; "}
+              <a href={tag.citationUrl}>source link</a>
+            </>
+          )}
+        </>
+      );
+    }
     case "AgeN":
       return <>Age of the type specimen: {tag.age}</>;
     case "AltitudeN":
@@ -190,6 +219,18 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       return (
         <>
           <Detail text={tag.text} source={tag.source} />
+          {tag.localityPage && <> (page {tag.localityPage})</>}
+          {tag.translation && <> Translation: {tag.translation}</>}
+          {tag.localityComment && (
+            <>
+              ; <InlineMarkdown source={tag.localityComment} />
+            </>
+          )}
+          {tag.classificationEntry && (
+            <>
+              ; source entry: <ModelLink model={tag.classificationEntry} />
+            </>
+          )}
           {tag.pageLink && (
             <>
               {" "}
@@ -287,7 +328,16 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
     case "SourceDetailN":
       return <Detail text={tag.text} source={tag.source} />;
     case "SpecimenDetailN":
-      return <Detail text={tag.text} source={tag.source} />;
+      return (
+        <>
+          <Detail text={tag.text} source={tag.source} />
+          {tag.classificationEntry && (
+            <>
+              ; source entry: <ModelLink model={tag.classificationEntry} />
+            </>
+          )}
+        </>
+      );
     case "AdditionalTypeSpecimenN":
       return (
         <>
@@ -399,9 +449,9 @@ class NameTypeTags extends React.Component<{
     return (
       <ul>
         {typeTags.map(
-          (tag) =>
+          (tag, index) =>
             tag && (
-              <li key={tag.__typename}>
+              <li key={`${tag.__typename}-${index}`}>
                 <TypeTag tag={tag} />
               </li>
             ),
@@ -416,6 +466,19 @@ export default createFragmentContainer(NameTypeTags, {
     fragment NameTypeTags_name on Name {
       typeTags {
         __typename
+        ... on PartialTypeLocalityN {
+          location {
+            ...TypeLocalityLink_location
+          }
+        }
+        ... on StructuredVerbatimCitationN {
+          series
+          volume
+          issue
+          startPage
+          endPage
+          citationUrl: url
+        }
         ... on AgeN {
           age
         }
@@ -518,6 +581,12 @@ export default createFragmentContainer(NameTypeTags, {
         }
         ... on LocationDetailN {
           text
+          localityPage: page
+          translation
+          localityComment: comment
+          classificationEntry {
+            ...ModelLink_model
+          }
           source {
             ...ModelLink_model
           }
@@ -610,6 +679,9 @@ export default createFragmentContainer(NameTypeTags, {
         }
         ... on SpecimenDetailN {
           text
+          classificationEntry {
+            ...ModelLink_model
+          }
           source {
             ...ModelLink_model
           }

@@ -157,7 +157,7 @@ class ArticleBody extends React.Component<{
         case "PublicationDateA": {
           const body = (
             <>
-              <PublicationDate date={tag.date || ""} /> (
+              <PublicationDate date={tag.date || ""} calendar={tag.calendar} /> (
               {DATE_SOURCE_TO_STRING.get(tag.dateSource || "")}
               {tag.comment && (
                 <>
@@ -170,6 +170,19 @@ class ArticleBody extends React.Component<{
           data.push(["Evidence for date", body]);
           break;
         }
+        case "PublishedBeforeA":
+          data.push([
+            "Published before",
+            <>
+              <ModelLink model={tag.article} />
+              {tag.publishedBeforeComment && (
+                <>
+                  ; <InlineMarkdown source={tag.publishedBeforeComment} />
+                </>
+              )}
+            </>,
+          ]);
+          break;
         case "BiblioNoteA":
           if (tag.text) {
             data.push([
@@ -329,8 +342,15 @@ export default createFragmentContainer(ArticleBody, {
         }
         ... on PublicationDateA {
           dateSource: source
+          calendar
           date
           comment
+        }
+        ... on PublishedBeforeA {
+          article {
+            ...ModelLink_model
+          }
+          publishedBeforeComment: comment
         }
         ... on BiblioNoteA {
           text

@@ -31,6 +31,18 @@ function InfoSection({ ce }: { ce: ClassificationEntryBody_classificationEntry }
   let pageLinkUrl: string | null = null;
   ce.classificationEntryTags.forEach((tag) => {
     switch (tag.__typename) {
+      case "EtymologyDetailCE":
+        sourceData.push(["Etymology as given", tag.text]);
+        break;
+      case "VerbatimParentCE":
+        sourceData.push(["Parent as given", <ModelLink model={tag.ce} />]);
+        break;
+      case "OriginalCitationCE":
+        interpData.push(["Original description", "yes"]);
+        break;
+      case "AuxiliaryNameCE":
+        interpData.push(["Auxiliary name", "yes"]);
+        break;
       case "AgeClassCE":
         sourceData.push(["Age class", tag.age.replace(/_/g, " ")]);
         break;
@@ -199,6 +211,20 @@ export default createFragmentContainer(ClassificationEntryBody, {
       ...ClassificationEntryOccurrenceRecords_classificationEntry
       classificationEntryTags: tags {
         __typename
+        ... on EtymologyDetailCE {
+          text
+        }
+        ... on VerbatimParentCE {
+          ce {
+            ...ModelLink_model
+          }
+        }
+        ... on OriginalCitationCE {
+          _Ignored
+        }
+        ... on AuxiliaryNameCE {
+          _Ignored
+        }
         ... on AgeClassCE {
           age
         }

@@ -2,8 +2,11 @@ import React from "react";
 import { render } from "@testing-library/react";
 import App from "./App";
 
-test("renders learn react link", () => {
+test("renders the database home page", () => {
   const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(getByText("Hesperomys", { selector: "h1" })).toBeInTheDocument();
+  expect(getByText("Hesperomys", { selector: "a i" }).closest("a")).toHaveAttribute(
+    "href",
+    "/",
+  );
 });

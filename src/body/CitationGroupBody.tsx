@@ -7,7 +7,6 @@ import graphql from "babel-plugin-relay/macro";
 import CitationGroupOrderedNames from "../lists/CitationGroupOrderedNames";
 import CitationGroupOrderedArticles from "../lists/CitationGroupOrderedArticles";
 import CitationGroupRedirects from "../lists/CitationGroupRedirects";
-import CitationGroupItemFileSet from "../lists/CitationGroupItemFileSet";
 import ModelLink from "../components/ModelLink";
 import Table from "../components/Table";
 import PublicationDate from "./PublicationDate";
@@ -40,6 +39,22 @@ const CitationGroupTags = ({
         if (tag.text) {
           data.push(["URL", <a href={tag.text}>{tag.text}</a>]);
         }
+        break;
+      case "AbbreviatedTitleCG":
+        data.push(["Abbreviated title", tag.text]);
+        break;
+      case "AlternativeNameCG":
+        data.push([
+          "Alternative name",
+          <>
+            {tag.text}
+            {tag.alternativeNameComment && (
+              <>
+                ; <InlineMarkdown source={tag.alternativeNameComment} />
+              </>
+            )}
+          </>,
+        ]);
         break;
       case "PredecessorCG":
         data.push(["Previous name", <ModelLink model={tag.cg} />]);
@@ -99,7 +114,12 @@ const IssueDate = ({
         {issueDate.startPage}–{issueDate.endPage}
       </td>
       <td>
-        <PublicationDate date={issueDate.date} />
+        <PublicationDate
+          date={issueDate.date}
+          calendar={issueDate.tags
+            .map((tag) => (tag.__typename === "CalendarID" ? tag.calendar : null))
+            .find(Boolean)}
+        />
       </td>
       <td>
         {issueDate.tags && (
@@ -107,8 +127,8 @@ const IssueDate = ({
             {issueDate.tags.map(
               (tag) =>
                 tag.__typename === "CommentID" && (
-                  <li>
-                    {tag.text}
+                  <li key={tag.text}>
+                    <InlineMarkdown source={tag.text} />
                     {tag.optionalSource && (
                       <>
                         {" "}
@@ -148,10 +168,10 @@ const IssueDates = ({
     if (!b) {
       return 1;
     }
-    if (a.date < b.date) {
+    if ((a.gregorianDate || a.date) < (b.gregorianDate || b.date)) {
       return -1;
     }
-    if (a.date === b.date) {
+    if ((a.gregorianDate || a.date) === (b.gregorianDate || b.date)) {
       return 0;
     }
     return 1;
@@ -172,17 +192,19 @@ const IssueDates = ({
             <th>Comments</th>
           </tr>
         </thead>
-        {issueDates.map(
-          (issueDate) =>
-            issueDate && (
-              <IssueDate
-                key={issueDate.id}
-                hasSeries={hasSeries}
-                hasIssue={hasIssue}
-                issueDate={issueDate}
-              />
-            ),
-        )}
+        <tbody>
+          {issueDates.map(
+            (issueDate) =>
+              issueDate && (
+                <IssueDate
+                  key={issueDate.id}
+                  hasSeries={hasSeries}
+                  hasIssue={hasIssue}
+                  issueDate={issueDate}
+                />
+              ),
+          )}
+        </tbody>
       </table>
     </>
   );
@@ -211,7 +233,6 @@ class CitationGroupBody extends React.Component<{
           title="Names published here"
         />
         <CitationGroupRedirects citationGroup={citationGroup} title="Aliases" />
-        <CitationGroupItemFileSet citationGroup={citationGroup} title="Files" />
       </>
     );
   }
@@ -236,6 +257,13 @@ export default createFragmentContainer(CitationGroupBody, {
         }
         ... on URLCG {
           text
+        }
+        ... on AbbreviatedTitleCG {
+          text
+        }
+        ... on AlternativeNameCG {
+          text
+          alternativeNameComment: comment
         }
         ... on PredecessorCG {
           cg {
@@ -266,8 +294,12 @@ export default createFragmentContainer(CitationGroupBody, {
             startPage
             endPage
             date
+            gregorianDate
             tags {
               __typename
+              ... on CalendarID {
+                calendar
+              }
               ... on CommentID {
                 text
                 optionalSource {
@@ -281,7 +313,6 @@ export default createFragmentContainer(CitationGroupBody, {
       ...CitationGroupRedirects_citationGroup
       ...CitationGroupOrderedArticles_citationGroup
       ...CitationGroupOrderedNames_citationGroup
-      ...CitationGroupItemFileSet_citationGroup
     }
   `,
 });

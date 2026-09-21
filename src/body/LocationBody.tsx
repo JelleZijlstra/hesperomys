@@ -8,6 +8,7 @@ import graphql from "babel-plugin-relay/macro";
 import ModelLink from "../components/ModelLink";
 import InlineMarkdown from "../components/InlineMarkdown";
 import Table from "../components/Table";
+import LocationPartialTypeLocalities from "../lists/LocationPartialTypeLocalities";
 import LocationTypeLocalities from "../lists/LocationTypeLocalities";
 import LocationOccurrenceRecords from "../lists/LocationOccurrenceRecords";
 import CoordinatesLink from "../components/CoordinatesLink";
@@ -168,6 +169,10 @@ class LocationBody extends React.Component<{
         )}
         <Table data={data} />
         <LocationTypeLocalities location={location} title="Type localities" />
+        <LocationPartialTypeLocalities
+          location={location}
+          title="Partial type localities"
+        />
         <LocationOccurrenceRecords location={location} />
       </>
     );
@@ -259,6 +264,7 @@ export default createFragmentContainer(LocationBody, {
           plssComment: comment
         }
       }
+      ...LocationPartialTypeLocalities_location
       ...LocationTypeLocalities_location
       ...LocationOccurrenceRecords_location
     }

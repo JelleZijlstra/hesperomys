@@ -106,6 +106,7 @@ function NameSection({ name }: { name: NameBody_name }) {
         name={name}
         tagsToInclude={[
           "CitationDetailN",
+          "StructuredVerbatimCitationN",
           "SourceDetailN",
           "DescriptionDetailN",
           "AuthorityPageLinkN",
@@ -246,6 +247,7 @@ function LocationSection({ name }: { name: NameBody_name }) {
     "AltitudeN",
     "CoordinatesN",
     "LocationDetailN",
+    "PartialTypeLocalityN",
     "HabitatN",
     "StratigraphyDetailN",
     "TypeLocalityValidityN",
