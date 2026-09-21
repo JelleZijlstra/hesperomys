@@ -25,10 +25,19 @@ const SingleTaxonomicAuthority = ({
 
 class TaxonomicAuthority extends React.Component<{
   authorTags: TaxonomicAuthority_authorTags;
+  short?: boolean;
 }> {
   render() {
-    const { authorTags } = this.props;
+    const { authorTags, short } = this.props;
     const numAuthors = authorTags.length;
+
+    if (short && numAuthors > 2) {
+      return (
+        <>
+          <SingleTaxonomicAuthority person={authorTags[0].person} /> et al.
+        </>
+      );
+    }
 
     return (
       <>
@@ -47,7 +56,23 @@ class TaxonomicAuthority extends React.Component<{
 export default createFragmentContainer(TaxonomicAuthority, {
   authorTags: graphql`
     fragment TaxonomicAuthority_authorTags on AuthorTag @relay(plural: true) {
-      ... on Author {
+      ... on AuthorA {
+        person {
+          id
+          familyName
+          namingConvention
+          tussenvoegsel
+        }
+      }
+      ... on AuthorB {
+        person {
+          id
+          familyName
+          namingConvention
+          tussenvoegsel
+        }
+      }
+      ... on AuthorN {
         person {
           id
           familyName

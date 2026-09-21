@@ -53,9 +53,9 @@ class TaxonChildList extends React.Component<
       const taxon = edge.node;
       if (taxon.baseName.status !== "valid") {
         dubiousChildren.push(taxon);
-      } else if (taxon.tags.some((tag) => tag.__typename === "IncertaeSedis")) {
+      } else if (taxon.tags.some((tag) => tag.__typename === "IncertaeSedisT")) {
         incertaeSedisChildren.push(taxon);
-      } else if (taxon.tags.some((tag) => tag.__typename === "Basal")) {
+      } else if (taxon.tags.some((tag) => tag.__typename === "BasalT")) {
         basalChildren.push(taxon);
       } else {
         mainChildren.push(taxon);

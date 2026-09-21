@@ -1,26 +1,22 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "./FamilyByGenus.css";
-import GameScope from "./GameScope";
-import { filterGenusSpecies, scopedStorageKey } from "./geography";
 
-type Row = { genus: string; species: string[] };
+type Row = { child: string; parent: string };
 type Progress = {
   queue: string[];
   retry: string[];
   completed: string[];
   flawless: string[];
-  currentGenus: string | null;
+  currentChild: string | null;
   pass: number;
   finished: boolean;
   correct: number;
   attempts: number;
 };
 type StoredState = {
-  version: 1;
+  version: 1 | 2;
   progress: Progress;
 };
-
-const STORAGE_KEY = "hesperomys.speciesByGenus.v1";
 
 function shuffle<T>(arr: T[]): T[] {
   const a = arr.slice();
@@ -56,7 +52,15 @@ function readStoredProgress(storageKey: string): Progress | null {
     const raw = window.localStorage.getItem(storageKey);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as StoredState;
-    if (parsed?.version === 1) return parsed.progress;
+    if (parsed?.version === 1 || parsed?.version === 2) {
+      const progress = parsed.progress;
+      // Migrate the original Family by Genus save format in place.
+      const legacy = progress as Progress & { currentGenus?: string | null };
+      return {
+        ...progress,
+        currentChild: progress.currentChild || legacy.currentGenus || null,
+      };
+    }
   } catch {
     return null;
   }
@@ -65,7 +69,7 @@ function readStoredProgress(storageKey: string): Progress | null {
 
 function writeStoredProgress(storageKey: string, progress: Progress) {
   try {
-    window.localStorage.setItem(storageKey, JSON.stringify({ version: 1, progress }));
+    window.localStorage.setItem(storageKey, JSON.stringify({ version: 2, progress }));
   } catch {
     // Losing saved game state is better than blocking play.
   }
@@ -73,17 +77,17 @@ function writeStoredProgress(storageKey: string, progress: Progress) {
 
 function makeRowMap(rows: Row[]): Map<string, Row> {
   const map = new Map<string, Row>();
-  for (const row of rows) map.set(row.genus, row);
+  for (const row of rows) map.set(row.child, row);
   return map;
 }
 
 function freshProgress(rows: Row[]): Progress {
   return {
-    queue: shuffle(rows.map((row) => row.genus)),
+    queue: shuffle(rows.map((row) => row.child)),
     retry: [],
     completed: [],
     flawless: [],
-    currentGenus: null,
+    currentChild: null,
     pass: 1,
     finished: false,
     correct: 0,
@@ -92,13 +96,13 @@ function freshProgress(rows: Row[]): Progress {
 }
 
 function advanceToNextPrompt(progress: Progress, rows: Row[]): Progress {
-  const rowByGenus = makeRowMap(rows);
-  const validGenera = new Set(rowByGenus.keys());
+  const rowByChild = makeRowMap(rows);
+  const validGenera = new Set(rowByChild.keys());
   const flawless = uniqueValid(progress.flawless, validGenera);
   const flawlessSet = new Set(flawless);
   const remainingGenera = rows
-    .map((row) => row.genus)
-    .filter((genus) => !flawlessSet.has(genus));
+    .map((row) => row.child)
+    .filter((child) => !flawlessSet.has(child));
 
   if (remainingGenera.length === 0) {
     return {
@@ -106,16 +110,16 @@ function advanceToNextPrompt(progress: Progress, rows: Row[]): Progress {
       queue: [],
       retry: [],
       flawless,
-      currentGenus: null,
+      currentChild: null,
       finished: true,
     };
   }
 
   let queue = uniqueValid(progress.queue, validGenera).filter(
-    (genus) => !flawlessSet.has(genus),
+    (child) => !flawlessSet.has(child),
   );
   let retry = uniqueValid(progress.retry, validGenera).filter(
-    (genus) => !flawlessSet.has(genus),
+    (child) => !flawlessSet.has(child),
   );
   let pass = progress.pass;
 
@@ -130,8 +134,8 @@ function advanceToNextPrompt(progress: Progress, rows: Row[]): Progress {
     }
   }
 
-  const [currentGenus, ...rest] = queue;
-  if (!rowByGenus.has(currentGenus)) {
+  const [currentChild, ...rest] = queue;
+  if (!rowByChild.has(currentChild)) {
     return advanceToNextPrompt({ ...progress, queue: rest }, rows);
   }
   return {
@@ -139,37 +143,51 @@ function advanceToNextPrompt(progress: Progress, rows: Row[]): Progress {
     queue: rest,
     retry,
     flawless,
-    currentGenus,
+    currentChild,
     pass,
     finished: false,
   };
 }
 
 function sanitizeProgress(saved: Progress | null, rows: Row[]): Progress {
-  const validGenera = new Set(rows.map((row) => row.genus));
+  const validGenera = new Set(rows.map((row) => row.child));
   if (!saved) return advanceToNextPrompt(freshProgress(rows), rows);
 
-  const currentGenus =
-    saved.currentGenus && validGenera.has(saved.currentGenus)
-      ? saved.currentGenus
+  const currentChild =
+    saved.currentChild && validGenera.has(saved.currentChild)
+      ? saved.currentChild
       : null;
   const progress: Progress = {
     queue: uniqueValid(saved.queue, validGenera),
     retry: uniqueValid(saved.retry, validGenera),
     completed: uniqueValid(saved.completed, validGenera),
     flawless: uniqueValid(saved.flawless, validGenera),
-    currentGenus,
+    currentChild,
     pass: Math.max(saved.pass || 1, 1),
     finished: saved.finished,
     correct: Math.max(saved.correct || 0, 0),
     attempts: Math.max(saved.attempts || 0, 0),
   };
-  if (progress.currentGenus) return progress;
+  if (progress.currentChild) return progress;
   if (progress.finished && progress.flawless.length === rows.length) return progress;
   return advanceToNextPrompt(progress, rows);
 }
 
-function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
+export default function ParentByChild({
+  data,
+  storageKey,
+  title,
+  promptLabel,
+  answerLabel,
+  placeholder,
+}: {
+  data: Row[];
+  storageKey: string;
+  title: string;
+  promptLabel: string;
+  answerLabel: string;
+  placeholder: string;
+}) {
   const [progress, setProgress] = useState<Progress | null>(null);
   const [answer, setAnswer] = useState("");
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -187,75 +205,51 @@ function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
     writeStoredProgress(storageKey, progress);
   }, [progress, storageKey]);
 
-  const rowByGenus = useMemo(() => makeRowMap(data ?? []), [data]);
-  const current = progress?.currentGenus
-    ? (rowByGenus.get(progress.currentGenus) ?? null)
+  const rowByChild = useMemo(() => makeRowMap(data ?? []), [data]);
+  const current = progress?.currentChild
+    ? (rowByChild.get(progress.currentChild) ?? null)
     : null;
   const total = data?.length ?? 0;
   const completed = progress?.completed.length ?? 0;
   const flawless = progress?.flawless.length ?? 0;
   const remainingThisPass =
-    (progress?.queue.length ?? 0) + (progress?.currentGenus ? 1 : 0);
+    (progress?.queue.length ?? 0) + (progress?.currentChild ? 1 : 0);
   const retryNext = progress?.retry.length ?? 0;
   const correct = progress?.correct ?? 0;
   const attempts = progress?.attempts ?? 0;
-
-  function isCorrectAnswer(
-    genus: string,
-    speciesList: string[],
-    input: string,
-  ): boolean {
-    const normalized = input.trim().toLowerCase();
-    if (!normalized) return false;
-    // Accept epithet only
-    if (speciesList.some((sp) => sp.toLowerCase() === normalized)) return true;
-    // Accept full binomial
-    const expectedPrefix = genus.toLowerCase() + " ";
-    if (normalized.startsWith(expectedPrefix)) {
-      const epithet = normalized.slice(expectedPrefix.length);
-      if (speciesList.some((sp) => sp.toLowerCase() === epithet)) return true;
-    }
-    return false;
-  }
+  const allParents = useMemo(() => {
+    if (!data) return [] as string[];
+    const s = new Set<string>();
+    for (const row of data) s.add(row.parent);
+    return Array.from(s).sort((a, b) => a.localeCompare(b));
+  }, [data]);
+  const parentSuggestions = useMemo(() => {
+    const q = answer.trim().toLowerCase();
+    if (!q) return [] as string[];
+    return allParents.filter((fam) => fam.toLowerCase().startsWith(q)).slice(0, 20);
+  }, [allParents, answer]);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!data || !current || !progress) return;
     if (!answer.trim()) return;
     const prev = current;
-    const ok = isCorrectAnswer(prev.genus, prev.species, answer);
-    const msg = ok ? (
+    const isCorrect = answer.trim().toLowerCase() === prev.parent.toLowerCase();
+    const msg = isCorrect ? (
       <>
         <span role="img" aria-label="correct">
           ✅
         </span>{" "}
-        <em>{prev.genus}</em> — nice!
+        <span>{prev.child}</span>: Correct ({prev.parent})
       </>
     ) : (
-      (() => {
-        const MAX_SHOW = 12;
-        const examples = prev.species.slice(0, MAX_SHOW);
-        return (
-          <>
-            <span role="img" aria-label="incorrect">
-              ❌
-            </span>{" "}
-            <em>{prev.genus}</em>: no match for <em>{answer}</em>. Accepted species
-            include:{" "}
-            {examples.map((sp, i) => (
-              <React.Fragment key={sp}>
-                <em>
-                  {prev.genus} {sp}
-                </em>
-                {i < examples.length - 1 ? ", " : ""}
-              </React.Fragment>
-            ))}
-            {prev.species.length > MAX_SHOW ? (
-              <span> and {prev.species.length - MAX_SHOW} more</span>
-            ) : null}
-          </>
-        );
-      })()
+      <>
+        <span role="img" aria-label="incorrect">
+          ❌
+        </span>{" "}
+        <span>{prev.child}</span>: Incorrect. Correct {answerLabel.toLowerCase()}:{" "}
+        {prev.parent}
+      </>
     );
     setFeedbacks((arr) => [...arr, msg].slice(-10));
     setAnswer("");
@@ -263,13 +257,15 @@ function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
       advanceToNextPrompt(
         {
           ...progress,
-          completed: addUnique(progress.completed, prev.genus),
-          flawless: ok ? addUnique(progress.flawless, prev.genus) : progress.flawless,
-          retry: ok
-            ? removeValue(progress.retry, prev.genus)
-            : addUnique(progress.retry, prev.genus),
-          currentGenus: null,
-          correct: progress.correct + (ok ? 1 : 0),
+          completed: addUnique(progress.completed, prev.child),
+          flawless: isCorrect
+            ? addUnique(progress.flawless, prev.child)
+            : progress.flawless,
+          retry: isCorrect
+            ? removeValue(progress.retry, prev.child)
+            : addUnique(progress.retry, prev.child),
+          currentChild: null,
+          correct: progress.correct + (isCorrect ? 1 : 0),
           attempts: progress.attempts + 1,
         },
         data,
@@ -279,15 +275,15 @@ function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
 
   const next = () => {
     if (!data || !current || !progress) return;
-    const msg = <>Skipped {current.genus}; it will return in the next pass.</>;
+    const msg = <>Skipped {current.child}; it will return in the next pass.</>;
     setFeedbacks((arr) => [...arr, msg].slice(-10));
     setAnswer("");
     setProgress(
       advanceToNextPrompt(
         {
           ...progress,
-          retry: addUnique(progress.retry, current.genus),
-          currentGenus: null,
+          retry: addUnique(progress.retry, current.child),
+          currentChild: null,
         },
         data,
       ),
@@ -310,11 +306,11 @@ function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
           className="game-modal"
           role="dialog"
           aria-modal="true"
-          aria-labelledby="species-progress-title"
+          aria-labelledby="parent-progress-title"
           onClick={(event) => event.stopPropagation()}
         >
           <div className="game-modal-header">
-            <h3 id="species-progress-title">Progress</h3>
+            <h3 id="parent-progress-title">Progress</h3>
             <button
               className="btn icon-btn"
               type="button"
@@ -371,7 +367,7 @@ function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
     <div className="game-root">
       <div className="game-card">
         <div className="game-header">
-          <h2 className="game-title">Species by Genus</h2>
+          <h2 className="game-title">{title}</h2>
           <div className="header-actions">
             <div className="score-pill" title="Correct / Attempts">
               {correct} / {attempts}
@@ -385,34 +381,46 @@ function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
             </button>
           </div>
         </div>
-        <p className="game-subtitle">Given a genus, enter any species in that genus.</p>
+        <p className="game-subtitle">
+          Given a mammal {promptLabel.toLowerCase()}, enter its{" "}
+          {answerLabel.toLowerCase()}.
+        </p>
 
         {!current ? (
           progress?.finished ? (
             <div className="completion-panel">
-              All {total} genera have been answered flawlessly.
+              All {total} prompts have been answered flawlessly.
             </div>
           ) : (
             <p className="loading">Loading data…</p>
           )
+        ) : !data ? (
+          <p className="loading">Loading data…</p>
         ) : (
           <>
             <div className="prompt">
-              <div className="prompt-label">Genus</div>
+              <div className="prompt-label">{promptLabel}</div>
               <div className="prompt-genus">
-                <em>{current?.genus}</em>
+                {promptLabel === "Genus" ? <em>{current.child}</em> : current.child}
               </div>
             </div>
             <form className="controls" onSubmit={submit}>
               <input
                 className="answer-input"
                 type="text"
-                aria-label="Species"
-                placeholder="Species (e.g., musculus or Mus musculus)"
+                aria-label={answerLabel}
+                placeholder={placeholder}
                 value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
+                onChange={(event) => setAnswer(event.target.value)}
+                list="parentOptions"
                 autoFocus
               />
+              <datalist id="parentOptions">
+                {parentSuggestions.map((parent) => (
+                  <option key={parent} value={parent} />
+                ))}
+              </datalist>
+
               <div className="buttons">
                 <button className="btn primary" type="submit">
                   Submit
@@ -424,14 +432,11 @@ function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
             </form>
             {feedbacks.length > 0 && (
               <div className="feedback-stream" aria-live="polite">
-                {[...feedbacks]
-                  .slice(-10)
-                  .reverse()
-                  .map((node, i) => (
-                    <div className="feedback" key={i}>
-                      {node}
-                    </div>
-                  ))}
+                {[...feedbacks].reverse().map((node, i) => (
+                  <div className="feedback" key={i}>
+                    {node}
+                  </div>
+                ))}
               </div>
             )}
           </>
@@ -439,15 +444,5 @@ function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
       </div>
       {renderSettingsModal()}
     </div>
-  );
-}
-
-export default function SpeciesByGenus() {
-  return (
-    <GameScope file="genus_species.json" filter={filterGenusSpecies}>
-      {(rows, continent) => (
-        <Game data={rows} storageKey={scopedStorageKey(STORAGE_KEY, continent)} />
-      )}
-    </GameScope>
   );
 }

@@ -7,12 +7,12 @@ import graphql from "babel-plugin-relay/macro";
 import ModelLink from "./ModelLink";
 import InlineMarkdown from "./InlineMarkdown";
 
-function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
+function Tag({ tag }: { tag: NameTags_name["nameTags"][0] }) {
   if (!tag) {
     return null;
   }
   switch (tag.__typename) {
-    case "Conserved":
+    case "ConservedN":
       if (!tag.opinion) {
         return null;
       }
@@ -21,7 +21,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Placed on the Official List by <ModelLink model={tag.opinion} />
         </>
       );
-    case "FullySuppressedBy":
+    case "FullySuppressedByN":
       if (!tag.opinion) {
         return null;
       }
@@ -30,7 +30,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Fully suppressed by <ModelLink model={tag.opinion} />
         </>
       );
-    case "IncorrectOriginalSpellingOf":
+    case "IncorrectOriginalSpellingOfN":
       if (!tag.name) {
         return null;
       }
@@ -39,7 +39,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Incorrect original spelling of <ModelLink model={tag.name} />
         </>
       );
-    case "IncorrectSubsequentSpellingOf":
+    case "IncorrectSubsequentSpellingOfN":
       if (!tag.name) {
         return null;
       }
@@ -48,7 +48,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Incorrect subsequent spelling of <ModelLink model={tag.name} />
         </>
       );
-    case "JustifiedEmendationOf":
+    case "JustifiedEmendationOfN":
       if (!tag.name) {
         return null;
       }
@@ -58,7 +58,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           <ModelLink model={tag.name} />
         </>
       );
-    case "MandatoryChangeOf":
+    case "MandatoryChangeOfN":
       if (!tag.name) {
         return null;
       }
@@ -67,7 +67,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Mandatory change of <ModelLink model={tag.name} />
         </>
       );
-    case "NomenNovumFor":
+    case "NomenNovumForN":
       if (!tag.name) {
         return null;
       }
@@ -76,7 +76,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Nomen novum for <ModelLink model={tag.name} />
         </>
       );
-    case "NomenOblitum":
+    case "NomenOblitumN":
       if (!tag.name) {
         return null;
       }
@@ -91,7 +91,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           )}
         </>
       );
-    case "PreoccupiedBy":
+    case "PreoccupiedByN":
       if (!tag.name) {
         return null;
       }
@@ -100,7 +100,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Preoccupied by <ModelLink model={tag.name} />
         </>
       );
-    case "PrimaryHomonymOf":
+    case "PrimaryHomonymOfN":
       if (!tag.name) {
         return null;
       }
@@ -109,7 +109,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Primary homonym of <ModelLink model={tag.name} />
         </>
       );
-    case "SecondaryHomonymOf":
+    case "SecondaryHomonymOfN":
       if (!tag.name) {
         return null;
       }
@@ -118,7 +118,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Secondary homonym of <ModelLink model={tag.name} />
         </>
       );
-    case "PartiallySuppressedBy":
+    case "PartiallySuppressedByN":
       if (!tag.opinion) {
         return null;
       }
@@ -127,7 +127,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Partially suppressed by <ModelLink model={tag.opinion} />
         </>
       );
-    case "Rejected":
+    case "RejectedN":
       if (!tag.opinion) {
         return null;
       }
@@ -136,7 +136,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Rejected by <ModelLink model={tag.opinion} />
         </>
       );
-    case "ReversalOfPriority":
+    case "ReversalOfPriorityN":
       if (!tag.opinion || !tag.over) {
         return null;
       }
@@ -146,7 +146,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           <ModelLink model={tag.opinion} />
         </>
       );
-    case "SelectionOfPriority":
+    case "SelectionOfPriorityN":
       if (!tag.optionalSource) {
         return null;
       }
@@ -179,7 +179,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
       } else {
         return null;
       }
-    case "SelectionOfSpelling":
+    case "SelectionOfSpellingN":
       if (!tag.optionalSource) {
         return null;
       }
@@ -195,7 +195,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           )}
         </>
       );
-    case "SubsequentUsageOf":
+    case "SubsequentUsageOfN":
       if (!tag.name) {
         return null;
       }
@@ -204,7 +204,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Subsequent usage of <ModelLink model={tag.name} />
         </>
       );
-    case "MisidentificationOf":
+    case "MisidentificationOfN":
       if (!tag.name) {
         return null;
       }
@@ -213,7 +213,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Misidentification of <ModelLink model={tag.name} />
         </>
       );
-    case "NameCombinationOf":
+    case "NameCombinationOfN":
       if (!tag.name) {
         return null;
       }
@@ -222,7 +222,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Name combination of <ModelLink model={tag.name} />
         </>
       );
-    case "TakesPriorityOf":
+    case "TakesPriorityOfN":
       if (!tag.name) {
         return null;
       }
@@ -237,7 +237,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           )}
         </>
       );
-    case "UnjustifiedEmendationOf":
+    case "UnjustifiedEmendationOfN":
       if (!tag.name) {
         return null;
       }
@@ -246,7 +246,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Unjustified emendation of <ModelLink model={tag.name} />
         </>
       );
-    case "VariantOf":
+    case "VariantOfN":
       if (!tag.name) {
         return null;
       }
@@ -255,7 +255,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Spelling variant of <ModelLink model={tag.name} />
         </>
       );
-    case "NotPreoccupiedBy":
+    case "NotPreoccupiedByN":
       if (!tag.name) {
         return null;
       }
@@ -264,9 +264,9 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Not preoccupied by (but similar to) <ModelLink model={tag.name} />
         </>
       );
-    case "Condition":
+    case "ConditionN":
       return <>{tag.status.replace(/_/g, " ")}</>;
-    case "ValidUse":
+    case "ValidUseN":
       if (!tag.source) {
         return null;
       }
@@ -275,11 +275,11 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Used as a valid taxon by <ModelLink model={tag.source} />
         </>
       );
-    case "VarietyOrForm":
+    case "VarietyOrFormN":
       return <>Originally described as a "variety" or "form"</>;
-    case "NotUsedAsValid":
+    case "NotUsedAsValidN":
       return <>Not used as a valid taxon in the original description</>;
-    case "AsEmendedBy":
+    case "AsEmendedByN":
       if (!tag.name) {
         return null;
       }
@@ -288,7 +288,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           As emended by <ModelLink model={tag.name} />
         </>
       );
-    case "RerankingOf":
+    case "RerankingOfN":
       if (!tag.name) {
         return null;
       }
@@ -297,7 +297,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Reranking of <ModelLink model={tag.name} />
         </>
       );
-    case "UnavailableVersionOf":
+    case "UnavailableVersionOfN":
       if (!tag.name) {
         return null;
       }
@@ -306,7 +306,7 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
           Unavailable version of <ModelLink model={tag.name} />
         </>
       );
-    case "PermanentlyReplacedSecondaryHomonymOf":
+    case "PermanentlyReplacedSecondaryHomonymOfN":
       if (!tag.name) {
         return null;
       }
@@ -342,12 +342,12 @@ function Tag({ tag }: { tag: NameTags_name["tags"][0] }) {
 class NameTags extends React.Component<{ name: NameTags_name }> {
   render() {
     const { name } = this.props;
-    if (!name.tags || name.tags.length === 0) {
+    if (!name.nameTags || name.nameTags.length === 0) {
       return null;
     }
     return (
       <ul>
-        {name.tags.map(
+        {name.nameTags.map(
           (tag) =>
             tag && (
               <li key={tag.__typename}>
@@ -370,27 +370,27 @@ class NameTags extends React.Component<{ name: NameTags_name }> {
 export default createFragmentContainer(NameTags, {
   name: graphql`
     fragment NameTags_name on Name {
-      tags {
+      nameTags: tags {
         __typename
-        ... on AsEmendedBy {
+        ... on AsEmendedByN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on RerankingOf {
+        ... on RerankingOfN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on UnavailableVersionOf {
+        ... on UnavailableVersionOfN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on PermanentlyReplacedSecondaryHomonymOf {
+        ... on PermanentlyReplacedSecondaryHomonymOfN {
           name {
             ...ModelLink_model
           }
@@ -403,93 +403,93 @@ export default createFragmentContainer(NameTags, {
           comment
           pageLink
         }
-        ... on Conserved {
+        ... on ConservedN {
           opinion {
             ...ModelLink_model
           }
           comment
         }
-        ... on FullySuppressedBy {
+        ... on FullySuppressedByN {
           opinion {
             ...ModelLink_model
           }
           comment
         }
-        ... on IncorrectOriginalSpellingOf {
+        ... on IncorrectOriginalSpellingOfN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on IncorrectSubsequentSpellingOf {
+        ... on IncorrectSubsequentSpellingOfN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on JustifiedEmendationOf {
+        ... on JustifiedEmendationOfN {
           name {
             ...ModelLink_model
           }
           justification
           comment
         }
-        ... on MandatoryChangeOf {
+        ... on MandatoryChangeOfN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on NomenNovumFor {
+        ... on NomenNovumForN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on NomenOblitum {
+        ... on NomenOblitumN {
           name {
             ...ModelLink_model
           }
           comment
           pageLink
         }
-        ... on PreoccupiedBy {
+        ... on PreoccupiedByN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on PrimaryHomonymOf {
+        ... on PrimaryHomonymOfN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on SecondaryHomonymOf {
+        ... on SecondaryHomonymOfN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on NotPreoccupiedBy {
+        ... on NotPreoccupiedByN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on PartiallySuppressedBy {
+        ... on PartiallySuppressedByN {
           opinion {
             ...ModelLink_model
           }
           comment
         }
-        ... on Rejected {
+        ... on RejectedN {
           opinion {
             ...ModelLink_model
           }
           comment
         }
-        ... on ReversalOfPriority {
+        ... on ReversalOfPriorityN {
           over {
             ...ModelLink_model
           }
@@ -498,7 +498,7 @@ export default createFragmentContainer(NameTags, {
           }
           comment
         }
-        ... on SelectionOfPriority {
+        ... on SelectionOfPriorityN {
           overName {
             ...ModelLink_model
           }
@@ -511,64 +511,64 @@ export default createFragmentContainer(NameTags, {
           comment
           pageLink
         }
-        ... on SelectionOfSpelling {
+        ... on SelectionOfSpellingN {
           optionalSource {
             ...ModelLink_model
           }
           comment
           pageLink
         }
-        ... on SubsequentUsageOf {
+        ... on SubsequentUsageOfN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on NameCombinationOf {
+        ... on NameCombinationOfN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on MisidentificationOf {
+        ... on MisidentificationOfN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on TakesPriorityOf {
+        ... on TakesPriorityOfN {
           name {
             ...ModelLink_model
           }
           comment
           pageLink
         }
-        ... on UnjustifiedEmendationOf {
+        ... on UnjustifiedEmendationOfN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on VariantOf {
+        ... on VariantOfN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on Condition {
+        ... on ConditionN {
           status
           comment
         }
-        ... on ValidUse {
+        ... on ValidUseN {
           source {
             ...ModelLink_model
           }
           comment
         }
-        ... on VarietyOrForm {
+        ... on VarietyOrFormN {
           comment
         }
-        ... on NotUsedAsValid {
+        ... on NotUsedAsValidN {
           comment
         }
       }

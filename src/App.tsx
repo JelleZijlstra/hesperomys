@@ -10,6 +10,8 @@ const DocsMain = lazy(() => import("./components/DocsMain"));
 const HomonymFinder = lazy(() => import("./components/HomonymFinder"));
 const ModelMain = lazy(() => import("./components/ModelMain"));
 const GamesLanding = lazy(() => import("./games/GamesLanding"));
+const FamiliesByOrder = lazy(() => import("./games/FamiliesByOrder"));
+const OrderByFamily = lazy(() => import("./games/OrderByFamily"));
 const FamilyByGenus = lazy(() => import("./games/FamilyByGenus"));
 const GeneraByFamily = lazy(() => import("./games/GeneraByFamily"));
 const SpeciesByGenus = lazy(() => import("./games/SpeciesByGenus"));
@@ -31,6 +33,12 @@ function App() {
           </Route>
           <Route path="/homonym-finder">
             <HomonymFinder />
+          </Route>
+          <Route path="/games/families-by-order">
+            <FamiliesByOrder />
+          </Route>
+          <Route path="/games/order-by-family">
+            <OrderByFamily />
           </Route>
           <Route path="/games/family-by-genus">
             <FamilyByGenus />

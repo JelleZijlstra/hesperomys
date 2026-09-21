@@ -39,7 +39,7 @@
     "postbuild": "node compress-build.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "relay": "relay-compiler"
+    "relay": "relay-compiler && node validate-graphql.js"
   },
   "eslintConfig": {
     "extends": "react-app"

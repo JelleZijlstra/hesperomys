@@ -7,6 +7,7 @@ import graphql from "babel-plugin-relay/macro";
 import CitationGroupOrderedNames from "../lists/CitationGroupOrderedNames";
 import CitationGroupOrderedArticles from "../lists/CitationGroupOrderedArticles";
 import CitationGroupRedirects from "../lists/CitationGroupRedirects";
+import CitationGroupItemFileSet from "../lists/CitationGroupItemFileSet";
 import ModelLink from "../components/ModelLink";
 import Table from "../components/Table";
 import PublicationDate from "./PublicationDate";
@@ -18,38 +19,38 @@ const CitationGroupTags = ({
   citationGroup: CitationGroupBody_citationGroup;
 }) => {
   const data: [string, JSX.Element | null | string][] = [];
-  citationGroup.tags.forEach((tag) => {
+  citationGroup.citationGroupTags.forEach((tag) => {
     switch (tag.__typename) {
-      case "ISSN": {
+      case "ISSNCG": {
         const url = `https://www.worldcat.org/search?fq=x0:jrnl&q=n2:${tag.text}`;
         data.push(["ISSN", <a href={url}>{tag.text}</a>]);
         break;
       }
-      case "ISSNOnline": {
+      case "ISSNOnlineCG": {
         const url = `https://www.worldcat.org/search?fq=x0:jrnl&q=n2:${tag.text}`;
         data.push(["ISSN (online)", <a href={url}>{tag.text}</a>]);
         break;
       }
-      case "BHLBibliography": {
+      case "BHLBibliographyCG": {
         const url = `https://www.biodiversitylibrary.org/bibliography/${tag.text}`;
         data.push(["Biodiversity Heritage Library", <a href={url}>{tag.text}</a>]);
         break;
       }
-      case "CitationGroupURL":
+      case "URLCG":
         if (tag.text) {
           data.push(["URL", <a href={tag.text}>{tag.text}</a>]);
         }
         break;
-      case "Predecessor":
+      case "PredecessorCG":
         data.push(["Previous name", <ModelLink model={tag.cg} />]);
         break;
-      case "YearRange":
+      case "YearRangeCG":
         data.push(["Published during", `${tag.start}-${tag.end}`]);
         break;
-      case "DatingTools":
+      case "DatingToolsCG":
         data.push(["Comments on dating", <InlineMarkdown source={tag.text} />]);
         break;
-      case "BiblioNote":
+      case "BiblioNoteCG":
         if (tag.text) {
           data.push([
             "Bibliographical discussion",
@@ -57,7 +58,7 @@ const CitationGroupTags = ({
           ]);
         }
         break;
-      case "CitationGroupComment":
+      case "CommentCG":
         if (tag.text) {
           data.push(["Comment", <InlineMarkdown source={tag.text} />]);
         }
@@ -105,7 +106,7 @@ const IssueDate = ({
           <ul>
             {issueDate.tags.map(
               (tag) =>
-                tag.__typename === "CommentIssueDate" && (
+                tag.__typename === "CommentID" && (
                   <li>
                     {tag.text}
                     {tag.optionalSource && (
@@ -210,6 +211,7 @@ class CitationGroupBody extends React.Component<{
           title="Names published here"
         />
         <CitationGroupRedirects citationGroup={citationGroup} title="Aliases" />
+        <CitationGroupItemFileSet citationGroup={citationGroup} title="Files" />
       </>
     );
   }
@@ -221,36 +223,36 @@ export default createFragmentContainer(CitationGroupBody, {
       target {
         ...ModelLink_model
       }
-      tags {
+      citationGroupTags: tags {
         __typename
-        ... on ISSN {
+        ... on ISSNCG {
           text
         }
-        ... on ISSNOnline {
+        ... on ISSNOnlineCG {
           text
         }
-        ... on BHLBibliography {
+        ... on BHLBibliographyCG {
           text
         }
-        ... on CitationGroupURL {
+        ... on URLCG {
           text
         }
-        ... on Predecessor {
+        ... on PredecessorCG {
           cg {
             ...ModelLink_model
           }
         }
-        ... on YearRange {
+        ... on YearRangeCG {
           start
           end
         }
-        ... on DatingTools {
+        ... on DatingToolsCG {
           text
         }
-        ... on BiblioNote {
+        ... on BiblioNoteCG {
           text
         }
-        ... on CitationGroupComment {
+        ... on CommentCG {
           text
         }
       }
@@ -266,7 +268,7 @@ export default createFragmentContainer(CitationGroupBody, {
             date
             tags {
               __typename
-              ... on CommentIssueDate {
+              ... on CommentID {
                 text
                 optionalSource {
                   ...ModelLink_model
@@ -279,6 +281,7 @@ export default createFragmentContainer(CitationGroupBody, {
       ...CitationGroupRedirects_citationGroup
       ...CitationGroupOrderedArticles_citationGroup
       ...CitationGroupOrderedNames_citationGroup
+      ...CitationGroupItemFileSet_citationGroup
     }
   `,
 });

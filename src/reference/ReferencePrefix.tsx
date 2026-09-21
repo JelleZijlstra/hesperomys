@@ -99,7 +99,7 @@ export default createFragmentContainer(ReferencePrefix, {
     fragment ReferencePrefix_article on Article {
       type
       authorTags {
-        ... on Author {
+        ... on AuthorA {
           person {
             id
             familyName

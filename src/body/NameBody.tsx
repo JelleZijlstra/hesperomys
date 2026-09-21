@@ -12,6 +12,7 @@ import NameTags from "../components/NameTags";
 import NameTypeTags from "../components/NameTypeTags";
 import TaxonContext from "../components/TaxonContext";
 import AuthorList from "../components/AuthorList";
+import TypeLocalityLink from "../components/TypeLocalityLink";
 import NameTypifiedNames from "../lists/NameTypifiedNames";
 import NamePreoccupiedNames from "../lists/NamePreoccupiedNames";
 import NameUnjustifiedEmendations from "../lists/NameUnjustifiedEmendations";
@@ -78,7 +79,7 @@ function NameSection({ name }: { name: NameBody_name }) {
           ["Authors", <AuthorList authorTags={name.authorTags} />],
           ["Year", name.numericYear !== null ? String(name.numericYear) : null],
           [
-            "Date",
+            "DateN",
             name.year &&
             (!name.numericYear || name.year !== String(name.numericYear)) ? (
               <PublicationDate date={name.year} />
@@ -104,10 +105,10 @@ function NameSection({ name }: { name: NameBody_name }) {
       <NameTypeTags
         name={name}
         tagsToInclude={[
-          "CitationDetail",
-          "SourceDetail",
-          "DescriptionDetail",
-          "AuthorityPageLink",
+          "CitationDetailN",
+          "SourceDetailN",
+          "DescriptionDetailN",
+          "AuthorityPageLinkN",
         ]}
       />
     </>
@@ -134,11 +135,11 @@ function NomenclatureSection({ name }: { name: NameBody_name }) {
       <NameTypeTags
         name={name}
         tagsToInclude={[
-          "EtymologyDetail",
-          "NomenclatureDetail",
-          "NamedAfter",
-          "TextualOriginalRank",
-          "LSIDName",
+          "EtymologyDetailN",
+          "NomenclatureDetailN",
+          "NamedAfterN",
+          "TextualOriginalRankN",
+          "LSIDN",
         ]}
       />
     </>
@@ -147,15 +148,15 @@ function NomenclatureSection({ name }: { name: NameBody_name }) {
 
 function DefinitionSection({ name }: { name: NameBody_name }) {
   const definitionTags = [
-    "DefinitionDetail",
-    "PhylogeneticDefinition",
-    "PhyloCodeNumber",
-    "InternalSpecifier",
-    "ExternalSpecifier",
-    "MustNotBePartOf",
-    "MustNotInclude",
-    "MustBePartOf",
-    "MustBeExtinct",
+    "DefinitionDetailN",
+    "PhylogeneticDefinitionN",
+    "PhyloCodeNumberN",
+    "InternalSpecifierN",
+    "ExternalSpecifierN",
+    "MustNotBePartOfN",
+    "MustNotIncludeN",
+    "MustBePartOfN",
+    "MustBeExtinctN",
   ];
   if (!hasAnyTypeTags(name, definitionTags)) {
     return null;
@@ -178,30 +179,30 @@ function TypeSection({ name }: { name: NameBody_name }) {
   const { group, typeSpecimen, collection, speciesTypeKind, genusTypeKind, nameType } =
     name;
   const typeTags = [
-    "Age",
-    "CollectedBy",
-    "Involved",
-    "Date",
-    "Gender",
-    "GenusCoelebs",
-    "Host",
-    "IncludedSpecies",
-    "FormerRepository",
-    "ExtraRepository",
-    "FutureRepository",
-    "Repository",
-    "CollectionDetail",
-    "CommmissionTypeDesignation",
-    "ProbableRepository",
-    "GuessedRepository",
-    "SpecimenDetail",
-    "AdditionalTypeSpecimen",
-    "Organ",
-    "LectotypeDesignation",
-    "NeotypeDesignation",
-    "TypeDesignation",
-    "TypeSpecimenLink",
-    "TypeSpecimenLinkFor",
+    "AgeN",
+    "CollectedByN",
+    "InvolvedN",
+    "DateN",
+    "GenderN",
+    "GenusCoelebsN",
+    "HostN",
+    "IncludedSpeciesN",
+    "FormerRepositoryN",
+    "ExtraRepositoryN",
+    "FutureRepositoryN",
+    "RepositoryN",
+    "CollectionDetailN",
+    "CommissionTypeDesignationN",
+    "ProbableRepositoryN",
+    "GuessedRepositoryN",
+    "SpecimenDetailN",
+    "AdditionalTypeSpecimenN",
+    "OrganN",
+    "LectotypeDesignationN",
+    "NeotypeDesignationN",
+    "TypeDesignationN",
+    "TypeSpecimenLinkN",
+    "TypeSpecimenLinkForN",
   ];
   if (
     !typeSpecimen &&
@@ -242,11 +243,12 @@ function LocationSection({ name }: { name: NameBody_name }) {
   }
   const { typeLocality } = name;
   const locationTags = [
-    "Altitude",
-    "Coordinates",
-    "LocationDetail",
-    "Habitat",
-    "StratigraphyDetail",
+    "AltitudeN",
+    "CoordinatesN",
+    "LocationDetailN",
+    "HabitatN",
+    "StratigraphyDetailN",
+    "TypeLocalityValidityN",
   ];
   if (!typeLocality && !hasAnyTypeTags(name, locationTags)) {
     return null;
@@ -256,7 +258,10 @@ function LocationSection({ name }: { name: NameBody_name }) {
       <h3>Type locality</h3>
       <Table
         data={[
-          ["Type locality", typeLocality ? <ModelLink model={typeLocality} /> : null],
+          [
+            "Type locality",
+            typeLocality ? <TypeLocalityLink location={typeLocality} /> : null,
+          ],
         ]}
       />
       <NameTypeTags name={name} tagsToInclude={locationTags} />
@@ -379,7 +384,7 @@ export default createFragmentContainer(NameBody, {
       speciesTypeKind
 
       typeLocality {
-        ...ModelLink_model
+        ...TypeLocalityLink_location
       }
       ...NameOrderedClassificationEntries_name
       ...NameTypifiedNames_name

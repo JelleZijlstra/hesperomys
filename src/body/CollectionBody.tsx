@@ -15,18 +15,18 @@ import CollectionAssociatedPeople from "../lists/CollectionAssociatedPeople";
 import ModelLink from "../components/ModelLink";
 import CollectionExtraSpecimens from "../lists/CollectionExtraSpecimens";
 
-type CollectionTag = Exclude<CollectionBody_collection["tags"][0], null>;
+type CollectionTag = Exclude<CollectionBody_collection["collectionTags"][0], null>;
 
 function SingleTag({ tag }: { tag: CollectionTag }) {
   switch (tag.__typename) {
-    case "CollectionDatabase":
+    case "CollectionDatabaseC":
       return (
         <li key={`${tag.__typename}-${tag.citation.name}`}>
           Online collection database: <ModelLink model={tag.citation} />
           {tag.comment && ` (comment: ${tag.comment})`}
         </li>
       );
-    case "TypeCatalog":
+    case "TypeCatalogC":
       return (
         <li key={`${tag.__typename}-${tag.citation.name}`}>
           Type catalog: <ModelLink model={tag.citation} />
@@ -38,11 +38,11 @@ function SingleTag({ tag }: { tag: CollectionTag }) {
 }
 
 function Tags({
-  collection: { tags, parent },
+  collection: { collectionTags, parent },
 }: {
   collection: CollectionBody_collection;
 }) {
-  if (!tags || tags.length === 0) {
+  if (!collectionTags || collectionTags.length === 0) {
     return null;
   }
   return (
@@ -52,7 +52,7 @@ function Tags({
           Parent collection: <ModelLink model={parent} />
         </li>
       )}
-      {tags.map((tag) => (
+      {collectionTags.map((tag) => (
         <SingleTag tag={tag} />
       ))}
     </ul>
@@ -139,16 +139,16 @@ export default createFragmentContainer(CollectionBody, {
       parent {
         ...ModelLink_model
       }
-      tags {
+      collectionTags: tags {
         __typename
-        ... on CollectionDatabase {
+        ... on CollectionDatabaseC {
           citation {
             ...ModelLink_model
             name
           }
           comment
         }
-        ... on TypeCatalog {
+        ... on TypeCatalogC {
           citation {
             ...ModelLink_model
             name

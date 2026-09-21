@@ -26,7 +26,7 @@ class SimpleReference extends React.Component<{
     const hasSecondaryArticleNumber = !!(
       citationGroup &&
       citationGroup.tags &&
-      citationGroup.tags.some((t) => t && t.__typename === "ArticleNumberIsSecondary")
+      citationGroup.tags.some((t) => t && t.__typename === "ArticleNumberIsSecondaryCG")
     );
     const showArticleNumber = !!articleNumber && !hasSecondaryArticleNumber;
     switch (type) {
@@ -94,7 +94,7 @@ export default createFragmentContainer(SimpleReference, {
         name
         tags {
           __typename
-          ... on ArticleNumberIsSecondary {
+          ... on ArticleNumberIsSecondaryCG {
             _Ignored
           }
         }

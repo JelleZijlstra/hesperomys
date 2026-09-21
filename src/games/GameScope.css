@@ -1,0 +1,70 @@
+.game-scope {
+  background: #f8fafc;
+  color: #0f172a;
+  min-height: 100vh;
+  padding-top: 20px;
+}
+.game-scope-controls {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  box-sizing: border-box;
+}
+.game-scope-controls > a {
+  display: block;
+  margin-bottom: 12px;
+}
+.game-scope-controls label {
+  font-weight: 600;
+  margin-right: 12px;
+}
+.game-scope-controls select {
+  max-width: 100%;
+  padding: 7px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: white;
+  color: #0f172a;
+}
+.game-scope-note {
+  font-size: 0.85rem;
+  color: #475569;
+  margin: 8px 0 0;
+}
+.game-scope-note button {
+  margin-left: 8px;
+}
+.game-scope .game-root {
+  min-height: 0;
+  align-items: flex-start;
+  padding-top: 8px;
+  padding-bottom: 40px;
+}
+.game-scope-message {
+  max-width: 672px;
+  margin: 16px auto;
+  padding: 0 24px;
+}
+@media (max-width: 480px) {
+  .game-scope .game-card {
+    padding: 18px 14px;
+  }
+  .game-scope .game-header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .game-scope .prompt-genus {
+    font-size: 1.8rem;
+    overflow-wrap: anywhere;
+  }
+  .game-scope .answer-input {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+:root .game-scope .game-scope-controls a,
+:root .game-scope .game-scope-controls a:hover {
+  color: #0369a1;
+}

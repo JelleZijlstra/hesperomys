@@ -18,6 +18,7 @@ import NameCommentTitle from "./NameCommentTitle";
 import NameComplexTitle from "./NameComplexTitle";
 import NameEndingTitle from "./NameEndingTitle";
 import OccurrenceTitle from "./OccurrenceTitle";
+import OccurrenceRecordTitle from "./OccurrenceRecordTitle";
 import PeriodTitle from "./PeriodTitle";
 import RegionTitle from "./RegionTitle";
 import SpeciesNameComplexTitle from "./SpeciesNameComplexTitle";
@@ -52,6 +53,8 @@ class Title extends React.Component<{ model: Title_model }> {
         return <NameEndingTitle nameEnding={model} />;
       case "Occurrence":
         return <OccurrenceTitle occurrence={model} />;
+      case "OccurrenceRecord":
+        return <OccurrenceRecordTitle occurrenceRecord={model} />;
       case "Period":
         return <PeriodTitle period={model} />;
       case "Region":
@@ -67,7 +70,7 @@ class Title extends React.Component<{ model: Title_model }> {
       case "Person":
         return <PersonTitle person={model} />;
       default:
-        return <>(unimplemented for {model.__typename})</>;
+        return <>{model.pageTitle}</>;
     }
   }
 }
@@ -76,6 +79,7 @@ export default createFragmentContainer(Title, {
   model: graphql`
     fragment Title_model on Model {
       __typename
+      pageTitle
       ...ArticleTitle_article
       ...ArticleCommentTitle_articleComment
       ...CitationGroupTitle_citationGroup
@@ -90,6 +94,7 @@ export default createFragmentContainer(Title, {
       ...NameComplexTitle_nameComplex
       ...NameEndingTitle_nameEnding
       ...OccurrenceTitle_occurrence
+      ...OccurrenceRecordTitle_occurrenceRecord
       ...PeriodTitle_period
       ...RegionTitle_region
       ...SpeciesNameComplexTitle_speciesNameComplex

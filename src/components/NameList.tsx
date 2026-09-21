@@ -7,6 +7,7 @@ import graphql from "babel-plugin-relay/macro";
 import ModelLink, { Context } from "./ModelLink";
 import { Detail } from "./NameTypeTags";
 import { toTitle } from "../utils";
+import TypeLocalityLink from "./TypeLocalityLink";
 
 type Name = Exclude<Exclude<NameList_connection["edges"][0], null>["node"], null>;
 type Taxon = Exclude<Name["taxon"]["class_"], null>;
@@ -97,7 +98,7 @@ function NameRow({
   if (name.typeLocality) {
     items.push(
       <li>
-        Type locality: <ModelLink model={name.typeLocality} />
+        Type locality: <TypeLocalityLink location={name.typeLocality} />
       </li>,
     );
   }
@@ -123,10 +124,10 @@ function NameRow({
         return;
       }
       switch (tag.__typename) {
-        case "LocationDetail":
-        case "CitationDetail":
-        case "CollectionDetail":
-        case "EtymologyDetail":
+        case "LocationDetailN":
+        case "CitationDetailN":
+        case "CollectionDetailN":
+        case "EtymologyDetailN":
           if (!tag.text) {
             return;
           }
@@ -393,7 +394,7 @@ export default createFragmentContainer(NameList, {
           pageDescribed
           typeTags @include(if: $showLocationDetail) {
             __typename
-            ... on LocationDetail {
+            ... on LocationDetailN {
               text
               source {
                 ...ModelLink_model
@@ -403,7 +404,7 @@ export default createFragmentContainer(NameList, {
 
           typeTags @include(if: $showCitationDetail) {
             __typename
-            ... on CitationDetail {
+            ... on CitationDetailN {
               text
               source {
                 ...ModelLink_model
@@ -414,7 +415,7 @@ export default createFragmentContainer(NameList, {
 
           typeTags @include(if: $showEtymologyDetail) {
             __typename
-            ... on EtymologyDetail {
+            ... on EtymologyDetailN {
               text
               source {
                 ...ModelLink_model
@@ -426,7 +427,7 @@ export default createFragmentContainer(NameList, {
           speciesTypeKind @include(if: $showCollectionDetail)
           typeTags @include(if: $showCollectionDetail) {
             __typename
-            ... on CollectionDetail {
+            ... on CollectionDetailN {
               text
               source {
                 ...ModelLink_model
@@ -435,7 +436,7 @@ export default createFragmentContainer(NameList, {
           }
 
           typeLocality @include(if: $showNameDetail) {
-            ...ModelLink_model
+            ...TypeLocalityLink_location
           }
           typeSpecimen @include(if: $showNameDetail)
           speciesTypeKind @include(if: $showNameDetail)

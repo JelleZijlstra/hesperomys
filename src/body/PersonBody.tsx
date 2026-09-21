@@ -57,38 +57,38 @@ class PersonBody extends React.Component<{
     return (
       <>
         <Table data={data} />
-        {person.tags && (
+        {person.personTags && (
           <ul>
-            {person.tags.map((tag) => {
+            {person.personTags.map((tag) => {
               if (!tag) {
                 return null;
               }
               switch (tag.__typename) {
-                case "Wiki":
+                case "WikiH":
                   return tag.text ? (
                     <li key={tag.text}>
                       <a href={tag.text}>{tag.text}</a>
                     </li>
                   ) : null;
-                case "ORCID":
+                case "ORCIDH":
                   return tag.text ? (
                     <li key={tag.text}>
                       ORCID: <a href={`https://orcid.org/${tag.text}`}>{tag.text}</a>
                     </li>
                   ) : null;
-                case "ActiveRegion":
+                case "ActiveRegionH":
                   return (
                     <li key={tag.region.id}>
                       Region of activity: <ModelLink model={tag.region} />
                     </li>
                   );
-                case "Institution":
+                case "InstitutionH":
                   return (
                     <li key={tag.institution.id}>
                       Institution: <ModelLink model={tag.institution} />
                     </li>
                   );
-                case "Biography":
+                case "BiographyH":
                   return (
                     <li key={tag.article.id}>
                       Biography: <ModelLink model={tag.article} />
@@ -126,27 +126,27 @@ export default createFragmentContainer(PersonBody, {
       target {
         ...ModelLink_model
       }
-      tags {
+      personTags: tags {
         __typename
-        ... on Wiki {
+        ... on WikiH {
           text
         }
-        ... on ORCID {
+        ... on ORCIDH {
           text
         }
-        ... on Biography {
+        ... on BiographyH {
           article {
             id
             ...ModelLink_model
           }
         }
-        ... on Institution {
+        ... on InstitutionH {
           institution {
             id
             ...ModelLink_model
           }
         }
-        ... on ActiveRegion {
+        ... on ActiveRegionH {
           region {
             id
             ...ModelLink_model

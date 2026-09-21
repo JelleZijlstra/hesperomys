@@ -9,13 +9,13 @@ export default function Table({
   return (
     <BootstrapTable>
       <tbody>
-        {data.map((pair) => {
+        {data.map((pair, index) => {
           const [key, value] = pair;
           if (!value) {
             return null;
           }
           return (
-            <tr key={String(key)}>
+            <tr key={`${String(key)}-${index}`}>
               <td className="label">{key}</td>
               <td>{value}</td>
             </tr>

@@ -6,22 +6,67 @@ import { Link } from "react-router-dom";
 import graphql from "babel-plugin-relay/macro";
 
 import ModelLink from "../components/ModelLink";
+import InlineMarkdown from "../components/InlineMarkdown";
 import Table from "../components/Table";
 import LocationTypeLocalities from "../lists/LocationTypeLocalities";
+import LocationOccurrenceRecords from "../lists/LocationOccurrenceRecords";
+import CoordinatesLink from "../components/CoordinatesLink";
+
+function optionalDetail(value: string | null) {
+  if (!value || value.trim().toLowerCase() === "none") {
+    return null;
+  }
+  return value;
+}
 
 class LocationBody extends React.Component<{
   location: LocationBody_location;
 }> {
   render() {
     const { location } = this.props;
-    const data: [string | JSX.Element, JSX.Element][] = [];
-    const isGeneral = location.tags.some((tag) => tag && tag.__typename === "General");
+    const data: [string | JSX.Element, string | JSX.Element | null][] = [];
+    const isGeneral = location.locationTags.some(
+      (tag) => tag && tag.__typename === "GeneralL",
+    );
+    let unplacedComment: string | null | undefined;
     data.push(["Region", <ModelLink model={location.locationRegion} />]);
-    if (location.minPeriod) {
-      data.push(["Minimum age", <ModelLink model={location.minPeriod} />]);
-    }
-    if (location.maxPeriod) {
-      data.push(["Maximum age", <ModelLink model={location.maxPeriod} />]);
+    data.push([
+      "Parent location",
+      location.parent ? <ModelLink model={location.parent} /> : null,
+    ]);
+    data.push([
+      "Coordinates",
+      location.latitude && location.longitude ? (
+        <CoordinatesLink
+          latitude={location.latitude}
+          longitude={location.longitude}
+          openstreetmapUrl={location.openstreetmapUrl}
+        />
+      ) : null,
+    ]);
+    data.push(["Location detail", optionalDetail(location.locationDetail)]);
+    data.push(["Age detail", optionalDetail(location.ageDetail)]);
+    data.push([
+      "Source",
+      location.source ? <ModelLink model={location.source} /> : null,
+    ]);
+    data.push([
+      "Comment",
+      location.comment ? <InlineMarkdown source={location.comment} /> : null,
+    ]);
+    if (
+      location.minPeriod &&
+      location.maxPeriod &&
+      location.minPeriod.oid === location.maxPeriod.oid
+    ) {
+      data.push(["Period", <ModelLink model={location.minPeriod} />]);
+    } else {
+      if (location.minPeriod) {
+        data.push(["Minimum age", <ModelLink model={location.minPeriod} />]);
+      }
+      if (location.maxPeriod) {
+        data.push(["Maximum age", <ModelLink model={location.maxPeriod} />]);
+      }
     }
     if (location.stratigraphicUnit) {
       data.push([
@@ -29,12 +74,15 @@ class LocationBody extends React.Component<{
         <ModelLink model={location.stratigraphicUnit} />,
       ]);
     }
-    location.tags.forEach((tag) => {
+    location.locationTags.forEach((tag) => {
       if (!tag) {
         return;
       }
       switch (tag.__typename) {
-        case "ETMNA":
+        case "UnplacedL":
+          unplacedComment = tag.unplacedComment;
+          break;
+        case "ETMNAL":
           data.push([
             <>
               <Link to="/a/44170">Janis et al. (2008)</Link> identifier
@@ -42,7 +90,7 @@ class LocationBody extends React.Component<{
             <>{tag.id}</>,
           ]);
           break;
-        case "PBDB":
+        case "PBDBL":
           data.push([
             "PBDB identifier",
             <a
@@ -52,12 +100,58 @@ class LocationBody extends React.Component<{
             </a>,
           ]);
           break;
-        case "NOW":
+        case "NOWL":
           data.push([
             "NOW identifier",
             <a href="http://pantodon.science.helsinki.fi/now/locality_list.php">
               {tag.id}
             </a>,
+          ]);
+          break;
+        case "CoordinatesFromGeoNamesL":
+          data.push([
+            "Coordinate source",
+            <a href={`https://www.geonames.org/${tag.geonameId}/`}>
+              GeoNames {tag.geonameId}
+            </a>,
+          ]);
+          break;
+        case "CoordinatesFromNominatimL":
+          data.push([
+            "Coordinate source",
+            <a href={`https://www.openstreetmap.org/${tag.osmType}/${tag.osmId}`}>
+              OpenStreetMap {tag.osmType} {tag.osmId} ({tag.category})
+            </a>,
+          ]);
+          break;
+        case "CoordinatesFromPLSSL":
+          data.push(["Coordinate source", `PLSS ${tag.plssId}`]);
+          break;
+        case "CoordinatesFromNameL":
+          data.push([
+            "Coordinate source",
+            <>
+              Name <ModelLink model={tag.name} />
+              {tag.coordinatesFromNameText && <> ({tag.coordinatesFromNameText})</>}
+            </>,
+          ]);
+          break;
+        case "CoordinatesFromOccurrenceRecordL":
+          data.push(["Coordinate source", <ModelLink model={tag.occurrenceRecord} />]);
+          break;
+        case "CoordinatesFromLocationNameL":
+          data.push(["Coordinate source", "parsed from the location name"]);
+          break;
+        case "CoordinatesManualL":
+          data.push(["Coordinate source", tag.coordinatesManualComment]);
+          break;
+        case "NearbyRegionL":
+          data.push(["Nearby region", <ModelLink model={tag.region} />]);
+          break;
+        case "PLSSL":
+          data.push([
+            "PLSS description",
+            tag.plssComment ? `${tag.plssText} (${tag.plssComment})` : tag.plssText,
           ]);
           break;
       }
@@ -66,8 +160,15 @@ class LocationBody extends React.Component<{
       <>
         {isGeneral &&
           "This is a general location. Type localities are listed here until they are moved to a more precise location."}
+        {unplacedComment !== undefined && (
+          <p>
+            This locality is unplaced.
+            {unplacedComment && <> {unplacedComment}</>}
+          </p>
+        )}
         <Table data={data} />
         <LocationTypeLocalities location={location} title="Type localities" />
+        <LocationOccurrenceRecords location={location} />
       </>
     );
   }
@@ -77,9 +178,11 @@ export default createFragmentContainer(LocationBody, {
   location: graphql`
     fragment LocationBody_location on Location {
       minPeriod {
+        oid
         ...ModelLink_model
       }
       maxPeriod {
+        oid
         ...ModelLink_model
       }
       stratigraphicUnit {
@@ -88,22 +191,76 @@ export default createFragmentContainer(LocationBody, {
       locationRegion: region {
         ...ModelLink_model
       }
-      tags {
+      parent {
+        ...ModelLink_model
+      }
+      latitude
+      longitude
+      openstreetmapUrl
+      locationDetail
+      ageDetail
+      comment
+      source {
+        ...ModelLink_model
+      }
+      locationTags: tags {
         __typename
-        ... on PBDB {
+        ... on PBDBL {
           id
         }
-        ... on NOW {
+        ... on NOWL {
           id
         }
-        ... on ETMNA {
+        ... on ETMNAL {
           id
         }
-        ... on General {
+        ... on GeneralL {
           _Ignored
+        }
+        ... on UnplacedL {
+          unplacedComment: comment
+        }
+        ... on CoordinatesFromGeoNamesL {
+          geonameId
+        }
+        ... on CoordinatesFromNominatimL {
+          osmType
+          osmId
+          category
+        }
+        ... on CoordinatesFromPLSSL {
+          plssId
+        }
+        ... on CoordinatesFromNameL {
+          name {
+            ...ModelLink_model
+          }
+          coordinatesFromNameText: text
+        }
+        ... on CoordinatesFromOccurrenceRecordL {
+          occurrenceRecord {
+            ...ModelLink_model
+          }
+        }
+        ... on CoordinatesFromLocationNameL {
+          _Ignored
+        }
+        ... on CoordinatesManualL {
+          coordinatesManualComment: comment
+        }
+        ... on NearbyRegionL {
+          region {
+            ...ModelLink_model
+          }
+        }
+        ... on PLSSL {
+          plssText: text
+          plssId
+          plssComment: comment
         }
       }
       ...LocationTypeLocalities_location
+      ...LocationOccurrenceRecords_location
     }
   `,
 });

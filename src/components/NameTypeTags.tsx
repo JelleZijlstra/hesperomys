@@ -6,6 +6,7 @@ import graphql from "babel-plugin-relay/macro";
 
 import ModelLink from "./ModelLink";
 import InlineMarkdown from "./InlineMarkdown";
+import CoordinatesLink from "./CoordinatesLink";
 
 type TypeTag_tag = Exclude<NameTypeTags_name["typeTags"][0], null>;
 
@@ -28,32 +29,32 @@ export function Detail({ text, source }: { text: string | null; source: any }) {
 
 function TypeTag({ tag }: { tag: TypeTag_tag }) {
   switch (tag.__typename) {
-    case "Age":
+    case "AgeN":
       return <>Age of the type specimen: {tag.age}</>;
-    case "Altitude":
+    case "AltitudeN":
       return (
         <>
           Altitude of the type locality: {tag.altitude} {tag.unit}
         </>
       );
-    case "CitationDetail":
+    case "CitationDetailN":
       return <Detail text={tag.text} source={tag.source} />;
-    case "CollectionDetail":
+    case "CollectionDetailN":
       return <Detail text={tag.text} source={tag.source} />;
-    case "CollectedBy":
+    case "CollectedByN":
       return (
         <>
           Collected by <ModelLink model={tag.person} />
         </>
       );
-    case "Involved":
+    case "InvolvedN":
       return (
         <>
           Involved: <ModelLink model={tag.person} />
           {tag.comment && ` (comment: ${tag.comment})`}
         </>
       );
-    case "CommissionTypeDesignation":
+    case "CommissionTypeDesignationN":
       if (!tag.opinion || !tag.type) {
         return null;
       }
@@ -69,48 +70,53 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           )}
         </>
       );
-    case "Coordinates":
+    case "CoordinatesN":
       return (
         <>
-          Coordinates: {tag.latitude} {tag.longitude}
+          Coordinates:{" "}
+          <CoordinatesLink
+            latitude={tag.latitude}
+            longitude={tag.longitude}
+            openstreetmapUrl={tag.openstreetmapUrl}
+          />
         </>
       );
-    case "Date":
+    case "DateN":
       return <>Date of collection: {tag.date}</>;
-    case "DefinitionDetail":
+    case "DefinitionDetailN":
       return <Detail text={tag.text} source={tag.source} />;
-    case "DescriptionDetail":
+    case "DescriptionDetailN":
       return (
         <>
           Description: <Detail text={tag.text} source={tag.source} />
         </>
       );
-    case "EtymologyDetail":
+    case "EtymologyDetailN":
       return (
         <>
           Etymology: <Detail text={tag.text} source={tag.source} />
         </>
       );
-    case "NomenclatureDetail":
+    case "NomenclatureDetailN":
       return (
         <>
           Nomenclature: <Detail text={tag.text} source={tag.source} />
         </>
       );
-    case "Gender":
+    case "GenderN":
       return <>Gender of the type specimen: {tag.gender}</>;
-    case "GenusCoelebs":
+    case "GenusCoelebsN":
       return (
         <>
           The genus did not include any species when originally named.
           {tag.comments && " Commments: " + tag.comments}
         </>
       );
-    case "Habitat":
+    case "HabitatN":
       return <>Type habitat: {tag.text}</>;
-    case "Host":
+    case "HostN":
       return <>Type host: {tag.hostName}</>;
-    case "IncludedSpecies":
+    case "IncludedSpeciesN":
       return (
         <>
           Originally included species: <ModelLink model={tag.name} />
@@ -132,7 +138,7 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
             ` (comment: ${tag.comment})`}
         </>
       );
-    case "LectotypeDesignation":
+    case "LectotypeDesignationN":
       return (
         <>
           Lectotype designated by{" "}
@@ -156,7 +162,7 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           )}
         </>
       );
-    case "NeotypeDesignation":
+    case "NeotypeDesignationN":
       return (
         <>
           Neotype designated by{" "}
@@ -180,7 +186,7 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           )}
         </>
       );
-    case "LocationDetail":
+    case "LocationDetailN":
       return (
         <>
           <Detail text={tag.text} source={tag.source} />
@@ -192,7 +198,7 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           )}
         </>
       );
-    case "Organ":
+    case "OrganN":
       return (
         <>
           The type specimen includes: {tag.organ}.
@@ -200,51 +206,51 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           {tag.condition && ` Condition: ${tag.condition}.`}
         </>
       );
-    case "InternalSpecifier":
+    case "InternalSpecifierN":
       return (
         <>
           Internal specifier: <ModelLink model={tag.name} />
           {tag.comment && ` (comment: ${tag.comment})`}
         </>
       );
-    case "ExternalSpecifier":
+    case "ExternalSpecifierN":
       return (
         <>
           External specifier: <ModelLink model={tag.name} />
           {tag.comment && ` (comment: ${tag.comment})`}
         </>
       );
-    case "MustBePartOf":
+    case "MustBePartOfN":
       return (
         <>
           Must be part of <ModelLink model={tag.name} />
           {tag.comment && ` (comment: ${tag.comment})`}
         </>
       );
-    case "MustNotInclude":
+    case "MustNotIncludeN":
       return (
         <>
           Must not include <ModelLink model={tag.name} />
           {tag.comment && ` (comment: ${tag.comment})`}
         </>
       );
-    case "MustNotBePartOf":
+    case "MustNotBePartOfN":
       return (
         <>
           Must not be part of <ModelLink model={tag.name} />
           {tag.comment && ` (comment: ${tag.comment})`}
         </>
       );
-    case "MustBeExtinct":
+    case "MustBeExtinctN":
       return <>Must be extinct{tag.comment ? ` (comment: ${tag.comment})` : ""}</>;
-    case "ProbableRepository":
+    case "ProbableRepositoryN":
       return (
         <>
           The type is probably in <ModelLink model={tag.repository} />.
           {tag.reasoning && `Reasoning: ${tag.reasoning}`}
         </>
       );
-    case "GuessedRepository":
+    case "GuessedRepositoryN":
       return (
         <>
           Type may be in <ModelLink model={tag.repository} /> (guessed by an algorithm
@@ -252,46 +258,46 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           more confidence).
         </>
       );
-    case "Repository":
+    case "RepositoryN":
       return (
         <>
           Part of the type material is in <ModelLink model={tag.repository} />.
         </>
       );
-    case "FormerRepository":
+    case "FormerRepositoryN":
       return (
         <>
           The type material was formerly in <ModelLink model={tag.repository} />.
         </>
       );
-    case "FutureRepository":
+    case "FutureRepositoryN":
       return (
         <>
           The type material is expected to be transferred to{" "}
           <ModelLink model={tag.repository} />.
         </>
       );
-    case "ExtraRepository":
+    case "ExtraRepositoryN":
       return (
         <>
           Additional material from the type specimen is in{" "}
           <ModelLink model={tag.repository} />.
         </>
       );
-    case "SourceDetail":
+    case "SourceDetailN":
       return <Detail text={tag.text} source={tag.source} />;
-    case "SpecimenDetail":
+    case "SpecimenDetailN":
       return <Detail text={tag.text} source={tag.source} />;
-    case "AdditionalTypeSpecimen":
+    case "AdditionalTypeSpecimenN":
       return (
         <>
           Additional specimen ({tag.kind.replace(/_/g, " ")}): {tag.text}
           {tag.comment && ` (comment: ${tag.comment})`}
         </>
       );
-    case "StratigraphyDetail":
+    case "StratigraphyDetailN":
       return <>Stratigraphy: {tag.text}</>;
-    case "TypeDesignation":
+    case "TypeDesignationN":
       return (
         <>
           Type species designated by{" "}
@@ -309,9 +315,9 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           )}
         </>
       );
-    case "TypeSpeciesDetail":
+    case "TypeSpeciesDetailN":
       return <Detail text={tag.text} source={tag.source} />;
-    case "PhylogeneticDefinition":
+    case "PhylogeneticDefinitionN":
       return (
         <>
           Phylogenetic definition ({tag.definitionType.replace(/_/g, " ")}):{" "}
@@ -319,7 +325,7 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           {tag.comment && ` (comment: ${tag.comment})`}
         </>
       );
-    case "TypeSpecimenLink":
+    case "TypeSpecimenLinkN":
       if (!tag.url) {
         return null;
       }
@@ -328,7 +334,7 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           Collection database entry for type specimen: <a href={tag.url}>{tag.url}</a>
         </>
       );
-    case "TypeSpecimenLinkFor":
+    case "TypeSpecimenLinkForN":
       if (!tag.url) {
         return null;
       }
@@ -338,15 +344,15 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           <a href={tag.url}>{tag.url}</a>
         </>
       );
-    case "NamedAfter":
+    case "NamedAfterN":
       return (
         <>
           Named after <ModelLink model={tag.person} />
         </>
       );
-    case "TextualOriginalRank":
+    case "TextualOriginalRankN":
       return <>Original rank: {tag.text}</>;
-    case "LSIDName":
+    case "LSIDN":
       const url = `https://zoobank.org/NomenclaturalActs/${tag.text}`;
       const label = `urn:lsid:zoobank.org:act:${tag.text}`;
       return (
@@ -354,14 +360,21 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           LSID (ZooBank): <a href={url}>{label}</a>
         </>
       );
-    case "AuthorityPageLink":
+    case "AuthorityPageLinkN":
       return (
         <>
           View original description (page {tag.page}): <a href={tag.url}>{tag.url}</a>
         </>
       );
-    case "PhyloCodeNumber":
+    case "PhyloCodeNumberN":
       return <>PhyloCode registration number: {tag.number}</>;
+    case "TypeLocalityValidityN":
+      return (
+        <>
+          Type-locality validity: {tag.validity.replace(/_/g, " ")}
+          {tag.comment && ` (${tag.comment})`}
+        </>
+      );
     default:
       console.log(tag.__typename);
       return null;
@@ -403,37 +416,37 @@ export default createFragmentContainer(NameTypeTags, {
     fragment NameTypeTags_name on Name {
       typeTags {
         __typename
-        ... on Age {
+        ... on AgeN {
           age
         }
-        ... on Altitude {
+        ... on AltitudeN {
           altitude
           unit
         }
-        ... on CitationDetail {
+        ... on CitationDetailN {
           text
           source {
             ...ModelLink_model
           }
         }
-        ... on CollectionDetail {
+        ... on CollectionDetailN {
           text
           source {
             ...ModelLink_model
           }
         }
-        ... on Involved {
+        ... on InvolvedN {
           person {
             ...ModelLink_model
           }
           comment
         }
-        ... on CollectedBy {
+        ... on CollectedByN {
           person {
             ...ModelLink_model
           }
         }
-        ... on CommissionTypeDesignation {
+        ... on CommissionTypeDesignationN {
           opinion {
             ...ModelLink_model
           }
@@ -442,50 +455,51 @@ export default createFragmentContainer(NameTypeTags, {
           }
           pageLink
         }
-        ... on Coordinates {
+        ... on CoordinatesN {
           latitude
           longitude
+          openstreetmapUrl
         }
-        ... on Date {
+        ... on DateN {
           date
         }
-        ... on DefinitionDetail {
+        ... on DefinitionDetailN {
           text
           source {
             ...ModelLink_model
           }
         }
-        ... on DescriptionDetail {
+        ... on DescriptionDetailN {
           text
           source {
             ...ModelLink_model
           }
         }
-        ... on EtymologyDetail {
+        ... on EtymologyDetailN {
           text
           source {
             ...ModelLink_model
           }
         }
-        ... on NomenclatureDetail {
+        ... on NomenclatureDetailN {
           text
           source {
             ...ModelLink_model
           }
         }
-        ... on Gender {
+        ... on GenderN {
           gender
         }
-        ... on GenusCoelebs {
+        ... on GenusCoelebsN {
           comments
         }
-        ... on Habitat {
+        ... on HabitatN {
           text
         }
-        ... on Host {
+        ... on HostN {
           hostName: name
         }
-        ... on IncludedSpecies {
+        ... on IncludedSpeciesN {
           name {
             ...ModelLink_model
           }
@@ -493,7 +507,7 @@ export default createFragmentContainer(NameTypeTags, {
           includedPage: page
           pageLink
         }
-        ... on LectotypeDesignation {
+        ... on LectotypeDesignationN {
           optionalSource {
             ...ModelLink_model
           }
@@ -502,14 +516,14 @@ export default createFragmentContainer(NameTypeTags, {
           comment
           pageLink
         }
-        ... on LocationDetail {
+        ... on LocationDetailN {
           text
           source {
             ...ModelLink_model
           }
           pageLink
         }
-        ... on NeotypeDesignation {
+        ... on NeotypeDesignationN {
           optionalSource {
             ...ModelLink_model
           }
@@ -518,97 +532,97 @@ export default createFragmentContainer(NameTypeTags, {
           comment
           pageLink
         }
-        ... on Organ {
+        ... on OrganN {
           organ
           detail
           condition
         }
-        ... on ProbableRepository {
+        ... on ProbableRepositoryN {
           repository {
             ...ModelLink_model
           }
           reasoning
         }
-        ... on InternalSpecifier {
+        ... on InternalSpecifierN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on ExternalSpecifier {
+        ... on ExternalSpecifierN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on MustBePartOf {
+        ... on MustBePartOfN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on MustNotBePartOf {
+        ... on MustNotBePartOfN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on MustNotInclude {
+        ... on MustNotIncludeN {
           name {
             ...ModelLink_model
           }
           comment
         }
-        ... on MustBeExtinct {
+        ... on MustBeExtinctN {
           comment
         }
-        ... on GuessedRepository {
+        ... on GuessedRepositoryN {
           repository {
             ...ModelLink_model
           }
           score
         }
-        ... on Repository {
+        ... on RepositoryN {
           repository {
             ...ModelLink_model
           }
         }
-        ... on FormerRepository {
+        ... on FormerRepositoryN {
           repository {
             ...ModelLink_model
           }
         }
-        ... on FutureRepository {
+        ... on FutureRepositoryN {
           repository {
             ...ModelLink_model
           }
         }
-        ... on ExtraRepository {
+        ... on ExtraRepositoryN {
           repository {
             ...ModelLink_model
           }
         }
-        ... on SourceDetail {
+        ... on SourceDetailN {
           text
           source {
             ...ModelLink_model
           }
         }
-        ... on SpecimenDetail {
+        ... on SpecimenDetailN {
           text
           source {
             ...ModelLink_model
           }
         }
-        ... on AdditionalTypeSpecimen {
+        ... on AdditionalTypeSpecimenN {
           text
           kind
           comment
         }
-        ... on StratigraphyDetail {
+        ... on StratigraphyDetailN {
           text
         }
-        ... on TypeDesignation {
+        ... on TypeDesignationN {
           optionalSource {
             ...ModelLink_model
           }
@@ -618,43 +632,47 @@ export default createFragmentContainer(NameTypeTags, {
           comment
           pageLink
         }
-        ... on TypeSpeciesDetail {
+        ... on TypeSpeciesDetailN {
           text
           source {
             ...ModelLink_model
           }
         }
-        ... on PhylogeneticDefinition {
+        ... on PhylogeneticDefinitionN {
           definitionType: type
           source {
             ...ModelLink_model
           }
           comment
         }
-        ... on NamedAfter {
+        ... on NamedAfterN {
           person {
             ...ModelLink_model
           }
         }
-        ... on TextualOriginalRank {
+        ... on TextualOriginalRankN {
           text
         }
-        ... on LSIDName {
+        ... on LSIDN {
           text
         }
-        ... on TypeSpecimenLink {
+        ... on TypeSpecimenLinkN {
           url
         }
-        ... on TypeSpecimenLinkFor {
+        ... on TypeSpecimenLinkForN {
           url
           specimen
         }
-        ... on AuthorityPageLink {
+        ... on AuthorityPageLinkN {
           url
           page
         }
-        ... on PhyloCodeNumber {
+        ... on PhyloCodeNumberN {
           number
+        }
+        ... on TypeLocalityValidityN {
+          validity
+          comment
         }
       }
     }

@@ -80,11 +80,11 @@ class ArticleBody extends React.Component<{
       doi,
       publisher,
       pages,
-      parent,
-      citationGroup,
       articleName,
       path,
-      tags,
+      parent,
+      citationGroup,
+      articleTags,
     } = article;
     const data: [string, JSX.Element | null | string][] = [
       ["Type", (articleType !== null && TYPE_TO_STRING.get(articleType)) || null],
@@ -118,20 +118,20 @@ class ArticleBody extends React.Component<{
       data.push(["DOI", <a href={href}>{doi}</a>]);
     }
     let partialClassification: string | null = null;
-    tags.forEach((tag) => {
+    articleTags.forEach((tag) => {
       let url: string | null = null;
       switch (tag.__typename) {
-        case "BatLit": {
+        case "BatLitA": {
           if (tag.zenodoDoi) {
             const href = `https://doi.org/${tag.zenodoDoi}`;
             data.push(["BatLit", <a href={href}>doi:{tag.zenodoDoi}</a>]);
           }
           break;
         }
-        case "ISBN":
+        case "ISBNA":
           url = `https://en.wikipedia.org/wiki/Special:BookSources/${tag.text}`;
           break;
-        case "HDL": {
+        case "HDLA": {
           const base = `https://hdl.handle.net/${tag.text}`;
           if (tag.urlappend) {
             url = `${base}?urlappend=${encodeURIComponent(tag.urlappend)}`;
@@ -140,21 +140,21 @@ class ArticleBody extends React.Component<{
           }
           break;
         }
-        case "JSTOR":
+        case "JSTORA":
           url = `https://www.jstor.org/stable/${tag.text}`;
           break;
-        case "PMID":
+        case "PMIDA":
           url = `https://pubmed.ncbi.nlm.nih.gov/${tag.text}/`;
           break;
-        case "PMC":
+        case "PMCA":
           url = `https://www.ncbi.nlm.nih.gov/pmc/articles/PMC${tag.text}/`;
           break;
-        case "LSIDArticle":
+        case "LSIDA":
           const zooBankurl = `https://zoobank.org/References/${tag.text}`;
           const label = `urn:lsid:zoobank.org:pub:${tag.text}`;
           data.push(["LSID (ZooBank)", <a href={zooBankurl}>{label}</a>]);
           break;
-        case "PublicationDate": {
+        case "PublicationDateA": {
           const body = (
             <>
               <PublicationDate date={tag.date || ""} /> (
@@ -170,7 +170,7 @@ class ArticleBody extends React.Component<{
           data.push(["Evidence for date", body]);
           break;
         }
-        case "BiblioNoteArticle":
+        case "BiblioNoteA":
           if (tag.text) {
             data.push([
               "Bibliographical discussion",
@@ -178,19 +178,19 @@ class ArticleBody extends React.Component<{
             ]);
           }
           break;
-        case "AlternativeURL":
+        case "AlternativeURLA":
           data.push(["URL", <a href={tag.url}>{tag.url}</a>]);
           break;
-        case "PartialClassification":
+        case "PartialClassificationA":
           partialClassification = tag.comment;
           break;
-        case "InconsistentlyBinominal":
+        case "InconsistentlyBinominalA":
           data.push([
             "Inconsistently binominal",
             tag.comment ? <InlineMarkdown source={tag.comment} /> : null,
           ]);
           break;
-        case "PlacedOnIndex":
+        case "PlacedOnIndexA":
           data.push([
             "Placed on the Official Index",
             <>
@@ -300,51 +300,51 @@ export default createFragmentContainer(ArticleBody, {
       citationGroup {
         ...ModelLink_model
       }
-      tags {
+      articleTags: tags {
         __typename
-        ... on BatLit {
+        ... on BatLitA {
           zenodoDoi
         }
-        ... on ISBN {
+        ... on ISBNA {
           text
         }
-        ... on Eurobats {
+        ... on EurobatsA {
           text
         }
-        ... on HDL {
+        ... on HDLA {
           text
           urlappend
         }
-        ... on JSTOR {
+        ... on JSTORA {
           text
         }
-        ... on PMID {
+        ... on PMIDA {
           text
         }
-        ... on PMC {
+        ... on PMCA {
           text
         }
-        ... on LSIDArticle {
+        ... on LSIDA {
           text
         }
-        ... on PublicationDate {
+        ... on PublicationDateA {
           dateSource: source
           date
           comment
         }
-        ... on BiblioNoteArticle {
+        ... on BiblioNoteA {
           text
         }
-        ... on AlternativeURL {
+        ... on AlternativeURLA {
           url
         }
-        ... on PartialClassification {
+        ... on PartialClassificationA {
           comment
         }
-        ... on InconsistentlyBinominal {
+        ... on InconsistentlyBinominalA {
           comment
         }
-        ... on PlacedOnIndex {
+        ... on PlacedOnIndexA {
           indexSource: source {
             ...ModelLink_model
           }

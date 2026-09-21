@@ -9,6 +9,7 @@ import ModelLink from "../components/ModelLink";
 import Reference from "../reference/Reference";
 import ClassificationEntryChildren from "../lists/ClassificationEntryChildren";
 import { Rank } from "./Rank";
+import ClassificationEntryOccurrenceRecords from "../lists/ClassificationEntryOccurrenceRecords";
 
 function InfoSection({ ce }: { ce: ClassificationEntryBody_classificationEntry }) {
   const rank = ce.ceRank === "synonym" ? ce.parent?.ceRank || "other" : ce.ceRank;
@@ -28,12 +29,12 @@ function InfoSection({ ce }: { ce: ClassificationEntryBody_classificationEntry }
   }
   let textualRank: string | null = null;
   let pageLinkUrl: string | null = null;
-  ce.tags.forEach((tag) => {
+  ce.classificationEntryTags.forEach((tag) => {
     switch (tag.__typename) {
       case "AgeClassCE":
         sourceData.push(["Age class", tag.age.replace(/_/g, " ")]);
         break;
-      case "CECondition":
+      case "CEConditionCE":
         sourceData.push([
           "Condition",
           tag.comment
@@ -41,37 +42,37 @@ function InfoSection({ ce }: { ce: ClassificationEntryBody_classificationEntry }
             : tag.status.replace(/_/g, " "),
         ]);
         break;
-      case "CommentFromDatabase":
+      case "CommentFromDatabaseCE":
         interpData.push(["Comment (database)", tag.text]);
         break;
-      case "CommentFromSource":
+      case "CommentFromSourceCE":
         sourceData.push(["Comment (source)", tag.text]);
         break;
-      case "CommonName":
+      case "CommonNameCE":
         sourceData.push([
           "Common name",
           `${tag.commonName} (${tag.language.replace(/_/g, " ")})`,
         ]);
         break;
-      case "CorrectedName":
+      case "CorrectedNameCE":
         interpData.push(["Normalized name", tag.text]);
         break;
       case "LSIDCE":
         sourceData.push(["LSID", tag.text]);
         break;
-      case "OriginalCombination":
+      case "OriginalCombinationCE":
         sourceData.push(["Original combination", tag.text]);
         break;
-      case "OriginalPageDescribed":
+      case "OriginalPageDescribedCE":
         sourceData.push(["Original page described", tag.text]);
         break;
-      case "TextualRank":
+      case "TextualRankCE":
         textualRank = tag.text;
         break;
-      case "PageLink":
+      case "PageLinkCE":
         pageLinkUrl = tag.url;
         break;
-      case "ReferencedUsage":
+      case "ReferencedUsageCE":
         interpData.push([
           "Refers to previous usage:",
           <>
@@ -80,10 +81,10 @@ function InfoSection({ ce }: { ce: ClassificationEntryBody_classificationEntry }
           </>,
         ]);
         break;
-      case "TypeSpecimenData":
+      case "TypeSpecimenDataCE":
         sourceData.push(["Type specimen data", tag.text]);
         break;
-      case "TreatedAsDubious":
+      case "TreatedAsDubiousCE":
         sourceData.push(["Treated as dubious", "yes"]);
         break;
     }
@@ -164,6 +165,9 @@ class ClassificationEntryBody extends React.Component<{
         <InfoSection ce={this.props.classificationEntry} />
         <h3>Classification in context</h3>
         <ContextSection ce={this.props.classificationEntry} />
+        <ClassificationEntryOccurrenceRecords
+          classificationEntry={this.props.classificationEntry}
+        />
       </>
     );
   }
@@ -192,54 +196,55 @@ export default createFragmentContainer(ClassificationEntryBody, {
       }
       ...ModelLink_model
       ...ClassificationEntryChildren_classificationEntry
-      tags {
+      ...ClassificationEntryOccurrenceRecords_classificationEntry
+      classificationEntryTags: tags {
         __typename
         ... on AgeClassCE {
           age
         }
-        ... on CECondition {
+        ... on CEConditionCE {
           status
           comment
         }
-        ... on CommentFromDatabase {
+        ... on CommentFromDatabaseCE {
           text
         }
-        ... on CommentFromSource {
+        ... on CommentFromSourceCE {
           text
         }
-        ... on CommonName {
+        ... on CommonNameCE {
           commonName: name
           language
         }
-        ... on CorrectedName {
+        ... on CorrectedNameCE {
           text
         }
         ... on LSIDCE {
           text
         }
-        ... on TextualRank {
+        ... on TextualRankCE {
           text
         }
-        ... on PageLink {
+        ... on PageLinkCE {
           url
           page
         }
-        ... on OriginalCombination {
+        ... on OriginalCombinationCE {
           text
         }
-        ... on OriginalPageDescribed {
+        ... on OriginalPageDescribedCE {
           text
         }
-        ... on ReferencedUsage {
+        ... on ReferencedUsageCE {
           ce {
             ...ModelLink_model
           }
           comment
         }
-        ... on TypeSpecimenData {
+        ... on TypeSpecimenDataCE {
           text
         }
-        ... on TreatedAsDubious {
+        ... on TreatedAsDubiousCE {
           _Ignored
         }
       }

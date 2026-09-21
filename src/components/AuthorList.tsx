@@ -31,7 +31,17 @@ class AuthorList extends React.Component<{
 export default createFragmentContainer(AuthorList, {
   authorTags: graphql`
     fragment AuthorList_authorTags on AuthorTag @relay(plural: true) {
-      ... on Author {
+      ... on AuthorA {
+        person {
+          ...ModelLink_model
+        }
+      }
+      ... on AuthorB {
+        person {
+          ...ModelLink_model
+        }
+      }
+      ... on AuthorN {
         person {
           oid
           ...ModelLink_model
