@@ -66,9 +66,9 @@ export default function ModelMain() {
         }
       `}
       variables={{ oid, callSign }}
-      render={({ error, props }) => {
+      render={({ error, props, retry }) => {
         if (error) {
-          return <PageStatus kind="error" />;
+          return <PageStatus kind="error" onRetry={retry} />;
         }
         if (!props) {
           return <div className="route-loading">Loading...</div>;

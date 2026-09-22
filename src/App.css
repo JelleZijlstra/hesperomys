@@ -298,6 +298,22 @@
   border-radius: 6px;
 }
 
+.documentation img {
+  max-width: 100%;
+  height: auto;
+}
+
+.markdown-table {
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.markdown-table th,
+.markdown-table td {
+  min-width: 8rem;
+  vertical-align: top;
+}
+
 /* Content pages: tidy table layout (react-bootstrap .table) */
 .table {
   width: 100%;
@@ -524,4 +540,31 @@ li {
   color: inherit;
   font: inherit;
   cursor: pointer;
+}
+
+.load-error {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid currentColor;
+  border-radius: 8px;
+}
+
+.load-error p {
+  margin: 0 0 0.75rem;
+}
+
+.load-error button,
+.pagination-controls > button {
+  padding: 0.5rem 1rem;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  cursor: wait;
+  opacity: 0.6;
 }

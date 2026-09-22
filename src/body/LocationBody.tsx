@@ -141,7 +141,12 @@ class LocationBody extends React.Component<{
           data.push(["Coordinate source", "parsed from the location name"]);
           break;
         case "CoordinatesManualL":
-          data.push(["Coordinate source", tag.coordinatesManualComment]);
+          data.push([
+            "Coordinate source",
+            tag.coordinatesManualComment ? (
+              <InlineMarkdown source={tag.coordinatesManualComment} />
+            ) : null,
+          ]);
           break;
         case "NearbyRegionL":
           data.push(["Nearby region", <ModelLink model={tag.region} />]);
@@ -155,7 +160,12 @@ class LocationBody extends React.Component<{
               ) : (
                 tag.plssText
               )}
-              {tag.plssComment && <> ({tag.plssComment})</>}
+              {tag.plssComment && (
+                <>
+                  {" "}
+                  (<InlineMarkdown source={tag.plssComment} />)
+                </>
+              )}
             </>,
           ]);
           break;
@@ -168,7 +178,12 @@ class LocationBody extends React.Component<{
         {unplacedComment !== undefined && (
           <p>
             This locality is unplaced.
-            {unplacedComment && <> {unplacedComment}</>}
+            {unplacedComment && (
+              <>
+                {" "}
+                <InlineMarkdown source={unplacedComment} />
+              </>
+            )}
           </p>
         )}
         <Table data={data} />

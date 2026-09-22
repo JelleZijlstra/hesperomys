@@ -3,7 +3,13 @@ import { Link, useLocation } from "react-router-dom";
 import SiteHeader from "./SiteHeader";
 import SiteBody from "./SiteBody";
 
-export default function PageStatus({ kind }: { kind: "not-found" | "error" }) {
+export default function PageStatus({
+  kind,
+  onRetry,
+}: {
+  kind: "not-found" | "error";
+  onRetry?: (() => void) | null;
+}) {
   const { pathname } = useLocation();
   const notFound = kind === "not-found";
   const title = notFound ? "Page not found" : "Unable to load this page";
@@ -31,7 +37,9 @@ export default function PageStatus({ kind }: { kind: "not-found" | "error" }) {
           {notFound && <p>Check the address, search above, or browse the database.</p>}
           <nav className="page-status-actions" aria-label="Page recovery">
             {!notFound && (
-              <button onClick={() => window.location.reload()}>Try again</button>
+              <button onClick={onRetry || (() => window.location.reload())}>
+                Try again
+              </button>
             )}
             <Link to="/">Browse the database</Link>
           </nav>

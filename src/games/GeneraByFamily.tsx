@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import GameScope, { gameDataUrl } from "./GameScope";
+import GameScope, { continentLabel, gameDataUrl } from "./GameScope";
 import ListByParent from "./ListByParent";
 import {
   FamilyGenera,
@@ -103,7 +103,7 @@ function renderGroupedBoard(
   );
 }
 
-function Game({ rows, storageKey }: { rows: FamilyGenera[]; storageKey: string }) {
+function Game({ rows, continent }: { rows: FamilyGenera[]; continent: string }) {
   const [groupedAll, setGroupedAll] = useState<FamilyGrouped[]>([]);
   const grouped = useMemo(
     () => filterGroupedFamilies(groupedAll, rows),
@@ -131,8 +131,8 @@ function Game({ rows, storageKey }: { rows: FamilyGenera[]; storageKey: string }
   return (
     <ListByParent
       rowsAll={listRows}
-      storageKey={storageKey}
-      labels={labels}
+      storageKey={scopedStorageKey(STORAGE_KEY, continent)}
+      labels={{ ...labels, title: `${labels.title}: ${continentLabel(continent)}` }}
       renderBoard={(row, found, masks) =>
         renderGroupedBoard(
           { family: row.parent, genera: row.children },
@@ -148,9 +148,7 @@ function Game({ rows, storageKey }: { rows: FamilyGenera[]; storageKey: string }
 export default function GeneraByFamily() {
   return (
     <GameScope file="family_genera.json" filter={filterFamilyGenera}>
-      {(rows, continent) => (
-        <Game rows={rows} storageKey={scopedStorageKey(STORAGE_KEY, continent)} />
-      )}
+      {(rows, continent) => <Game rows={rows} continent={continent} />}
     </GameScope>
   );
 }

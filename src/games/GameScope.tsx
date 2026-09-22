@@ -6,6 +6,10 @@ import "./GameScope.css";
 
 const CONTINENT_KEY = "hesperomys.games.continent.v1";
 
+export function continentLabel(continent: string): string {
+  return continent === "Oceania (Continent)" ? "Oceania" : continent || "Worldwide";
+}
+
 function initialContinent(): string {
   try {
     return window.localStorage.getItem(CONTINENT_KEY) || "";
@@ -100,7 +104,7 @@ export default function GameScope<T>({
     continent &&
     (!geography || !geography.continents.includes(continent));
   return (
-    <div className="game-scope">
+    <main className="game-scope">
       <section className="game-scope-controls" aria-label="Game geography">
         <Link to="/games">← All games</Link>
         <label htmlFor="game-continent">Continent</label>
@@ -111,11 +115,11 @@ export default function GameScope<T>({
         >
           <option value="">Worldwide</option>
           {continent && !geography?.continents.includes(continent) && (
-            <option value={continent}>{continent}</option>
+            <option value={continent}>{continentLabel(continent)}</option>
           )}
           {geography?.continents.map((name) => (
             <option key={name} value={name}>
-              {name === "Oceania (Continent)" ? "Oceania" : name}
+              {continentLabel(name)}
             </option>
           ))}
         </select>
@@ -155,6 +159,6 @@ export default function GameScope<T>({
       ) : (
         <React.Fragment key={continent}>{children(rows, continent)}</React.Fragment>
       )}
-    </div>
+    </main>
   );
 }

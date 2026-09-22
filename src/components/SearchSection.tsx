@@ -1,3 +1,4 @@
+import LoadError from "./LoadError";
 import React from "react";
 import { QueryRenderer } from "react-relay";
 import environment from "../relayEnvironment";
@@ -82,9 +83,9 @@ export default function SearchSection() {
         }
       `}
       variables={{}}
-      render={({ error, props }) => {
+      render={({ error, props, retry }) => {
         if (error) {
-          return <div>Error!</div>;
+          return <LoadError onRetry={retry} />;
         }
         if (!props) {
           return <div>Loading...</div>;

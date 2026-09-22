@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import ProgressDialog from "./ProgressDialog";
 import "./GeneraByFamily.css";
 export type ListRow = { parent: string; children: string[] };
 type Labels = {
@@ -484,73 +485,68 @@ export default function ListByParent({
   function renderSettingsModal() {
     if (!isSettingsOpen) return null;
     return (
-      <div className="game-modal-backdrop" onClick={() => setIsSettingsOpen(false)}>
-        <div
-          className="game-modal"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="list-progress-title"
-          onClick={(event) => event.stopPropagation()}
-        >
-          <div className="game-modal-header">
-            <h3 id="list-progress-title">Progress</h3>
-            <button
-              className="btn icon-btn"
-              type="button"
-              aria-label="Close progress"
-              onClick={() => setIsSettingsOpen(false)}
-            >
-              ×
-            </button>
-          </div>
-          <div className="progress-grid">
-            <div className="progress-stat">
-              <div className="progress-label">Finished</div>
-              <div className="progress-value">
-                {completedParents} / {totalParents}
-              </div>
-            </div>
-            <div className="progress-stat">
-              <div className="progress-label">Flawless</div>
-              <div className="progress-value">
-                {flawlessParents} / {totalParents}
-              </div>
-            </div>
-            <div className="progress-stat">
-              <div className="progress-label">Pass</div>
-              <div className="progress-value">{progress?.pass ?? 1}</div>
-            </div>
-            <div className="progress-stat">
-              <div className="progress-label">This pass</div>
-              <div className="progress-value">{remainingThisPass} left</div>
-            </div>
-            <div className="progress-stat">
-              <div className="progress-label">Retry next</div>
-              <div className="progress-value">{retryParents}</div>
+      <ProgressDialog
+        labelledBy="list-progress-title"
+        onClose={() => setIsSettingsOpen(false)}
+      >
+        <div className="game-modal-header">
+          <h3 id="list-progress-title">Progress</h3>
+          <button
+            className="btn icon-btn"
+            type="button"
+            aria-label="Close progress"
+            onClick={() => setIsSettingsOpen(false)}
+          >
+            ×
+          </button>
+        </div>
+        <div className="progress-grid">
+          <div className="progress-stat">
+            <div className="progress-label">Finished</div>
+            <div className="progress-value">
+              {completedParents} / {totalParents}
             </div>
           </div>
-          <label className="game-toggle modal-toggle">
-            <input
-              type="checkbox"
-              checked={hardMode}
-              onChange={(e) => setHardMode(e.target.checked)}
-            />
-            Hard mode (only {labels.parents} with more than 10 {labels.children})
-          </label>
-          <div className="modal-actions">
-            <button className="btn danger" type="button" onClick={resetCurrentMode}>
-              Clear progress
-            </button>
-            <button
-              className="btn primary"
-              type="button"
-              onClick={() => setIsSettingsOpen(false)}
-            >
-              Done
-            </button>
+          <div className="progress-stat">
+            <div className="progress-label">Flawless</div>
+            <div className="progress-value">
+              {flawlessParents} / {totalParents}
+            </div>
+          </div>
+          <div className="progress-stat">
+            <div className="progress-label">Pass</div>
+            <div className="progress-value">{progress?.pass ?? 1}</div>
+          </div>
+          <div className="progress-stat">
+            <div className="progress-label">This pass</div>
+            <div className="progress-value">{remainingThisPass} left</div>
+          </div>
+          <div className="progress-stat">
+            <div className="progress-label">Retry next</div>
+            <div className="progress-value">{retryParents}</div>
           </div>
         </div>
-      </div>
+        <label className="game-toggle modal-toggle">
+          <input
+            type="checkbox"
+            checked={hardMode}
+            onChange={(e) => setHardMode(e.target.checked)}
+          />
+          Hard mode (only {labels.parents} with more than 10 {labels.children})
+        </label>
+        <div className="modal-actions">
+          <button className="btn danger" type="button" onClick={resetCurrentMode}>
+            Clear progress
+          </button>
+          <button
+            className="btn primary"
+            type="button"
+            onClick={() => setIsSettingsOpen(false)}
+          >
+            Done
+          </button>
+        </div>
+      </ProgressDialog>
     );
   }
 
@@ -558,7 +554,7 @@ export default function ListByParent({
     <div className="game-root">
       <div className="game-card">
         <div className="game-header">
-          <h2 className="game-title">{labels.title}</h2>
+          <h1 className="game-title">{labels.title}</h1>
           <div className="header-actions">
             <div className="score-pill" title="Found / Total">
               {foundCount} / {total}
@@ -602,6 +598,10 @@ export default function ListByParent({
               <input
                 className="answer-input"
                 type="text"
+                autoComplete="off"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
                 aria-label={labels.child}
                 placeholder={labels.placeholder}
                 value={answer}
@@ -609,7 +609,7 @@ export default function ListByParent({
                 autoFocus
               />
               <div className="buttons">
-                <button className="btn primary" type="submit">
+                <button className="btn primary" type="submit" disabled={!answer.trim()}>
                   Submit
                 </button>
                 <button

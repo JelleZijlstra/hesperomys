@@ -1,4 +1,5 @@
 .game-scope {
+  color-scheme: light;
   background: #f8fafc;
   color: #0f172a;
   min-height: 100vh;
@@ -19,6 +20,8 @@
   margin-right: 12px;
 }
 .game-scope-controls select {
+  font: inherit;
+  min-height: 44px;
   max-width: 100%;
   padding: 7px 10px;
   border: 1px solid #cbd5e1;
@@ -44,6 +47,83 @@
   max-width: 672px;
   margin: 16px auto;
   padding: 0 24px;
+}
+.game-scope .game-modal .icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+.game-scope .game-modal {
+  box-sizing: border-box;
+  max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+}
+.game-scope .game-card,
+.game-scope .game-title {
+  min-width: 0;
+}
+.game-scope .game-header {
+  gap: 12px;
+}
+.game-scope .header-actions {
+  flex-shrink: 0;
+}
+.game-scope .score-pill {
+  background: #0369a1;
+  white-space: nowrap;
+}
+.game-scope .answer-input {
+  min-width: 0;
+  background: #fff;
+  color: #0f172a;
+}
+.game-scope .answer-input::placeholder {
+  color: #64748b;
+  opacity: 1;
+}
+.game-scope .feedback-stream {
+  height: auto;
+  max-height: 160px;
+  overflow-y: auto;
+}
+.game-scope .feedback-stream .feedback {
+  flex-shrink: 0;
+}
+.game-scope .feedback,
+.game-scope .genera-chip,
+.game-scope .prompt-genus {
+  overflow-wrap: anywhere;
+}
+:root .game-scope .btn {
+  min-height: 44px;
+  font-family: inherit;
+  font-size: 1rem;
+  justify-content: center;
+  background: #e2e8f0;
+  color: #0f172a;
+}
+:root .game-scope .btn.primary {
+  background: #15803d;
+  color: #fff;
+}
+:root .game-scope .btn.danger {
+  background: #b91c1c;
+  color: #fff;
+}
+:root .game-scope .btn:disabled {
+  background: #e2e8f0;
+  color: #475569;
+  cursor: not-allowed;
+  filter: none;
+}
+.game-scope :is(button, a, input, select):focus-visible {
+  outline: 3px solid #0369a1;
+  outline-offset: 3px;
 }
 @media (max-width: 480px) {
   .game-scope .game-card {

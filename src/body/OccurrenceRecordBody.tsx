@@ -81,17 +81,29 @@ class OccurrenceRecordBody extends React.Component<{
         case "OriginFromSourceOR":
           data.push([
             "Origin as given",
-            tag.originComment
-              ? `${words(tag.origin)} (${tag.originComment})`
-              : words(tag.origin),
+            <>
+              {words(tag.origin)}
+              {tag.originComment && (
+                <>
+                  {" "}
+                  (<InlineMarkdown source={tag.originComment} />)
+                </>
+              )}
+            </>,
           ]);
           break;
         case "PresenceFromSourceOR":
           data.push([
             "Presence as given",
-            tag.presenceComment
-              ? `${words(tag.presence)} (${tag.presenceComment})`
-              : words(tag.presence),
+            <>
+              {words(tag.presence)}
+              {tag.presenceComment && (
+                <>
+                  {" "}
+                  (<InlineMarkdown source={tag.presenceComment} />)
+                </>
+              )}
+            </>,
           ]);
           break;
         case "RedirectTargetOR":
@@ -115,17 +127,29 @@ class OccurrenceRecordBody extends React.Component<{
         case "ValidityAssessmentOR":
           data.push([
             "Validity assessment",
-            tag.validityAssessmentComment
-              ? `${words(tag.validity)} (${tag.validityAssessmentComment})`
-              : words(tag.validity),
+            <>
+              {words(tag.validity)}
+              {tag.validityAssessmentComment && (
+                <>
+                  {" "}
+                  (<InlineMarkdown source={tag.validityAssessmentComment} />)
+                </>
+              )}
+            </>,
           ]);
           break;
         case "ValidityFromSourceOR":
           data.push([
             "Validity as given",
-            tag.validityFromSourceComment
-              ? `${words(tag.validity)} (${tag.validityFromSourceComment})`
-              : words(tag.validity),
+            <>
+              {words(tag.validity)}
+              {tag.validityFromSourceComment && (
+                <>
+                  {" "}
+                  (<InlineMarkdown source={tag.validityFromSourceComment} />)
+                </>
+              )}
+            </>,
           ]);
           break;
         case "VerbatimCoordinatesOR":

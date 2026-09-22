@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
+import ProgressDialog from "./ProgressDialog";
 import "./FamilyByGenus.css";
-import GameScope from "./GameScope";
+import GameScope, { continentLabel } from "./GameScope";
 import { filterGenusSpecies, scopedStorageKey } from "./geography";
 
 type Row = { genus: string; species: string[] };
@@ -169,7 +170,8 @@ function sanitizeProgress(saved: Progress | null, rows: Row[]): Progress {
   return advanceToNextPrompt(progress, rows);
 }
 
-function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
+function Game({ data, continent }: { data: Row[]; continent: string }) {
+  const storageKey = scopedStorageKey(STORAGE_KEY, continent);
   const [progress, setProgress] = useState<Progress | null>(null);
   const [answer, setAnswer] = useState("");
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -197,8 +199,6 @@ function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
   const remainingThisPass =
     (progress?.queue.length ?? 0) + (progress?.currentGenus ? 1 : 0);
   const retryNext = progress?.retry.length ?? 0;
-  const correct = progress?.correct ?? 0;
-  const attempts = progress?.attempts ?? 0;
 
   function isCorrectAnswer(
     genus: string,
@@ -305,65 +305,60 @@ function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
   function renderSettingsModal() {
     if (!isSettingsOpen) return null;
     return (
-      <div className="game-modal-backdrop" onClick={() => setIsSettingsOpen(false)}>
-        <div
-          className="game-modal"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="species-progress-title"
-          onClick={(event) => event.stopPropagation()}
-        >
-          <div className="game-modal-header">
-            <h3 id="species-progress-title">Progress</h3>
-            <button
-              className="btn icon-btn"
-              type="button"
-              aria-label="Close progress"
-              onClick={() => setIsSettingsOpen(false)}
-            >
-              ×
-            </button>
-          </div>
-          <div className="progress-grid">
-            <div className="progress-stat">
-              <div className="progress-label">Finished</div>
-              <div className="progress-value">
-                {completed} / {total}
-              </div>
-            </div>
-            <div className="progress-stat">
-              <div className="progress-label">Flawless</div>
-              <div className="progress-value">
-                {flawless} / {total}
-              </div>
-            </div>
-            <div className="progress-stat">
-              <div className="progress-label">Pass</div>
-              <div className="progress-value">{progress?.pass ?? 1}</div>
-            </div>
-            <div className="progress-stat">
-              <div className="progress-label">This pass</div>
-              <div className="progress-value">{remainingThisPass} left</div>
-            </div>
-            <div className="progress-stat">
-              <div className="progress-label">Retry next</div>
-              <div className="progress-value">{retryNext}</div>
+      <ProgressDialog
+        labelledBy="species-progress-title"
+        onClose={() => setIsSettingsOpen(false)}
+      >
+        <div className="game-modal-header">
+          <h3 id="species-progress-title">Progress</h3>
+          <button
+            className="btn icon-btn"
+            type="button"
+            aria-label="Close progress"
+            onClick={() => setIsSettingsOpen(false)}
+          >
+            ×
+          </button>
+        </div>
+        <div className="progress-grid">
+          <div className="progress-stat">
+            <div className="progress-label">Finished</div>
+            <div className="progress-value">
+              {completed} / {total}
             </div>
           </div>
-          <div className="modal-actions">
-            <button className="btn danger" type="button" onClick={clearProgress}>
-              Clear progress
-            </button>
-            <button
-              className="btn primary"
-              type="button"
-              onClick={() => setIsSettingsOpen(false)}
-            >
-              Done
-            </button>
+          <div className="progress-stat">
+            <div className="progress-label">Flawless</div>
+            <div className="progress-value">
+              {flawless} / {total}
+            </div>
+          </div>
+          <div className="progress-stat">
+            <div className="progress-label">Pass</div>
+            <div className="progress-value">{progress?.pass ?? 1}</div>
+          </div>
+          <div className="progress-stat">
+            <div className="progress-label">This pass</div>
+            <div className="progress-value">{remainingThisPass} left</div>
+          </div>
+          <div className="progress-stat">
+            <div className="progress-label">Retry next</div>
+            <div className="progress-value">{retryNext}</div>
           </div>
         </div>
-      </div>
+        <div className="modal-actions">
+          <button className="btn danger" type="button" onClick={clearProgress}>
+            Clear progress
+          </button>
+          <button
+            className="btn primary"
+            type="button"
+            onClick={() => setIsSettingsOpen(false)}
+          >
+            Done
+          </button>
+        </div>
+      </ProgressDialog>
     );
   }
 
@@ -371,10 +366,10 @@ function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
     <div className="game-root">
       <div className="game-card">
         <div className="game-header">
-          <h2 className="game-title">Species by Genus</h2>
+          <h1 className="game-title">Species by Genus: {continentLabel(continent)}</h1>
           <div className="header-actions">
-            <div className="score-pill" title="Correct / Attempts">
-              {correct} / {attempts}
+            <div className="score-pill" title="Finished / Total">
+              {completed} / {total}
             </div>
             <button
               className="btn compact"
@@ -407,6 +402,10 @@ function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
               <input
                 className="answer-input"
                 type="text"
+                autoComplete="off"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
                 aria-label="Species"
                 placeholder="Species (e.g., musculus or Mus musculus)"
                 value={answer}
@@ -414,7 +413,7 @@ function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
                 autoFocus
               />
               <div className="buttons">
-                <button className="btn primary" type="submit">
+                <button className="btn primary" type="submit" disabled={!answer.trim()}>
                   Submit
                 </button>
                 <button className="btn" type="button" onClick={next}>
@@ -445,9 +444,7 @@ function Game({ data, storageKey }: { data: Row[]; storageKey: string }) {
 export default function SpeciesByGenus() {
   return (
     <GameScope file="genus_species.json" filter={filterGenusSpecies}>
-      {(rows, continent) => (
-        <Game data={rows} storageKey={scopedStorageKey(STORAGE_KEY, continent)} />
-      )}
+      {(rows, continent) => <Game data={rows} continent={continent} />}
     </GameScope>
   );
 }

@@ -1,8 +1,8 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
-import { AsyncTypeahead, Menu, MenuItem } from "react-bootstrap-typeahead";
-import { FixedSizeList as List } from "react-window";
+import { AsyncTypeahead } from "react-bootstrap-typeahead";
 
 import { SearchBox_modelCls } from "./__generated__/SearchBox_modelCls.graphql";
 import { getGraphQLUrl } from "../relayEnvironment";
@@ -38,13 +38,19 @@ async function fetchAutocompleteOptions(
   return body.data?.modelCls?.autocomplete ?? [];
 }
 
-const SearchBox = ({
+let nextSearchBoxId = 0;
+
+export const SearchBox = ({
   modelCls,
   placeholder,
 }: {
   modelCls: SearchBox_modelCls;
   placeholder?: string;
 }) => {
+  const history = useHistory();
+  const [inputId] = React.useState(
+    () => `searchBox-${modelCls.callSign}-${nextSearchBoxId++}`,
+  );
   const [isLoading, setIsLoading] = React.useState(false);
   const [options, setOptions] = React.useState<string[]>([]);
   const latestRequest = React.useRef(0);
@@ -74,50 +80,17 @@ const SearchBox = ({
     [modelCls.callSign],
   );
 
-  const renderMenu = React.useCallback(
-    (results: any[], menuProps: any, _state: any): React.ReactElement => {
-      const ITEM_HEIGHT = 32;
-      const VISIBLE = Math.min(results.length, 10);
-      const height = Math.max(ITEM_HEIGHT, VISIBLE * ITEM_HEIGHT);
-      const width = (menuProps && menuProps.style && menuProps.style.width) || 300;
-      return (
-        <Menu {...menuProps}>
-          <List
-            height={height}
-            itemCount={results.length}
-            itemSize={ITEM_HEIGHT}
-            width={width}
-          >
-            {({ index, style }) => {
-              const opt = results[index];
-              const text = typeof opt === "string" ? opt : (opt?.label ?? String(opt));
-              const link = `/${modelCls.callSign}/${text.replace(/\s+/g, "_")}`;
-              return (
-                <div style={style}>
-                  <MenuItem
-                    key={text}
-                    option={opt}
-                    position={index}
-                    onClick={() => {
-                      const win = window.open(link, "_blank");
-                      if (win) win.focus();
-                    }}
-                  >
-                    {text}
-                  </MenuItem>
-                </div>
-              );
-            }}
-          </List>
-        </Menu>
-      );
-    },
-    [modelCls.callSign],
-  );
-
   return (
     <AsyncTypeahead
-      id={`searchBox-${modelCls.callSign}`}
+      id={inputId}
+      onChange={(selected) => {
+        const text = selected[0];
+        if (typeof text !== "string") return;
+        const link = `/${modelCls.callSign.toLowerCase()}/${encodeURIComponent(text.replace(/\s+/g, "_"))}`;
+        const win = window.open(link, "_blank");
+        if (win) win.focus();
+        else history.push(link);
+      }}
       isLoading={isLoading}
       maxResults={10}
       minLength={1}
@@ -129,8 +102,10 @@ const SearchBox = ({
       onSearch={handleSearch}
       options={options}
       paginate={false}
-      placeholder={placeholder ?? `Pick a ${modelCls.name}`}
-      renderMenu={renderMenu}
+      placeholder={
+        placeholder ??
+        `Pick a ${modelCls.name.replace(/([a-z])([A-Z])/g, "$1 $2").toLowerCase()}`
+      }
       useCache={false}
     />
   );

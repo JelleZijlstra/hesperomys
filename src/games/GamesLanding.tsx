@@ -4,9 +4,9 @@ import "./GamesLanding.css";
 
 export default function GamesLanding() {
   return (
-    <div className="games-landing-root">
+    <main className="games-landing-root">
       <div className="games-landing-card">
-        <h2 className="games-landing-title">Hesperomys Games</h2>
+        <h1 className="games-landing-title">Hesperomys Games</h1>
         <p className="games-landing-subtitle">
           Sharpen your taxonomy skills with quick quizzes. Choose a continent in any
           game to practice your local mammals.
@@ -41,6 +41,6 @@ export default function GamesLanding() {
           </Link>
         </div>
       </div>
-    </div>
+    </main>
   );
 }

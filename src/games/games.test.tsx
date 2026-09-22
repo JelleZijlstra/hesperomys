@@ -88,13 +88,36 @@ async function mount(component: React.ReactElement) {
   return result!;
 }
 
+for (const [name, Game] of [
+  ["Order by Family", OrderByFamily],
+  ["Families by Order", FamiliesByOrder],
+  ["Species by Genus", SpeciesByGenus],
+] as const) {
+  test(`${name} keeps keyboard focus in progress and restores it on Escape`, async () => {
+    const view = await mount(<Game />);
+    const trigger = view.getByText("Progress");
+    trigger.focus();
+    fireEvent.click(trigger);
+    const close = view.getByLabelText("Close progress");
+    const done = view.getByText("Done");
+    expect(document.activeElement).toBe(close);
+    fireEvent.keyDown(close, { key: "Tab", shiftKey: true });
+    expect(document.activeElement).toBe(done);
+    fireEvent.keyDown(done, { key: "Tab" });
+    expect(document.activeElement).toBe(close);
+    fireEvent.keyDown(close, { key: "Escape" });
+    expect(view.queryByRole("dialog")).toBeNull();
+    expect(document.activeElement).toBe(trigger);
+  });
+}
+
 test("beginner game grades typed orders and preserves completion after reload", async () => {
   const view = await mount(<OrderByFamily />);
   fireEvent.change(view.getByLabelText("Order"), {
     target: { value: "Rodentia" },
   });
   fireEvent.click(view.getByText("Submit"));
-  expect(view.getByText("1 / 1")).toBeInTheDocument();
+  expect(view.getByTitle("Finished / Total")).toHaveTextContent("1 / 2");
   fireEvent.change(view.getByLabelText("Order"), {
     target: { value: "Carnivora" },
   });
@@ -126,12 +149,12 @@ test("order input offers case-insensitive typeahead and allows typed answers", a
   expect(list.querySelectorAll("option")).toHaveLength(0);
   fireEvent.change(input, { target: { value: "  RODENTIA  " } });
   fireEvent.click(view.getByText("Submit"));
-  expect(view.getByText("1 / 1")).toBeInTheDocument();
+  expect(view.getByTitle("Finished / Total")).toHaveTextContent("1 / 2");
   expect(input).toHaveValue("");
   expect(list.querySelectorAll("option")).toHaveLength(0);
   fireEvent.change(input, { target: { value: "Unknown" } });
   fireEvent.click(view.getByText("Submit"));
-  expect(view.getByText("1 / 2")).toBeInTheDocument();
+  expect(view.getByTitle("Finished / Total")).toHaveTextContent("2 / 2");
   expect(view.getByText(/Incorrect. Correct order: Carnivora/)).toBeInTheDocument();
 });
 
@@ -155,7 +178,7 @@ test("worldwide saves survive continent switches and each continent has its own 
   fireEvent.change(view.getByLabelText("Continent"), {
     target: { value: "North America" },
   });
-  expect(view.getByText("0 / 0")).toBeInTheDocument();
+  expect(view.getByTitle("Finished / Total")).toHaveTextContent("0 / 1");
   fireEvent.change(view.getByLabelText("Family"), {
     target: { value: "Muridae" },
   });
@@ -163,11 +186,11 @@ test("worldwide saves survive continent switches and each continent has its own 
   expect(view.getByText(/All 1 prompts/)).toBeInTheDocument();
   expect(window.localStorage.getItem("hesperomys.familyByGenus.v1")).toBe(worldwide);
   fireEvent.change(view.getByLabelText("Continent"), { target: { value: "" } });
-  expect(view.getByText("1 / 1")).toBeInTheDocument();
+  expect(view.getByTitle("Finished / Total")).toHaveTextContent("1 / 2");
   expect(view.queryByText(/All 1 prompts/)).not.toBeInTheDocument();
 });
 
-test("legacy Family by Genus saves retain the current prompt and score", async () => {
+test("legacy Family by Genus saves retain the current prompt and progress", async () => {
   window.localStorage.setItem(
     "hesperomys.familyByGenus.v1",
     JSON.stringify({
@@ -187,7 +210,7 @@ test("legacy Family by Genus saves retain the current prompt and score", async (
   );
   const view = await mount(<FamilyByGenus />);
   expect(view.getByText("Apodemus")).toBeInTheDocument();
-  expect(view.getByText("1 / 1")).toBeInTheDocument();
+  expect(view.getByTitle("Finished / Total")).toHaveTextContent("1 / 2");
 });
 
 test("species answers are restricted within a genus, including full binomials", async () => {
@@ -197,13 +220,13 @@ test("species answers are restricted within a genus, including full binomials", 
     target: { value: "Mus caroli" },
   });
   fireEvent.click(view.getByText("Submit"));
-  expect(view.getByText("0 / 1")).toBeInTheDocument();
+  expect(view.getByTitle("Finished / Total")).toHaveTextContent("1 / 1");
   fireEvent.change(view.getByLabelText("Species"), {
     target: { value: "Mus musculus" },
   });
   fireEvent.click(view.getByText("Submit"));
   expect(view.getByText(/All 1 genera/)).toBeInTheDocument();
-  expect(view.getByText("1 / 2")).toBeInTheDocument();
+  expect(view.getByTitle("Finished / Total")).toHaveTextContent("1 / 1");
 });
 
 test("family game removes out-of-region genera from answers and grouped hints", async () => {

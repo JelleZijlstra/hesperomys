@@ -1,3 +1,4 @@
+import InlineMarkdown from "../components/InlineMarkdown";
 import { CollectionBody_collection } from "./__generated__/CollectionBody_collection.graphql";
 
 import React from "react";
@@ -23,7 +24,12 @@ function SingleTag({ tag }: { tag: CollectionTag }) {
       return (
         <li key={`${tag.__typename}-${tag.citation.name}`}>
           Online collection database: <ModelLink model={tag.citation} />
-          {tag.comment && ` (comment: ${tag.comment})`}
+          {tag.comment && (
+            <>
+              {" "}
+              (comment: <InlineMarkdown source={tag.comment} />)
+            </>
+          )}
         </li>
       );
     case "TypeCatalogC":

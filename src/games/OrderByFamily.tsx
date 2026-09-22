@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import GameScope from "./GameScope";
+import GameScope, { continentLabel } from "./GameScope";
 import ParentByChild from "./ParentByChild";
 import { FamilyOrder, filterFamilyOrder, scopedStorageKey } from "./geography";
 
@@ -12,7 +12,7 @@ function Game({ rows, continent }: { rows: FamilyOrder[]; continent: string }) {
     <ParentByChild
       data={data}
       storageKey={scopedStorageKey("hesperomys.orderByFamily.v1", continent)}
-      title="Order by Family"
+      title={`Order by Family: ${continentLabel(continent)}`}
       promptLabel="Family"
       answerLabel="Order"
       placeholder="Order (e.g., Rodentia)"

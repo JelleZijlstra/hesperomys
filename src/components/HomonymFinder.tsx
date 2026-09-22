@@ -1,3 +1,4 @@
+import LoadError from "./LoadError";
 import React, { useEffect } from "react";
 import { useState, useCallback } from "react";
 
@@ -97,15 +98,15 @@ const HomonymRenderer = ({
         }
       `}
       variables={{ genusName, rootName }}
-      render={({ error, props }) => {
+      render={({ error, props, retry }) => {
         if (error) {
-          return <div>Error!</div>;
+          return <LoadError onRetry={retry} />;
         }
         if (!props) {
           return <div>Loading...</div>;
         }
         if (!props.speciesHomonyms) {
-          return <div>Error!</div>;
+          return <LoadError onRetry={retry} />;
         }
         const { genera, homonyms } = props.speciesHomonyms;
         const numGenera = genera.length;

@@ -9,6 +9,7 @@ import { NewMainQuery } from "./__generated__/NewMainQuery.graphql";
 import SiteHeader from "./SiteHeader";
 import SiteBody from "./SiteBody";
 import NewList from "./NewList";
+import PageStatus from "./PageStatus";
 
 export default function NewMain() {
   const { callSign } = useParams();
@@ -24,12 +25,12 @@ export default function NewMain() {
         }
       `}
       variables={{ callSign }}
-      render={({ error, props }) => {
+      render={({ error, props, retry }) => {
         if (error) {
-          return <div>Error!</div>;
+          return <PageStatus kind="error" onRetry={retry} />;
         }
         if (!props) {
-          return <div>Loading...</div>;
+          return <div className="route-loading">Loading...</div>;
         }
         return (
           <>

@@ -5,6 +5,7 @@ import { createFragmentContainer } from "react-relay";
 import graphql from "babel-plugin-relay/macro";
 import MaybeItalics, { RANK_TO_GROUP } from "../components/MaybeItalics";
 import Table from "../components/Table";
+import InlineMarkdown from "../components/InlineMarkdown";
 import ModelLink from "../components/ModelLink";
 import Reference from "../reference/Reference";
 import ClassificationEntryChildren from "../lists/ClassificationEntryChildren";
@@ -32,7 +33,7 @@ function InfoSection({ ce }: { ce: ClassificationEntryBody_classificationEntry }
   ce.classificationEntryTags.forEach((tag) => {
     switch (tag.__typename) {
       case "EtymologyDetailCE":
-        sourceData.push(["Etymology as given", tag.text]);
+        sourceData.push(["Etymology as given", <InlineMarkdown source={tag.text} />]);
         break;
       case "VerbatimParentCE":
         sourceData.push(["Parent as given", <ModelLink model={tag.ce} />]);
@@ -49,16 +50,22 @@ function InfoSection({ ce }: { ce: ClassificationEntryBody_classificationEntry }
       case "CEConditionCE":
         sourceData.push([
           "Condition",
-          tag.comment
-            ? `${tag.status.replace(/_/g, " ")} (comment: ${tag.comment})`
-            : tag.status.replace(/_/g, " "),
+          <>
+            {tag.status.replace(/_/g, " ")}
+            {tag.comment && (
+              <>
+                {" "}
+                (comment: <InlineMarkdown source={tag.comment} />)
+              </>
+            )}
+          </>,
         ]);
         break;
       case "CommentFromDatabaseCE":
-        interpData.push(["Comment (database)", tag.text]);
+        interpData.push(["Comment (database)", <InlineMarkdown source={tag.text} />]);
         break;
       case "CommentFromSourceCE":
-        sourceData.push(["Comment (source)", tag.text]);
+        sourceData.push(["Comment (source)", <InlineMarkdown source={tag.text} />]);
         break;
       case "CommonNameCE":
         sourceData.push([
@@ -89,12 +96,17 @@ function InfoSection({ ce }: { ce: ClassificationEntryBody_classificationEntry }
           "Refers to previous usage:",
           <>
             <ModelLink model={tag.ce} />
-            {tag.comment ? ` (comment: ${tag.comment})` : ""}
+            {tag.comment && (
+              <>
+                {" "}
+                (comment: <InlineMarkdown source={tag.comment} />)
+              </>
+            )}
           </>,
         ]);
         break;
       case "TypeSpecimenDataCE":
-        sourceData.push(["Type specimen data", tag.text]);
+        sourceData.push(["Type specimen data", <InlineMarkdown source={tag.text} />]);
         break;
       case "TreatedAsDubiousCE":
         sourceData.push(["Treated as dubious", "yes"]);

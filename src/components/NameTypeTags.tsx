@@ -80,7 +80,12 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       return (
         <>
           Involved: <ModelLink model={tag.person} />
-          {tag.comment && ` (comment: ${tag.comment})`}
+          {tag.comment && (
+            <>
+              {" "}
+              (comment: <InlineMarkdown source={tag.comment} />)
+            </>
+          )}
         </>
       );
     case "CommissionTypeDesignationN":
@@ -158,13 +163,18 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
               {")"}
             </>
           )}
-          {!tag.includedPage &&
-            !tag.pageLink &&
-            tag.comment &&
-            ` (comment: ${tag.comment})`}
-          {tag.comment &&
-            (tag.includedPage || tag.pageLink) &&
-            ` (comment: ${tag.comment})`}
+          {!tag.includedPage && !tag.pageLink && tag.comment && (
+            <>
+              {" "}
+              (comment: <InlineMarkdown source={tag.comment} />)
+            </>
+          )}
+          {tag.comment && (tag.includedPage || tag.pageLink) && (
+            <>
+              {" "}
+              (comment: <InlineMarkdown source={tag.comment} />)
+            </>
+          )}
         </>
       );
     case "LectotypeDesignationN":
@@ -251,39 +261,76 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       return (
         <>
           Internal specifier: <ModelLink model={tag.name} />
-          {tag.comment && ` (comment: ${tag.comment})`}
+          {tag.comment && (
+            <>
+              {" "}
+              (comment: <InlineMarkdown source={tag.comment} />)
+            </>
+          )}
         </>
       );
     case "ExternalSpecifierN":
       return (
         <>
           External specifier: <ModelLink model={tag.name} />
-          {tag.comment && ` (comment: ${tag.comment})`}
+          {tag.comment && (
+            <>
+              {" "}
+              (comment: <InlineMarkdown source={tag.comment} />)
+            </>
+          )}
         </>
       );
     case "MustBePartOfN":
       return (
         <>
           Must be part of <ModelLink model={tag.name} />
-          {tag.comment && ` (comment: ${tag.comment})`}
+          {tag.comment && (
+            <>
+              {" "}
+              (comment: <InlineMarkdown source={tag.comment} />)
+            </>
+          )}
         </>
       );
     case "MustNotIncludeN":
       return (
         <>
           Must not include <ModelLink model={tag.name} />
-          {tag.comment && ` (comment: ${tag.comment})`}
+          {tag.comment && (
+            <>
+              {" "}
+              (comment: <InlineMarkdown source={tag.comment} />)
+            </>
+          )}
         </>
       );
     case "MustNotBePartOfN":
       return (
         <>
           Must not be part of <ModelLink model={tag.name} />
-          {tag.comment && ` (comment: ${tag.comment})`}
+          {tag.comment && (
+            <>
+              {" "}
+              (comment: <InlineMarkdown source={tag.comment} />)
+            </>
+          )}
         </>
       );
     case "MustBeExtinctN":
-      return <>Must be extinct{tag.comment ? ` (comment: ${tag.comment})` : ""}</>;
+      return (
+        <>
+          Must be extinct
+          {tag.comment ? (
+            <>
+              {" "}
+              (comment: <InlineMarkdown source={tag.comment} />)
+            </>
+          ) : (
+            ""
+          )}
+        </>
+      );
     case "ProbableRepositoryN":
       return (
         <>
@@ -342,7 +389,12 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       return (
         <>
           Additional specimen ({tag.kind.replace(/_/g, " ")}): {tag.text}
-          {tag.comment && ` (comment: ${tag.comment})`}
+          {tag.comment && (
+            <>
+              {" "}
+              (comment: <InlineMarkdown source={tag.comment} />)
+            </>
+          )}
         </>
       );
     case "StratigraphyDetailN":
@@ -356,7 +408,13 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
           ) : (
             "(reference not seen)"
           )}
-          : <ModelLink model={tag.type} />.{tag.comment && ` Comment: ${tag.comment}`}
+          : <ModelLink model={tag.type} />.
+          {tag.comment && (
+            <>
+              {" "}
+              Comment: <InlineMarkdown source={tag.comment} />
+            </>
+          )}
           {tag.pageLink && (
             <>
               {" "}
@@ -372,7 +430,12 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
         <>
           Phylogenetic definition ({tag.definitionType.replace(/_/g, " ")}):{" "}
           <ModelLink model={tag.source} />
-          {tag.comment && ` (comment: ${tag.comment})`}
+          {tag.comment && (
+            <>
+              {" "}
+              (comment: <InlineMarkdown source={tag.comment} />)
+            </>
+          )}
         </>
       );
     case "TypeSpecimenLinkN":
@@ -422,7 +485,12 @@ function TypeTag({ tag }: { tag: TypeTag_tag }) {
       return (
         <>
           Type-locality validity: {tag.validity.replace(/_/g, " ")}
-          {tag.comment && ` (${tag.comment})`}
+          {tag.comment && (
+            <>
+              {" "}
+              (<InlineMarkdown source={tag.comment} />)
+            </>
+          )}
         </>
       );
     default:

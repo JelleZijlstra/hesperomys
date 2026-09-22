@@ -1,3 +1,4 @@
+import LoadError from "./LoadError";
 import { NamesMissingField_taxon } from "./__generated__/NamesMissingField_taxon.graphql";
 
 import { createFragmentContainer } from "react-relay";
@@ -25,9 +26,9 @@ function ResultsRenderer({ field, oid }: { field: string; oid: number }) {
         }
       `}
       variables={{ field, oid }}
-      render={({ error, props }) => {
+      render={({ error, props, retry }) => {
         if (error) {
-          return <div>Error!</div>;
+          return <LoadError onRetry={retry} />;
         }
         if (!props) {
           return <div>Loading...</div>;
