@@ -26,14 +26,12 @@ function renderGroupedBoard(
   found: Set<string>,
   masks: string[],
 ) {
-  if (
-    !(
-      grouped[familyRow.family] &&
-      grouped[familyRow.family].groups.some(
-        (g) => (g.name && g.name.length > 0) || g.tribes.length > 0,
-      )
+  if (!(
+    grouped[familyRow.family] &&
+    grouped[familyRow.family].groups.some(
+      (g) => (g.name && g.name.length > 0) || g.tribes.length > 0,
     )
-  )
+  ))
     return null;
   return (
     <div className="taxon-viewport">

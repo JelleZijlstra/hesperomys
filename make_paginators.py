@@ -664,8 +664,7 @@ def write_component(
         "title_label": title_label,
         "set_expand_all": (
             "(expandAll: boolean) => this.setState({ expandAll })"
-            if field_type
-            in [
+            if field_type in [
                 "Taxon",
                 "Region",
                 "Period",
